@@ -8,4 +8,5 @@ import shared.definitions.*;
  */
 public class DevelopmentCard {
 	private DevCardType type;
+	private boolean playable;
 }

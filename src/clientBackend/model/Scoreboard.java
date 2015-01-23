@@ -14,6 +14,8 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> points;
 	private PlayerNumber largestArmy;
 	private PlayerNumber longestRoad;
+	private Map<PlayerNumber, Integer> activeKnights;
+	private Map<PlayerNumber, Integer> builtRoads;
 	
 	/**
 	 * Adds one victory point to the player who built the dwelling

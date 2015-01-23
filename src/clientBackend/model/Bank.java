@@ -15,14 +15,37 @@ public class Bank {
 	private Collection<DevelopmentCard> playedCards;
 	
 	/**
-	 * TODO
+	 * Returns a development card from the deck
 	 * @param player
 	 */
-	public void drawDevelopmentCard(PlayerNumber player) {
+	public DevelopmentCard drawDevelopmentCard() {
+		return null;
+	}
+	
+	/**
+	 * Returns the number of available development cards in the bank
+	 * @return the number of available development cards
+	 */
+	public int getDevelopmentCardCound() {
+		return 0;
+	}
+	
+	/**
+	 * Returns a resource card of the desired type from the corresponding deck
+	 * @param player
+	 * @param type
+	 */
+	public void drawResourceCard(PlayerNumber player, ResourceType type) {
 		
 	}
 	
-	public void drawResourceCard(PlayerNumber player, ResourceType type) {
-		
+	/**
+	 * Returns the number of available resource cards of the desired type in
+	 * the bank
+	 * @param type the desired resource type
+	 * @return the number of available resource cards of the desired type
+	 */
+	public int getResourceCardCount(ResourceType type) {
+		return 0;
 	}
 }

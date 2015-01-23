@@ -5,7 +5,8 @@ import java.util.Collection;
 import shared.definitions.*;
 
 /**
- * Manages the game itself, e.g. initializing setup, TODO
+ * Manages the game itself, e.g. initializing setup, rolling dice, advancing
+ * turns, etc.
  */
 public class Game {
 	private Board board;
@@ -30,19 +31,40 @@ public class Game {
 	}
 	
 	/**
+	 * Returns whether a player can be added to the game
+	 * @param color the desired color
+	 * @return true if a player can be added to the game
+	 */
+	public boolean canAddPlayer(CatanColor color) {
+		return false;
+	}
+	
+	/**
 	 * Adds a player with the desired color to the game
 	 * @param color the desired color
+	 * @throws CatanException if the desired color is taken or if the game is
+	 * full
 	 */
-	public void addPlayer(CatanColor color) {
-		
+	public void addPlayer(CatanColor color) throws CatanException {
+		throw new CatanException();
+	}
+	
+	/**
+	 * Returns whether an AI can be added to the game
+	 * @param color the desired color
+	 * @return true if an AI can be added to the game
+	 */
+	public boolean canAddAI(CatanColor color) {
+		return false;
 	}
 	
 	/**
 	 * Adds an AI with the desired color to the game
-	 * @param color
+	 * @param color the desired color
+	 * @throws CatanException if an AI cannot be added to the game
 	 */
-	public void addAI(CatanColor color) {
-		
+	public void addAI(CatanColor color) throws CatanException {
+		throw new CatanException();
 	}
 	
 	/**
@@ -60,10 +82,20 @@ public class Game {
 	}
 	
 	/**
-	 * Robs the selected player TODO
-	 * @param player
+	 * Returns whether the desired player can be robbed
+	 * @param player the desired player
+	 * @return true if the player can be robbed
 	 */
-	public void rob(PlayerNumber player) {
-
+	public boolean canRob(PlayerNumber player) {
+		return false;
+	}
+	
+	/**
+	 * Robs the desired player
+	 * @param player the desired player
+	 * @throws CatanException if the desired player cannot be robbed
+	 */
+	public void rob(PlayerNumber player) throws CatanException {
+		throw new CatanException();
 	}
 }

@@ -32,11 +32,21 @@ public class Board {
 	}
 	
 	/**
-	 * Moves the robber to the given vertex TODO
-	 * @param location the desired new location of the robber
+	 * Returns whether the robber can be moved to the desired location
+	 * @param location the desired location
+	 * @return true if the robber can be moved to the desired location
 	 */
-	public void moveRobber(VertexLocation location) {
-		
+	public boolean canMoveRobber(VertexLocation location) {
+		return false;
+	}
+	
+	/**
+	 * Moves the robber to the given vertex
+	 * @param location the desired new location of the robber
+	 * @throws CatanException if the robber cannot be moved to the desired location
+	 */
+	public void moveRobber(VertexLocation location) throws CatanException {
+		throw new CatanException();
 	}
 	
 	/**
@@ -52,20 +62,43 @@ public class Board {
 	}
 	
 	/**
-	 * Places a road at the given edge TODO
-	 * @param road the road to be placed on the board
-	 * @param location the desired edge for the road
+	 * Returns whether a road can be built at the desired location
+	 * @param road the player's road
+	 * @param location the desired location
+	 * @return true if the road can be built at the desired location
 	 */
-	public void placeRoad(Road road, EdgeLocation location) {
-		
+	public boolean canPlaceRoad(Road road, EdgeLocation location) {
+		return false;
 	}
 	
 	/**
-	 * Places a dwelling at the given vertex TODO
+	 * Places a road at the given edge
+	 * @param road the road to be placed on the board
+	 * @param location the desired edge for the road
+	 * @throws CatanException if the road cannot be placed at the desired
+	 * location
+	 */
+	public void placeRoad(Road road, EdgeLocation location) throws CatanException {
+		throw new CatanException();
+	}
+	
+	/**
+	 * Returns whether a dwelling can be placed at the desired location
+	 * @param dwelling the player's dwelling
+	 * @param location the desired location
+	 */
+	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation location) {
+		return false;
+	}
+	
+	/**
+	 * Places a dwelling at the given vertex
 	 * @param dwelling the dwelling to be placed on the board
 	 * @param location the desired vertex for the dwelling
+	 * @throws CatanException if the dwelling cannot be placed at the desired
+	 * location
 	 */
-	public void placeDwelling(Dwelling dwelling, VertexLocation location) {
-		
+	public void placeDwelling(Dwelling dwelling, VertexLocation location) throws CatanException {
+		throw new CatanException();
 	}
 }
