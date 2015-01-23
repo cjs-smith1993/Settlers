@@ -31,71 +31,57 @@ public interface ServerInterface {
 	public void gameAddAI(String AIType);//boolean if they were successfully added
 	public void gameListAI(); //returns a json blob that has the types of AI
 	public void movesSendChat(
-			String type,
 			PlayerNumber playerIndex,
 			String content);//returns an updated json of the game there is a message portion of the json blob
 	public void movesRollNumber(
-			String type,
 			PlayerNumber playerIndex,
 			int number);//returns updated Json
 	public void movesRobPlayer(
-			String type,
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location);//returns updated json
 	public void movesFinishTurn(String type, PlayerNumber playerIndex);//returns updated json
 	public void movesBuyDevCard(String type, PlayerNumber playerIndex);//returns updated json
 	public void movesYear_of_Plenty(
-			String type,
 			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2);//returns updated json
 	public void movesRoad_Building(
-			String type,
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2); //returns updated json
 	public void movesSoldier(
-			String type,
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location);//returns updated json
 	public void movesMonopoly(
-			String type,
 			ResourceType resource,
 			PlayerNumber playerIndex);//returns updated json
 	public void movesMonument(String type, PlayerNumber playerIndex);//returns updated json
 	public void movesBuildRoad(
-			String type,
 			PlayerNumber playerIndex,
 			EdgeLocation location,
 			boolean free);//returns updated json
 	public void movesBuildSettlement(
-			String type,
 			PlayerNumber playerIndex,
 			VertexLocation location,
 			boolean free);//returns updated json
 	public void movesBuildCity(
-			String type,
 			PlayerNumber playerIndex,
 			VertexLocation location);//returns updated json
 	public void movesOfferTrade(
-			String type,
 			PlayerNumber playerIndex,
 			Collection<ResourceInvoice> offer,
 			PlayerNumber receiver);//returns updated json
 	public void movesAcceptTrade(
-			String type,
 			PlayerNumber playerIndex,
 			boolean willAccept);//returns updated json
 	public void movesMaritimeTrade(
-			String type,
 			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
 			ResourceType outputResource);//returns updated json
 	public void movesDiscardCards(
-			String type,
 			PlayerNumber playerIndex,
 			Collection<ResourceCard> discardedCards);//returns updated json
 	public boolean utilChangeLogLevel(String logLevel);//if the log level was changed correctly
