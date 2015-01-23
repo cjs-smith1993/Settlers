@@ -15,6 +15,7 @@ public class Game {
 	private Dice dice;
 	private Collection<Player> players;
 	private PlayerNumber currentPlayer;
+	private PostOffice postOffice;
 
 	/**
 	 * Initializes the game setup
