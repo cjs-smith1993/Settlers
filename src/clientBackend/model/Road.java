@@ -1,10 +1,13 @@
 package clientBackend.model;
 
-import shared.definitions.PlayerNumber;
-import shared.locations.EdgeLocation;
+import shared.definitions.*;
+import shared.locations.*;
 
+/**
+ * Represents a road. The owner of the road may build a dwelling on a vertex
+ * that is connected to the road
+ */
 public class Road {
-	EdgeLocation myLocation;
-	PlayerNumber myOwner;
-
+	private EdgeLocation location;
+	private PlayerNumber owner;
 }
