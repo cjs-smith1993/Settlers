@@ -13,8 +13,8 @@ public class Broker {
 	
 	/** TODO
 	 * Initiates a transfer of cards between or among the bank and players' holdings
-	 * @param	invoices	a list of invoices to process
-	 * @return				indicates success of invoices
+	 * @param invoices a list of invoices to process
+	 * @return indicates success of invoices
 	 * */
 	public boolean processInvoices(List<ResourceInvoice> invoices) {
 		return false;
@@ -23,9 +23,9 @@ public class Broker {
 	/** TODO
 	 * Transfers the correct cards from a player's holdings to the bank
 	 * for the given property
-	 * @param	playerNum		the number of the player making the purchase
-	 * @param	propertyType	the type of property the player is purchasing
-	 * @return					indicates success of purchase
+	 * @param playerNum the number of the player making the purchase
+	 * @param propertyType the type of property the player is purchasing
+	 * @return indicates success of purchase
 	 */
 	public boolean purchase(PlayerNumber playerNum, Property propertyType) {
 		return false;
@@ -34,11 +34,11 @@ public class Broker {
 	/** TODO
 	 * Exchanges resource cards from a player's holdings for a random development
 	 * card from the bank
-	 * @param	playerNum		
-	 * @param	development
+	 * @param playerNum		
+	 * @param development
 	 * @return
 	 */
-	public boolean playDevelopmentCard(PlayerNumber playerNum, DevelopmentType development) {
+	public boolean playDevelopmentCard(PlayerNumber playerNum, DevCardType development) {
 		return false;
 	}
 
