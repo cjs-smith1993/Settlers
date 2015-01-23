@@ -21,11 +21,22 @@ public class Broker {
 	/** TODO
 	 * Transfers the correct cards from a player's holdings to the bank
 	 * for the given property
-	 * @param playerNum
-	 * @param propertyType
-	 * @return
+	 * @param	playerNum		the number of the player making the purchase
+	 * @param	propertyType	the type of property the player is purchasing
+	 * @return					indicates success of purchase
 	 */
 	public boolean purchase(PlayerNumber playerNum, Property propertyType) {
+		return false;
+	}
+	
+	/** TODO
+	 * Exchanges resource cards from a player's holdings for a random development
+	 * card from the bank
+	 * @param	playerNum		
+	 * @param	development
+	 * @return
+	 */
+	public boolean playDevelopmentCard(PlayerNumber playerNum, DevelopmentType development) {
 		return false;
 	}
 
