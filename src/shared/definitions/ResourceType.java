@@ -2,6 +2,6 @@ package shared.definitions;
 
 public enum ResourceType
 {
-	WOOD, BRICK, SHEEP, WHEAT, ORE, NONE, ANY
+	WOOD, BRICK, SHEEP, WHEAT, ORE
 }
 
