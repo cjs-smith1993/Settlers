@@ -7,7 +7,8 @@ import shared.definitions.*;
 import shared.locations.*;
 
 /**
- * Represents the physical board, including all tiles, chits, harbors, roads, dwellings, and the robber
+ * Represents the physical board, including all tiles, chits, harbors, roads,
+ * dwellings, and the robber
  */
 public class Board {
 	private Collection<Tile> tiles;
