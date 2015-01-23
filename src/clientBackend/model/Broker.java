@@ -3,6 +3,8 @@ package clientBackend.model;
 import java.util.List;
 import java.util.Map;
 
+import shared.definitions.*;
+
 /**
  * Responsible for the transfer of cards between and among the bank and players' holdings 
  * */
