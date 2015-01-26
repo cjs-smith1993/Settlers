@@ -8,6 +8,14 @@ import java.util.Timer;
  */
 public class ServerPoller {
 	private Timer timer;
+	private ServerInterface server;
+	
+	/**
+	 *  A Server Interface is passed in to provide dependency injection
+	 * */
+	public ServerPoller(ServerInterface server) {
+		this.server = server;
+	}
 	
 	/**
 	 * Polls the server proxy with the current version number
