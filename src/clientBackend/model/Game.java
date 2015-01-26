@@ -12,6 +12,7 @@ public class Game {
 	private Board board;
 	private Broker broker;
 	private Scoreboard scoreboard;
+	private RandomNumberGenerator rng;
 	private Dice dice;
 	private Collection<Player> players;
 	private PlayerNumber currentPlayer;
