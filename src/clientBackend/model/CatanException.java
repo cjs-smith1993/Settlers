@@ -8,4 +8,30 @@ import shared.definitions.*;
 public class CatanException extends Throwable {
 	private CatanExceptionType type;
 	private String message;
+	
+	public CatanException(CatanExceptionType type, String message){ 
+		this.type = type;
+		this.message = message;
+	}
+
+	public CatanExceptionType getType() {
+		return type;
+	}
+
+	public void setType(CatanExceptionType type) {
+		this.type = type;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "CatanException of type:" + type + "\n\tMessage: " + message + "\n";
+	}
 }
