@@ -30,7 +30,42 @@ public class Broker {
 	 * @return true if the player can purchase the desired property
 	 */
 	public boolean canPurchase(PlayerNumber player, PropertyType type) {
-		return false;
+		boolean purchasable = false;
+		PlayerHoldings local = holdings.get(player);
+		switch (type) {
+			case ROAD:
+				if(local.getResourceCardCount(ResourceType.BRICK) >= 1 
+				&& local.getResourceCardCount(ResourceType.WOOD) >= 1)
+				{
+					purchasable = true;
+				}
+				break;
+			case CITY:
+				if(local.getResourceCardCount(ResourceType.ORE) >= 3 
+				&& local.getResourceCardCount(ResourceType.WHEAT) >= 2)
+				{
+					purchasable = true;
+				}
+				break;
+			case SETTLEMENT:
+				if(local.getResourceCardCount(ResourceType.BRICK) >= 1 
+				&& local.getResourceCardCount(ResourceType.WOOD) >= 1 
+				&& local.getResourceCardCount(ResourceType.WHEAT) >= 1 
+				&& local.getResourceCardCount(ResourceType.SHEEP) >= 1 )
+				{
+					purchasable = true;
+				}
+				break;
+			case DEVELOPMENT_CARD:
+				if(local.getResourceCardCount(ResourceType.SHEEP) >= 1 && 
+					local.getResourceCardCount(ResourceType.ORE) >= 1 &&
+					local.getResourceCardCount(ResourceType.WHEAT) >= 1)
+				{
+					purchasable = true;
+				}
+				break;
+		}
+		return purchasable;
 	}
 	
 	/**
@@ -42,7 +77,25 @@ public class Broker {
 	 * @throws CatanException if the player cannot purchase the property
 	 */
 	public void purchase(PlayerNumber player, PropertyType type) throws CatanException {
-		throw new CatanException();
+		if(!(this.canPurchase(player, type)))
+		{
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Not enough resource cards to purchase");
+		}
+		switch(type)
+		{
+		case ROAD:
+			
+			break;
+		case CITY:
+			
+			break;
+		case SETTLEMENT:
+			
+			break;
+		case DEVELOPMENT_CARD:
+			
+			break;
+		}
 	}
 	
 	/**
