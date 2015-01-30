@@ -20,7 +20,7 @@ public class Broker {
 	 * @throws CatanException if the invoice cannot be processed
 	 * */
 	public boolean processInvoice(ResourceInvoice invoice) throws CatanException {
-		throw new CatanException();
+		throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "this meens nothing");
 	}
 	
 	/**
@@ -77,6 +77,11 @@ public class Broker {
 	 * @throws CatanException if the player cannot purchase the property
 	 */
 	public void purchase(PlayerNumber player, PropertyType type) throws CatanException {
+		ResourceInvoice brick;
+		ResourceInvoice wood;
+		ResourceInvoice sheep;
+		ResourceInvoice wheat;
+		ResourceInvoice ore;
 		if(!(this.canPurchase(player, type)))
 		{
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Not enough resource cards to purchase");
@@ -84,16 +89,34 @@ public class Broker {
 		switch(type)
 		{
 		case ROAD:
-			
+			brick = new ResourceInvoice(ResourceType.BRICK, 1, player, PlayerNumber.BANK);
+			wood = new ResourceInvoice(ResourceType.WOOD, 1, player, PlayerNumber.BANK);
+			this.processInvoice(brick);
+			this.processInvoice(wood);
 			break;
 		case CITY:
-			
+			ore = new ResourceInvoice(ResourceType.ORE, 3, player, PlayerNumber.BANK);
+			wheat = new ResourceInvoice(ResourceType.WHEAT, 2, player, PlayerNumber.BANK);
+			this.processInvoice(ore);
+			this.processInvoice(wheat);
 			break;
 		case SETTLEMENT:
-			
+			brick = new ResourceInvoice(ResourceType.BRICK, 1, player, PlayerNumber.BANK);
+			wood = new ResourceInvoice(ResourceType.WOOD, 1, player, PlayerNumber.BANK);
+			sheep = new ResourceInvoice(ResourceType.SHEEP, 1, player, PlayerNumber.BANK);
+			wheat = new ResourceInvoice(ResourceType.WHEAT, 1, player, PlayerNumber.BANK);
+			this.processInvoice(brick);
+			this.processInvoice(wood);
+			this.processInvoice(sheep);
+			this.processInvoice(wheat);
 			break;
 		case DEVELOPMENT_CARD:
-			
+			ore = new ResourceInvoice(ResourceType.ORE, 1, player, PlayerNumber.BANK);
+			sheep = new ResourceInvoice(ResourceType.SHEEP, 1, player, PlayerNumber.BANK);
+			wheat = new ResourceInvoice(ResourceType.WHEAT, 1, player, PlayerNumber.BANK);
+			this.processInvoice(ore);
+			this.processInvoice(sheep);
+			this.processInvoice(wheat);
 			break;
 		}
 	}
@@ -122,7 +145,7 @@ public class Broker {
 	public boolean playDevelopmentCard(
 			PlayerNumber player, 
 			DevCardType type) throws CatanException {
-		throw new CatanException();
+		throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "this meens nothing");
 	}
 
 }
