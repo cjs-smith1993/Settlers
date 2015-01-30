@@ -1,5 +1,6 @@
 package clientBackend.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,23 @@ public class Broker {
 	 * @throws CatanException if the invoice cannot be processed
 	 * */
 	public boolean processInvoice(ResourceInvoice invoice) throws CatanException {
-		throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "this meens nothing");
+		boolean success = false;
+		PlayerHoldings srcPlayer = holdings.get(invoice.getSourcePlayer());
+		PlayerHoldings dstPlayer = holdings.get(invoice.getDestinationPlayer());
+		ResourceType type = invoice.getResource();
+		int count = invoice.getCount();
+		
+		Collection<ResourceCard> lostResources = srcPlayer.removeResourceCard(type, count);
+		if(lostResources.isEmpty()){
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There was not enough cards in the hand to remove!");
+		}
+		success = dstPlayer.addResourceCardCollection(lostResources);
+		if(!success){
+			srcPlayer.addResourceCardCollection(lostResources);
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The cards were not added to the destination player!");
+		}
+		
+		return success;
 	}
 	
 	/**
@@ -57,9 +74,9 @@ public class Broker {
 				}
 				break;
 			case DEVELOPMENT_CARD:
-				if(local.getResourceCardCount(ResourceType.SHEEP) >= 1 && 
-					local.getResourceCardCount(ResourceType.ORE) >= 1 &&
-					local.getResourceCardCount(ResourceType.WHEAT) >= 1)
+				if(local.getResourceCardCount(ResourceType.SHEEP) >= 1 
+				&& local.getResourceCardCount(ResourceType.ORE) >= 1 
+				&& local.getResourceCardCount(ResourceType.WHEAT) >= 1)
 				{
 					purchasable = true;
 				}
@@ -82,12 +99,10 @@ public class Broker {
 		ResourceInvoice sheep;
 		ResourceInvoice wheat;
 		ResourceInvoice ore;
-		if(!(this.canPurchase(player, type)))
-		{
+		if(!(this.canPurchase(player, type))){
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Not enough resource cards to purchase");
 		}
-		switch(type)
-		{
+		switch(type){
 		case ROAD:
 			brick = new ResourceInvoice(ResourceType.BRICK, 1, player, PlayerNumber.BANK);
 			wood = new ResourceInvoice(ResourceType.WOOD, 1, player, PlayerNumber.BANK);

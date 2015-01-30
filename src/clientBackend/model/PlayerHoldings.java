@@ -35,4 +35,24 @@ public class PlayerHoldings {
 	public int getResourceCardCount(ResourceType type) {
 		return 0;
 	}
+	/**
+	 * This remove the number of resourec cards specified by count in a collection object
+	 * @param type
+	 * @param count
+	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
+	 */
+	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count)
+	{
+		return null;
+	}
+	/**
+	 * this will add a collection of cards to a players holding
+	 * @param newCards
+	 */
+	
+	public boolean addResourceCardCollection (Collection<ResourceCard> newCards)
+	{
+		boolean added = true;
+		return added;
+	}
 }
