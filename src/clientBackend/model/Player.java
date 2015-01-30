@@ -17,4 +17,8 @@ public class Player {
 	private Collection<Road> availableRoads;
 	private Collection<Settlement> availableSettlements;
 	private Collection<City> availableCities;
+	
+	public CatanColor getColor() {
+		return color;
+	}
 }

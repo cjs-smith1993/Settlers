@@ -23,4 +23,22 @@ public class CatanSerializer {
 	public void deserializeModel(String gson) {
 		
 	}
+	
+	/**
+	 * Converts any Catan object into a json string
+	 * @param o the object to be serialized
+	 * @return the JSON representation of the object
+	 * */
+	public String serializeObject(Object o) {
+		return null;
+	}
+	
+	/**
+	 * Converts any JSON string into a Catan object
+	 * @param gson a JSON representation of a Catan object
+	 * @return the JSON representation of the object
+	 * */
+	public Object deserializeObject(String gson) {
+		return null;
+	}
 }

@@ -9,14 +9,12 @@ import shared.definitions.*;
  * turns, etc.
  */
 public class Game {
-	private Board board;
-	private Broker broker;
-	private Scoreboard scoreboard;
 	private RandomNumberGenerator rng;
 	private Dice dice;
 	private Collection<Player> players;
 	private PlayerNumber currentPlayer;
 	private PostOffice postOffice;
+	private static int MAX_PLAYERS = 4;
 
 	/**
 	 * Initializes the game setup
@@ -38,7 +36,17 @@ public class Game {
 	 * @return true if a player can be added to the game
 	 */
 	public boolean canAddPlayer(CatanColor color) {
-		return false;
+		if (players.size() == MAX_PLAYERS) { 
+			return false;
+		}
+		
+		for (Player player : players) {
+			if (player.getColor() == color) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -48,7 +56,12 @@ public class Game {
 	 * full
 	 */
 	public void addPlayer(CatanColor color) throws CatanException {
-		throw new CatanException();
+		if (canAddPlayer(color)) {
+			
+		}
+		else {
+			throw new CatanException();
+		}
 	}
 	
 	/**
