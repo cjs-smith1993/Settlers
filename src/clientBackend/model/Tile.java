@@ -13,8 +13,20 @@ import shared.locations.*;
  */
 public class Tile {
 	private HexLocation location;
-	private ResourceType resource;
+	private ResourceType resourceType;
 	private boolean hasRobber;
+	
+	public HexLocation getLocation() {
+		return this.location;
+	}
+
+	public ResourceType getResourceType() {
+		return this.resourceType;
+	}
+
+	public boolean hasRobber() {
+		return this.hasRobber;
+	}
 	
 	/**
 	 * Returns a collection of dwellings that are connected to the tile
@@ -23,4 +35,5 @@ public class Tile {
 	public Collection<Dwelling> getConnectedDwellings() {
 		return null;
 	}
+
 }
