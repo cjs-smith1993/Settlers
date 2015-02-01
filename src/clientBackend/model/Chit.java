@@ -9,4 +9,22 @@ public class Chit {
 	private char letter;
 	private int number;
 	private Tile tile;
+	
+	public Chit(char letter, int number, Tile tile) {
+		this.letter = letter;
+		this.number = number;
+		this.tile = tile;
+	}
+	
+	public char getLetter() {
+		return letter;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public Tile getTile() {
+		return tile;
+	}
 }
