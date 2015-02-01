@@ -1,6 +1,8 @@
 package clientBackend.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import shared.definitions.*;
@@ -23,7 +25,7 @@ public class PlayerHoldings {
 	 * @return the number of development cards
 	 */
 	public int getDevelopmentCardCount(DevCardType type) {
-		return 0;
+		return developmentCards.get(type).size();
 	}
 	
 	/**
@@ -33,7 +35,7 @@ public class PlayerHoldings {
 	 * @return the number of resource cards
 	 */
 	public int getResourceCardCount(ResourceType type) {
-		return 0;
+		return resourceCards.get(type).size();
 	}
 	/**
 	 * This remove the number of resourec cards specified by count in a collection object
@@ -43,16 +45,85 @@ public class PlayerHoldings {
 	 */
 	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count)
 	{
-		return null;
+		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
+        
+        Collection<ResourceCard> cards = this.resourceCards.get(type);
+        for (int i = 0; i < count; i++) {
+            Iterator<ResourceCard> it = cards.iterator();
+            ResourceCard card = it.next();
+            it.remove();
+            removed.add(card);
+        }
+        return removed;
 	}
 	/**
 	 * this will add a collection of cards to a players holding
 	 * @param newCards
 	 */
 	
-	public boolean addResourceCardCollection (Collection<ResourceCard> newCards)
+	public boolean addResourceCardCollection (ResourceType type, Collection<ResourceCard> newCards)
 	{
 		boolean added = true;
+		if(!resourceCards.get(type).addAll(newCards))
+		{
+			added = false;
+		}
 		return added;
 	}
+	
+	//do that same for dev cards as for resource cards.
+	
+	public Collection<DevelopmentCard> removeDevelopmentCard (DevCardType type, int count)
+	{
+		Collection<DevelopmentCard> removed = new ArrayList<DevelopmentCard>();
+        
+        Collection<DevelopmentCard> cards = this.developmentCards.get(type);
+        for (int i = 0; i < count; i++) {
+            Iterator<DevelopmentCard> it = cards.iterator();
+            DevelopmentCard card = it.next();
+            it.remove();
+            removed.add(card);
+        }
+        return removed;
+	}
+	/**
+	 * this will add a collection of cards to a players holding
+	 * @param newCards
+	 */
+	
+	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
+	{
+		boolean added = true;
+		if(!developmentCards.get(type).addAll(newCards))
+		{
+			added = false;
+		}
+		return added;
+	}
+
+	public Collection<DevelopmentCard> getPlayedKnights() {
+		return playedKnights;
+	}
+
+	public void setPlayedKnights(Collection<DevelopmentCard> playedKnights) {
+		this.playedKnights = playedKnights;
+	}
+
+	public Collection<DevelopmentCard> getPlayedMonuments() {
+		return playedMonuments;
+	}
+
+	public void setPlayedMonuments(Collection<DevelopmentCard> playedMonuments) {
+		this.playedMonuments = playedMonuments;
+	}
+
+	public Collection<Harbor> getHarbors() {
+		return harbors;
+	}
+
+	public void setHarbors(Collection<Harbor> harbors) {
+		this.harbors = harbors;
+	}
+	
+	
 }
