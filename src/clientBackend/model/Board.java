@@ -28,6 +28,10 @@ public class Board {
 		return null;
 	}
 
+	private Collection<Dwelling> getAdjacentDwellings(VertexLocation location) {
+		return null;
+	}
+
 	private Collection<Dwelling> getAdjacentDwellings(EdgeLocation location) {
 		return null;
 	}
@@ -173,7 +177,23 @@ public class Board {
 	 *            the desired location
 	 */
 	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation location) {
-		return false;
+		// disallow if a dwelling already exists here
+		if (this.dwellings.get(location) != null) {
+			return false;
+		}
+
+		Collection<Dwelling> adjacentDwellings = this.getAdjacentDwellings(location);
+
+		PlayerNumber owner = dwelling.getOwner();
+		Collection<Road> connectedRoads = this.getAdjacentRoads(location);
+		Collection<Road> validConnectedRoads = new ArrayList<Road>();
+		for (Road road : connectedRoads) {
+			if (road.getOwner() == owner) {
+				validConnectedRoads.add(road);
+			}
+		}
+
+		return adjacentDwellings.isEmpty() && !validConnectedRoads.isEmpty();
 	}
 
 	/**
@@ -188,7 +208,8 @@ public class Board {
 	 */
 	public void placeDwelling(Dwelling dwelling, VertexLocation location) throws CatanException {
 		if (this.canPlaceDwelling(dwelling, location)) {
-
+			dwelling.setLocation(location);
+			this.dwellings.put(location, dwelling);
 		}
 		else {
 			String message = "A dwelling cannot be placed at " + location.toString();
