@@ -137,9 +137,11 @@ public class Board {
 		for (Road r : connectedRoads) {
 			if (r.getOwner() == owner) {
 				VertexLocation sharedVertex = this.getSharedVertex(r, road);
-				Dwelling sharedDwelling = this.dwellings.get(sharedVertex);
-				if (sharedDwelling == null || sharedDwelling.getOwner() == owner) {
-					validConnectedRoads.add(r);
+				if (sharedVertex != null) {
+					Dwelling sharedDwelling = this.dwellings.get(sharedVertex);
+					if (sharedDwelling == null || sharedDwelling.getOwner() == owner) {
+						validConnectedRoads.add(r);
+					}
 				}
 			}
 		}
