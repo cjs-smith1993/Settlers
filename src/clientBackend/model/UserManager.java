@@ -2,6 +2,8 @@ package clientBackend.model;
 
 import java.util.Collection;
 
+import shared.definitions.CatanExceptionType;
+
 /**
  * Manages the collection of all users
  */
@@ -26,7 +28,13 @@ public class UserManager {
 	 * properties
 	 */
 	public void registerUser(String username, String password) throws CatanException {
-		throw new CatanException();
+		if (canRegisterUser(username, password)) {
+			
+		}
+		else {
+			String message = "A user with the desired username already exists";
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
+		}
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package clientBackend.model;
 
 import java.util.Collection;
 
+import shared.definitions.CatanExceptionType;
+
 /**
  * Manages the collection of all games
  */
@@ -41,10 +43,16 @@ public class GameManager {
 	 * @throws CatanException if the game name is already taken
 	 */
 	public void createGame(
-		boolean randomTiles,
-		boolean randomNumbers,
-		boolean randomPorts,
-		String name) throws CatanException {
-		throw new CatanException();
+			boolean randomTiles,
+			boolean randomNumbers,
+			boolean randomPorts,
+			String name) throws CatanException {
+		if (canCreateGame(randomTiles, randomNumbers, randomPorts, name)) {
+			
+		}
+		else {
+			String message = "A game with the desired name already exists";
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);	
+		}		
 	}
 }
