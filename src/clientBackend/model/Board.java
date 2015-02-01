@@ -38,7 +38,9 @@ public class Board {
 
 	/**
 	 * Returns whether the robber can be moved to the desired location
-	 * @param location the desired location
+	 *
+	 * @param location
+	 *            the desired location
 	 * @return true if the robber can be moved to the desired location
 	 */
 	public boolean canMoveRobber(Tile newLocation) {
@@ -48,9 +50,11 @@ public class Board {
 
 	/**
 	 * Moves the robber to the given vertex
-	 * @param location the desired new location of the robber
-	 * @throws CatanException if the robber cannot be moved to the desired
-	 * location
+	 *
+	 * @param location
+	 *            the desired new location of the robber
+	 * @throws CatanException
+	 *             if the robber cannot be moved to the desired location
 	 */
 	public void moveRobber(Tile newLocation) throws CatanException {
 		if (this.canMoveRobber(newLocation)) {
@@ -66,9 +70,11 @@ public class Board {
 	 * Generates and returns a collection of invoices corresponding to a given
 	 * dice roll. One invoice will be generated for each resource type with a
 	 * non-zero count for each player.
-	 * @param number the result of the dice roll
+	 *
+	 * @param number
+	 *            the result of the dice roll
 	 * @return a collection of invoices consisting of one invoice for each
-	 * resource type with a non-zero count for each player
+	 *         resource type with a non-zero count for each player
 	 */
 	public Collection<ResourceInvoice> generateInvoices(int number) {
 		Collection<ResourceInvoice> invoices = new ArrayList<ResourceInvoice>();
@@ -108,8 +114,11 @@ public class Board {
 
 	/**
 	 * Returns whether a road can be built at the desired location
-	 * @param road the player's road
-	 * @param location the desired location
+	 *
+	 * @param road
+	 *            the player's road
+	 * @param location
+	 *            the desired location
 	 * @return true if the road can be built at the desired location
 	 */
 	public boolean canPlaceRoad(Road road, EdgeLocation location) {
@@ -136,10 +145,13 @@ public class Board {
 
 	/**
 	 * Places a road at the given edge
-	 * @param road the road to be placed on the board
-	 * @param location the desired edge for the road
-	 * @throws CatanException if the road cannot be placed at the desired
-	 * location
+	 *
+	 * @param road
+	 *            the road to be placed on the board
+	 * @param location
+	 *            the desired edge for the road
+	 * @throws CatanException
+	 *             if the road cannot be placed at the desired location
 	 */
 	public void placeRoad(Road road, EdgeLocation location) throws CatanException {
 		if (this.canPlaceRoad(road, location)) {
@@ -154,8 +166,11 @@ public class Board {
 
 	/**
 	 * Returns whether a dwelling can be placed at the desired location
-	 * @param dwelling the player's dwelling
-	 * @param location the desired location
+	 *
+	 * @param dwelling
+	 *            the player's dwelling
+	 * @param location
+	 *            the desired location
 	 */
 	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation location) {
 		return false;
@@ -163,10 +178,13 @@ public class Board {
 
 	/**
 	 * Places a dwelling at the given vertex
-	 * @param dwelling the dwelling to be placed on the board
-	 * @param location the desired vertex for the dwelling
-	 * @throws CatanException if the dwelling cannot be placed at the desired
-	 * location
+	 *
+	 * @param dwelling
+	 *            the dwelling to be placed on the board
+	 * @param location
+	 *            the desired vertex for the dwelling
+	 * @throws CatanException
+	 *             if the dwelling cannot be placed at the desired location
 	 */
 	public void placeDwelling(Dwelling dwelling, VertexLocation location) throws CatanException {
 		if (this.canPlaceDwelling(dwelling, location)) {
