@@ -17,14 +17,14 @@ public class Chit {
 	}
 	
 	public char getLetter() {
-		return letter;
+		return this.letter;
 	}
 
 	public int getNumber() {
-		return number;
+		return this.number;
 	}
 
 	public Tile getTile() {
-		return tile;
+		return this.tile;
 	}
 }
