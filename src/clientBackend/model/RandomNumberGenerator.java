@@ -12,7 +12,7 @@ public class RandomNumberGenerator {
 	 * @param upperBound
 	 * @return the generated number
 	 */
-	public int generate(int lowerBound, int upperBound) {
+	static public int generate(int lowerBound, int upperBound) {
 		return 0;
 	}
 }
