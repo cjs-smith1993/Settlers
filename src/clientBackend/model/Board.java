@@ -67,7 +67,39 @@ public class Board {
 	 * resource type with a non-zero count for each player
 	 */
 	public Collection<ResourceInvoice> generateInvoices(int number) {
-		return null;
+		Collection<ResourceInvoice> invoices = new ArrayList<ResourceInvoice>();
+		
+		Collection<Chit> chits = (ArrayList<Chit>) this.chits.get(number);
+		Collection<Tile> tiles = new ArrayList<Tile>();
+		for (Chit chit : chits) {
+			tiles.add(chit.getTile());
+		}
+		
+		for (Tile tile : tiles) {
+			ResourceType type = tile.getResourceType();
+			Collection<Dwelling> dwellings = tile.getConnectedDwellings();
+			for (Dwelling dwelling : dwellings) {
+				int count = dwelling.getVictoryPoints();
+				PlayerNumber src = PlayerNumber.BANK;
+				PlayerNumber dest = dwelling.getOwner();
+				
+				boolean invoiceExists = false;
+				for (ResourceInvoice invoice : invoices) {
+					if (invoice.getDestinationPlayer() == dest) {
+						invoiceExists = true;
+						invoice.setCount(invoice.getCount() + count);
+						break;
+					}
+				}
+				
+				if (!invoiceExists) {
+					ResourceInvoice invoice = new ResourceInvoice(type, count, src, dest);
+					invoices.add(invoice);
+				}
+			}
+		}
+		
+		return invoices;
 	}
 	
 	/**
