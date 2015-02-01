@@ -1,5 +1,6 @@
 package clientBackend.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -36,17 +37,25 @@ public class Board {
 	 * @param location the desired location
 	 * @return true if the robber can be moved to the desired location
 	 */
-	public boolean canMoveRobber(VertexLocation location) {
-		return false;
+	public boolean canMoveRobber(Tile newLocation) {
+		Tile currentLocation = robber.getLocation();
+		return currentLocation != newLocation;
 	}
 	
 	/**
 	 * Moves the robber to the given vertex
 	 * @param location the desired new location of the robber
-	 * @throws CatanException if the robber cannot be moved to the desired location
+	 * @throws CatanException if the robber cannot be moved to the desired
+	 * location
 	 */
-	public void moveRobber(VertexLocation location) throws CatanException {
-		throw new CatanException();
+	public void moveRobber(Tile newLocation) throws CatanException {
+		if (canMoveRobber(newLocation)) {
+			robber.setLocation(newLocation);
+		}
+		else {
+			String message = "The robber cannot be moved to " + newLocation.toString();
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, message);
+		}
 	}
 	
 	/**
@@ -79,7 +88,13 @@ public class Board {
 	 * location
 	 */
 	public void placeRoad(Road road, EdgeLocation location) throws CatanException {
-		throw new CatanException();
+		if (canPlaceRoad(road, location)) {
+			
+		}
+		else {
+			String message = "A road cannot be placed at " + location.toString();
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, message);
+		}
 	}
 	
 	/**
@@ -99,6 +114,12 @@ public class Board {
 	 * location
 	 */
 	public void placeDwelling(Dwelling dwelling, VertexLocation location) throws CatanException {
-		throw new CatanException();
+		if (canPlaceDwelling(dwelling, location)) {
+			
+		}
+		else {
+			String message = "A dwelling cannot be placed at " + location.toString();
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, message);
+		}
 	}
 }
