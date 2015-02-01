@@ -32,6 +32,10 @@ public class Board {
 		return null;
 	}
 
+	private VertexLocation getSharedVertex(Road road1, Road road2) {
+		return null;
+	}
+
 	/**
 	 * Returns whether the robber can be moved to the desired location
 	 * @param location the desired location
@@ -109,7 +113,25 @@ public class Board {
 	 * @return true if the road can be built at the desired location
 	 */
 	public boolean canPlaceRoad(Road road, EdgeLocation location) {
-		return false;
+		// disallow if a road already exists here
+		if (this.roads.get(location) != null) {
+			return false;
+		}
+
+		PlayerNumber owner = road.getOwner();
+		Collection<Road> connectedRoads = this.getAdjacentRoads(location);
+		Collection<Road> validConnectedRoads = new ArrayList<Road>();
+		for (Road r : connectedRoads) {
+			if (r.getOwner() == owner) {
+				VertexLocation sharedVertex = this.getSharedVertex(r, road);
+				Dwelling sharedDwelling = this.dwellings.get(sharedVertex);
+				if (sharedDwelling == null || sharedDwelling.getOwner() == owner) {
+					validConnectedRoads.add(r);
+				}
+			}
+		}
+
+		return !validConnectedRoads.isEmpty();
 	}
 
 	/**
@@ -121,7 +143,8 @@ public class Board {
 	 */
 	public void placeRoad(Road road, EdgeLocation location) throws CatanException {
 		if (this.canPlaceRoad(road, location)) {
-
+			road.setLocation(location);
+			this.roads.put(location, road);
 		}
 		else {
 			String message = "A road cannot be placed at " + location.toString();
