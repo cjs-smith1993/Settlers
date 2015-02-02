@@ -7,4 +7,9 @@ package clientBackend.model;
 public class User {
 	private String name;
 	private int userId;
+	
+	public User(String name, int userId) {
+		this.name = name;
+		this.userId = userId;
+	}
 }

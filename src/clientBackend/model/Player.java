@@ -12,13 +12,46 @@ import shared.definitions.*;
  */
 public class Player {
 	private User user;
-	private PlayerNumber number;
 	private CatanColor color;
+	private PlayerNumber number;
 	private Collection<Road> availableRoads;
 	private Collection<Settlement> availableSettlements;
 	private Collection<City> availableCities;
 	
+	public Player(User user, CatanColor color, PlayerNumber number) {
+		this.user = user;
+		this.color = color;
+		this.number = number;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
 	public CatanColor getColor() {
 		return color;
+	}
+	
+	public PlayerNumber getNumber() {
+		return number;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+		
+		Player other = (Player) o;
+		
+		return (other.getUser() == this.getUser() &&
+				other.getColor() == this.getColor() &&
+				other.getNumber() == this.getNumber());
 	}
 }

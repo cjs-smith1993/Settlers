@@ -1,5 +1,8 @@
 package clientBackend.transport;
 
+import shared.definitions.CatanColor;
+import shared.definitions.PlayerNumber;
+
 public class TransportPlayer {
 	public TransportResources resources;
 	public TransportOldDevCards oldDevCards;
@@ -9,4 +12,11 @@ public class TransportPlayer {
 	public int settlements;
 	public int soldiers;
 	public int victoryPoints;
+	public int monuments;
+	public boolean playedDevCard;
+	public boolean discarded;
+	public int playerID;
+	public PlayerNumber playerIndex;
+	public String name;
+	public CatanColor color;
 }
