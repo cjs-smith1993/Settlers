@@ -7,4 +7,17 @@ import shared.definitions.*;
  */
 public class ResourceCard extends Card {
 	private ResourceType type;
+
+	public ResourceCard(ResourceType type)
+	{
+		this.type = type;
+	}
+	public ResourceType getType() {
+		return type;
+	}
+
+	public void setType(ResourceType type) {
+		this.type = type;
+	}
+	
 }

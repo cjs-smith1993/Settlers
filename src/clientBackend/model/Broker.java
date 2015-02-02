@@ -12,6 +12,7 @@ import shared.definitions.*;
  * */
 public class Broker {
 	private Map<PlayerNumber, PlayerHoldings> holdings;
+	private Bank bank;
 	
 	/**
 	 * Initiates a transfer of cards between or among the bank and players' 
@@ -26,7 +27,7 @@ public class Broker {
 		PlayerHoldings dstPlayer = holdings.get(invoice.getDestinationPlayer());
 		ResourceType type = invoice.getResource();
 		int count = invoice.getCount();
-		
+		//add to the logic if bank do specail thiings
 		Collection<ResourceCard> lostResources = srcPlayer.removeResourceCard(type, count);
 		if(lostResources.isEmpty()){
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There was not enough cards in the hand to remove!");
