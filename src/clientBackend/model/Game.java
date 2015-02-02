@@ -14,7 +14,6 @@ public class Game {
 	private PlayerNumber currentPlayer;
 //	private RandomNumberGenerator rng; Can we do this either with a static method or use a Singleton?
 	private Dice dice;
-	private PostOffice postOffice;
 	private static int MAX_PLAYERS = 4;
 
 	public Game() {
