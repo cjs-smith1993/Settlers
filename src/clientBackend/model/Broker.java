@@ -32,9 +32,9 @@ public class Broker {
 		if(lostResources.isEmpty()){
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There was not enough cards in the hand to remove!");
 		}
-		success = dstPlayer.addResourceCardCollection(lostResources);
+		success = dstPlayer.addResourceCardCollection(type, lostResources);
 		if(!success){
-			srcPlayer.addResourceCardCollection(lostResources);
+			srcPlayer.addResourceCardCollection(type, lostResources);
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The cards were not added to the destination player!");
 		}
 		
