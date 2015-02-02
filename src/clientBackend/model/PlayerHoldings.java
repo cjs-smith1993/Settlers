@@ -72,7 +72,12 @@ public class PlayerHoldings {
 	}
 	
 	//do that same for dev cards as for resource cards.
-	
+	/**
+	 * This remove the number of development cards specified by count in a collection object
+	 * @param type the type of dev card 
+	 * @param count the number of that card to move
+	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
+	 */
 	public Collection<DevelopmentCard> removeDevelopmentCard (DevCardType type, int count)
 	{
 		Collection<DevelopmentCard> removed = new ArrayList<DevelopmentCard>();
@@ -88,7 +93,8 @@ public class PlayerHoldings {
 	}
 	/**
 	 * this will add a collection of cards to a players holding
-	 * @param newCards
+	 * @param type the type of the development card added
+	 * @param newCards a collection of cards to add
 	 */
 	
 	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
