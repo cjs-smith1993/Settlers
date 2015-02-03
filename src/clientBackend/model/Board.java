@@ -82,9 +82,9 @@ public class Board {
 		HexLocation hex = edge.getHexLoc();
 		int x = hex.getX();
 		int y = hex.getY();
-		int z = x+y;
+		int z = x + y;
 
-		switch(edge.getNormalizedLocation().getDir()) {
+		switch (edge.getNormalizedLocation().getDir()) {
 		case NorthWest:
 			return x > -this.radius && Math.abs(y) < this.radius && z > -this.radius;
 		case North:
@@ -100,9 +100,9 @@ public class Board {
 		HexLocation hex = vertex.getHexLoc();
 		int x = hex.getX();
 		int y = hex.getY();
-		int z = x+y;
+		int z = x + y;
 
-		switch(vertex.getNormalizedLocation().getDir()) {
+		switch (vertex.getNormalizedLocation().getDir()) {
 		case NorthWest:
 			return x > -this.radius && y > -this.radius && z > -this.radius;
 		case NorthEast:
