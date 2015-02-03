@@ -102,18 +102,17 @@ public class BoardFactory {
 	public static Collection<Harbor> generateHarbors(boolean randomize) {
 		ArrayList<Harbor> harbors = getHarbors(randomize);
 
-		ArrayList<VertexLocation> ports = getPortLocations();
+		ArrayList<EdgeLocation> ports = getPortLocations();
 		int idx = 0;
 		for (Harbor harbor : harbors) {
-			// get the hex location (wee bit hacky)
-			VertexLocation fakePort = ports.get(idx++);
-			HexLocation location = fakePort.getHexLoc();
+			// get the hex location
+			EdgeLocation port = ports.get(idx++);
+			HexLocation location = port.getHexLoc();
 			harbor.setLocation(location);
 
 			// get the two vertices
-			Collection<VertexLocation> currentPorts = new ArrayList<VertexLocation>();
-			currentPorts.add(ports.get(idx++));
-			currentPorts.add(ports.get(idx++));
+			EdgeLocation normalized = port.getNormalizedLocation();
+			Collection<VertexLocation> currentPorts = Geometer.getAdjacentVertices(normalized);
 			harbor.setPorts(currentPorts);
 		}
 
@@ -255,44 +254,18 @@ public class BoardFactory {
 		return harbors;
 	}
 
-	private static ArrayList<VertexLocation> getPortLocations() {
-		ArrayList<VertexLocation> ports = new ArrayList<VertexLocation>();
+	private static ArrayList<EdgeLocation> getPortLocations() {
+		ArrayList<EdgeLocation> ports = new ArrayList<EdgeLocation>();
 
-		ports.add(new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthWest));
-		ports.add(new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthEast));
-
-		ports.add(new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthEast));
-		ports.add(new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthWest));
-
-		ports.add(new VertexLocation(new HexLocation(3, -1), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(2, 0), VertexDirection.NorthEast));
-		ports.add(new VertexLocation(new HexLocation(3, -1), VertexDirection.NorthWest));
-
-		ports.add(new VertexLocation(new HexLocation(3, -3), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(3, -2), VertexDirection.NorthWest));
-		ports.add(new VertexLocation(new HexLocation(2, -2), VertexDirection.NorthEast));
-
-		ports.add(new VertexLocation(new HexLocation(1, -3), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(1, -2), VertexDirection.NorthWest));
-		ports.add(new VertexLocation(new HexLocation(1, -2), VertexDirection.NorthEast));
-
-		ports.add(new VertexLocation(new HexLocation(-1, -2), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(-1, -1), VertexDirection.NorthWest));
-		ports.add(new VertexLocation(new HexLocation(-1, -1), VertexDirection.NorthEast));
-
-		ports.add(new VertexLocation(new HexLocation(-3, 0), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(-3, 1), VertexDirection.NorthEast));
-		ports.add(new VertexLocation(new HexLocation(-2, 0), VertexDirection.NorthWest));
-
-		ports.add(new VertexLocation(new HexLocation(-3, 2), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(-3, 2), VertexDirection.NorthEast));
-		ports.add(new VertexLocation(new HexLocation(-2, 2), VertexDirection.NorthWest));
-
-		ports.add(new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthWest)); // hex
-		ports.add(new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthEast));
-		ports.add(new VertexLocation(new HexLocation(-1, 3), VertexDirection.NorthWest));
+		ports.add(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North));
+		ports.add(new EdgeLocation(new HexLocation(2, 1), EdgeDirection.NorthWest));
+		ports.add(new EdgeLocation(new HexLocation(3, -1), EdgeDirection.NorthWest));
+		ports.add(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest));
+		ports.add(new EdgeLocation(new HexLocation(1, -3), EdgeDirection.South));
+		ports.add(new EdgeLocation(new HexLocation(-1, -2), EdgeDirection.South));
+		ports.add(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast));
+		ports.add(new EdgeLocation(new HexLocation(-3, 2), EdgeDirection.NorthEast));
+		ports.add(new EdgeLocation(new HexLocation(-2, 3), EdgeDirection.NorthEast));
 
 		return ports;
 	}
