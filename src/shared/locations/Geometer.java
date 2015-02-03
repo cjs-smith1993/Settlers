@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Geometer {
 
+	@SuppressWarnings("incomplete-switch")
 	public static Collection<EdgeLocation> getAdjacentEdges(EdgeLocation edge) {
 		Collection<EdgeLocation> adjacentEdges = new ArrayList<EdgeLocation>();
 		HexLocation hex = edge.getNormalizedLocation().getHexLoc();
@@ -34,6 +35,7 @@ public class Geometer {
 		return adjacentEdges;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public static Collection<EdgeLocation> getAdjacentEdges(VertexLocation vertex) {
 		Collection<EdgeLocation> adjacentEdges = new ArrayList<EdgeLocation>();
 		HexLocation hex = vertex.getNormalizedLocation().getHexLoc();
@@ -56,6 +58,7 @@ public class Geometer {
 		return adjacentEdges;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public static Collection<VertexLocation> getAdjacentVertices(EdgeLocation edge) {
 		Collection<VertexLocation> adjacentVertices = new ArrayList<VertexLocation>();
 		HexLocation hex = edge.getNormalizedLocation().getHexLoc();
@@ -80,6 +83,7 @@ public class Geometer {
 		return adjacentVertices;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public static Collection<VertexLocation> getAdjacentVertices(VertexLocation vertex) {
 		Collection<VertexLocation> adjacentVertices = new ArrayList<VertexLocation>();
 		HexLocation hex = vertex.getNormalizedLocation().getHexLoc();
@@ -100,5 +104,18 @@ public class Geometer {
 		}
 
 		return adjacentVertices;
+	}
+
+	public static VertexLocation getSharedVertex(EdgeLocation edge1, EdgeLocation edge2) {
+		Set<VertexLocation> vertices1 = new HashSet<VertexLocation>(Geometer.getAdjacentVertices(edge1));
+		Set<VertexLocation> vertices2 = new HashSet<VertexLocation>(Geometer.getAdjacentVertices(edge2));
+		vertices1.retainAll(vertices2);
+
+		if (vertices1.isEmpty()) {
+			return null;
+		}
+		else {
+			return vertices1.iterator().next();
+		}
 	}
 }

@@ -12,6 +12,7 @@ import shared.locations.*;
  * dwellings, and the robber
  */
 public class Board {
+	private int radius;
 	private Collection<Tile> tiles;
 	private Collection<Harbor> harbors;
 	private Map<Integer, Collection<Chit>> chits;
@@ -76,8 +77,38 @@ public class Board {
 		return adjacentDwellings;
 	}
 
-	private VertexLocation getSharedVertex(Road road1, Road road2) {
-		return null;
+	@SuppressWarnings("incomplete-switch")
+	private boolean isLand(EdgeLocation edge) {
+		HexLocation hex = edge.getHexLoc();
+		int x = hex.getX();
+		int y = hex.getY();
+		int z = x+y;
+
+		switch(edge.getNormalizedLocation().getDir()) {
+		case NorthWest:
+			return x > -this.radius && Math.abs(y) < this.radius && z > -this.radius;
+		case North:
+			return Math.abs(x) < this.radius && y > -this.radius && z > -this.radius;
+		case NorthEast:
+			return x < this.radius && y > -this.radius && Math.abs(z) < this.radius;
+		}
+		return false;
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	private boolean isLand(VertexLocation vertex) {
+		HexLocation hex = vertex.getHexLoc();
+		int x = hex.getX();
+		int y = hex.getY();
+		int z = x+y;
+
+		switch(vertex.getNormalizedLocation().getDir()) {
+		case NorthWest:
+			return x > -this.radius && y > -this.radius && z > -this.radius;
+		case NorthEast:
+			return x < this.radius && y > -this.radius && z > -this.radius;
+		}
+		return false;
 	}
 
 	/**
@@ -171,12 +202,19 @@ public class Board {
 			return false;
 		}
 
+		// disallow if this edge is not on land
+		if (!this.isLand(edge)) {
+			return false;
+		}
+
 		PlayerNumber owner = road.getOwner();
 		Collection<Road> connectedRoads = this.getAdjacentRoads(edge);
 		Collection<Road> validConnectedRoads = new ArrayList<Road>();
 		for (Road r : connectedRoads) {
 			if (r.getOwner() == owner) {
-				VertexLocation sharedVertex = this.getSharedVertex(r, road);
+				EdgeLocation edge1 = r.getLocation();
+				EdgeLocation edge2 = road.getLocation();
+				VertexLocation sharedVertex = Geometer.getSharedVertex(edge1, edge2);
 				if (sharedVertex != null) {
 					Dwelling sharedDwelling = this.dwellings.get(sharedVertex);
 					if (sharedDwelling == null || sharedDwelling.getOwner() == owner) {
@@ -221,6 +259,11 @@ public class Board {
 	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation vertex) {
 		// disallow if a dwelling already exists here
 		if (this.dwellings.get(vertex) != null) {
+			return false;
+		}
+
+		// disallow if this vertex is not on land
+		if (!this.isLand(vertex)) {
 			return false;
 		}
 
