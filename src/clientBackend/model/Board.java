@@ -19,7 +19,6 @@ public class Board {
 	private Map<HexLocation, Tile> tiles;
 	private Collection<Harbor> harbors;
 	private Map<Integer, Collection<Chit>> chits;
-	private PlayerNumber longestRoad;
 	private Robber robber;
 	private Map<EdgeLocation, Road> roads;
 	private Map<VertexLocation, Dwelling> dwellings;
@@ -28,10 +27,6 @@ public class Board {
 		this.chits = BoardFactory.generateChits(randomNumbers);
 		this.tiles = BoardFactory.generateTiles(randomTiles);
 		this.harbors = BoardFactory.generateHarbors(randomPorts);
-	}
-
-	public static void main(String args[]) {
-		Board board = new Board(false, false, false);
 	}
 
 	private Collection<Road> getAdjacentRoads(VertexLocation vertex) {
