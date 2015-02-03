@@ -20,20 +20,60 @@ public class Board {
 	private Map<EdgeLocation, Road> roads;
 	private Map<VertexLocation, Dwelling> dwellings;
 
-	private Collection<Road> getAdjacentRoads(VertexLocation location) {
-		return null;
+	private Collection<Road> getAdjacentRoads(VertexLocation vertex) {
+		Collection<Road> adjacentRoads = new ArrayList<Road>();
+
+		Collection<EdgeLocation> adjacentEdges = Geometer.getAdjacentEdges(vertex);
+		for (EdgeLocation edge : adjacentEdges) {
+			Road road = this.roads.get(edge);
+			if (road != null) {
+				adjacentRoads.add(road);
+			}
+		}
+
+		return adjacentRoads;
 	}
 
-	private Collection<Road> getAdjacentRoads(EdgeLocation location) {
-		return null;
+	private Collection<Road> getAdjacentRoads(EdgeLocation edge) {
+		Collection<Road> adjacentRoads = new ArrayList<Road>();
+
+		Collection<EdgeLocation> adjacentEdges = Geometer.getAdjacentEdges(edge);
+		for (EdgeLocation e : adjacentEdges) {
+			Road road = this.roads.get(e);
+			if (road != null) {
+				adjacentRoads.add(road);
+			}
+		}
+
+		return adjacentRoads;
 	}
 
-	private Collection<Dwelling> getAdjacentDwellings(VertexLocation location) {
-		return null;
+	private Collection<Dwelling> getAdjacentDwellings(VertexLocation vertex) {
+		Collection<Dwelling> adjacentDwellings = new ArrayList<Dwelling>();
+
+		Collection<VertexLocation> adjacentVertices = Geometer.getAdjacentVertices(vertex);
+		for (VertexLocation v : adjacentVertices) {
+			Dwelling dwelling = this.dwellings.get(v);
+			if (dwelling != null) {
+				adjacentDwellings.add(dwelling);
+			}
+		}
+
+		return adjacentDwellings;
 	}
 
-	private Collection<Dwelling> getAdjacentDwellings(EdgeLocation location) {
-		return null;
+	private Collection<Dwelling> getAdjacentDwellings(EdgeLocation edge) {
+		Collection<Dwelling> adjacentDwellings = new ArrayList<Dwelling>();
+
+		Collection<VertexLocation> adjacentVertices = Geometer.getAdjacentVertices(edge);
+		for (VertexLocation vertex : adjacentVertices) {
+			Dwelling dwelling = this.dwellings.get(vertex);
+			if (dwelling != null) {
+				adjacentDwellings.add(dwelling);
+			}
+		}
+
+		return adjacentDwellings;
 	}
 
 	private VertexLocation getSharedVertex(Road road1, Road road2) {
