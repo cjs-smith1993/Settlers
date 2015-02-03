@@ -9,13 +9,13 @@ public class Chit {
 	private char letter;
 	private int number;
 	private Tile tile;
-	
+
 	public Chit(char letter, int number, Tile tile) {
 		this.letter = letter;
 		this.number = number;
 		this.tile = tile;
 	}
-	
+
 	public char getLetter() {
 		return this.letter;
 	}
@@ -26,5 +26,9 @@ public class Chit {
 
 	public Tile getTile() {
 		return this.tile;
+	}
+
+	public void setTile(Tile tile) {
+		this.tile = tile;
 	}
 }

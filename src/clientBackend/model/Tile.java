@@ -15,9 +15,19 @@ public class Tile {
 	private HexLocation location;
 	private ResourceType resourceType;
 	private boolean hasRobber;
-	
+
+	public Tile(HexLocation location, ResourceType resourceType, boolean hasRobber) {
+		this.location = location;
+		this.resourceType = resourceType;
+		this.hasRobber = hasRobber;
+	}
+
 	public HexLocation getLocation() {
 		return this.location;
+	}
+
+	public void setLocation(HexLocation location) {
+		this.location = location;
 	}
 
 	public ResourceType getResourceType() {
@@ -27,9 +37,10 @@ public class Tile {
 	public boolean hasRobber() {
 		return this.hasRobber;
 	}
-	
+
 	/**
 	 * Returns a collection of dwellings that are connected to the tile
+	 *
 	 * @return a collection of dwellings that are connected to the tile
 	 */
 	public Collection<Dwelling> getConnectedDwellings() {
