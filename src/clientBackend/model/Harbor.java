@@ -49,4 +49,10 @@ public class Harbor {
 	public int getRatio() {
 		return this.ratio;
 	}
+
+	@Override
+	public String toString() {
+		return "Harbor [location=" + this.location + ", ports=" + this.ports + ", resource="
+				+ this.resource + ", ratio=" + this.ratio + "]";
+	}
 }

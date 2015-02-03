@@ -47,4 +47,11 @@ public class Tile {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "Tile [location=" + this.location + ", resourceType=" + this.resourceType
+				+ ", hasRobber="
+				+ this.hasRobber + "]";
+	}
+
 }

@@ -33,4 +33,9 @@ public class Chit {
 	public void setTile(HexLocation location) {
 		this.location = location;
 	}
+
+	@Override
+	public String toString() {
+		return "Chit [letter=" + this.letter + ", number=" + this.number + ", location=" + this.location + "]";
+	}
 }

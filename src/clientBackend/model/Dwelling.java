@@ -31,4 +31,10 @@ public abstract class Dwelling {
 	public PlayerNumber getOwner() {
 		return this.owner;
 	}
+
+	@Override
+	public String toString() {
+		return "Dwelling [location=" + this.location + ", victoryPoints=" + this.victoryPoints + ", owner="
+				+ this.owner + "]";
+	}
 }
