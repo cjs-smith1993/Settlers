@@ -2,6 +2,7 @@ package clientBackend.model;
 
 import java.util.*;
 
+import clientBackend.transport.*;
 import shared.definitions.*;
 import shared.locations.*;
 
@@ -269,4 +270,145 @@ public class BoardFactory {
 
 		return ports;
 	}
+
+	public static Map<Integer, Collection<Chit>> parseChits(List<TransportHex> t_hexes) {
+		Map<Integer, Collection<Chit>> chits = new HashMap<Integer, Collection<Chit>>();
+
+		for (TransportHex hex : t_hexes) {
+			HexLocation location = new HexLocation(hex.location.x, hex.location.y);
+			int number = hex.number;
+			if (number > 0) {
+				Chit chit = new Chit('?', number, location);
+				Collection<Chit> collection = chits.get(number);
+
+				if (collection == null) {
+					collection = new ArrayList<Chit>();
+				}
+				collection.add(chit);
+
+				chits.put(number, collection);
+			}
+		}
+
+		return chits;
+	}
+
+	public static Map<HexLocation, Tile> parseTiles(List<TransportHex> t_hexes,
+			TransportRobber t_robber, int radius) {
+		Map<HexLocation, Tile> tiles = new HashMap<HexLocation, Tile>();
+
+		// initialize everything to water
+		for (int x = -radius; x <= radius; x++) {
+			for (int y = -radius; y <= radius; y++) {
+				int z = x + y;
+				if (Math.abs(z) > radius) {
+					continue;
+				}
+				HexLocation location = new HexLocation(x, y);
+				Tile tile = new Tile(location, ResourceType.ALL, false);
+				tiles.put(location, tile);
+			}
+		}
+
+		HexLocation robberLocation = new HexLocation(t_robber.x, t_robber.y);
+
+		// parse the hexes
+		for (TransportHex hex : t_hexes) {
+			HexLocation location = new HexLocation(hex.location.x, hex.location.y);
+			ResourceType type = hex.resource;
+			if (type == null) {
+				type = ResourceType.NONE;
+			}
+			boolean hasRobber = location.equals(robberLocation);
+			Tile tile = new Tile(location, type, hasRobber);
+			tiles.put(location, tile);
+		}
+
+		return tiles;
+	}
+
+	public static Map<EdgeLocation, Road> parseRoads(List<TransportRoad> t_roads) {
+		Map<EdgeLocation, Road> roads = new HashMap<EdgeLocation, Road>();
+
+		for (TransportRoad t_road : t_roads) {
+			PlayerNumber owner = t_road.owner;
+			int x = t_road.location.x;
+			int y = t_road.location.y;
+			EdgeDirection dir = t_road.location.direction;
+			EdgeLocation location = new EdgeLocation(new HexLocation(x, y), dir);
+			location = location.getNormalizedLocation();
+
+			Road road = new Road(owner, location);
+			roads.put(location, road);
+		}
+
+		return roads;
+	};
+
+	public static Map<VertexLocation, Dwelling> parseSettlements(
+			List<TransportSettlement> t_settlements) {
+		Map<VertexLocation, Dwelling> settlements = new HashMap<VertexLocation, Dwelling>();
+
+		// parse the settlements
+		for (TransportSettlement t_settlement : t_settlements) {
+			PlayerNumber owner = t_settlement.owner;
+			int x = t_settlement.location.x;
+			int y = t_settlement.location.y;
+			VertexDirection dir = t_settlement.location.direction;
+			VertexLocation location = new VertexLocation(new HexLocation(x, y), dir);
+			location = location.getNormalizedLocation();
+
+			Settlement settlement = new Settlement(owner, location);
+			settlements.put(location, settlement);
+		}
+
+		return settlements;
+	}
+
+	public static Map<VertexLocation, Dwelling> parseCities(List<TransportCity> t_cities) {
+		Map<VertexLocation, Dwelling> cities = new HashMap<VertexLocation, Dwelling>();
+
+		// parse the cities
+		for (TransportCity t_city : t_cities) {
+			PlayerNumber owner = t_city.owner;
+			int x = t_city.location.x;
+			int y = t_city.location.y;
+			VertexDirection dir = t_city.location.direction;
+			VertexLocation location = new VertexLocation(new HexLocation(x, y), dir);
+			location = location.getNormalizedLocation();
+
+			City city = new City(owner, location);
+			cities.put(location, city);
+		}
+
+		return cities;
+	}
+
+	public static Collection<Harbor> parseHarbors(List<TransportPort> t_ports) {
+		Collection<Harbor> harbors = new ArrayList<Harbor>();
+
+		for (TransportPort t_port : t_ports) {
+			int x = t_port.location.x;
+			int y = t_port.location.y;
+			HexLocation hexLoc = new HexLocation(x, y);
+			EdgeDirection dir = t_port.direction;
+			EdgeLocation edgeLoc = new EdgeLocation(hexLoc, dir);
+			edgeLoc = edgeLoc.getNormalizedLocation();
+			Collection<VertexLocation> ports = Geometer.getAdjacentVertices(edgeLoc);
+			ResourceType type = t_port.resource;
+			int ratio = t_port.ratio;
+
+			Harbor harbor = new Harbor(hexLoc, ports, type, ratio);
+			harbors.add(harbor);
+		}
+
+		return harbors;
+	}
+
+	public static Robber parseRobber(TransportRobber t_robber) {
+		HexLocation location = new HexLocation(t_robber.x, t_robber.y);
+		Robber robber = new Robber(location);
+		return robber;
+	}
+
 }

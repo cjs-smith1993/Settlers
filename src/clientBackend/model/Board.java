@@ -1,11 +1,14 @@
 package clientBackend.model;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import clientBackend.transport.*;
 import shared.definitions.*;
 import shared.locations.*;
 
@@ -16,17 +19,27 @@ import shared.locations.*;
 public class Board {
 	private final int RADIUS = 3;
 
-	private Map<HexLocation, Tile> tiles;
-	private Collection<Harbor> harbors;
 	private Map<Integer, Collection<Chit>> chits;
-	private Robber robber;
+	private Map<HexLocation, Tile> tiles;
 	private Map<EdgeLocation, Road> roads;
 	private Map<VertexLocation, Dwelling> dwellings;
+	private Collection<Harbor> harbors;
+	private Robber robber;
 
 	public Board(boolean randomTiles, boolean randomNumbers, boolean randomPorts) {
 		this.chits = BoardFactory.generateChits(randomNumbers);
 		this.tiles = BoardFactory.generateTiles(randomTiles);
 		this.harbors = BoardFactory.generateHarbors(randomPorts);
+	}
+
+	public Board(TransportMap map) {
+		this.chits = BoardFactory.parseChits(map.hexes);
+		this.tiles = BoardFactory.parseTiles(map.hexes, map.robber, this.RADIUS);
+		this.roads = BoardFactory.parseRoads(map.roads);
+		this.dwellings = BoardFactory.parseSettlements(map.settlements);
+		this.dwellings.putAll(BoardFactory.parseCities(map.cities));
+		this.harbors = BoardFactory.parseHarbors(map.ports);
+		this.robber = BoardFactory.parseRobber(map.robber);
 	}
 
 	private Collection<Road> getAdjacentRoads(VertexLocation vertex) {
