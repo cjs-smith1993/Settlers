@@ -126,20 +126,20 @@ public class Board {
 	 *            the desired location
 	 * @return true if the robber can be moved to the desired location
 	 */
-	public boolean canMoveRobber(Tile newLocation) {
-		Tile currentLocation = this.robber.getLocation();
+	public boolean canMoveRobber(HexLocation newLocation) {
+		HexLocation currentLocation = this.robber.getLocation();
 		return currentLocation != newLocation;
 	}
 
 	/**
-	 * Moves the robber to the given vertex
+	 * Moves the robber to the given hex
 	 *
 	 * @param location
 	 *            the desired new location of the robber
 	 * @throws CatanException
 	 *             if the robber cannot be moved to the desired location
 	 */
-	public void moveRobber(Tile newLocation) throws CatanException {
+	public void moveRobber(HexLocation newLocation) throws CatanException {
 		if (this.canMoveRobber(newLocation)) {
 			this.robber.setLocation(newLocation);
 		}
