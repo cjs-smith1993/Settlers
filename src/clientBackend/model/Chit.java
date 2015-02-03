@@ -1,5 +1,7 @@
 package clientBackend.model;
 
+import shared.locations.HexLocation;
+
 /**
  * Represents a number chit that is placed on top of a tile. Every tile except
  * the desert has one chit. When the result of a dice roll matches a chit's
@@ -8,12 +10,12 @@ package clientBackend.model;
 public class Chit {
 	private char letter;
 	private int number;
-	private Tile tile;
+	private HexLocation location;
 
-	public Chit(char letter, int number, Tile tile) {
+	public Chit(char letter, int number, HexLocation location) {
 		this.letter = letter;
 		this.number = number;
-		this.tile = tile;
+		this.location = location;
 	}
 
 	public char getLetter() {
@@ -24,11 +26,11 @@ public class Chit {
 		return this.number;
 	}
 
-	public Tile getTile() {
-		return this.tile;
+	public HexLocation getLocation() {
+		return this.location;
 	}
 
-	public void setTile(Tile tile) {
-		this.tile = tile;
+	public void setTile(HexLocation location) {
+		this.location = location;
 	}
 }
