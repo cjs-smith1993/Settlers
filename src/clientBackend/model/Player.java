@@ -1,7 +1,9 @@
 package clientBackend.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import clientBackend.transport.TransportPlayer;
 import shared.definitions.*;
 
 /**
@@ -14,26 +16,114 @@ public class Player {
 	private User user;
 	private CatanColor color;
 	private PlayerNumber number;
-	private Collection<Road> availableRoads;
-	private Collection<Settlement> availableSettlements;
-	private Collection<City> availableCities;
+	private ArrayList<Road> availableRoads;
+	private ArrayList<Settlement> availableSettlements;
+	private ArrayList<City> availableCities;
+	private static int MAX_ROADS = 15;
+	private static int MAX_SETTLEMENTS = 5;
+	private static int MAX_CITIES = 4;
+	
+	private ArrayList<Road> initializeRoads(int numRoads) {
+		ArrayList<Road> roads = new ArrayList<Road>();
+		
+		for (int i = 0; i < numRoads; i++) {
+			roads.add(new Road(number));
+		}
+		
+		return roads;
+	}
+	
+	private ArrayList<Settlement> initializeSettlements(int numSettlements) {
+		ArrayList<Settlement> settlements = new ArrayList<Settlement>();
+		
+		for (int i = 0; i < numSettlements; i++) {
+			settlements.add(new Settlement(number));
+		}
+		
+		return settlements;
+	}
+	
+	private ArrayList<City> initializeCities(int numCities) {
+		ArrayList<City> cities = new ArrayList<City>();
+		
+		for (int i = 0; i < numCities; i++) {
+			cities.add(new City(number));
+		}
+		
+		return cities;
+	}
 	
 	public Player(User user, CatanColor color, PlayerNumber number) {
 		this.user = user;
 		this.color = color;
 		this.number = number;
+		
+		availableRoads = initializeRoads(MAX_ROADS);
+		availableSettlements = initializeSettlements(MAX_SETTLEMENTS);
+		availableCities = initializeCities(MAX_CITIES);
+	}
+	
+	public Player(TransportPlayer player) {
+		this.user = new User(player.name, player.playerID);
+		this.color = player.color;
+		this.number = player.playerIndex;
+
+		availableRoads = initializeRoads(player.roads);
+		availableSettlements = initializeSettlements(player.settlements);
+		availableCities = initializeCities(player.cities);
+	}
+	
+	public int getNumRoads() {
+		return availableRoads.size();
+	}
+	
+	public int getNumSettlements() {
+		return availableSettlements.size();
+	}
+	
+	public int getNumCities() {
+		return availableCities.size();
+	}
+	
+	public void returnSettlement(Settlement settlement) {
+		availableSettlements.add(settlement);
+		return;
+	}
+	
+	public Road getRoad() throws CatanException {
+		if (availableRoads.isEmpty()) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Player " + number + " has no available roads.");
+		}
+		return availableRoads.remove(0);
+	}
+	
+	public Settlement getSettlement() throws CatanException {
+		if (availableRoads.isEmpty()) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Player " + number + " has no available settlements.");
+		}
+		return availableSettlements.remove(0);
+	}
+	
+	public City getCity() throws CatanException {
+		if (availableCities.isEmpty()) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Player " + number + " has no available cities.");
+		}
+		return availableCities.remove(0);
 	}
 	
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 	
 	public CatanColor getColor() {
-		return color;
+		return this.color;
 	}
 	
 	public PlayerNumber getNumber() {
-		return number;
+		return this.number;
 	}
 	
 	@Override
