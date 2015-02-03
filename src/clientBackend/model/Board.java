@@ -14,14 +14,6 @@ import shared.locations.*;
  * dwellings, and the robber
  */
 public class Board {
-	private final int NUM_WOOD = 4;
-	private final int NUM_SHEEP = 4;
-	private final int NUM_WHEAT = 4;
-	private final int NUM_BRICK = 3;
-	private final int NUM_ORE = 3;
-	private final int NUM_DESERT = 1;
-	private final int NUM_WATER = 18;
-	private final int NUM_CHITS = 18;
 	private final int RADIUS = 3;
 
 	private Map<HexLocation, Tile> tiles;
@@ -33,127 +25,9 @@ public class Board {
 	private Map<VertexLocation, Dwelling> dwellings;
 
 	public Board(boolean randomTiles, boolean randomNumbers, boolean randomPorts) {
-		// create tiles
-		this.tiles = new HashMap<HexLocation, Tile>();
-
-		ArrayList<Tile> woodTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_WOOD; i++) {
-			woodTiles.add(new Tile(null, ResourceType.WOOD, false));
-		}
-		ArrayList<Tile> sheepTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_SHEEP; i++) {
-			sheepTiles.add(new Tile(null, ResourceType.SHEEP, false));
-		}
-		ArrayList<Tile> wheatTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_WHEAT; i++) {
-			wheatTiles.add(new Tile(null, ResourceType.WHEAT, false));
-		}
-		ArrayList<Tile> brickTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_BRICK; i++) {
-			brickTiles.add(new Tile(null, ResourceType.BRICK, false));
-		}
-		ArrayList<Tile> oreTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_ORE; i++) {
-			oreTiles.add(new Tile(null, ResourceType.ORE, false));
-		}
-		ArrayList<Tile> desertTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_DESERT; i++) {
-			desertTiles.add(new Tile(null, ResourceType.NONE, false));
-		}
-		ArrayList<Tile> waterTiles = new ArrayList<Tile>();
-		for (int i = 0; i < this.NUM_WATER; i++) {
-			waterTiles.add(new Tile(null, ResourceType.ALL, false));
-		}
-
-		// create chits
-		this.chits = new HashMap<Integer, Collection<Chit>>();
-
-		Chit a = new Chit('A', 5, null);
-		Chit b = new Chit('B', 2, null);
-		Chit c = new Chit('C', 6, null);
-		Chit d = new Chit('D', 3, null);
-		Chit e = new Chit('E', 8, null);
-		Chit f = new Chit('F', 10, null);
-		Chit g = new Chit('G', 9, null);
-		Chit h = new Chit('H', 12, null);
-		Chit i = new Chit('I', 11, null);
-		Chit j = new Chit('J', 4, null);
-		Chit k = new Chit('K', 8, null);
-		Chit l = new Chit('L', 10, null);
-		Chit m = new Chit('M', 9, null);
-		Chit n = new Chit('N', 4, null);
-		Chit o = new Chit('O', 5, null);
-		Chit p = new Chit('P', 6, null);
-		Chit q = new Chit('Q', 3, null);
-		Chit r = new Chit('R', 11, null);
-
-		ArrayList<Chit> twos = new ArrayList<Chit>();
-		ArrayList<Chit> threes = new ArrayList<Chit>();
-		ArrayList<Chit> fours = new ArrayList<Chit>();
-		ArrayList<Chit> fives = new ArrayList<Chit>();
-		ArrayList<Chit> sixes = new ArrayList<Chit>();
-		ArrayList<Chit> eights = new ArrayList<Chit>();
-		ArrayList<Chit> nines = new ArrayList<Chit>();
-		ArrayList<Chit> tens = new ArrayList<Chit>();
-		ArrayList<Chit> elevens = new ArrayList<Chit>();
-		ArrayList<Chit> twelves = new ArrayList<Chit>();
-
-		twos.add(b);
-		threes.add(d);
-		threes.add(q);
-		fours.add(j);
-		fours.add(n);
-		fives.add(a);
-		fives.add(o);
-		sixes.add(c);
-		sixes.add(p);
-		eights.add(e);
-		eights.add(k);
-		nines.add(g);
-		nines.add(m);
-		tens.add(f);
-		tens.add(l);
-		elevens.add(i);
-		elevens.add(r);
-		twelves.add(h);
-
-		if (randomTiles) {
-
-		}
-		else {
-			Tile tile;
-			HexLocation loc;
-
-			tile = woodTiles.remove(0);
-			loc = new HexLocation(0, 2);
-			tile.setLocation(loc);
-			this.tiles.put(loc, tile);
-
-			tile = oreTiles.remove(0);
-			loc = new HexLocation(-1, -1);
-			tile.setLocation(loc);
-			this.tiles.put(loc, tile);
-		}
-
-		if (randomNumbers) {
-
-		}
-		else {
-			eights.get(0).setTile(this.tiles.get(new HexLocation(0, 2)));
-			eights.get(1).setTile(this.tiles.get(new HexLocation(-1, -1)));
-		}
-
-		if (randomPorts) {
-
-		}
-		else {
-
-		}
-
-		for (int z = 0; z < eights.size(); z++) {
-			Tile t = eights.get(z).getTile();
-			System.out.println(t.getLocation() + " " + t.getResourceType());
-		}
+		this.chits = BoardFactory.generateChits(randomNumbers);
+		this.tiles = BoardFactory.generateTiles(randomTiles);
+		this.harbors = BoardFactory.generateHarbors(randomPorts);
 	}
 
 	public static void main(String args[]) {
@@ -296,7 +170,11 @@ public class Board {
 		Collection<Chit> chits = this.chits.get(number);
 		Collection<Tile> tiles = new ArrayList<Tile>();
 		for (Chit chit : chits) {
-			tiles.add(chit.getTile());
+			HexLocation location = chit.getLocation();
+			Tile tile = this.tiles.get(location);
+			if (tile != null) {
+				tiles.add(tile);
+			}
 		}
 
 		for (Tile tile : tiles) {
