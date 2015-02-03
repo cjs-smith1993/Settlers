@@ -12,9 +12,13 @@ import shared.locations.*;
  * points for the dwelling
  */
 public abstract class Dwelling {
-	private VertexLocation location;
-	protected int victoryPoints;
 	protected PlayerNumber owner;
+	protected VertexLocation location;
+	protected int victoryPoints;
+
+	public PlayerNumber getOwner() {
+		return this.owner;
+	}
 
 	public VertexLocation getLocation() {
 		return this.location;
@@ -28,13 +32,9 @@ public abstract class Dwelling {
 		return this.victoryPoints;
 	}
 
-	public PlayerNumber getOwner() {
-		return this.owner;
-	}
-
 	@Override
 	public String toString() {
-		return "Dwelling [location=" + this.location + ", victoryPoints=" + this.victoryPoints + ", owner="
-				+ this.owner + "]";
+		return "Dwelling [owner=" + this.owner + ", victoryPoints=" + this.victoryPoints
+				+ ", location=" + this.location + "]";
 	}
 }

@@ -8,12 +8,21 @@ import shared.locations.*;
  * that is connected to the road
  */
 public class Road {
-	private EdgeLocation location;
 	private PlayerNumber owner;
+	private EdgeLocation location;
 
 	public Road(PlayerNumber owner) {
-		this.location = null;
 		this.owner = owner;
+		this.location = null;
+	}
+
+	public Road(PlayerNumber owner, EdgeLocation location) {
+		this.owner = owner;
+		this.location = location;
+	}
+
+	public PlayerNumber getOwner() {
+		return this.owner;
 	}
 
 	public EdgeLocation getLocation() {
@@ -24,12 +33,8 @@ public class Road {
 		this.location = location;
 	}
 
-	public PlayerNumber getOwner() {
-		return this.owner;
-	}
-
 	@Override
 	public String toString() {
-		return "Road [location=" + this.location + ", owner=" + this.owner + "]";
+		return "Road [owner=" + this.owner + ", location=" + this.location + "]";
 	}
 }
