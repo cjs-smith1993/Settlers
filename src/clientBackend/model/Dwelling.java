@@ -16,7 +16,7 @@ import shared.locations.*;
 public abstract class Dwelling {
 	private VertexLocation location;
 	protected int victoryPoints;
-	private PlayerNumber owner;
+	protected PlayerNumber owner;
 	
 	private Collection<Tile> getAdjacentTiles() {
 		return null;
