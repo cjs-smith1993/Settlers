@@ -11,8 +11,8 @@ import shared.definitions.*;
  * holdings 
  * */
 public class Broker {
-	private Map<PlayerNumber, PlayerHoldings> holdings;
-	private Bank bank;
+	private Map<PlayerNumber, Hand> holdings;
+	//private Bank bank;
 	
 	/**
 	 * Initiates a transfer of cards between or among the bank and players' 
@@ -23,11 +23,11 @@ public class Broker {
 	 * */
 	public boolean processInvoice(ResourceInvoice invoice) throws CatanException {
 		boolean success = false;
-		PlayerHoldings srcPlayer = holdings.get(invoice.getSourcePlayer());
-		PlayerHoldings dstPlayer = holdings.get(invoice.getDestinationPlayer());
+		Hand srcPlayer = holdings.get(invoice.getSourcePlayer());
+		Hand dstPlayer = holdings.get(invoice.getDestinationPlayer());
 		ResourceType type = invoice.getResource();
 		int count = invoice.getCount();
-		//add to the logic if bank do specail thiings
+		//add to the logic if bank do special things
 		Collection<ResourceCard> lostResources = srcPlayer.removeResourceCard(type, count);
 		if(lostResources.isEmpty()){
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There was not enough cards in the hand to remove!");
@@ -49,7 +49,7 @@ public class Broker {
 	 */
 	public boolean canPurchase(PlayerNumber player, PropertyType type) {
 		boolean purchasable = false;
-		PlayerHoldings local = holdings.get(player);
+		Hand local = holdings.get(player);
 		switch (type) {
 			case ROAD:
 				if(local.getResourceCardCount(ResourceType.BRICK) >= 1 
@@ -145,7 +145,7 @@ public class Broker {
 	 */
 	public boolean canPlayDevelopmentCard(
 			PlayerNumber player,
-			DevCardType type) {
+			DevCardType type) throws CatanException {
 		return false;
 	}
 	

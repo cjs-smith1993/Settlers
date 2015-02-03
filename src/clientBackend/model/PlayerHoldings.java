@@ -11,7 +11,7 @@ import shared.definitions.*;
  * An encapsulation of the cards that a player holds, the knights and monuments
  * that he has played, and the harbors that he owns
  */
-public class PlayerHoldings {
+public class PlayerHoldings implements Hand{
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
 	private Map<DevCardType, Collection<DevelopmentCard>> developmentCards;
 	private Collection<DevelopmentCard> playedKnights;
