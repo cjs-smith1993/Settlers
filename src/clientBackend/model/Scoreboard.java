@@ -23,7 +23,7 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> activeKnights;
 	private Map<PlayerNumber, Integer> builtRoads;
 	
-	public Scoreboard(TransportMap map, List<TransportPlayer> player, TransportTurnTracker turnTracker) {
+	public Scoreboard(List<TransportPlayer> player, TransportTurnTracker turnTracker) {
 		initializeMap(points);
 		initializeMap(activeKnights);
 		initializeMap(builtRoads);
@@ -31,8 +31,8 @@ public class Scoreboard {
 		largestArmy = turnTracker.largestArmy;
 		longestRoad = turnTracker.longestRoad;
 		
-		countRoads(map);
-		countKnights(turnTracker);
+		countRoads(player);
+		countKnights(player);
 		countPoints(player);
 	}
 	
@@ -53,21 +53,21 @@ public class Scoreboard {
 		}
 	}
 	
-	private void countRoads(TransportMap map) {
-		List<TransportRoad> roads = map.roads;
-		
-		for (int i = 0; i < roads.size(); i++) {
-			updatePlayerMaps(builtRoads, roads.get(i).owner, 1);
+	private void countRoads(List<TransportPlayer> players) {		
+		for (int i = 0; i < players.size(); i++) {
+			builtRoads.put(players.get(i).playerIndex, players.get(i).roads);
 		}
 	}
 	
-	private void countKnights(TransportTurnTracker turnTracker) {
-		// TODO: Needs to find a way to count the number of active knight cards.
+	private void countKnights(List<TransportPlayer> players) {
+		for (int i = 0; i < players.size(); i++) {
+			builtRoads.put(players.get(i).playerIndex, players.get(i).soldiers);
+		}
 	}
 	
-	private void countPoints(List<TransportPlayer> player) {
-		for (int i = 0; i < player.size(); i++) {
-			points.put(player.get(i).playerIndex, player.get(i).victoryPoints);
+	private void countPoints(List<TransportPlayer> players) {
+		for (int i = 0; i < players.size(); i++) {
+			points.put(players.get(i).playerIndex, players.get(i).victoryPoints);
 		}
 	}
 	
