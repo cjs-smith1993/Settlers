@@ -17,7 +17,15 @@ public class PlayerHoldings implements Hand{
 	private Collection<DevelopmentCard> playedKnights;
 	private Collection<DevelopmentCard> playedMonuments;
 	private Collection<Harbor> harbors;
-	
+	/**
+	 * Default constructor for the PlayerHolings class.
+	 * Not Implemented
+	 */
+	public PlayerHoldings()
+	{
+		
+	}
+	//how is connor telling that the house is on a harbor
 	/**
 	 * Returns the number of development cards of the desired type in the
 	 * player's hand

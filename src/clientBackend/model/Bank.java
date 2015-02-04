@@ -17,6 +17,51 @@ public class Bank implements Hand{
 	private Collection<DevelopmentCard> playedCards;
 	
 	/**
+	 * Default constructor for the bank will create all the pieces needed
+	 * Not Implemented
+	 */
+	public Bank()
+	{
+		//make all the cards put them in the space
+		for(ResourceType type: ResourceType.values())
+		{
+			resourceCards.get(type).addAll(makeTypeDeck(type));
+		}
+		
+		for(DevCardType type: DevCardType.values())
+		{
+			switch(type){
+			case SOLDIER:
+				developmentCards.get(type).addAll(makeDevelopmentDeck(type, 14));
+				break;
+			case MONUMENT:
+				developmentCards.get(type).addAll(makeDevelopmentDeck(type, 5));
+				break;
+			default:
+				developmentCards.get(type).addAll(makeDevelopmentDeck(type, 2));
+				break;
+			}
+		}
+		
+	}
+	private Collection<DevelopmentCard> makeDevelopmentDeck(
+			DevCardType type, int j) {
+		Collection<DevelopmentCard> typeDeck = new ArrayList<DevelopmentCard>();
+		for(int i = 0; i < j; i++)
+		{
+			typeDeck.add(new DevelopmentCard(type));
+		}
+		return typeDeck;
+	}
+	private Collection<ResourceCard> makeTypeDeck(ResourceType type) {
+		Collection<ResourceCard> typeDeck = new ArrayList<ResourceCard>();
+		for(int i = 0; i < 25; i++)
+		{
+			typeDeck.add(new ResourceCard(type));
+		}
+		return typeDeck;
+	}
+	/**
 	 * Returns a development card from the deck
 	 * @param player
 	 */
