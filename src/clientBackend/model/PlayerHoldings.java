@@ -130,6 +130,28 @@ public class PlayerHoldings implements Hand{
 	public void setHarbors(Collection<Harbor> harbors) {
 		this.harbors = harbors;
 	}
+
 	
+	public Map<ResourceType, Collection<ResourceCard>> getResourceCards() {
+		return resourceCards;
+	}
+
 	
+	public void setResourceCards(
+			Map<ResourceType, Collection<ResourceCard>> resourceCards) {
+		this.resourceCards = resourceCards;
+	}
+
+	
+	public Map<DevCardType, Collection<DevelopmentCard>> getDevelopmentCards() {
+		return developmentCards;
+	}
+
+	
+	public void setDevelopmentCards(
+			Map<DevCardType, Collection<DevelopmentCard>> developmentCards) {
+		this.developmentCards = developmentCards;
+	}
+	
+		
 }

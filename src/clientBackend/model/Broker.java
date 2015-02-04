@@ -47,8 +47,12 @@ public class Broker {
 	 * @param type the desired property type
 	 * @return true if the player can purchase the desired property
 	 */
-	public boolean canPurchase(PlayerNumber player, PropertyType type) {
+	public boolean canPurchase(PlayerNumber player, PropertyType type) throws CatanException{
 		boolean purchasable = false;
+		if(player == PlayerNumber.BANK)
+		{
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "The bank cannot purchase resource cards"); 
+		}
 		Hand local = holdings.get(player);
 		switch (type) {
 			case ROAD:
@@ -146,7 +150,17 @@ public class Broker {
 	public boolean canPlayDevelopmentCard(
 			PlayerNumber player,
 			DevCardType type) throws CatanException {
-		return false;
+		boolean success = false;
+		if(player != PlayerNumber.BANK){
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "The bank cannot play development cards.");
+		}
+		PlayerHoldings local = (PlayerHoldings) holdings.get(player);
+		//check if the card is in the playabel collections
+		if(local.getDevelopmentCardCount(type) >= 1)
+		{
+			success = true;
+		}
+		return success;
 	}
 	
 	/**
@@ -161,7 +175,44 @@ public class Broker {
 	public boolean playDevelopmentCard(
 			PlayerNumber player, 
 			DevCardType type) throws CatanException {
-		throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "this meens nothing");
+		boolean beenPlayed = false;
+		if(!(this.canPlayDevelopmentCard(player, type))){
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "The type of card is not in the player holdings");
+		}
+		Collection<DevelopmentCard> transDevCard = null;
+		PlayerHoldings local = (PlayerHoldings) holdings.get(player);
+		switch (type){
+		case SOLDIER:
+			//move card to the soldier played deck
+			transDevCard = local.removeDevelopmentCard(type, 1);
+			if(transDevCard.isEmpty()){
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There were no Soldier cards to remove!");
+			}
+			beenPlayed = local.addDevelopmentCardCollection(type, transDevCard);
+			if(!beenPlayed){
+				local.addDevelopmentCardCollection(type, transDevCard);
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Soldiers were not stored in the bank!");
+			}
+			break;
+		case MONUMENT:
+			//move the card to the monumnet played deck
+			transDevCard = local.removeDevelopmentCard(type, 1);
+			if(transDevCard.isEmpty()){
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There were no Moument cards to remove!");
+			}
+			beenPlayed = local.addDevelopmentCardCollection(type, transDevCard);
+			if(!beenPlayed){
+				local.addDevelopmentCardCollection(type, transDevCard);
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Monuments were not stored in the bank!");
+			}
+			break;
+		default:
+			//move the card to the bank played deck
+			break;
+		}
+		
+		return beenPlayed;
+		
 	}
 
 }
