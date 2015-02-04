@@ -2,6 +2,7 @@ package clientBackend.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import clientBackend.transport.*;
@@ -321,5 +322,25 @@ public class Board {
 			String message = "A dwelling cannot be placed at " + vertex.toString();
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, message);
 		}
+	}
+
+	public Map<PlayerNumber, Collection<Harbor>> getHarborsByPlayer() {
+		Map<PlayerNumber, Collection<Harbor>> harborsByPlayer = new HashMap<PlayerNumber, Collection<Harbor>>();
+
+		for (Harbor harbor : this.harbors) {
+			for (VertexLocation port : harbor.getPorts()) {
+				Dwelling dwelling = this.dwellings.get(port);
+				if (dwelling != null) {
+					PlayerNumber owner = dwelling.getOwner();
+					Collection<Harbor> harborList = harborsByPlayer.get(owner);
+					if (harborList == null) {
+						harborList = new ArrayList<Harbor>();
+					}
+					harborList.add(harbor);
+				}
+			}
+		}
+
+		return harborsByPlayer;
 	}
 }
