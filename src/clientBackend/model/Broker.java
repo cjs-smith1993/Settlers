@@ -202,11 +202,20 @@ public class Broker {
 			beenPlayed = local.addDevelopmentCardCollection(type, transDevCard);
 			if(!beenPlayed){
 				local.addDevelopmentCardCollection(type, transDevCard);
-				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Monuments were not stored in the bank!");
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Monuments were not stored in the discard!");
 			}
 			break;
 		default:
 			//move the card to the bank played deck
+			transDevCard = local.removeDevelopmentCard(type, 1);
+			if(transDevCard.isEmpty()){
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The cards were not removed!");
+			}
+			beenPlayed = holdings.get(PlayerNumber.BANK).addDevelopmentCardCollection(type, transDevCard);
+			if(!beenPlayed){
+				local.addDevelopmentCardCollection(type, transDevCard);
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The cards were not stored in the bank!");
+			}
 			break;
 		}
 		
