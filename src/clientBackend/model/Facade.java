@@ -11,8 +11,11 @@ public class Facade {
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
 	
-	public void initializeModel(TransportModel transportModel) {
-		// TODO: Implement the breakdown of the transportModel;
+	public void initializeModel(TransportModel model) {
+		scoreboard = new Scoreboard(model.players, model.turnTracker);
+		postOffice = new PostOffice(model.chat.lines, model.log.lines);
+		
+		// TODO: Initialize other objects.
 	}
 	
 	public boolean CanDiscardCards() {
