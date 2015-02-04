@@ -1,4 +1,7 @@
-package shared.definitions;
+package clientBackend.model;
+
+import shared.definitions.PlayerNumber;
+import shared.definitions.ResourceType;
 
 /**
  * Data transfer object that encapsulates a one-sided transaction consisting of

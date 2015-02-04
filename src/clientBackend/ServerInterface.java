@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import clientBackend.model.Game;
 import clientBackend.model.ResourceCard;
+import clientBackend.model.ResourceInvoice;
 import shared.definitions.*;
 import shared.locations.*;
 /*the majority of these things change the server model
