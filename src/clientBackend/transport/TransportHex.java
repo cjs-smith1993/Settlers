@@ -1,5 +1,9 @@
 package clientBackend.transport;
 
+import shared.definitions.ResourceType;
+
 public class TransportHex {
-	TransportHexLocation location;
+	public TransportHexLocation location;
+	public ResourceType resource;
+	public int number;
 }

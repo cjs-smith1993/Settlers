@@ -1,7 +1,8 @@
 package clientBackend.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import clientBackend.transport.TransportPlayer;
 import clientBackend.transport.TransportTurnTracker;
@@ -12,10 +13,11 @@ import shared.definitions.*;
  * turns, etc.
  */
 public class Game {
-	private Collection<Player> players;
-	private PlayerNumber currentPlayer;
 	private Dice dice;
 	private static int MAX_PLAYERS = 4;
+	private PlayerNumber currentPlayer;
+	private boolean currentPlayerHasRolled = false;
+	private Map<PlayerNumber, Player> players;
 	
 	/**
 	 * Returns the next available player number
@@ -23,13 +25,16 @@ public class Game {
 	private PlayerNumber getNextPlayerNumber() throws CatanException {
 		
 		for (PlayerNumber number : PlayerNumber.values()) {
+			
+			if (number == PlayerNumber.BANK) {
+				continue;
+			}
+			
 			boolean found = false;
 			
-			for (Player player : players) {
-				if (player.getNumber() == number) {
-					found = true;
-					break;
-				}
+			if (players.get(number) != null) {
+				found = true;
+				continue;
 			}
 			
 			if (!found) {
@@ -41,10 +46,10 @@ public class Game {
 	}
 
 	/**
-	 * The default consructor for initializing the first game
+	 * The default constructor for initializing the first game
 	 * */
 	public Game() {
-		players = new ArrayList<Player>();
+		players = new HashMap<PlayerNumber, Player>();
 		dice = new Dice();
 	}
 	
@@ -54,7 +59,7 @@ public class Game {
 	public Game(Collection<TransportPlayer> players, TransportTurnTracker tracker) throws CatanException {
 		
 		for (TransportPlayer player : players) {
-			addPlayer(new Player(new User(player.name, player.playerID), player.color, player.playerIndex));
+			addPlayer(player);
 		}
 		
 		currentPlayer = tracker.currentTurn;
@@ -72,7 +77,7 @@ public class Game {
 			return false;
 		}
 		
-		for (Player player : players) {// Make sure the user is unique and the color is available
+		for (Player player : players.values()) {// Make sure the user is unique and the color is available
 			if (user == player.getUser() || color == player.getColor()) {
 				return false;
 			}
@@ -91,7 +96,9 @@ public class Game {
 	 */
 	public void addPlayer(User user, CatanColor color) throws CatanException {
 		if (canAddPlayer(user, color)) {
-			players.add(new Player(user, color, getNextPlayerNumber()));
+			PlayerNumber number = getNextPlayerNumber();
+			
+			players.put(number, new Player(user, color, number));
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot add player with user: " + user + " and color: " + color);
@@ -105,13 +112,15 @@ public class Game {
 	 * @param color the desired color of the user
 	 * @return true if a player can be added to the game
 	 */
-	public boolean canAddPlayer(Player new_player) {
+	public boolean canAddPlayer(TransportPlayer new_player) {
 		if (players.size() == MAX_PLAYERS) {// Make sure there is room for another player
 			return false;
 		}
 		
-		for (Player player : players) {// Make sure the player is unique
-			if (new_player.equals(player)) {
+		for (Player player : players.values()) {// Make sure the player is unique
+			if (new_player.name.equals(player.getUser().getName()) ||
+				new_player.color == player.getColor() ||
+				new_player.playerIndex == player.getNumber()) {
 				return false;
 			}
 		}
@@ -127,37 +136,70 @@ public class Game {
 	 * @throws CatanException if the desired color is taken or if the game is
 	 * full
 	 */
-	public void addPlayer(Player new_player) throws CatanException {
+	public void addPlayer(TransportPlayer new_player) throws CatanException {
 		if (canAddPlayer(new_player)) {
-			players.add(new_player);
+			players.put(new_player.playerIndex, new Player(new_player));
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot add player: " + new_player);
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Cannot add player. Duplicate player info: " + new_player);
 		}
 	}
 	
-	/**
-	 * Returns whether an AI can be added to the game
-	 * @param color the desired color
-	 * @return true if an AI can be added to the game
-	 */
-	public boolean canAddAI(CatanColor color) {
-		//TODO
-		return false;
-	}
-	
-	/**
-	 * Adds an AI with the desired color to the game
-	 * @param color the desired color
-	 * @throws CatanException if an AI cannot be added to the game
-	 */
-	public void addAI(CatanColor color) throws CatanException {
-		if (canAddAI(color)) {
-			//TODO
+	public Road getRoad(PlayerNumber number) throws CatanException {
+		if (hasRoad(number)) {
+			return players.get(number).getRoad();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot add AI: " + color);
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Cannot get road. Player " + number + " has no more roads");
 		}
+	}
+	
+	public Settlement getSettlement(PlayerNumber number) throws CatanException {
+		if (hasSettlement(number)) {
+			return players.get(number).getSettlement();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Cannot get settlement. Player " + number + 
+					" has no more settlements");
+		}
+	}
+	
+	public City getCity(PlayerNumber number) throws CatanException {
+		if (hasCity(number)) {
+			return players.get(number).getCity();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Cannot get city. Player " + number + 
+					" has no more cities");
+		}
+	}
+	
+	public boolean hasRoad(PlayerNumber number) throws CatanException {
+		if (players.get(number) == null) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Player " + number + " does not exist");
+		}
+		return (players.get(number).getNumRoads() > 0);
+	}
+	
+	public boolean hasSettlement(PlayerNumber number) throws CatanException {
+		if (players.get(number) == null) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Player " + number + " does not exist");
+		}
+		return (players.get(number).getNumSettlements() > 0);
+	}
+	
+	public boolean hasCity(PlayerNumber number) throws CatanException {
+		if (players.get(number) == null) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
+					"Player " + number + " does not exist");
+		}
+		return (players.get(number).getNumCities() > 0);
 	}
 	
 	/**
@@ -185,8 +227,15 @@ public class Game {
 				currentPlayer = PlayerNumber.ONE;
 				break;
 			default:
-				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Current is not a valid PlayerNumber: " + currentPlayer);
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Current player is not a valid PlayerNumber: " + currentPlayer);
 		}
 	}
 	
+	public boolean getCurrentPlayerHasRolled() {
+		return currentPlayerHasRolled;
+	}
+	
+	public PlayerNumber getCurrentPlayer() {
+		return currentPlayer;
+	}
 }

@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import shared.definitions.*;
-import clientBackend.transport.TransportMap;
 import clientBackend.transport.TransportPlayer;
-import clientBackend.transport.TransportRoad;
 import clientBackend.transport.TransportTurnTracker;
 
 /**
