@@ -1,5 +1,6 @@
 package clientBackend;
 
+import clientBackend.model.Facade;
 import clientBackend.transport.TransportModel;
 
 import com.google.gson.Gson;
@@ -10,15 +11,21 @@ import com.google.gson.Gson;
  */
 public class CatanSerializer {
 	final Gson gson = new Gson();
+	private Facade facade;
 	
-	/**
-	 * Converts the model's internal representation into a JSON string using the
-	 * Gson open-source library
-	 * @return a JSON representation of the internal model
-	 */
-	public String serializeModel() {
-		return null;
+	public CatanSerializer(Facade facade) {
+		this.facade = facade;
 	}
+	
+//	----> THIS COMMENTED OUT AS WE LIKELY WON'T NEED THIS FUNCTIONALITY CLIENT-SIDE.
+//	/**
+//	 * Converts the model's internal representation into a JSON string using the
+//	 * Gson open-source library
+//	 * @return a JSON representation of the internal model
+//	 */
+//	public String serializeModel() {
+//		return null;
+//	}
 	
 	/**
 	 * Converts the given JSON string into the model's internal representation
@@ -29,9 +36,7 @@ public class CatanSerializer {
 	public void deserializeModel(String gsonString) {
 		TransportModel transportModel = gson.fromJson(gsonString, TransportModel.class);
 		
-		System.out.println(transportModel);
-		
-		// TODO: Distribute model information to appropriate class?
+		facade.initializeModel(transportModel);
 	}
 	
 	/**
@@ -53,7 +58,7 @@ public class CatanSerializer {
 	 * */
 	public Object deserializeObject(String gsonString) {
 		Object deserializedObject = gson.fromJson(gsonString, Object.class);
-		
+
 		return deserializedObject;
 	}
 }

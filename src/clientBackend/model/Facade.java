@@ -1,5 +1,6 @@
 package clientBackend.model;
 
+import clientBackend.transport.TransportModel;
 import shared.definitions.PlayerNumber;
 
 public class Facade {
@@ -9,6 +10,10 @@ public class Facade {
 	private PostOffice postOffice;
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
+	
+	public void initializeModel(TransportModel transportModel) {
+		// TODO: Implement the breakdown of the transportModel;
+	}
 	
 	public boolean CanDiscardCards() {
 		// Does the client player have any cards to discard?
