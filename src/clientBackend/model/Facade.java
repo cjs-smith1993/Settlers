@@ -1,6 +1,8 @@
 package clientBackend.model;
 
+import clientBackend.transport.TransportModel;
 import shared.definitions.PlayerNumber;
+import shared.definitions.ResourceType;
 
 public class Facade {
 	private Bank bank;
@@ -10,25 +12,48 @@ public class Facade {
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
 	
-	public boolean CanDiscardCards() {
-		// Does the client player have any cards to discard?
-		return false;
+	public void initializeModel(TransportModel model) {
+		scoreboard = new Scoreboard(model.players, model.turnTracker);
+		postOffice = new PostOffice(model.chat.lines, model.log.lines);
+		
+		// TODO: Initialize other objects.
 	}
 	
-	public boolean CanRollNumber() {
+	public boolean CanDiscardCards(PlayerNumber player, int discardAmount) {
+		boolean canDiscard = broker.canDiscardCards(player, discardAmount);
+		
+		return canDiscard;
+	}
+	
+	public boolean CanRollNumber(PlayerNumber player) {
 		// Is it the client player's turn?
 		// Has the client player already rolled?
+		if (!game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean CanBuildRoad() {
+	public boolean CanBuildRoad(PlayerNumber player) {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Does the client player have at least one available road?
+		
+		if (game.getCurrentPlayerHasRolled() 
+				&& game.getCurrentPlayer() == player
+				&& broker.hasNecessaryResourceAmount(player, ResourceType.BRICK, 1)
+				&& broker.hasNecessaryResourceAmount(player, ResourceType.WOOD, 1)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
 	public boolean CanBuildSettlement() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Does the client player have at least one available settlement?
@@ -36,6 +61,7 @@ public class Facade {
 	}
 	
 	public boolean CanBuildCity() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Does the client player have at least one available city?
@@ -43,6 +69,7 @@ public class Facade {
 	}
 	
 	public boolean CanOfferTrade() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Is it the client player's turn?
 		// Does the client player have any cards?
@@ -50,6 +77,7 @@ public class Facade {
 	}
 	
 	public boolean CanMaritimeTrade() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player own at least one harbor?
 		return false;
@@ -62,6 +90,7 @@ public class Facade {
 	}
 	
 	public boolean CanBuyDevCard() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Is there at least one more development card in the deck?
@@ -69,6 +98,7 @@ public class Facade {
 	}
 	
 	public boolean CanUseYearOfPlenty() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Year of Plenty 
 		// developement card?
@@ -76,6 +106,7 @@ public class Facade {
 	}
 	
 	public boolean CanUseRoadBuilder() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Road Builder
 		// developement card?
@@ -83,6 +114,7 @@ public class Facade {
 	}
 	
 	public boolean CanUseSoldier() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have an available Soldier
 		// developement card?
@@ -90,6 +122,7 @@ public class Facade {
 	}
 	
 	public boolean CanUseMonopoly() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Monopoly 
 		// development card?
@@ -97,6 +130,7 @@ public class Facade {
 	}
 	
 	public boolean CanUseMonument() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Monument
 		// development card?
@@ -104,6 +138,7 @@ public class Facade {
 	}
 	
 	public boolean CanPlaceRobber() {
+		// Has player rolled yet?
 		// Is it the client player's turn?
 		return false;
 	}

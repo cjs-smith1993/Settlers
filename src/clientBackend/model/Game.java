@@ -1,6 +1,5 @@
 package clientBackend.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +13,11 @@ import shared.definitions.*;
  * turns, etc.
  */
 public class Game {
-	private Map<PlayerNumber, Player> players;
-	private PlayerNumber currentPlayer;
 	private Dice dice;
 	private static int MAX_PLAYERS = 4;
+	private PlayerNumber currentPlayer;
+	private boolean currentPlayerHasRolled = false;
+	private Map<PlayerNumber, Player> players;
 	
 	/**
 	 * Returns the next available player number
@@ -231,4 +231,11 @@ public class Game {
 		}
 	}
 	
+	public boolean getCurrentPlayerHasRolled() {
+		return currentPlayerHasRolled;
+	}
+	
+	public PlayerNumber getCurrentPlayer() {
+		return currentPlayer;
+	}
 }

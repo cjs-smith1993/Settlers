@@ -1,6 +1,8 @@
 package clientBackend.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import shared.definitions.*;
@@ -30,14 +32,43 @@ public class Bank implements Hand{
 	@Override
 	public Collection<ResourceCard> removeResourceCard(ResourceType type,
 			int count) {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
+        
+        Collection<ResourceCard> cards = this.resourceCards.get(type);
+        for (int i = 0; i < count; i++) {
+            Iterator<ResourceCard> it = cards.iterator();
+            ResourceCard card = it.next();
+            it.remove();
+            removed.add(card);
+        }
+        return removed;
+	}
+	
+	@Override
+	public boolean addResourceCardCollection(ResourceType type,
+			Collection<ResourceCard> newCards) {
+		boolean added = true;
+		if(!resourceCards.get(type).addAll(newCards))
+		{
+			added = false;
+		}
+		return added;
+	}
+
+	@Override
+	public boolean addDevelopmentCardCollection(DevCardType type,
+			Collection<DevelopmentCard> newCards) {
+		boolean added = true;
+		if(!playedCards.addAll(newCards))
+		{
+			added = false;
+		}
+		return added;
 	}
 	
 	@Override
 	public int getDevelopmentCardCount(DevCardType type) {
-		// TODO Auto-generated method stub
-		return 0;
+		return developmentCards.get(type).size();
 	}
 	/**
 	 * Returns the number of available resource cards of the desired type in
@@ -46,22 +77,8 @@ public class Bank implements Hand{
 	 * @return the number of available resource cards of the desired type
 	 */
 	public int getResourceCardCount(ResourceType type) {
-		return 0;
-	}
-
-	@Override
-	public boolean addResourceCardCollection(ResourceType type,
-			Collection<ResourceCard> newCards) {
-		// TODO Auto-generated method stub
-		return false;
+		return resourceCards.get(type).size();
 	}
 
 	
-
-	@Override
-	public boolean addDevelopmentCardCollection(DevCardType type,
-			Collection<DevelopmentCard> newCards) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
