@@ -106,7 +106,7 @@ public class PlayerHoldings implements Hand{
 		}
 		return added;
 	}
-
+	//need the harbor stuff
 	public Collection<DevelopmentCard> getPlayedKnights() {
 		return playedKnights;
 	}
@@ -152,6 +152,5 @@ public class PlayerHoldings implements Hand{
 			Map<DevCardType, Collection<DevelopmentCard>> developmentCards) {
 		this.developmentCards = developmentCards;
 	}
-	
 		
 }
