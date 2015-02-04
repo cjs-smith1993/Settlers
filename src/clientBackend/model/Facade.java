@@ -44,8 +44,8 @@ public class Facade {
 		
 		if (game.getCurrentPlayerHasRolled() 
 				&& game.getCurrentPlayer() == player
-				&& broker.hasNecessaryResource(player, ResourceType.BRICK, 1)
-				&& broker.hasNecessaryResource(player, ResourceType.WOOD, 1)) {
+				&& broker.hasNecessaryResourceAmount(player, ResourceType.BRICK, 1)
+				&& broker.hasNecessaryResourceAmount(player, ResourceType.WOOD, 1)) {
 			return true;
 		}
 		
