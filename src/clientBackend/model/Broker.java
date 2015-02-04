@@ -1,7 +1,6 @@
 package clientBackend.model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import shared.definitions.*;
@@ -164,4 +163,37 @@ public class Broker {
 		throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "this meens nothing");
 	}
 
+	/**
+	 * Determines whether the player has the necessary number of cards to return to the BANK.
+	 * @return canDiscardCards
+	 */
+	public boolean canDiscardCards(PlayerNumber player, int discardAmount) {
+		int cardCount = 0;
+		
+		cardCount += holdings.get(player).getResourceCardCount(ResourceType.BRICK);
+		cardCount += holdings.get(player).getResourceCardCount(ResourceType.ORE);
+		cardCount += holdings.get(player).getResourceCardCount(ResourceType.SHEEP);
+		cardCount += holdings.get(player).getResourceCardCount(ResourceType.WHEAT);
+		cardCount += holdings.get(player).getResourceCardCount(ResourceType.WOOD);
+		
+		if (cardCount >= discardAmount) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Determines whether the player has adequate resources.
+	 * @param resourceType
+	 * @param requiredQuantity
+	 * @return hasNecessaryResource
+	 */
+	public boolean hasNecessaryResourceAmount(PlayerNumber player, ResourceType resourceType, int requiredQuantity) {
+		if (holdings.get(player).getResourceCardCount(resourceType) >= requiredQuantity) {
+			return true;
+		}
+
+		return false;
+	}
 }
