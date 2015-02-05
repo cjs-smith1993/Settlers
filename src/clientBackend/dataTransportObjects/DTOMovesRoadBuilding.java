@@ -6,10 +6,10 @@ import java.util.Map;
 public class DTOMovesRoadBuilding {
 	String type = "Road_Building";
 	int playerIndex;
-	Map<String, String> spot1;
-	Map<String, String> spot2;
+	Map<String, Object> spot1;
+	Map<String, Object> spot2;
 	
-	public DTOMovesRoadBuilding(int playerIndex, String spot1X, String spot1Y, String spot1Direction, String spot2X, String spot2Y, String spot2Direction) {
+	public DTOMovesRoadBuilding(int playerIndex, int spot1X, int spot1Y, String spot1Direction, int spot2X, int spot2Y, String spot2Direction) {
 		this.playerIndex = playerIndex;
 		
 		spot1 = new HashMap<>();

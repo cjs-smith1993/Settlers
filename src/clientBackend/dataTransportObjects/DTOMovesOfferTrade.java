@@ -6,7 +6,7 @@ import java.util.Map;
 public class DTOMovesOfferTrade {
 	String type = "offerTrade";
 	int playerIndex;
-	Map<String, Integer> offer;
+	Map<String, Object> offer;
 	int receiver;
 	
 	public DTOMovesOfferTrade(int playerIndex, int brick, int ore, int sheep, int wheat, int wood, int receiver) {

@@ -6,7 +6,7 @@ import java.util.Map;
 public class DTOMovesDiscardCards {
 	String type = "discardCards";
 	int playerIndex;
-	Map<String, Integer> discardedCards;
+	Map<String, Object> discardedCards;
 	
 	public DTOMovesDiscardCards(int playerIndex, int brick, int ore, int sheep, int wheat, int wood) {
 		this.playerIndex = playerIndex;

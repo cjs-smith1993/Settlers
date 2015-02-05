@@ -7,7 +7,7 @@ public class DTOMovesSoldier {
 	String type = "Soldier";
 	int playerIndex;
 	int victimIndex;
-	Map<String, String> location;
+	Map<String, Object> location;
 	
 	public DTOMovesSoldier(int playerIndex, int victimIndex, String x, String y) {
 		this.playerIndex = playerIndex;

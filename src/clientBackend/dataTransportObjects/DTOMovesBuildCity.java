@@ -6,9 +6,9 @@ import java.util.Map;
 public class DTOMovesBuildCity {
 	String type = "buildCity";
 	int playerIndex;
-	Map<String, String> vertexLocation;
+	Map<String, Object> vertexLocation;
 	
-	public DTOMovesBuildCity(int playerIndex, String x, String y, String direction) {
+	public DTOMovesBuildCity(int playerIndex, int x, int y, String direction) {
 		this.playerIndex = playerIndex;
 		
 		vertexLocation = new HashMap<>();
