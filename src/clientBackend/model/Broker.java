@@ -267,6 +267,14 @@ public class Broker {
 	}
 	
 	public boolean hasResourceCard(PlayerNumber player){
-		return false;
+		boolean hasCard = false;
+		Hand local = holdings.get(player);
+		for(ResourceType type: ResourceType.values()){
+			if(local.getResourceCardCount(type) > 0){
+				hasCard = true;
+				break;
+			}
+		}
+		return hasCard;
 	}
 }
