@@ -21,7 +21,7 @@ public class ServerPoller {
 		this.facade = facade;
 	}
 	
-	private void initializeTimer() {
+	public void initializeTimer() {
 		new Timer().schedule(
 				new TimerTask() {
 					@Override
