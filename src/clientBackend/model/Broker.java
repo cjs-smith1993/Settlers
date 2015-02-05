@@ -12,7 +12,15 @@ import shared.definitions.*;
 public class Broker {
 	private Map<PlayerNumber, Hand> holdings;
 	//private Bank bank;
-	
+	/**
+	 * Default constructor for the broker.
+	 * This will go through and make each one of the hands.
+	 * Not implemented
+	 */
+	public Broker()
+	{
+		
+	}
 	/**
 	 * Initiates a transfer of cards between or among the bank and players' 
 	 * holdings
@@ -155,6 +163,7 @@ public class Broker {
 		}
 		PlayerHoldings local = (PlayerHoldings) holdings.get(player);
 		//check if the card is in the playabel collections
+		//need to check the playable boolean
 		if(local.getDevelopmentCardCount(type) >= 1)
 		{
 			success = true;
@@ -255,5 +264,17 @@ public class Broker {
 		}
 
 		return false;
+	}
+	
+	public boolean hasResourceCard(PlayerNumber player){
+		boolean hasCard = false;
+		Hand local = holdings.get(player);
+		for(ResourceType type: ResourceType.values()){
+			if(local.getResourceCardCount(type) > 0){
+				hasCard = true;
+				break;
+			}
+		}
+		return hasCard;
 	}
 }
