@@ -95,6 +95,18 @@ public class Board {
 		return adjacentDwellings;
 	}
 
+	private boolean isLand(HexLocation hex) {
+		int x = hex.getX();
+		int y = hex.getY();
+		int z = x + y;
+
+		boolean withinX = Math.abs(x) < this.RADIUS;
+		boolean withinY = Math.abs(y) < this.RADIUS;
+		boolean withinZ = Math.abs(z) < this.RADIUS;
+
+		return withinX && withinY && withinZ;
+	}
+
 	@SuppressWarnings("incomplete-switch")
 	private boolean isLand(EdgeLocation edge) {
 		HexLocation hex = edge.getHexLoc();
@@ -138,7 +150,8 @@ public class Board {
 	 */
 	public boolean canMoveRobber(HexLocation newLocation) {
 		HexLocation currentLocation = this.robber.getLocation();
-		return currentLocation != newLocation;
+		boolean isLand = this.isLand(newLocation);
+		return currentLocation != newLocation && isLand;
 	}
 
 	/**
