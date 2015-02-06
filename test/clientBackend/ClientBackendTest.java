@@ -6,11 +6,6 @@ import org.junit.Test;
 
 public class ClientBackendTest {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-
 	public static void main(String[] args) {
 
 		String[] testClasses = new String[] {
