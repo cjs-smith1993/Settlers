@@ -2,6 +2,7 @@ package clientBackend.model;
 
 import clientBackend.transport.TransportModel;
 import shared.definitions.PlayerNumber;
+import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 
 public class Facade {
@@ -11,6 +12,7 @@ public class Facade {
 	private PostOffice postOffice;
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
+	private int version;
 	
 	public void initializeModel(TransportModel model) {
 		scoreboard = new Scoreboard(model.players, model.turnTracker);
@@ -20,14 +22,13 @@ public class Facade {
 	}
 	
 	public boolean CanDiscardCards(PlayerNumber player, int discardAmount) {
-		boolean canDiscard = broker.canDiscardCards(player, discardAmount);
-		
-		return canDiscard;
+		return broker.canDiscardCards(player, discardAmount);
 	}
 	
 	public boolean CanRollNumber(PlayerNumber player) {
 		// Is it the client player's turn?
 		// Has the client player already rolled?
+		
 		if (!game.getCurrentPlayerHasRolled()
 				&& game.getCurrentPlayer() == player) {
 			return true;
@@ -36,7 +37,13 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanBuildRoad(PlayerNumber player) {
+	/**
+	 * Determines if a player has the resources to build a road
+	 * @param player
+	 * @return if the player has the resources to build a road
+	 * @throws CatanException 
+	 */
+	public boolean canBuildRoad(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
@@ -44,52 +51,86 @@ public class Facade {
 		
 		if (game.getCurrentPlayerHasRolled() 
 				&& game.getCurrentPlayer() == player
-				&& broker.hasNecessaryResourceAmount(player, ResourceType.BRICK, 1)
-				&& broker.hasNecessaryResourceAmount(player, ResourceType.WOOD, 1)) {
+				&& broker.canPurchase(player, PropertyType.ROAD)
+				&& game.hasRoad(player)) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public boolean CanBuildSettlement() {
+	/**
+	 * Determines if a player has the resources to build a settlement
+	 * @param player
+	 * @return if the player has the resources to build a settlement
+	 * @throws CatanException 
+	 */
+	public boolean canBuildSettlement(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Does the client player have at least one available settlement?
+		
+		if (game.getCurrentPlayerHasRolled() 
+				&& game.getCurrentPlayer() == player
+				&& broker.canPurchase(player, PropertyType.SETTLEMENT)
+				&& game.hasSettlement(player)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean CanBuildCity() {
+	/**
+	 * Determines if a player has the resources to build a city
+	 * @param player
+	 * @return if the player has the resources to build a city
+	 * @throws CatanException
+	 */
+	public boolean canBuildCity(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Does the client player have at least one available city?
+		
+		if (game.getCurrentPlayerHasRolled() 
+				&& game.getCurrentPlayer() == player
+				&& broker.canPurchase(player, PropertyType.CITY)
+				&& game.hasSettlement(player)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean CanOfferTrade() {
+	public boolean canOfferTrade(PlayerNumber player) {
 		// Has player rolled yet?
 		// Is it the client player's turn?
-		// Is it the client player's turn?
 		// Does the client player have any cards?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& broker.hasResourceCard(player)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean CanMaritimeTrade() {
+	public boolean canMaritimeTrade() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player own at least one harbor?
 		return false;
 	}
 	
-	public boolean CanFinishTurn() {
+	public boolean canFinishTurn() {
 		// Is it the client player's turn?
 		// Has the client player rolled?
 		return false;
 	}
 	
-	public boolean CanBuyDevCard() {
+	public boolean canBuyDevCard() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
@@ -97,7 +138,7 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanUseYearOfPlenty() {
+	public boolean canUseYearOfPlenty() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Year of Plenty 
@@ -105,7 +146,7 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanUseRoadBuilder() {
+	public boolean canUseRoadBuilder() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Road Builder
@@ -113,7 +154,7 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanUseSoldier() {
+	public boolean canUseSoldier() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have an available Soldier
@@ -121,7 +162,7 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanUseMonopoly() {
+	public boolean canUseMonopoly() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Monopoly 
@@ -129,7 +170,7 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanUseMonument() {
+	public boolean canUseMonument() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Monument
@@ -137,12 +178,16 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean CanPlaceRobber() {
+	public boolean canPlaceRobber() {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		return false;
 	}
 	
+	public PlayerNumber getClientPlayer() {
+		return clientPlayer;
+	}
+
 	public Bank getBank() {
 		return bank;
 	}
@@ -181,5 +226,9 @@ public class Facade {
 	
 	public void setScoreboard(Scoreboard scoreboard) {
 		this.scoreboard = scoreboard;
+	}
+	
+	public int getVersion () {
+		return version;
 	}
 }
