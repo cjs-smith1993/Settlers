@@ -266,6 +266,11 @@ public class Broker {
 		return false;
 	}
 	
+	/**
+	 * Determines whether the player has at least one resource card
+	 * @param player
+	 * @return
+	 */
 	public boolean hasResourceCard(PlayerNumber player){
 		boolean hasCard = false;
 		Hand local = holdings.get(player);
@@ -276,5 +281,35 @@ public class Broker {
 			}
 		}
 		return hasCard;
+	}
+	
+	/**
+	 * Determines if a player has at least one harbor
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean hasHarbor(PlayerNumber player) throws CatanException {
+		
+		if (player == PlayerNumber.BANK) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot call hasHarbor() on BANK");
+		}
+		
+		PlayerHoldings player_holdings = (PlayerHoldings) holdings.get(player);
+		
+		if (player_holdings.getHarbors().size() > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean hasDevelopmentCard(PlayerNumber player) {
+		
+		if (holdings.get(player).getDevelopmentCardCount(null) > 0) {
+			return true;
+		}
+		
+		return false;
 	}
 }

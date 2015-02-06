@@ -113,6 +113,17 @@ public class Bank implements Hand{
 	
 	@Override
 	public int getDevelopmentCardCount(DevCardType type) {
+		
+		if (type == null) {
+			int total = 0;
+			
+			for (Collection<DevelopmentCard> cards : developmentCards.values()) {
+				total += cards.size();
+			}
+			
+			return total;
+		}
+		
 		return developmentCards.get(type).size();
 	}
 	/**

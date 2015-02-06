@@ -117,24 +117,45 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean canMaritimeTrade() {
+	public boolean canMaritimeTrade(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
+		// Does the client player hane any cards?
 		// Does the client player own at least one harbor?
+		
+		if (canOfferTrade(player)
+				&& broker.hasHarbor(player)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canFinishTurn() {
+	public boolean canFinishTurn(PlayerNumber player) {
 		// Is it the client player's turn?
 		// Has the client player rolled?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canBuyDevCard() {
+	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have enough resources?
 		// Is there at least one more development card in the deck?
+		
+		if (game.getCurrentPlayerHasRolled() 
+				&& game.getCurrentPlayer() == player
+				&& broker.canPurchase(player, PropertyType.DEVELOPMENT_CARD)
+				&& broker.hasDevelopmentCard(player)) {
+			return true;
+		}
+		
 		return false;
 	}
 	

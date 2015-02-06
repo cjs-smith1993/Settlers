@@ -11,7 +11,7 @@ import shared.definitions.*;
  * An encapsulation of the cards that a player holds, the knights and monuments
  * that he has played, and the harbors that he owns
  */
-public class PlayerHoldings implements Hand{
+public class PlayerHoldings implements Hand {
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
 	private Map<DevCardType, Collection<DevelopmentCard>> developmentCards;
 	private Collection<DevelopmentCard> playedKnights;
@@ -33,6 +33,17 @@ public class PlayerHoldings implements Hand{
 	 * @return the number of development cards
 	 */
 	public int getDevelopmentCardCount(DevCardType type) {
+		
+		if (type == null) {
+			int total = 0;
+			
+			for (Collection<DevelopmentCard> cards : developmentCards.values()) {
+				total += cards.size();
+			}
+			
+			return total;
+		}
+		
 		return developmentCards.get(type).size();
 	}
 	
