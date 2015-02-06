@@ -157,11 +157,17 @@
     </target>
 	
 	<target name="client-backend-tests" depends="compile" description="run automated client backend tests">
-		<javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
-						<classpath refid="java.lib.classpath" />
-					</javac>
-		<java classname="clientBackend.ClientBackendTest" fork="yes">
-					</java>
+		<junit printsummary="yes">
+			<formatter type="plain" usefile="false"/>
+			<classpath>
+				<pathelement location="${java.lib}/junit-4.11.jar"/>
+				<pathelement location="${java.lib}/hamcrest-core-1.3.jar"/>
+				<pathelement location="${java.build}"/>
+			</classpath>
+			<batchtest fork="yes">
+				<fileset dir="${java.test}"/>
+			</batchtest>
+		</junit>
 	</target>
 	
 </project>
