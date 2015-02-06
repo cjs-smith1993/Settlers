@@ -26,7 +26,10 @@ public class Board {
 	public Board(boolean randomTiles, boolean randomNumbers, boolean randomPorts) {
 		this.chits = BoardFactory.generateChits(randomNumbers);
 		this.tiles = BoardFactory.generateTiles(randomTiles);
+		this.roads = new HashMap<EdgeLocation, Road>();
+		this.dwellings = new HashMap<VertexLocation, Dwelling>();
 		this.harbors = BoardFactory.generateHarbors(randomPorts);
+		this.robber = new Robber(new HexLocation(0, 2));
 	}
 
 	public Board(TransportMap map) {
@@ -141,6 +144,10 @@ public class Board {
 		return false;
 	}
 
+	public HexLocation getRobberLocation() {
+		return this.robber.getLocation();
+	}
+
 	/**
 	 * Returns whether the robber can be moved to the desired location
 	 *
@@ -151,7 +158,7 @@ public class Board {
 	public boolean canMoveRobber(HexLocation newLocation) {
 		HexLocation currentLocation = this.robber.getLocation();
 		boolean isLand = this.isLand(newLocation);
-		return currentLocation != newLocation && isLand;
+		return !currentLocation.equals(newLocation) && isLand;
 	}
 
 	/**
