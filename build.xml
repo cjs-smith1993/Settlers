@@ -86,6 +86,7 @@
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
+	<property name="java.test" location="${java.dir}/test"/>
  
 	<target name="init" description="create build directories">
 		<tstamp/>
@@ -155,13 +156,13 @@
         <zip destfile="./tester.zip" basedir="${java.dist}" />
     </target>
 	
-	<target name="client-backend-tests" depends="package" description="run automated client backend tests">
-			<java classname="clientBackend.ClientBackendTest" fork="yes">
-				<assertions>
-					<enable/>
-				</assertions>
-			</java>
-		</target>
-  
+	<target name="client-backend-tests" depends="compile" description="run automated client backend tests">
+		<javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
+						<classpath refid="java.lib.classpath" />
+					</javac>
+		<java classname="clientBackend.ClientBackendTest" fork="yes">
+					</java>
+	</target>
+	
 </project>
 
