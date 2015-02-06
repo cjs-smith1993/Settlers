@@ -331,8 +331,8 @@ public class Board {
 	 */
 	public void placeRoad(Road road, EdgeLocation edge, boolean setupPhase) throws CatanException {
 		if (this.canPlaceRoad(road, edge, setupPhase)) {
-			road.setLocation(edge);
-			this.roads.put(edge, road);
+			road.setLocation(edge.getNormalizedLocation());
+			this.roads.put(edge.getNormalizedLocation(), road);
 		}
 		else {
 			String message = "A road cannot be placed at " + edge.toString();
@@ -394,8 +394,8 @@ public class Board {
 	public void placeDwelling(Dwelling dwelling, VertexLocation vertex, boolean setupPhase)
 			throws CatanException {
 		if (this.canPlaceDwelling(dwelling, vertex, setupPhase)) {
-			dwelling.setLocation(vertex);
-			this.dwellings.put(vertex, dwelling);
+			dwelling.setLocation(vertex.getNormalizedLocation());
+			this.dwellings.put(vertex.getNormalizedLocation(), dwelling);
 		}
 		else {
 			String message = "A dwelling cannot be placed at " + vertex.toString();
