@@ -1,5 +1,6 @@
 package clientBackend;
 
+import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 import clientBackend.transport.TransportModel;
 
@@ -32,8 +33,9 @@ public class CatanSerializer {
 	 * using the Gson open-source library.
 	 * 
 	 * @param gsonString a JSON representation of the internal model
+	 * @throws CatanException 
 	 */
-	public void deserializeModel(String gsonString) {
+	public void deserializeModel(String gsonString) throws CatanException {
 		TransportModel transportModel = gson.fromJson(gsonString, TransportModel.class);
 		
 		facade.initializeModel(transportModel);

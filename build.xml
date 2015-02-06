@@ -9,7 +9,7 @@
     <property name="options.arg" value="ug"/>
      
     <!-- Input folders -->
-    <property name="java.dir" value="java"/>
+    <property name="java.dir" value="."/>
     <property name="java.src.dir" value="${java.dir}/src"/>
     <property name="java.lib.dir" value="${java.dir}/lib"/>
     <!-- JavaScript source folder -->
@@ -80,7 +80,7 @@
 	</target>
     -->
 
-  	<property name="java.dir" location="java"/>
+  	<property name="java.dir" location="."/>
 	<property name="java.src" location="${java.dir}/src"/>
 	<property name="java.images" location="${java.dir}/images"/>
 	<property name="java.build" location="${java.dir}/build"/>
@@ -154,6 +154,14 @@
     <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
         <zip destfile="./tester.zip" basedir="${java.dist}" />
     </target>
+	
+	<target name="client-backend-tests" depends="package" description="run automated client backend tests">
+			<java classname="clientBackend.ClientBackendTest" fork="yes">
+				<assertions>
+					<enable/>
+				</assertions>
+			</java>
+		</target>
   
 </project>
 
