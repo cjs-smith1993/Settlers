@@ -59,7 +59,7 @@ public class Scoreboard {
 	
 	private void countKnights(List<TransportPlayer> players) {
 		for (int i = 0; i < players.size(); i++) {
-			builtRoads.put(players.get(i).playerIndex, players.get(i).soldiers);
+			activeKnights.put(players.get(i).playerIndex, players.get(i).soldiers);
 		}
 	}
 	
