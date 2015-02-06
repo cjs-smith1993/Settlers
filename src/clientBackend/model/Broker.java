@@ -1,8 +1,12 @@
 package clientBackend.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
+import clientBackend.transport.TransportBank;
+import clientBackend.transport.TransportDeck;
+import clientBackend.transport.TransportPlayer;
 import shared.definitions.*;
 
 /**
@@ -19,7 +23,29 @@ public class Broker {
 	 */
 	public Broker()
 	{
+		holdings = new HashMap<PlayerNumber, Hand>();
+		holdings.put(PlayerNumber.BANK, new Bank());
+		holdings.put(PlayerNumber.ONE, new PlayerHoldings());
+		holdings.put(PlayerNumber.TWO, new PlayerHoldings());
+		holdings.put(PlayerNumber.THREE, new PlayerHoldings());
+		holdings.put(PlayerNumber.FOUR, new PlayerHoldings());
 		
+	}
+	public Broker(TransportBank resources, 
+			TransportDeck bankDevCard, 
+			Collection<TransportPlayer> playerList,
+			Map<PlayerNumber, Collection<Harbor>> harborMap)
+	{
+		holdings = new HashMap<PlayerNumber, Hand>();
+		holdings.put(PlayerNumber.BANK, new Bank(bankDevCard, resources));
+		for(TransportPlayer player: playerList)
+		{
+			PlayerNumber playerNum = player.playerIndex;
+			holdings.put(playerNum, new PlayerHoldings(player.resources,
+														player.oldDevCards,
+														player.newDevCards,
+														harborMap.get(playerNum)));
+		}
 	}
 	/**
 	 * Initiates a transfer of cards between or among the bank and players' 

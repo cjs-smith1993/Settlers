@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import clientBackend.transport.TransportBank;
+import clientBackend.transport.TransportDeck;
 import shared.definitions.*;
 
 /**
@@ -43,6 +45,45 @@ public class Bank implements Hand{
 			}
 		}
 		
+	}
+	
+	public Bank(TransportDeck devDeck, TransportBank resDeck)
+	{
+		//resource cards
+		makeResourceDeck(ResourceType.BRICK, resDeck.brick);
+		makeResourceDeck(ResourceType.WOOD, resDeck.wood);
+		makeResourceDeck(ResourceType.WHEAT, resDeck.wheat);
+		makeResourceDeck(ResourceType.SHEEP, resDeck.sheep);
+		makeResourceDeck(ResourceType.ORE, resDeck.ore);
+		//Development cards
+		makeDevTypePile(DevCardType.MONOPOLY, devDeck.monopoly);
+		makeDevTypePile(DevCardType.MONUMENT, devDeck.monument);
+		makeDevTypePile(DevCardType.ROAD_BUILD, devDeck.roadBuilding);
+		makeDevTypePile(DevCardType.SOLDIER, devDeck.soldier);
+		makeDevTypePile(DevCardType.YEAR_OF_PLENTY, devDeck.yearOfPlenty);
+		
+	}
+	private void makeDevTypePile(DevCardType type, int count)
+	{
+		Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
+		for(int i = 0; i < count; ++i)
+		{
+			newPile.add(new DevelopmentCard(type));
+		}
+		developmentCards.get(type).clear();
+		developmentCards.get(type).addAll(newPile);
+		newPile.clear();
+	}
+	private void makeResourceDeck(ResourceType type, int count)
+	{
+		Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
+		for(int i = 0; i < count; ++i)
+		{
+			newPile.add(new ResourceCard(type));
+		}
+		resourceCards.get(type).clear();
+		resourceCards.get(type).addAll(newPile);
+		newPile.clear();
 	}
 	private Collection<DevelopmentCard> makeDevelopmentDeck(
 			DevCardType type, int j) {
