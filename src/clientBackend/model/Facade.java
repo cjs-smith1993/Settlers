@@ -1,6 +1,7 @@
 package clientBackend.model;
 
 import clientBackend.transport.TransportModel;
+import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
@@ -14,7 +15,9 @@ public class Facade {
 	private PlayerNumber clientPlayer;
 	private int version;
 	
-	public void initializeModel(TransportModel model) {
+	private final int ROBBER_ROLL = 7;
+	
+ 	public void initializeModel(TransportModel model) {
 		scoreboard = new Scoreboard(model.players, model.turnTracker);
 		postOffice = new PostOffice(model.chat.lines, model.log.lines);
 		
@@ -159,49 +162,92 @@ public class Facade {
 		return false;
 	}
 	
-	public boolean canUseYearOfPlenty() {
+	public boolean canUseYearOfPlenty(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Year of Plenty 
 		// developement card?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& broker.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canUseRoadBuilder() {
+	public boolean canUseRoadBuilder(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Road Builder
 		// developement card?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& broker.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canUseSoldier() {
+	public boolean canUseSoldier(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have an available Soldier
 		// developement card?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& broker.canPlayDevelopmentCard(player, DevCardType.SOLDIER)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canUseMonopoly() {
+	public boolean canUseMonopoly(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Monopoly 
 		// development card?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& broker.canPlayDevelopmentCard(player, DevCardType.MONOPOLY)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canUseMonument() {
+	public boolean canUseMonument(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
 		// Does the client player have a playable Monument
 		// development card?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& broker.canPlayDevelopmentCard(player, DevCardType.MONUMENT)) {
+			return true;
+		}
+		
 		return false;
 	}
 	
-	public boolean canPlaceRobber() {
+	public boolean canPlaceRobber(PlayerNumber player) {
 		// Has player rolled yet?
 		// Is it the client player's turn?
+		// Was a 7 rolled?
+		
+		if (game.getCurrentPlayerHasRolled()
+				&& game.getCurrentPlayer() == player
+				&& game.getLastDiceRoll() == ROBBER_ROLL) {
+			return true;
+		}
+		
 		return false;
 	}
 	

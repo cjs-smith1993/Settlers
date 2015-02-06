@@ -184,7 +184,7 @@ public class Broker {
 			PlayerNumber player,
 			DevCardType type) throws CatanException {
 		boolean success = false;
-		if(player != PlayerNumber.BANK){
+		if(player == PlayerNumber.BANK){
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "The bank cannot play development cards.");
 		}
 		PlayerHoldings local = (PlayerHoldings) holdings.get(player);

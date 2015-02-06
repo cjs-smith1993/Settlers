@@ -14,6 +14,7 @@ import shared.definitions.*;
  */
 public class Game {
 	private Dice dice;
+	private int lastDiceRoll;
 	private static int MAX_PLAYERS = 4;
 	private PlayerNumber currentPlayer;
 	private boolean currentPlayerHasRolled = false;
@@ -206,7 +207,9 @@ public class Game {
 	 * Rolls the dice
 	 */
 	public int rollDice() {
-		return dice.roll();
+		currentPlayerHasRolled = true;
+		lastDiceRoll = dice.roll();
+		return lastDiceRoll;
 	}
 
 	/**
@@ -236,6 +239,10 @@ public class Game {
 	}
 	
 	public PlayerNumber getCurrentPlayer() {
-		return currentPlayer;
+		return this.currentPlayer;
+	}
+	
+	public int getLastDiceRoll() {
+		return this.lastDiceRoll;
 	}
 }
