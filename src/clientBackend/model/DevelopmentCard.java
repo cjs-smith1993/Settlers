@@ -16,7 +16,7 @@ public class DevelopmentCard {
 	}
 	
 	public DevelopmentCard(DevCardType type2, boolean playable2) {
-		this.type = type;
+		this.type = type2;
 		this.playable = playable2;
 	}
 
