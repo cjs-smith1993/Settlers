@@ -121,11 +121,14 @@ public class Bank implements Hand{
 		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
         
         Collection<ResourceCard> cards = this.resourceCards.get(type);
-        for (int i = 0; i < count; i++) {
-            Iterator<ResourceCard> it = cards.iterator();
-            ResourceCard card = it.next();
-            it.remove();
-            removed.add(card);
+        
+        if(!cards.isEmpty()){
+        	for (int i = 0; i < count; i++) {
+        		Iterator<ResourceCard> it = cards.iterator();
+        		ResourceCard card = it.next();
+        		it.remove();
+        		removed.add(card);
+        	}
         }
         return removed;
 	}
