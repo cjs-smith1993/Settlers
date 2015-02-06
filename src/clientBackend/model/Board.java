@@ -235,7 +235,7 @@ public class Board {
 
 				boolean invoiceExists = false;
 				for (ResourceInvoice invoice : invoices) {
-					if (invoice.getDestinationPlayer() == dest) {
+					if (invoice.getDestinationPlayer() == dest && invoice.getResource() == type) {
 						invoiceExists = true;
 						invoice.setCount(invoice.getCount() + count);
 						break;
