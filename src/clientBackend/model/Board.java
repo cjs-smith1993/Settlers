@@ -70,6 +70,20 @@ public class Board {
 		return adjacentRoads;
 	}
 
+	private Collection<Dwelling> getAdjacentDwellings(HexLocation hex) {
+		Collection<Dwelling> adjacentDwellings = new ArrayList<Dwelling>();
+
+		Collection<VertexLocation> adjacentVertices = Geometer.getAdjacentVertices(hex);
+		for (VertexLocation vertex : adjacentVertices) {
+			Dwelling dwelling = this.dwellings.get(vertex);
+			if (dwelling != null) {
+				adjacentDwellings.add(dwelling);
+			}
+		}
+
+		return adjacentDwellings;
+	}
+
 	private Collection<Dwelling> getAdjacentDwellings(VertexLocation vertex) {
 		Collection<Dwelling> adjacentDwellings = new ArrayList<Dwelling>();
 
@@ -144,6 +158,11 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Returns the current location of the robber
+	 *
+	 * @return the current location of the robber
+	 */
 	public HexLocation getRobberLocation() {
 		return this.robber.getLocation();
 	}
@@ -151,7 +170,7 @@ public class Board {
 	/**
 	 * Returns whether the robber can be moved to the desired location
 	 *
-	 * @param location
+	 * @param newLocation
 	 *            the desired location
 	 * @return true if the robber can be moved to the desired location
 	 */
@@ -164,7 +183,7 @@ public class Board {
 	/**
 	 * Moves the robber to the given hex
 	 *
-	 * @param location
+	 * @param newLocation
 	 *            the desired new location of the robber
 	 * @throws CatanException
 	 *             if the robber cannot be moved to the desired location
@@ -208,7 +227,7 @@ public class Board {
 
 		for (Tile tile : tiles) {
 			ResourceType type = tile.getResourceType();
-			Collection<Dwelling> dwellings = tile.getConnectedDwellings();
+			Collection<Dwelling> dwellings = this.getAdjacentDwellings(tile.getLocation());
 			for (Dwelling dwelling : dwellings) {
 				int count = dwelling.getVictoryPoints();
 				PlayerNumber src = PlayerNumber.BANK;
@@ -238,11 +257,14 @@ public class Board {
 	 *
 	 * @param road
 	 *            the player's road
-	 * @param location
+	 * @param edge
 	 *            the desired location
+	 * @param setupPhase
+	 *            true if the game is in the setup phase and normal rules do not
+	 *            apply
 	 * @return true if the road can be built at the desired location
 	 */
-	public boolean canPlaceRoad(Road road, EdgeLocation edge) {
+	public boolean canPlaceRoad(Road road, EdgeLocation edge, boolean setupPhase) {
 		// disallow if a road already exists here
 		if (this.roads.get(edge) != null) {
 			return false;
@@ -270,7 +292,28 @@ public class Board {
 			}
 		}
 
-		return !validConnectedRoads.isEmpty();
+		boolean roadRuleMet = !validConnectedRoads.isEmpty();
+		if (setupPhase) {
+			Collection<Dwelling> connectedDwellings = this.getAdjacentDwellings(road.getLocation());
+			ArrayList<Dwelling> ownedDwellings = new ArrayList<Dwelling>();
+			for (Dwelling dwelling : connectedDwellings) {
+				if (dwelling.getOwner() == owner) {
+					ownedDwellings.add(dwelling);
+				}
+			}
+
+			// the road must be connected to a dwelling the player owns
+			if (ownedDwellings.isEmpty()) {
+				roadRuleMet = false;
+			}
+			else {
+				// the second road must be attached to the second dwelling
+				Dwelling dwelling = ownedDwellings.get(0);
+				Collection<Road> otherRoads = this.getAdjacentRoads(dwelling.getLocation());
+				roadRuleMet = otherRoads.isEmpty();
+			}
+		}
+		return roadRuleMet;
 	}
 
 	/**
@@ -280,11 +323,14 @@ public class Board {
 	 *            the road to be placed on the board
 	 * @param location
 	 *            the desired edge for the road
+	 * @param setupPhase
+	 *            true if the game is in the setup phase and normal rules do not
+	 *            apply
 	 * @throws CatanException
 	 *             if the road cannot be placed at the desired location
 	 */
-	public void placeRoad(Road road, EdgeLocation edge) throws CatanException {
-		if (this.canPlaceRoad(road, edge)) {
+	public void placeRoad(Road road, EdgeLocation edge, boolean setupPhase) throws CatanException {
+		if (this.canPlaceRoad(road, edge, setupPhase)) {
 			road.setLocation(edge);
 			this.roads.put(edge, road);
 		}
@@ -301,8 +347,11 @@ public class Board {
 	 *            the player's dwelling
 	 * @param location
 	 *            the desired location
+	 * @param setupPhase
+	 *            true if the game is in the setup phase and normal rules do not
+	 *            apply
 	 */
-	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation vertex) {
+	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation vertex, boolean setupPhase) {
 		// disallow if a dwelling already exists here
 		if (this.dwellings.get(vertex) != null) {
 			return false;
@@ -324,7 +373,9 @@ public class Board {
 			}
 		}
 
-		return adjacentDwellings.isEmpty() && !validConnectedRoads.isEmpty();
+		boolean distanceRuleMet = adjacentDwellings.isEmpty();
+		boolean roadRuleMet = setupPhase || !validConnectedRoads.isEmpty();
+		return distanceRuleMet && roadRuleMet;
 	}
 
 	/**
@@ -334,11 +385,15 @@ public class Board {
 	 *            the dwelling to be placed on the board
 	 * @param location
 	 *            the desired vertex for the dwelling
+	 * @param setupPhase
+	 *            true if the game is in the setup phase and normal rules do not
+	 *            apply
 	 * @throws CatanException
 	 *             if the dwelling cannot be placed at the desired location
 	 */
-	public void placeDwelling(Dwelling dwelling, VertexLocation vertex) throws CatanException {
-		if (this.canPlaceDwelling(dwelling, vertex)) {
+	public void placeDwelling(Dwelling dwelling, VertexLocation vertex, boolean setupPhase)
+			throws CatanException {
+		if (this.canPlaceDwelling(dwelling, vertex, setupPhase)) {
 			dwelling.setLocation(vertex);
 			this.dwellings.put(vertex, dwelling);
 		}

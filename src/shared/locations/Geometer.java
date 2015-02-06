@@ -5,11 +5,27 @@ import java.util.*;
 public class Geometer {
 
 	public static EdgeLocation newEdge(int x, int y, EdgeDirection dir) {
-		return new EdgeLocation(new HexLocation(x, y), dir);
+		return new EdgeLocation(new HexLocation(x, y), dir).getNormalizedLocation();
 	}
 
 	public static VertexLocation newVertex(int x, int y, VertexDirection dir) {
-		return new VertexLocation(new HexLocation(x, y), dir);
+		return new VertexLocation(new HexLocation(x, y), dir).getNormalizedLocation();
+	}
+
+	public static Collection<EdgeLocation> getAdjacentEdges(HexLocation hex) {
+		Collection<EdgeLocation> adjacentEdges = new ArrayList<EdgeLocation>();
+
+		int x = hex.getX();
+		int y = hex.getY();
+
+		adjacentEdges.add(newEdge(x, y, EdgeDirection.NorthWest));
+		adjacentEdges.add(newEdge(x, y, EdgeDirection.North));
+		adjacentEdges.add(newEdge(x, y, EdgeDirection.NorthEast));
+		adjacentEdges.add(newEdge(x, y, EdgeDirection.SouthEast));
+		adjacentEdges.add(newEdge(x, y, EdgeDirection.South));
+		adjacentEdges.add(newEdge(x, y, EdgeDirection.SouthWest));
+
+		return adjacentEdges;
 	}
 
 	@SuppressWarnings("incomplete-switch")
@@ -64,6 +80,22 @@ public class Geometer {
 		}
 
 		return adjacentEdges;
+	}
+
+	public static Collection<VertexLocation> getAdjacentVertices(HexLocation hex) {
+		Collection<VertexLocation> adjacentVertices = new ArrayList<VertexLocation>();
+
+		int x = hex.getX();
+		int y = hex.getY();
+
+		adjacentVertices.add(newVertex(x, y, VertexDirection.NorthWest));
+		adjacentVertices.add(newVertex(x, y, VertexDirection.NorthEast));
+		adjacentVertices.add(newVertex(x, y, VertexDirection.East));
+		adjacentVertices.add(newVertex(x, y, VertexDirection.SouthEast));
+		adjacentVertices.add(newVertex(x, y, VertexDirection.SouthWest));
+		adjacentVertices.add(newVertex(x, y, VertexDirection.West));
+
+		return adjacentVertices;
 	}
 
 	@SuppressWarnings("incomplete-switch")
