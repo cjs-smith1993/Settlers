@@ -156,7 +156,7 @@ public class PlayerHoldings implements Hand {
 	 * This remove the number of development cards specified by count in a collection object
 	 * @param type the type of dev card 
 	 * @param count the number of that card to move
-	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
+	 * @return this will return a collection of DevelopmentCard objects to be added to another place
 	 */
 	public Collection<DevelopmentCard> removeDevelopmentCard (DevCardType type, int count)
 	{
@@ -179,6 +179,7 @@ public class PlayerHoldings implements Hand {
 	
 	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
 	{
+		//i need to deal witht he fact that i can and need to store monuments and soldier but not the others
 		boolean added = true;
 		if(!developmentCards.get(type).addAll(newCards))
 		{
