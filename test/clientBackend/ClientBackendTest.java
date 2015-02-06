@@ -1,3 +1,5 @@
+package model;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -15,7 +17,7 @@ public class ClientBackendTest {
 		String[] testClasses = new String[] {
 				"clientBackend.model.BoardTest",
 				"clientBackend.model.PlayerHoldingsTest"
-		}
+		};
 		
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
