@@ -10,10 +10,9 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Collection;
 
-import com.google.gson.Gson;
-
 import shared.definitions.*;
 import shared.locations.*;
+import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.*;
 import clientBackend.model.Game;
 import clientBackend.model.ResourceCard;
@@ -26,7 +25,7 @@ import clientBackend.model.ResourceInvoice;
 public class ServerProxy implements ServerInterface {
 	private String hostname;
 	private int port;
-	private Gson gson;
+	private CatanSerializer serializer;
 	private String userCookie;
 	private String gameCookie;
 
@@ -36,7 +35,8 @@ public class ServerProxy implements ServerInterface {
 	public ServerProxy(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port;
-		this.gson = new Gson();
+		this.serializer = CatanSerializer.getInstance();
+		System.out.println(this.serializer);
 	}
 
 	public String getHostname() {
@@ -109,7 +109,8 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	private void writeTo(HttpURLConnection connection, Object data) throws IOException {
-		String json = this.gson.toJson(data, data.getClass());
+
+		String json = this.serializer.serializeObject(data);
 		OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
 		BufferedWriter bw = new BufferedWriter(osw);
 		bw.write(json);
