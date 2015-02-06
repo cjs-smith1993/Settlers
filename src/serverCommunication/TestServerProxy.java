@@ -1,4 +1,4 @@
-package clientBackend;
+package serverCommunication;
 
 /**
  * Dummy server proxy for testing 

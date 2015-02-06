@@ -1,4 +1,4 @@
-package clientBackend;
+package serverCommunication;
 
 import java.util.Collection;
 

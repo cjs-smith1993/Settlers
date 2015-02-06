@@ -3,6 +3,8 @@ package clientBackend;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import serverCommunication.ServerException;
+import serverCommunication.ServerInterface;
 import clientBackend.model.Facade;
 
 /**

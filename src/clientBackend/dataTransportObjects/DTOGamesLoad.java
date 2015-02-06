@@ -1,9 +1,9 @@
 package clientBackend.dataTransportObjects;
 
-public class DTOGameLoad {
+public class DTOGamesLoad {
 	String name;
 	
-	public DTOGameLoad(String name) {
+	public DTOGamesLoad(String name) {
 		this.name = name;
 	}
 }
