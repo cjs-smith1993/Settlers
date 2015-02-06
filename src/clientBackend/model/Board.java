@@ -165,6 +165,10 @@ public class Board {
 	public void moveRobber(HexLocation newLocation) throws CatanException {
 		if (this.canMoveRobber(newLocation)) {
 			this.robber.setLocation(newLocation);
+			Tile tile = this.tiles.get(newLocation);
+			if (tile != null) {
+				tile.setHasRobber(true);
+			}
 		}
 		else {
 			String message = "The robber cannot be moved to " + newLocation.toString();

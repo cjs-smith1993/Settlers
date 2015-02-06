@@ -38,6 +38,10 @@ public class Tile {
 		return this.hasRobber;
 	}
 
+	public void setHasRobber(boolean hasRobber) {
+		this.hasRobber = hasRobber;
+	}
+
 	/**
 	 * Returns a collection of dwellings that are connected to the tile
 	 *
