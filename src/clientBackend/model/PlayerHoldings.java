@@ -2,9 +2,13 @@ package clientBackend.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import clientBackend.transport.TransportNewDevCards;
+import clientBackend.transport.TransportOldDevCards;
+import clientBackend.transport.TransportResources;
 import shared.definitions.*;
 
 /**
@@ -23,7 +27,63 @@ public class PlayerHoldings implements Hand {
 	 */
 	public PlayerHoldings()
 	{
+		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
+		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
+		playedKnights = new ArrayList<DevelopmentCard>();
+		playedMonuments = new ArrayList<DevelopmentCard>();
+		harbors = new ArrayList<Harbor>();
 		
+	}
+	public PlayerHoldings(TransportResources myResources, 
+							TransportOldDevCards playableDev, 
+							TransportNewDevCards blockedDev,
+							Collection<Harbor> myHarbors)
+	{
+		makeResourceDeck(ResourceType.BRICK, myResources.brick);
+		makeResourceDeck(ResourceType.WOOD, myResources.wood);
+		makeResourceDeck(ResourceType.WHEAT, myResources.wheat);
+		makeResourceDeck(ResourceType.SHEEP, myResources.sheep);
+		makeResourceDeck(ResourceType.ORE, myResources.ore);
+		
+		this.setHarbors(myHarbors);
+		
+		//Development cards
+		developmentCards.get(playableDev.monopoly).clear();
+		developmentCards.get(playableDev.monopoly).addAll(makeDevTypePile(DevCardType.MONOPOLY, playableDev.monopoly, true));
+		developmentCards.get(playableDev.monopoly).addAll(makeDevTypePile(DevCardType.MONOPOLY, blockedDev.monopoly, false));
+		developmentCards.get(playableDev.monument).clear();
+		developmentCards.get(playableDev.monument).addAll(makeDevTypePile(DevCardType.MONUMENT, playableDev.monument, true));
+		developmentCards.get(playableDev.monument).addAll(makeDevTypePile(DevCardType.MONUMENT, playableDev.monument, false));
+		developmentCards.get(playableDev.roadBuilding).clear();	
+		developmentCards.get(playableDev.roadBuilding).addAll(makeDevTypePile(DevCardType.ROAD_BUILD, playableDev.roadBuilding, true));	
+		developmentCards.get(playableDev.roadBuilding).addAll(makeDevTypePile(DevCardType.ROAD_BUILD, playableDev.roadBuilding, false));
+		developmentCards.get(playableDev.soldier).clear();	
+		developmentCards.get(playableDev.soldier).addAll(makeDevTypePile(DevCardType.SOLDIER, playableDev.soldier, true));
+		developmentCards.get(playableDev.soldier).addAll(makeDevTypePile(DevCardType.SOLDIER, playableDev.soldier, false));
+		developmentCards.get(playableDev.yearOfPlenty).clear();
+		developmentCards.get(playableDev.yearOfPlenty).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,true));
+		developmentCards.get(playableDev.yearOfPlenty).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,false));
+		//add things to make the other dicarded hands too
+	}
+	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable)
+	{
+		Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
+		for(int i = 0; i < count; ++i)
+		{
+			newPile.add(new DevelopmentCard(type,playable));
+		}
+		return newPile;
+	}
+	private void makeResourceDeck(ResourceType type, int count)
+	{
+		Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
+		for(int i = 0; i < count; ++i)
+		{
+			newPile.add(new ResourceCard(type));
+		}
+		resourceCards.get(type).clear();
+		resourceCards.get(type).addAll(newPile);
+		newPile.clear();
 	}
 	//how is connor telling that the house is on a harbor
 	/**
