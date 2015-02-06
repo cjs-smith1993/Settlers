@@ -41,9 +41,7 @@ public class Broker {
 		for(TransportPlayer player: playerList)
 		{
 			PlayerNumber playerNum = player.playerIndex;
-			holdings.put(playerNum, new PlayerHoldings(player.resources,
-														player.oldDevCards,
-														player.newDevCards,
+			holdings.put(playerNum, new PlayerHoldings(player,
 														harborMap.get(playerNum)));
 		}
 	}

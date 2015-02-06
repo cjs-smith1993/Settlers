@@ -8,6 +8,7 @@ import java.util.Map;
 
 import clientBackend.transport.TransportNewDevCards;
 import clientBackend.transport.TransportOldDevCards;
+import clientBackend.transport.TransportPlayer;
 import clientBackend.transport.TransportResources;
 import shared.definitions.*;
 
@@ -34,11 +35,14 @@ public class PlayerHoldings implements Hand {
 		harbors = new ArrayList<Harbor>();
 		
 	}
-	public PlayerHoldings(TransportResources myResources, 
-							TransportOldDevCards playableDev, 
-							TransportNewDevCards blockedDev,
+	public PlayerHoldings(TransportPlayer player,
 							Collection<Harbor> myHarbors)
 	{
+		int playedSoldier = player.soldiers;
+		int monuments = player.monuments;
+		TransportResources myResources = player.resources; 
+		TransportOldDevCards playableDev = player.oldDevCards;
+		TransportNewDevCards blockedDev = player.newDevCards;
 		makeResourceDeck(ResourceType.BRICK, myResources.brick);
 		makeResourceDeck(ResourceType.WOOD, myResources.wood);
 		makeResourceDeck(ResourceType.WHEAT, myResources.wheat);
@@ -46,6 +50,8 @@ public class PlayerHoldings implements Hand {
 		makeResourceDeck(ResourceType.ORE, myResources.ore);
 		
 		this.setHarbors(myHarbors);
+		this.setPlayedKnights(makeDevTypePile(DevCardType.SOLDIER, playedSoldier, false));
+		this.setPlayedMonuments(makeDevTypePile(DevCardType.MONUMENT,monuments, false));
 		
 		//Development cards
 		developmentCards.get(playableDev.monopoly).clear();
@@ -63,7 +69,7 @@ public class PlayerHoldings implements Hand {
 		developmentCards.get(playableDev.yearOfPlenty).clear();
 		developmentCards.get(playableDev.yearOfPlenty).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,true));
 		developmentCards.get(playableDev.yearOfPlenty).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,false));
-		//add things to make the other dicarded hands too
+		
 	}
 	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable)
 	{
@@ -156,7 +162,7 @@ public class PlayerHoldings implements Hand {
 	 * This remove the number of development cards specified by count in a collection object
 	 * @param type the type of dev card 
 	 * @param count the number of that card to move
-	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
+	 * @return this will return a collection of DevelopmentCard objects to be added to another place
 	 */
 	public Collection<DevelopmentCard> removeDevelopmentCard (DevCardType type, int count)
 	{
@@ -179,6 +185,7 @@ public class PlayerHoldings implements Hand {
 	
 	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
 	{
+		//i need to deal witht he fact that i can and need to store monuments and soldier but not the others
 		boolean added = true;
 		if(!developmentCards.get(type).addAll(newCards))
 		{
