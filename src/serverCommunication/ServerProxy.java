@@ -36,7 +36,6 @@ public class ServerProxy implements ServerInterface {
 		this.hostname = hostname;
 		this.port = port;
 		this.serializer = CatanSerializer.getInstance();
-		System.out.println(this.serializer);
 	}
 
 	public String getHostname() {
