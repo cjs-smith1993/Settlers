@@ -116,8 +116,9 @@ public class PlayerHoldings implements Hand {
 	public int getResourceCardCount(ResourceType type) {
 		return resourceCards.get(type).size();
 	}
+	
 	/**
-	 * This remove the number of resourec cards specified by count in a collection object
+	 * This remove the number of resource cards specified by count in a collection object
 	 * @param type
 	 * @param count
 	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
@@ -135,11 +136,11 @@ public class PlayerHoldings implements Hand {
         }
         return removed;
 	}
+	
 	/**
 	 * this will add a collection of cards to a players holding
 	 * @param newCards
 	 */
-	
 	public boolean addResourceCardCollection (ResourceType type, Collection<ResourceCard> newCards)
 	{
 		boolean added = true;
@@ -185,6 +186,15 @@ public class PlayerHoldings implements Hand {
 		}
 		return added;
 	}
+	
+	public void makeDevelopementCardsPlayable() {
+		for (Collection<DevelopmentCard> cards : developmentCards.values()) {
+			for (DevelopmentCard card : cards) {
+				card.setPlayable(true);
+			}
+		}
+	}
+	
 	//need the harbor stuff
 	public Collection<DevelopmentCard> getPlayedKnights() {
 		return playedKnights;
@@ -210,23 +220,19 @@ public class PlayerHoldings implements Hand {
 		this.harbors = harbors;
 	}
 
-	
 	public Map<ResourceType, Collection<ResourceCard>> getResourceCards() {
 		return resourceCards;
 	}
-
 	
 	public void setResourceCards(
 			Map<ResourceType, Collection<ResourceCard>> resourceCards) {
 		this.resourceCards = resourceCards;
 	}
-
 	
 	public Map<DevCardType, Collection<DevelopmentCard>> getDevelopmentCards() {
 		return developmentCards;
 	}
 
-	
 	public void setDevelopmentCards(
 			Map<DevCardType, Collection<DevelopmentCard>> developmentCards) {
 		this.developmentCards = developmentCards;

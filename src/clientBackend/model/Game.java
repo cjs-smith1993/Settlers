@@ -207,8 +207,8 @@ public class Game {
 	 * Rolls the dice
 	 */
 	public int rollDice() {
-		currentPlayerHasRolled = true;
-		lastDiceRoll = dice.roll();
+		setCurrentPlayerHasRolled(true);
+		setLastDiceRoll(dice.roll());
 		return lastDiceRoll;
 	}
 
@@ -238,11 +238,19 @@ public class Game {
 		return currentPlayerHasRolled;
 	}
 	
+	public void setCurrentPlayerHasRolled(boolean hasRolled) {
+		currentPlayerHasRolled = hasRolled;
+	}
+	
 	public PlayerNumber getCurrentPlayer() {
 		return this.currentPlayer;
 	}
 	
 	public int getLastDiceRoll() {
 		return this.lastDiceRoll;
+	}
+	
+	public void setLastDiceRoll(int roll) {
+		this.lastDiceRoll = roll;
 	}
 }

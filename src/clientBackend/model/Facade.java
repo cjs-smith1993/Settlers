@@ -1,13 +1,14 @@
 package clientBackend.model;
 
 import clientBackend.transport.TransportModel;
+import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 
 public class Facade {
-	private Bank bank;
+	private Board board;
 	private Broker broker;
 	private Game game;
 	private PostOffice postOffice;
@@ -17,11 +18,12 @@ public class Facade {
 	
 	private final int ROBBER_ROLL = 7;
 	
- 	public void initializeModel(TransportModel model) {
+ 	public void initializeModel(TransportModel model) throws CatanException {
+ 		board = new Board(model.map);
+ 		broker = new Broker(model.bank, model.deck, model.players, board.getHarborsByPlayer());
+ 		game = new Game(model.players, model.turnTracker);
 		scoreboard = new Scoreboard(model.players, model.turnTracker);
 		postOffice = new PostOffice(model.chat.lines, model.log.lines);
-		
-		// TODO: Initialize other objects.
 	}
 	
 	public boolean CanDiscardCards(PlayerNumber player, int discardAmount) {
@@ -146,6 +148,18 @@ public class Facade {
 		return false;
 	}
 	
+	public void finishTurn(PlayerNumber player) throws CatanException {
+		if (!canFinishTurn(player)) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot finish turn for player " + player);
+		}
+		
+		broker.makeDevelopmentCardsPlayable(player);
+		game.advanceTurn();
+		game.setLastDiceRoll(-1);
+		game.setCurrentPlayerHasRolled(false);
+		
+	}
+	
 	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
@@ -254,15 +268,15 @@ public class Facade {
 	public PlayerNumber getClientPlayer() {
 		return clientPlayer;
 	}
+	
+	public Board getBoard() {
+		return board;
+	}
 
-	public Bank getBank() {
-		return bank;
+	public void setBoard(Board board) {
+		this.board = board;
 	}
-	
-	public void setBank(Bank bank) {
-		this.bank = bank;
-	}
-	
+
 	public Broker getBroker() {
 		return broker;
 	}

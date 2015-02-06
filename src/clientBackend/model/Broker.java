@@ -321,15 +321,20 @@ public class Broker {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot call hasHarbor() on BANK");
 		}
 		
-		PlayerHoldings player_holdings = (PlayerHoldings) holdings.get(player);
+		PlayerHoldings playerHoldings = (PlayerHoldings) holdings.get(player);
 		
-		if (player_holdings.getHarbors().size() > 0) {
+		if (playerHoldings.getHarbors().size() > 0) {
 			return true;
 		}
 		
 		return false;
 	}
 	
+	/**
+	 * Determines if a player has at least one development card
+	 * @param player
+	 * @return
+	 */
 	public boolean hasDevelopmentCard(PlayerNumber player) {
 		
 		if (holdings.get(player).getDevelopmentCardCount(null) > 0) {
@@ -337,5 +342,16 @@ public class Broker {
 		}
 		
 		return false;
+	}
+	
+	public void makeDevelopmentCardsPlayable(PlayerNumber player) throws CatanException {
+		
+		if (player == PlayerNumber.BANK) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot call hasHarbor() on BANK");
+		}
+		
+		PlayerHoldings playerHoldings = (PlayerHoldings) holdings.get(player);
+		
+		playerHoldings.makeDevelopementCardsPlayable();
 	}
 }
