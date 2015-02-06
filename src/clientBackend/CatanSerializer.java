@@ -16,7 +16,7 @@ public class CatanSerializer {
 	private Facade facade;
 
 	public static CatanSerializer getInstance() {
-		if (serializer != null) {
+		if (serializer == null) {
 			serializer = new CatanSerializer();
 		}
 		return serializer;
