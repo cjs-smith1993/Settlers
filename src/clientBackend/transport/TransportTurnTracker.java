@@ -1,9 +1,9 @@
 package clientBackend.transport;
 
-import shared.definitions.PlayerNumber;
+import shared.definitions.*;
 
 public class TransportTurnTracker {
-	public String status;
+	public Status status;
 	public PlayerNumber currentTurn;
 	public PlayerNumber longestRoad;
 	public PlayerNumber largestArmy;

@@ -19,6 +19,7 @@ public class Game {
 	private PlayerNumber currentPlayer;
 	private boolean currentPlayerHasRolled = false;
 	private Map<PlayerNumber, Player> players;
+	private Status status;
 	
 	/**
 	 * Returns the next available player number
@@ -66,6 +67,8 @@ public class Game {
 		}
 		
 		currentPlayer = tracker.currentTurn;
+		currentPlayerHasRolled = ((tracker.status == Status.ROLLING) ? false : true);
+		status = tracker.status;
 	}
 	
 	/**
@@ -275,5 +278,13 @@ public class Game {
 	
 	public Map<PlayerNumber, Player> getPlayers() {
 		return players;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

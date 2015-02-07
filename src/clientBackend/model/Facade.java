@@ -5,6 +5,7 @@ import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
+import shared.definitions.Status;
 
 public class Facade {
 	private Board board;
@@ -25,16 +26,20 @@ public class Facade {
 		postOffice = new PostOffice(model.chat.lines, model.log.lines);
 	}
 	
-	public boolean CanDiscardCards(PlayerNumber player, int discardAmount) {
-		return broker.canDiscardCards(player, discardAmount);
+	public boolean canDiscardCards(PlayerNumber player) {
+
+		if (game.getStatus() == Status.DISCARDING
+				&& broker.canDiscardCards(player, 8)) {
+			return true;
+		}
+		
+		return false;
 	}
 	
-	public boolean CanRollNumber(PlayerNumber player) {
-		// Is it the client player's turn?
-		// Has the client player already rolled?
+	public boolean canRollNumber(PlayerNumber player) {
 		
-		if (!game.getCurrentPlayerHasRolled()
-				&& game.getCurrentPlayer() == player) {
+		if (game.getCurrentPlayer() == player
+				&& game.getStatus() == Status.ROLLING) {
 			return true;
 		}
 		
@@ -121,6 +126,16 @@ public class Facade {
 		return false;
 	}
 	
+	public boolean canAcceptTrade(PlayerNumber player) {
+		// Does the player have any resource cards?
+		
+		if (broker.hasResourceCard(player)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean canMaritimeTrade(PlayerNumber player) throws CatanException {
 		// Has player rolled yet?
 		// Is it the client player's turn?
@@ -136,10 +151,8 @@ public class Facade {
 	}
 	
 	public boolean canFinishTurn(PlayerNumber player) {
-		// Is it the client player's turn?
-		// Has the client player rolled?
 		
-		if (game.getCurrentPlayerHasRolled()
+		if (game.getStatus() == Status.PLAYING
 				&& game.getCurrentPlayer() == player) {
 			return true;
 		}
