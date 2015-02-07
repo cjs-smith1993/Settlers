@@ -1,13 +1,16 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
+import shared.definitions.ResourceType;
+
 public class DTOMovesMaritimeTrade {
 	String type = "maritimeTrade";
-	int playerIndex;
+	PlayerNumber playerIndex;
 	int ratio;
-	String inputResource;
-	String outputResource;
+	ResourceType inputResource;
+	ResourceType outputResource;
 	
-	public DTOMovesMaritimeTrade(int playerIndex, int ratio, String inputResource, String outputResource) {
+	public DTOMovesMaritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource) {
 		this.playerIndex = playerIndex;
 		this.ratio = ratio;
 		this.inputResource = inputResource;

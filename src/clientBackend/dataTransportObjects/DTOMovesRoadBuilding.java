@@ -3,13 +3,16 @@ package clientBackend.dataTransportObjects;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.definitions.PlayerNumber;
+import shared.locations.EdgeDirection;
+
 public class DTOMovesRoadBuilding {
 	String type = "Road_Building";
-	int playerIndex;
+	PlayerNumber playerIndex;
 	Map<String, Object> spot1;
 	Map<String, Object> spot2;
 	
-	public DTOMovesRoadBuilding(int playerIndex, int spot1X, int spot1Y, String spot1Direction, int spot2X, int spot2Y, String spot2Direction) {
+	public DTOMovesRoadBuilding(PlayerNumber playerIndex, int spot1X, int spot1Y, EdgeDirection spot1Direction, int spot2X, int spot2Y, EdgeDirection spot2Direction) {
 		this.playerIndex = playerIndex;
 		
 		spot1 = new HashMap<>();

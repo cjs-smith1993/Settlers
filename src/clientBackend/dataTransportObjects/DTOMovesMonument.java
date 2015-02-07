@@ -1,10 +1,12 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
+
 public class DTOMovesMonument {
 	String type = "Monument";
-	int playerIndex;
+	PlayerNumber playerIndex;
 	
-	public DTOMovesMonument(int playerIndex) {
+	public DTOMovesMonument(PlayerNumber playerIndex) {
 		this.playerIndex = playerIndex;
 	}
 }

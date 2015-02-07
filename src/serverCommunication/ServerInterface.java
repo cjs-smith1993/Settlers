@@ -71,8 +71,8 @@ public interface ServerInterface {
 			PlayerNumber playerIndex,
 			VertexLocation location) throws ServerException;//returns updated json
 	public void movesOfferTrade(
-			PlayerNumber playerIndex,
-			Collection<ResourceInvoice> offer,
+			PlayerNumber playerIndex, int brick, int ore, 
+			int sheep, int wheat, int wood,
 			PlayerNumber receiver) throws ServerException;//returns updated json
 	public void movesAcceptTrade(
 			PlayerNumber playerIndex,
@@ -83,7 +83,6 @@ public interface ServerInterface {
 			ResourceType inputResource,
 			ResourceType outputResource) throws ServerException;//returns updated json
 	public void movesDiscardCards(
-			PlayerNumber playerIndex,
-			Collection<ResourceCard> discardedCards) throws ServerException;//returns updated json
+			PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood) throws ServerException;//returns updated json
 	public boolean utilChangeLogLevel(String logLevel)throws ServerException;//if the log level was changed correctly
 }

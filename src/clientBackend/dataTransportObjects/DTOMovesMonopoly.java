@@ -1,11 +1,14 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
+import shared.definitions.ResourceType;
+
 public class DTOMovesMonopoly {
 	String type = "Monopoly";
-	String resource;
-	int playerIndex;
+	ResourceType resource;
+	PlayerNumber playerIndex;
 	
-	public DTOMovesMonopoly(String resource, int playerIndex) {
+	public DTOMovesMonopoly(ResourceType resource, PlayerNumber playerIndex) {
 		this.resource = resource;
 		this.playerIndex = playerIndex;
 	}

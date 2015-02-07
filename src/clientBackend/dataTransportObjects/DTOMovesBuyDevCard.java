@@ -1,10 +1,12 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
+
 public class DTOMovesBuyDevCard {
 	String type = "buyDevCard";
-	int playerIndex;
+	PlayerNumber playerIndex;
 	
-	public DTOMovesBuyDevCard(int playerIndex) {
+	public DTOMovesBuyDevCard(PlayerNumber playerIndex) {
 		this.playerIndex = playerIndex;
 	}
 }
