@@ -29,7 +29,7 @@ public class Board {
 		this.roads = new HashMap<EdgeLocation, Road>();
 		this.dwellings = new HashMap<VertexLocation, Dwelling>();
 		this.harbors = BoardFactory.generateHarbors(randomPorts);
-		this.robber = new Robber(new HexLocation(0, 2));
+		this.robber = new Robber(BoardFactory.getDesertLocation());
 	}
 
 	public Board(TransportMap map) {
@@ -126,7 +126,7 @@ public class Board {
 
 	@SuppressWarnings("incomplete-switch")
 	private boolean isLand(EdgeLocation edge) {
-		HexLocation hex = edge.getHexLoc();
+		HexLocation hex = edge.getNormalizedLocation().getHexLoc();
 		int x = hex.getX();
 		int y = hex.getY();
 		int z = x + y;
@@ -144,7 +144,7 @@ public class Board {
 
 	@SuppressWarnings("incomplete-switch")
 	private boolean isLand(VertexLocation vertex) {
-		HexLocation hex = vertex.getHexLoc();
+		HexLocation hex = vertex.getNormalizedLocation().getHexLoc();
 		int x = hex.getX();
 		int y = hex.getY();
 		int z = x + y;
@@ -414,6 +414,7 @@ public class Board {
 					Collection<Harbor> harborList = harborsByPlayer.get(owner);
 					if (harborList == null) {
 						harborList = new ArrayList<Harbor>();
+						harborsByPlayer.put(owner, harborList);
 					}
 					harborList.add(harbor);
 				}

@@ -7,6 +7,16 @@ import shared.definitions.*;
 import shared.locations.*;
 
 public class BoardFactory {
+	private static HexLocation desertLocation;
+
+	public static HexLocation getDesertLocation() {
+		return BoardFactory.desertLocation;
+	}
+
+	private static void setDesertLocation(HexLocation location) {
+		BoardFactory.desertLocation = location;
+	}
+
 	public static Map<Integer, Collection<Chit>> generateChits(boolean randomize) {
 		Map<Integer, Collection<Chit>> chits = new HashMap<Integer, Collection<Chit>>();
 
@@ -42,6 +52,8 @@ public class BoardFactory {
 		Chit p = new Chit('P', 6, locations.get(idx++)); // or 9?
 		Chit q = new Chit('Q', 3, locations.get(idx++));
 		Chit r = new Chit('R', 11, locations.get(idx++));
+
+		setDesertLocation(locations.get(idx));
 
 		twos.add(b);
 		threes.add(d);
@@ -79,14 +91,23 @@ public class BoardFactory {
 	public static Map<HexLocation, Tile> generateTiles(boolean randomize) {
 		Map<HexLocation, Tile> tiles = new HashMap<HexLocation, Tile>();
 
+		HexLocation desertLocation = BoardFactory.getDesertLocation();
 		ArrayList<HexLocation> landHexes = getLandHexLocations(randomize);
 		ArrayList<Tile> landTiles = getLandTiles();
 		int idx = 0;
 		for (HexLocation location : landHexes) {
+			// don't put a tile where the desert should go
+			if (location.equals(desertLocation)) {
+				continue;
+			}
+
 			Tile tile = landTiles.get(idx++);
 			tile.setLocation(location);
 			tiles.put(location, tile);
 		}
+		Tile desertTile = landTiles.get(idx);
+		desertTile.setLocation(desertLocation);
+		tiles.put(desertLocation, desertTile);
 
 		ArrayList<HexLocation> waterHexes = getWaterHexLocations(false);
 		ArrayList<Tile> waterTiles = getWaterTiles();
