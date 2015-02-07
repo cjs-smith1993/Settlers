@@ -1,7 +1,6 @@
 package clientBackend.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import clientBackend.transport.TransportPlayer;
 import shared.definitions.*;
