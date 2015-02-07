@@ -1,7 +1,6 @@
 package clientBackend.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import clientBackend.transport.TransportPlayer;
 import shared.definitions.*;
@@ -19,9 +18,9 @@ public class Player {
 	private ArrayList<Road> availableRoads;
 	private ArrayList<Settlement> availableSettlements;
 	private ArrayList<City> availableCities;
-	private static int MAX_ROADS = 15;
-	private static int MAX_SETTLEMENTS = 5;
-	private static int MAX_CITIES = 4;
+	public final static int MAX_ROADS = 15;
+	public final static int MAX_SETTLEMENTS = 5;
+	public final static int MAX_CITIES = 4;
 	
 	private ArrayList<Road> initializeRoads(int numRoads) {
 		ArrayList<Road> roads = new ArrayList<Road>();

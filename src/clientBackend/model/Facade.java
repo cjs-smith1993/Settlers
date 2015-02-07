@@ -5,7 +5,6 @@ import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
-import shared.definitions.ResourceType;
 
 public class Facade {
 	private Board board;

@@ -15,28 +15,26 @@ import shared.locations.*;
 import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.*;
 import clientBackend.model.Game;
-import clientBackend.model.ResourceCard;
-import clientBackend.model.ResourceInvoice;
 
 /**
  * Implements the server interface and acts as a proxy server so the client does
  * not have to worry about communication details
  */
 public class ServerProxy implements ServerInterface {
-	private String hostname;
-	private int port;
 	private CatanSerializer serializer;
 	private String userCookie;
 	private String gameCookie;
+	private String hostname;
+	private int port;
 
 	private final String HTTP_GET = "GET";
 	private final String HTTP_POST = "POST";
+	private final String consoleNote = "SERVER PROXY NOTE: ";
 
 	public ServerProxy(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port;
 		this.serializer = CatanSerializer.getInstance();
-		System.out.println(this.serializer);
 	}
 
 	public String getHostname() {
@@ -167,11 +165,24 @@ public class ServerProxy implements ServerInterface {
 
 	@Override
 	public boolean userRegister(String username, String password) {
-		return false;
+		DTOUserRegister data = new DTOUserRegister(username, password);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/user/register");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public Collection<Game> gamesList() {
+		
+		
 		return null;
 	}
 
@@ -184,12 +195,21 @@ public class ServerProxy implements ServerInterface {
 	@Override
 	public boolean gamesJoin(int gameId, CatanColor color) {
 		DTOGamesJoin data = new DTOGamesJoin(gameId, color);
-
-		return false;
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/games/join");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean gamesSave(int gameId, String name) {
+		
 		return false;
 	}
 
@@ -200,134 +220,290 @@ public class ServerProxy implements ServerInterface {
 
 	@Override
 	public void gameModel(int version) throws ServerException {
-
+		DTOGameModel data = new DTOGameModel(version);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/game/model");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void gameReset() throws ServerException {
-
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/game/reset");
+			String response = this.doGet(url);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void gameCommands() throws ServerException {
-
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/game/commands");
+			String response = this.doGet(url);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void gameCommands(String commandList) throws ServerException {
-
+		// NOTE: DO NOTHING, FOR NOW.
 	}
 
 	@Override
 	public void gameAddAI(String AIType) throws ServerException {
-
+		// NOTE: DO NOTHING.
 	}
 
 	@Override
 	public void gameListAI() throws ServerException {
-
+		// NOTE: DO NOTHING.
 	}
 
 	@Override
 	public void movesSendChat(PlayerNumber playerIndex, String content) throws ServerException {
-
+		DTOMovesSendChat data = new DTOMovesSendChat(playerIndex, content);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/sendChat");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesRollNumber(PlayerNumber playerIndex, int number) throws ServerException {
-
+		DTOMovesRollNumber data = new DTOMovesRollNumber(playerIndex, number);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/rollNumber");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex,
-			HexLocation location) throws ServerException {
-
+			HexLocation location) throws ServerException {	
+		DTOMovesRobPlayer data = new DTOMovesRobPlayer(playerIndex, victimIndex, Integer.toString(location.getX()), Integer.toString(location.getY()));
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/robPlayer");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesFinishTurn(String type, PlayerNumber playerIndex) throws ServerException {
-
+		DTOMovesFinishTurn data = new DTOMovesFinishTurn(playerIndex);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesBuyDevCard(String type, PlayerNumber playerIndex) throws ServerException {
-
+		DTOMovesBuyDevCard data = new DTOMovesBuyDevCard(playerIndex);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesYear_of_Plenty(PlayerNumber playerIndex, ResourceType resource1,
 			ResourceType resource2) throws ServerException {
-
+		DTOMovesYearOfPlenty data = new DTOMovesYearOfPlenty(playerIndex, resource1, resource2);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/Year_of_Plenty");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesRoad_Building(PlayerNumber playerIndex, EdgeLocation spot1, EdgeLocation spot2)
 			throws ServerException {
+		DTOMovesRoadBuilding data = new DTOMovesRoadBuilding(playerIndex, spot1.getHexLoc().getX(), spot1.getHexLoc().getY(), spot1.getDir(), spot2.getHexLoc().getX(), spot2.getHexLoc().getY(), spot2.getDir());
 
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/Road_Building");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex,
 			HexLocation location) throws ServerException {
-
+		DTOMovesSoldier data = new DTOMovesSoldier(playerIndex, victimIndex, Integer.toString(location.getX()), Integer.toString(location.getY()));
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/Soldier");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesMonopoly(ResourceType resource, PlayerNumber playerIndex)
 			throws ServerException {
-
+		DTOMovesMonopoly data = new DTOMovesMonopoly(resource, playerIndex);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/Monopoly");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesMonument(String type, PlayerNumber playerIndex) throws ServerException {
-
+		DTOMovesMonument data = new DTOMovesMonument(playerIndex);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/Monument");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesBuildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean free)
 			throws ServerException {
-
+		DTOMovesBuildRoad data = new DTOMovesBuildRoad(playerIndex, location.getHexLoc().getX(), location.getHexLoc().getY(), location.getDir(), free);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/buildRoad");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location, boolean free)
 			throws ServerException {
-
+		DTOMovesBuildSettlement data = new DTOMovesBuildSettlement(playerIndex, location.getHexLoc().getX(), location.getHexLoc().getY(), location.getDir(), free);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/buildSettlement");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
 			throws ServerException {
-
+		DTOMovesBuildCity data = new DTOMovesBuildCity(playerIndex, location.getHexLoc().getX(), location.getHexLoc().getY(), location.getDir());
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/buildCity");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void movesOfferTrade(PlayerNumber playerIndex, Collection<ResourceInvoice> offer,
+	public void movesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood,
 			PlayerNumber receiver) throws ServerException {
-
+		DTOMovesOfferTrade data = new DTOMovesOfferTrade(playerIndex, brick, ore, sheep, wheat, wood, receiver);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/offerTrade");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
 			throws ServerException {
-
+		DTOMovesAcceptTrade data = new DTOMovesAcceptTrade(playerIndex, willAccept);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/acceptTrade");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void movesMaritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource,
 			ResourceType outputResource) throws ServerException {
-
+		DTOMovesMaritimeTrade data = new DTOMovesMaritimeTrade(playerIndex, ratio, inputResource, outputResource);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/maritimeTrade");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void movesDiscardCards(PlayerNumber playerIndex, Collection<ResourceCard> discardedCards)
+	public void movesDiscardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood)
 			throws ServerException {
-
+		DTOMovesDiscardCards data = new DTOMovesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
+		
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/moves/discardCards");
+			String response = this.doPost(url, data);
+			System.out.println(consoleNote + response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public boolean utilChangeLogLevel(String logLevel) throws ServerException {
+		// NOTE: DO NOTHING.
 		return false;
 	}
-
 }

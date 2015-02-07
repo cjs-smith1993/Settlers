@@ -1,11 +1,13 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
+
 public class DTOMovesSendChat {
 	String type = "sendChat";
-	int playerIndex;
+	PlayerNumber playerIndex;
 	String content;
 	
-	public DTOMovesSendChat(int playerIndex, String content) {
+	public DTOMovesSendChat(PlayerNumber playerIndex, String content) {
 		this.playerIndex = playerIndex;
 		this.content = content;
 	}

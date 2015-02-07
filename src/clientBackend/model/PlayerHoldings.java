@@ -134,11 +134,13 @@ public class PlayerHoldings implements Hand {
 		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
         
         Collection<ResourceCard> cards = this.resourceCards.get(type);
-        for (int i = 0; i < count; i++) {
-            Iterator<ResourceCard> it = cards.iterator();
-            ResourceCard card = it.next();
-            it.remove();
-            removed.add(card);
+        if(!cards.isEmpty()){
+        	for (int i = 0; i < count; i++) {
+        		Iterator<ResourceCard> it = cards.iterator();
+        		ResourceCard card = it.next();
+        		it.remove();
+        		removed.add(card);
+        	}
         }
         return removed;
 	}
@@ -169,12 +171,13 @@ public class PlayerHoldings implements Hand {
 		Collection<DevelopmentCard> removed = new ArrayList<DevelopmentCard>();
         
         Collection<DevelopmentCard> cards = this.developmentCards.get(type);
-        for (int i = 0; i < count; i++) {
-            Iterator<DevelopmentCard> it = cards.iterator();
-            DevelopmentCard card = it.next();
-            it.remove();
-            removed.add(card);
-        }
+        if(!cards.isEmpty())
+        	for (int i = 0; i < count; i++) {
+        		Iterator<DevelopmentCard> it = cards.iterator();
+        		DevelopmentCard card = it.next();
+        		it.remove();
+        		removed.add(card);
+        	}
         return removed;
 	}
 	/**
@@ -185,12 +188,21 @@ public class PlayerHoldings implements Hand {
 	
 	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
 	{
-		//i need to deal witht he fact that i can and need to store monuments and soldier but not the others
+		//i need to deal with the fact that i can and need to store monuments and soldier but not the others
+		
 		boolean added = true;
-		if(!developmentCards.get(type).addAll(newCards))
-		{
+		switch(type){
+		case SOLDIER:
+			playedKnights.addAll(newCards);
+			break;
+		case MONUMENT:
+			playedMonuments.addAll(newCards);
+			break;
+		default:
 			added = false;
+			
 		}
+		
 		return added;
 	}
 	

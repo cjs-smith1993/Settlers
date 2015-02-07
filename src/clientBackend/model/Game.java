@@ -57,9 +57,11 @@ public class Game {
 	/**
 	 * The constructor to be used for any updates to the overall model
 	 * */
-	public Game(Collection<TransportPlayer> players, TransportTurnTracker tracker) throws CatanException {
+	public Game(Collection<TransportPlayer> new_players, TransportTurnTracker tracker) throws CatanException {
 		
-		for (TransportPlayer player : players) {
+		players = new HashMap<PlayerNumber, Player>();
+		
+		for (TransportPlayer player : new_players) {
 			addPlayer(player);
 		}
 		
@@ -79,7 +81,7 @@ public class Game {
 		}
 		
 		for (Player player : players.values()) {// Make sure the user is unique and the color is available
-			if (user == player.getUser() || color == player.getColor()) {
+			if (user.equals(player.getUser()) || color == player.getColor()) {
 				return false;
 			}
 		}
@@ -115,6 +117,10 @@ public class Game {
 	 */
 	public boolean canAddPlayer(TransportPlayer new_player) {
 		if (players.size() == MAX_PLAYERS) {// Make sure there is room for another player
+			return false;
+		}
+		
+		if (new_player.playerIndex == PlayerNumber.BANK) {// Make sure the player is not the BANK
 			return false;
 		}
 		
@@ -195,6 +201,15 @@ public class Game {
 		return (players.get(number).getNumSettlements() > 0);
 	}
 	
+	public void returnSettlement(PlayerNumber number, Settlement settlement) {
+		players.get(number).returnSettlement(settlement);
+		return;
+	}
+
+	public int getNumSettlements(PlayerNumber number) {
+		return players.get(number).getNumSettlements();
+	}
+	
 	public boolean hasCity(PlayerNumber number) throws CatanException {
 		if (players.get(number) == null) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
@@ -252,5 +267,13 @@ public class Game {
 	
 	public void setLastDiceRoll(int roll) {
 		this.lastDiceRoll = roll;
+	}
+
+	public int getNumPlayers() {
+		return players.size();
+	}
+	
+	public Map<PlayerNumber, Player> getPlayers() {
+		return players;
 	}
 }

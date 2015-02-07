@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 
 /**
@@ -33,6 +33,7 @@ public class PlayerHoldingsTest {
 	private PlayerHoldings holdings1 = new PlayerHoldings();
 	private PlayerHoldings holdings2 = new PlayerHoldings();
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
+	HashMap<DevCardType, Collection<DevelopmentCard>> developmentCards;
 
 	/**
 	 * @throws java.lang.Exception
@@ -40,6 +41,7 @@ public class PlayerHoldingsTest {
 	@Before
 	public void setUp() throws Exception {
 		resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
+		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
 		for(ResourceType type: ResourceType.values())
 		{
 			Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
@@ -49,8 +51,26 @@ public class PlayerHoldingsTest {
 			}
 			resourceCards.put(type,newPile);
 		}
+		for(DevCardType type: DevCardType.values())
+		{
+			Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
+			for(int i = 0; i < 2; ++i)
+			{
+				if(i == 0)
+				{
+					newPile.add(new DevelopmentCard(type, false));
+				}
+				else
+				{
+					newPile.add(new DevelopmentCard(type, true));
+				}
+			}
+			developmentCards.put(type, newPile);
+		}
 		holdings1.setResourceCards(resourceCards);
+		holdings1.setDevelopmentCards(developmentCards);
 		holdings2.setResourceCards(resourceCards);
+		holdings2.setDevelopmentCards(developmentCards);
 	}
 
 	/**
@@ -104,18 +124,62 @@ public class PlayerHoldingsTest {
 	 * Test method for {@link clientBackend.model.PlayerHoldings#removeDevelopmentCard(shared.definitions.DevCardType, int)}.
 	 */
 	@Test
-	@Ignore
 	public void testRemoveDevelopmentCard() {
-		fail("Not yet implemented");
+		int initCount;
+		for(DevCardType type: DevCardType.values())
+		{
+			initCount = holdings2.getDevelopmentCardCount(type);			
+			assertTrue("correct ammount in start", initCount == 2);
+			Collection<DevelopmentCard> removed;
+			removed = holdings2.removeDevelopmentCard(type, 1);
+			int removedSize = removed.size();
+			int remainingSize = holdings2.getDevelopmentCardCount(type);
+			assertTrue("correct amount in the removed", removedSize == 1);
+			assertTrue("correct amount left in collection", remainingSize == 1);
+			//removeing from an empty list
+			holdings2.getDevelopmentCards().get(type).clear();
+			removed = holdings2.removeDevelopmentCard(type, 1);
+			assertTrue("The empty list removes nothing", removed.isEmpty());
+			
+		}
+		
+		
 	}
 
 	/**
 	 * Test method for {@link clientBackend.model.PlayerHoldings#addDevelopmentCardCollection(shared.definitions.DevCardType, java.util.Collection)}.
 	 */
 	@Test
-	@Ignore
+
 	public void testAddDevelopmentCardCollection() {
-		fail("Not yet implemented");
+
+		Collection<DevelopmentCard> adding = new ArrayList<DevelopmentCard>();
+		for(DevCardType type: DevCardType.values())
+		{
+			adding.add(new DevelopmentCard(type));
+			boolean added = holdings2.addDevelopmentCardCollection(type,adding);
+			int addingSize = adding.size();
+
+			if(added)
+			{
+				int afterSize = 0;
+				switch(type){
+					case SOLDIER:
+						afterSize = holdings2.getPlayedKnights().size();
+						break;
+					case MONUMENT:
+						afterSize = holdings2.getPlayedMonuments().size();
+						break;
+					default:
+							fail("This should not be reached");
+				}
+				assertTrue("correct amount added", afterSize == addingSize);
+			}else{
+				
+				assertFalse("correct ammount was added", added);
+			}
+			adding.clear();
+		}
 	}
 
 }
