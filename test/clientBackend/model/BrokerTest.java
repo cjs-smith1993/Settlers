@@ -2,6 +2,7 @@ package clientBackend.model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -15,7 +16,10 @@ import org.junit.rules.ExpectedException;
 
 import clientBackend.transport.TransportBank;
 import clientBackend.transport.TransportDeck;
+import clientBackend.transport.TransportNewDevCards;
+import clientBackend.transport.TransportOldDevCards;
 import clientBackend.transport.TransportPlayer;
+import clientBackend.transport.TransportResources;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
@@ -147,8 +151,13 @@ public class BrokerTest {
 	}*/
 
 	@Test
-	@Ignore
 	public void testCanPlayDevelopmentCard() {
+		try {
+			assertFalse(myBroker.canPlayDevelopmentCard(PlayerNumber.ONE, DevCardType.MONOPOLY));
+		} catch (CatanException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
