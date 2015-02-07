@@ -6,9 +6,9 @@ import shared.definitions.ResourceType;
 public class DTOMovesMonopoly {
 	String type = "Monopoly";
 	ResourceType resource;
-	PlayerNumber playerIndex;
+	int playerIndex;
 	
-	public DTOMovesMonopoly(ResourceType resource, PlayerNumber playerIndex) {
+	public DTOMovesMonopoly(ResourceType resource, int playerIndex) {
 		this.resource = resource;
 		this.playerIndex = playerIndex;
 	}

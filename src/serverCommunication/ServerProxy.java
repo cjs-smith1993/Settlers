@@ -78,7 +78,7 @@ public class ServerProxy implements ServerInterface {
 			String type = cookieText.substring(0, idx);
 			cookieText = cookieText.replaceAll(type + "=", "").replaceAll(";Path=/;", "");
 			String cookieJson = URLDecoder.decode(cookieText);
-
+			
 			if (type.equals("catan.user")) {
 				this.userCookie = cookieText;
 			}
@@ -280,7 +280,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesSendChat(PlayerNumber playerIndex, String content) throws ServerException {
+	public void movesSendChat(int playerIndex, String content) throws ServerException {
 		DTOMovesSendChat data = new DTOMovesSendChat(playerIndex, content);
 
 		try {
@@ -293,7 +293,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesRollNumber(PlayerNumber playerIndex, int number) throws ServerException {
+	public void movesRollNumber(int playerIndex, int number) throws ServerException {
 		DTOMovesRollNumber data = new DTOMovesRollNumber(playerIndex, number);
 
 		try {
@@ -306,7 +306,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex,
+	public void movesRobPlayer(int playerIndex, int victimIndex,
 			HexLocation location) throws ServerException {
 		DTOMovesRobPlayer data = new DTOMovesRobPlayer(playerIndex, victimIndex,
 				Integer.toString(location.getX()), Integer.toString(location.getY()));
@@ -321,7 +321,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesFinishTurn(String type, PlayerNumber playerIndex) throws ServerException {
+	public void movesFinishTurn(String type, int playerIndex) throws ServerException {
 		DTOMovesFinishTurn data = new DTOMovesFinishTurn(playerIndex);
 
 		try {
@@ -334,7 +334,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesBuyDevCard(String type, PlayerNumber playerIndex) throws ServerException {
+	public void movesBuyDevCard(String type, int playerIndex) throws ServerException {
 		DTOMovesBuyDevCard data = new DTOMovesBuyDevCard(playerIndex);
 
 		try {
@@ -347,7 +347,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesYear_of_Plenty(PlayerNumber playerIndex, ResourceType resource1,
+	public void movesYear_of_Plenty(int playerIndex, ResourceType resource1,
 			ResourceType resource2) throws ServerException {
 		DTOMovesYearOfPlenty data = new DTOMovesYearOfPlenty(playerIndex, resource1, resource2);
 
@@ -361,7 +361,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesRoad_Building(PlayerNumber playerIndex, EdgeLocation spot1, EdgeLocation spot2)
+	public void movesRoad_Building(int playerIndex, EdgeLocation spot1, EdgeLocation spot2)
 			throws ServerException {
 		DTOMovesRoadBuilding data = new DTOMovesRoadBuilding(playerIndex, spot1.getHexLoc().getX(),
 				spot1.getHexLoc().getY(), spot1.getDir(), spot2.getHexLoc().getX(), spot2
@@ -377,7 +377,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex,
+	public void movesSoldier(int playerIndex, int victimIndex,
 			HexLocation location) throws ServerException {
 		DTOMovesSoldier data = new DTOMovesSoldier(playerIndex, victimIndex,
 				Integer.toString(location.getX()), Integer.toString(location.getY()));
@@ -392,7 +392,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesMonopoly(ResourceType resource, PlayerNumber playerIndex)
+	public void movesMonopoly(ResourceType resource, int playerIndex)
 			throws ServerException {
 		DTOMovesMonopoly data = new DTOMovesMonopoly(resource, playerIndex);
 
@@ -406,7 +406,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesMonument(String type, PlayerNumber playerIndex) throws ServerException {
+	public void movesMonument(String type, int playerIndex) throws ServerException {
 		DTOMovesMonument data = new DTOMovesMonument(playerIndex);
 
 		try {
@@ -419,7 +419,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesBuildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean free)
+	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free)
 			throws ServerException {
 		DTOMovesBuildRoad data = new DTOMovesBuildRoad(playerIndex, location.getHexLoc().getX(),
 				location.getHexLoc().getY(), location.getDir(), free);
@@ -434,7 +434,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location, boolean free)
+	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free)
 			throws ServerException {
 		DTOMovesBuildSettlement data = new DTOMovesBuildSettlement(playerIndex, location
 				.getHexLoc().getX(), location.getHexLoc().getY(), location.getDir(), free);
@@ -449,7 +449,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
+	public void movesBuildCity(int playerIndex, VertexLocation location)
 			throws ServerException {
 		DTOMovesBuildCity data = new DTOMovesBuildCity(playerIndex, location.getHexLoc().getX(),
 				location.getHexLoc().getY(), location.getDir());
@@ -464,9 +464,9 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat,
+	public void movesOfferTrade(int playerIndex, int brick, int ore, int sheep, int wheat,
 			int wood,
-			PlayerNumber receiver) throws ServerException {
+			int receiver) throws ServerException {
 		DTOMovesOfferTrade data = new DTOMovesOfferTrade(playerIndex, brick, ore, sheep, wheat,
 				wood, receiver);
 
@@ -480,7 +480,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
+	public void movesAcceptTrade(int playerIndex, boolean willAccept)
 			throws ServerException {
 		DTOMovesAcceptTrade data = new DTOMovesAcceptTrade(playerIndex, willAccept);
 
@@ -494,7 +494,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesMaritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource,
+	public void movesMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource,
 			ResourceType outputResource) throws ServerException {
 		DTOMovesMaritimeTrade data = new DTOMovesMaritimeTrade(playerIndex, ratio, inputResource,
 				outputResource);
@@ -509,7 +509,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void movesDiscardCards(PlayerNumber playerIndex, int brick, int ore, int sheep,
+	public void movesDiscardCards(int playerIndex, int brick, int ore, int sheep,
 			int wheat, int wood)
 			throws ServerException {
 		DTOMovesDiscardCards data = new DTOMovesDiscardCards(playerIndex, brick, ore, sheep, wheat,

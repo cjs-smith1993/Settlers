@@ -7,11 +7,11 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesRobPlayer {
 	String type = "robPlayer";
-	PlayerNumber playerIndex;
-	PlayerNumber victimIndex;
+	int playerIndex;
+	int victimIndex;
 	Map<String, Object> location;
 	
-	public DTOMovesRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, String x, String y) {
+	public DTOMovesRobPlayer(int playerIndex, int victimIndex, String x, String y) {
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 		

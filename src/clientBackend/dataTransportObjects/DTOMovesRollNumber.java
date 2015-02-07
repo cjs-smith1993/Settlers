@@ -4,10 +4,10 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesRollNumber {
 	String type = "rollNumber";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	int number;
 	
-	public DTOMovesRollNumber(PlayerNumber playerIndex, int number) {
+	public DTOMovesRollNumber(int playerIndex, int number) {
 		this.playerIndex = playerIndex;
 		this.number = number;
 	}

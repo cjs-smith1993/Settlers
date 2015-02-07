@@ -4,9 +4,9 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesBuyDevCard {
 	String type = "buyDevCard";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	
-	public DTOMovesBuyDevCard(PlayerNumber playerIndex) {
+	public DTOMovesBuyDevCard(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
 }
