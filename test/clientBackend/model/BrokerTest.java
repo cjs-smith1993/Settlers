@@ -9,17 +9,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import clientBackend.transport.TransportBank;
 import clientBackend.transport.TransportDeck;
 import clientBackend.transport.TransportPlayer;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
+import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 
 public class BrokerTest {
 
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -89,39 +95,112 @@ public class BrokerTest {
 	//}
 
 	@Test
-	@Ignore
 	public void testProcessInvoice() {
-		fail("Not yet implemented");
+		for(ResourceType type: ResourceType.values()){
+			ResourceInvoice invoice = new ResourceInvoice(type, 3, PlayerNumber.BANK, PlayerNumber.ONE);
+			try {
+				assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
+			} catch (CatanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		for(ResourceType type: ResourceType.values()){
+			if(type != ResourceType.ALL && type != ResourceType.NONE)
+			{
+				assertTrue("the number was correctly transfered", myBroker.getHoldings().get(PlayerNumber.ONE).getResourceCardCount(type)==3);
+				assertTrue("the number was correctly transfered", myBroker.getHoldings().get(PlayerNumber.BANK).getResourceCardCount(type)==22);
+			}
+		}
 	}
 
 	@Test
-	@Ignore
-	public void testCanPurchase() {
-		fail("Not yet implemented");
+	public void testCanPurchase() throws CatanException {
+		for(ResourceType type: ResourceType.values()){
+			ResourceInvoice invoice = new ResourceInvoice(type, 3, PlayerNumber.BANK, PlayerNumber.ONE);
+			try {
+				assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
+			} catch (CatanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		for(PropertyType type: PropertyType.values()){
+			this.thrown.expect(CatanException.class);
+			this.myBroker.canPurchase(PlayerNumber.BANK, type);
+			try {
+				assertTrue("Holding that has enough", myBroker.canPurchase(PlayerNumber.ONE, type));
+				assertFalse("Holding that is lacking", myBroker.canPurchase(PlayerNumber.TWO, type));
+			} catch (CatanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
 	}
 
-	@Test
+	/*@Test
 	@Ignore
 	public void testPurchase() {
 		fail("Not yet implemented");
-	}
+	}*/
 
 	@Test
 	@Ignore
 	public void testCanPlayDevelopmentCard() {
-		fail("Not yet implemented");
+		
 	}
 
-	@Test
+	/*@Test
 	@Ignore
 	public void testPlayDevelopmentCard() {
 		fail("Not yet implemented");
-	}
+	}*/
 
 	@Test
-	@Ignore
+	public void testCanMaritimeTrade(){
+		for(ResourceType type: ResourceType.values()){
+			ResourceInvoice invoice = new ResourceInvoice(type, 5, PlayerNumber.BANK, PlayerNumber.ONE);
+			try {
+				assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
+			} catch (CatanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertTrue("Can trade the cards",myBroker.CanMaritimeTrade(PlayerNumber.ONE));
+		assertFalse("can not trade cards",myBroker.CanMaritimeTrade(PlayerNumber.TWO));
+	}
+	@Test
+	public void testCanOfferTrade(){
+		for(ResourceType type: ResourceType.values()){
+			ResourceInvoice invoice = new ResourceInvoice(type, 3, PlayerNumber.BANK, PlayerNumber.ONE);
+			try {
+				assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
+			} catch (CatanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertTrue("Can offer the cards",myBroker.canOfferTrade(PlayerNumber.ONE));
+		assertFalse("can not offer cards",myBroker.canOfferTrade(PlayerNumber.TWO));
+		
+	}
+	@Test
 	public void testCanDiscardCards() {
-		fail("Not yet implemented");
+		for(ResourceType type: ResourceType.values()){
+			ResourceInvoice invoice = new ResourceInvoice(type, 3, PlayerNumber.BANK, PlayerNumber.ONE);
+			try {
+				assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
+			} catch (CatanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertTrue("Can remove the cards",myBroker.canDiscardCards(PlayerNumber.ONE, 7));
+		assertFalse("can not remove cards",myBroker.canDiscardCards(PlayerNumber.TWO, 7));
+		
 	}
 
 	@Test
@@ -147,5 +226,11 @@ public class BrokerTest {
 	public void testHasDevelopmentCard() {
 		fail("Not yet implemented");
 	}
-
+/*
+ * cnadiscard
+ * canoffertrade
+ * canmaitimtrade
+ * buy dev card
+ * use dev card
+ */
 }
