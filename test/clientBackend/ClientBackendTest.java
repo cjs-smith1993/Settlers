@@ -9,11 +9,9 @@ public class ClientBackendTest {
 	public static void main(String[] args) {
 
 		String[] testClasses = new String[] {
-				"clientBackend.model.BoardTest",
-				"clientBackend.model.PlayerHoldingsTest"
+				"serverCommunication.ServerProxyTest"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
-
 }

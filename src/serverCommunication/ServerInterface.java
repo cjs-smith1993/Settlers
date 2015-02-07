@@ -44,74 +44,74 @@ public interface ServerInterface {
 	public void gameListAI() throws ServerException; //returns a json blob that has the types of AI
 
 	public void movesSendChat(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			String content) throws ServerException;//returns an updated json of the game there is a message portion of the json blob
 
 	public void movesRollNumber(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			int number) throws ServerException;//returns updated Json
 
 	public void movesRobPlayer(
-			PlayerNumber playerIndex,
-			PlayerNumber victimIndex,
+			int playerIndex,
+			int victimIndex,
 			HexLocation location) throws ServerException;//returns updated json
 
-	public void movesFinishTurn(String type, PlayerNumber playerIndex) throws ServerException;//returns updated json
+	public void movesFinishTurn(String type, int playerIndex) throws ServerException;//returns updated json
 
-	public void movesBuyDevCard(String type, PlayerNumber playerIndex) throws ServerException;//returns updated json
+	public void movesBuyDevCard(String type, int playerIndex) throws ServerException;//returns updated json
 
 	public void movesYear_of_Plenty(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			ResourceType resource1,
 			ResourceType resource2) throws ServerException;//returns updated json
 
 	public void movesRoad_Building(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2) throws ServerException; //returns updated json
 
 	public void movesSoldier(
-			PlayerNumber playerIndex,
-			PlayerNumber victimIndex,
+			int playerIndex,
+			int victimIndex,
 			HexLocation location) throws ServerException;//returns updated json
 
 	public void movesMonopoly(
 			ResourceType resource,
-			PlayerNumber playerIndex) throws ServerException;//returns updated json
+			int playerIndex) throws ServerException;//returns updated json
 
-	public void movesMonument(String type, PlayerNumber playerIndex) throws ServerException;//returns updated json
+	public void movesMonument(String type, int playerIndex) throws ServerException;//returns updated json
 
 	public void movesBuildRoad(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			EdgeLocation location,
 			boolean free) throws ServerException;//returns updated json
 
 	public void movesBuildSettlement(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			VertexLocation location,
 			boolean free) throws ServerException;//returns updated json
 
 	public void movesBuildCity(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			VertexLocation location) throws ServerException;//returns updated json
 
 	public void movesOfferTrade(
-			PlayerNumber playerIndex, int brick, int ore,
+			int playerIndex, int brick, int ore,
 			int sheep, int wheat, int wood,
-			PlayerNumber receiver) throws ServerException;//returns updated json
+			int receiver) throws ServerException;//returns updated json
 
 	public void movesAcceptTrade(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			boolean willAccept) throws ServerException;//returns updated json
 
 	public void movesMaritimeTrade(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			int ratio,
 			ResourceType inputResource,
 			ResourceType outputResource) throws ServerException;//returns updated json
 
 	public void movesDiscardCards(
-			PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood)
+			int playerIndex, int brick, int ore, int sheep, int wheat, int wood)
 			throws ServerException;//returns updated json
 
 	public boolean utilChangeLogLevel(String logLevel) throws ServerException;//if the log level was changed correctly

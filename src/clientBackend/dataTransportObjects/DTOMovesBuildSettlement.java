@@ -8,11 +8,11 @@ import shared.locations.VertexDirection;
 
 public class DTOMovesBuildSettlement {
 	String type = "buildSettlement";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	Map<String, Object> vertexLocation;
 	Boolean free = false;
 	
-	public DTOMovesBuildSettlement(PlayerNumber playerIndex, int x, int y, VertexDirection direction, Boolean free) {
+	public DTOMovesBuildSettlement(int playerIndex, int x, int y, VertexDirection direction, Boolean free) {
 		this.playerIndex = playerIndex;
 		
 		vertexLocation = new HashMap<>();

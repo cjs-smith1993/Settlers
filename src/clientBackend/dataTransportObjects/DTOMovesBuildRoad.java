@@ -8,11 +8,11 @@ import shared.locations.EdgeDirection;
 
 public class DTOMovesBuildRoad {
 	String type = "buildRoad";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	Boolean free = false;
 	Map<String, Object> roadLocation;
 	
-	public DTOMovesBuildRoad(PlayerNumber playerIndex, int x, int y, EdgeDirection direction, Boolean free) {
+	public DTOMovesBuildRoad(int playerIndex, int x, int y, EdgeDirection direction, Boolean free) {
 		this.playerIndex = playerIndex;
 		
 		roadLocation = new HashMap<>();

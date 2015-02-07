@@ -190,7 +190,13 @@ public class Broker {
 		//need to check the playable boolean
 		if(local.getDevelopmentCardCount(type) >= 1)
 		{
-			success = true;
+			for(DevelopmentCard card: local.getDevelopmentCards().get(type)){
+				if(card.isPlayable()){
+					success = true;
+					return success;
+				}
+			}
+			
 		}
 		return success;
 	}
@@ -255,7 +261,23 @@ public class Broker {
 		return beenPlayed;
 		
 	}
-
+	public boolean CanMaritimeTrade(PlayerNumber player){
+		boolean enough = false;
+		for(ResourceType type: ResourceType.values())
+		{
+			if(holdings.get(player).getResourceCardCount(type) >= 4)
+			{
+				enough = true;
+				return enough;
+			}
+		}
+		return enough;
+	}
+	//this is just a temp function but it does what we need to
+	public boolean canOfferTrade(PlayerNumber player)
+	{
+		return canDiscardCards(player, 1);
+	}
 	/**
 	 * Determines whether the player has the necessary number of cards to return to the BANK.
 	 * @return canDiscardCards

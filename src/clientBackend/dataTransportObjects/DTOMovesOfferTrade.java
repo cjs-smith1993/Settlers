@@ -7,11 +7,11 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesOfferTrade {
 	String type = "offerTrade";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	Map<String, Object> offer;
-	PlayerNumber receiver;
+	int receiver;
 	
-	public DTOMovesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood, PlayerNumber receiver) {
+	public DTOMovesOfferTrade(int playerIndex, int brick, int ore, int sheep, int wheat, int wood, int receiver) {
 		this.playerIndex = playerIndex;
 		
 		offer = new HashMap<>();
