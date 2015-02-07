@@ -78,7 +78,7 @@ public class ServerProxy implements ServerInterface {
 			String type = cookieText.substring(0, idx);
 			cookieText = cookieText.replaceAll(type + "=", "").replaceAll(";Path=/;", "");
 			String cookieJson = URLDecoder.decode(cookieText);
-			
+
 			if (type.equals("catan.user")) {
 				this.userCookie = cookieText;
 			}
@@ -135,7 +135,7 @@ public class ServerProxy implements ServerInterface {
 		connection.setRequestMethod(this.HTTP_POST);
 		connection.setRequestProperty("Cookie", this.getCookies());
 
-		System.out.println(this.getCookies());
+		//System.out.println(this.getCookies());
 
 		connection.setDoOutput(true);
 		connection.connect();
@@ -159,7 +159,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/user/login");
 			String response = this.doPost(url, data);
-			System.out.println(response);
+			//System.out.println(response);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -175,7 +175,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/user/register");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -203,7 +203,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/join");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -227,14 +227,14 @@ public class ServerProxy implements ServerInterface {
 		DTOGameModel data = new DTOGameModel(version);
 
 		String response = "";
-		
+
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/model");
 			response = this.doPost(url, data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			CatanSerializer.getInstance().deserializeModel(response);
 		} catch (CatanException e) {
@@ -247,7 +247,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/reset");
 			String response = this.doGet(url);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -258,7 +258,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/commands");
 			String response = this.doGet(url);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -286,7 +286,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/sendChat");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -299,7 +299,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/rollNumber");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -314,7 +314,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/robPlayer");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -327,7 +327,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -340,7 +340,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -354,7 +354,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Year_of_Plenty");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -370,7 +370,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Road_Building");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -385,7 +385,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Soldier");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -399,7 +399,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Monopoly");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -412,7 +412,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Monument");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -427,7 +427,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/buildRoad");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -442,7 +442,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/buildSettlement");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -457,7 +457,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/buildCity");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -473,7 +473,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/offerTrade");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -487,7 +487,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/acceptTrade");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -502,7 +502,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/maritimeTrade");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -518,7 +518,7 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/discardCards");
 			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			//System.out.println(this.consoleNote + response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

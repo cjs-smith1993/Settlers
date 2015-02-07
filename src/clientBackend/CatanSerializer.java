@@ -40,8 +40,11 @@ public class CatanSerializer {
 	 */
 	public void deserializeModel(String gsonString) throws CatanException {
 		TransportModel transportModel = this.gson.fromJson(gsonString, TransportModel.class);
-
 		this.facade.initializeModel(transportModel);
+	}
+
+	public void deserializeModel(TransportModel model) throws CatanException {
+		this.facade.initializeModel(model);
 	}
 
 	/**

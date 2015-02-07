@@ -14,4 +14,9 @@ public class ClientBackendTest {
 
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
+
+	@Test
+	public void test() {
+
+	}
 }

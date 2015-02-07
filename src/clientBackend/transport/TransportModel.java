@@ -5,7 +5,7 @@ import java.util.List;
 public class TransportModel {
 	public TransportDeck deck;
 	public TransportMap map;
-	public List<TransportPlayer> players;
+	public TransportPlayer[] players;
 	public TransportLog log;
 	public TransportChat chat;
 	public TransportBank bank;
