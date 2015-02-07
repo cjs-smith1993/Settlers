@@ -3,14 +3,19 @@ package clientBackend.model;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.google.gson.Gson;
+
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -18,6 +23,11 @@ import shared.locations.VertexLocation;
 public class BoardTest {
 
 	Board board;
+	private final PlayerNumber bank = PlayerNumber.BANK;
+	private final PlayerNumber player1 = PlayerNumber.ONE;
+	private final PlayerNumber player2 = PlayerNumber.TWO;
+	private final PlayerNumber player3 = PlayerNumber.THREE;
+	private final PlayerNumber player4 = PlayerNumber.FOUR;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -55,17 +65,22 @@ public class BoardTest {
 	public void testMoveRobber() throws CatanException {
 		HexLocation newLocation = new HexLocation(1, 1);
 
+		// move the robber to a valid location
 		this.board.moveRobber(newLocation);
 		assertEquals("robber is moved to new location", newLocation, this.board.getRobberLocation());
+
+		// test moving the robber to his current location
 		this.thrown.expect(CatanException.class);
 		this.board.moveRobber(newLocation);
+
+		// test moving the robber to a water tile
+		HexLocation waterLocation = new HexLocation(2, 2);
+		this.thrown.expect(CatanException.class);
+		this.board.moveRobber(waterLocation);
 	}
 
 	@Test
 	public void testGenerateInvoices() throws CatanException {
-		PlayerNumber owner1 = PlayerNumber.ONE;
-		PlayerNumber owner2 = PlayerNumber.TWO;
-
 		VertexLocation location1 = new VertexLocation(new HexLocation(-2, 1),
 				VertexDirection.NorthEast);
 		VertexLocation location2 = new VertexLocation(new HexLocation(0, 0),
@@ -75,10 +90,10 @@ public class BoardTest {
 		VertexLocation location4 = new VertexLocation(new HexLocation(-2, 0),
 				VertexDirection.West);
 
-		Dwelling dwelling1 = new Settlement(owner1, location1);
-		Dwelling dwelling2 = new City(owner2, location2);
-		Dwelling dwelling3 = new Settlement(owner2, location3);
-		Dwelling dwelling4 = new City(owner2, location4);
+		Dwelling dwelling1 = new Settlement(this.player1, location1);
+		Dwelling dwelling2 = new City(this.player2, location2);
+		Dwelling dwelling3 = new Settlement(this.player2, location3);
+		Dwelling dwelling4 = new City(this.player2, location4);
 
 		ResourceInvoice invoice1 = new ResourceInvoice(ResourceType.WHEAT, 1, PlayerNumber.BANK,
 				PlayerNumber.ONE);
@@ -95,31 +110,31 @@ public class BoardTest {
 		ResourceInvoice invoice4_3 = new ResourceInvoice(ResourceType.BRICK, 1, PlayerNumber.BANK,
 				PlayerNumber.TWO);
 
-		// blank test
+		// 0. blank test
 		Collection<ResourceInvoice> invoices = this.board.generateInvoices(2);
 		assertEquals("no invoices for a blank board", 0, invoices.size());
 
-		// single invoice test
+		// 1. single invoice test
 		this.board.placeDwelling(dwelling1, location1, true);
 		invoices = this.board.generateInvoices(2);
 		assertEquals("one invoice", 1, invoices.size());
 		assertEquals("one wheat to player 1", invoice1, invoices.iterator().next());
 
-		// two invoice test
+		// 2. two invoice test
 		this.board.placeDwelling(dwelling2, location2, true);
 		invoices = this.board.generateInvoices(10);
 		assertEquals("two invoices", 2, invoices.size());
 		assertTrue("one sheep to player 1", invoices.contains(invoice2_1));
 		assertTrue("two sheep to player 2", invoices.contains(invoice2_2));
 
-		// combining invoices test
+		// 3. combining invoices test
 		this.board.placeDwelling(dwelling3, location3, true);
 		invoices = this.board.generateInvoices(10);
 		assertEquals("two invoices", 2, invoices.size());
 		assertTrue("one sheep to player 1", invoices.contains(invoice2_1));
 		assertTrue("three sheep to player 2", invoices.contains(invoice3_1));
 
-		// multiple invoices per player test
+		// 4. multiple invoices per player test
 		this.board.placeDwelling(dwelling4, location4, true);
 		invoices = this.board.generateInvoices(5);
 		assertEquals("three invoices", 3, invoices.size());
@@ -129,28 +144,210 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testCanPlaceRoad() {
-		// fail("Not yet implemented");
+	public void testCanPlaceRoad() throws CatanException {
+		HexLocation hex1 = new HexLocation(0, 0);
+		HexLocation hex2 = new HexLocation(-1, -1);
+		HexLocation hex3 = new HexLocation(2, 2);
+		HexLocation hex4 = new HexLocation(0, 3);
+
+		EdgeLocation edge1 = new EdgeLocation(hex1, EdgeDirection.North);
+		EdgeLocation edge2 = new EdgeLocation(hex2, EdgeDirection.SouthEast);
+		EdgeLocation edge3 = new EdgeLocation(hex3, EdgeDirection.South);
+		EdgeLocation edge4 = new EdgeLocation(hex4, EdgeDirection.North);
+		EdgeLocation edge5 = new EdgeLocation(hex1, EdgeDirection.NorthEast);
+
+		VertexLocation vertex1 = new VertexLocation(hex1, VertexDirection.NorthWest);
+		VertexLocation vertex4 = new VertexLocation(hex4, VertexDirection.NorthWest);
+		VertexLocation vertex5 = new VertexLocation(hex1, VertexDirection.East);
+
+		Dwelling dwelling1 = new Settlement(this.player1, vertex1);
+		Dwelling dwelling4 = new Settlement(this.player1, vertex4);
+		Dwelling dwelling5 = new Settlement(this.player1, vertex5);
+
+		this.board.placeDwelling(dwelling1, vertex1, true);
+		this.board.placeDwelling(dwelling4, vertex4, true);
+		this.board.placeDwelling(dwelling5, vertex5, true);
+
+		Road road1 = new Road(this.player1, edge1);
+		Road road2 = new Road(this.player1, edge2);
+		Road road3 = new Road(this.player1, edge3);
+		Road road4 = new Road(this.player1, edge4);
+		Road road5 = new Road(this.player1, edge5);
+
+		// 1. try to place a road adjacent to the dwelling
+		assertTrue("can place a road next to a dwelling",
+				this.board.canPlaceRoad(road1, edge1, true));
+		this.board.placeRoad(road1, edge1, true);
+
+		// 2. try to place a road not connected to another road
+		assertFalse("cannot place a road disconnected from a dwelling",
+				this.board.canPlaceRoad(road2, edge2, false));
+
+		// 3. try to place a road on the water
+		assertFalse("cannot place a road on water", this.board.canPlaceRoad(road3, edge3, true));
+
+		// 4. try to place a road on the coast
+		assertTrue("can place a road on the coast", this.board.canPlaceRoad(road4, edge4, true));
+		this.board.placeRoad(road4, edge4, true);
+
+		// 5. try to place a road blocked by another player's dwelling
+		this.board.placeRoad(road5, edge5, false);
+		assertFalse("cannot place a road through another player's dwelling",
+				this.board.canPlaceRoad(road5, edge5, false));
 	}
 
 	@Test
-	public void testPlaceRoad() {
-		// fail("Not yet implemented");
+	public void testPlaceRoad() throws CatanException {
+		HexLocation hex1 = new HexLocation(0, 0);
+		VertexLocation vertex1 = new VertexLocation(hex1, VertexDirection.NorthWest);
+		Dwelling dwelling1 = new Settlement(this.player1, vertex1);
+		this.board.placeDwelling(dwelling1, vertex1, true);
+
+		// place a road
+		EdgeLocation edge1 = new EdgeLocation(hex1, EdgeDirection.North);
+		Road road1 = new Road(this.player1, edge1);
+		this.board.placeRoad(road1, edge1, true);
+
+		// try to place another road on top of it
+		this.thrown.expect(CatanException.class);
+		this.board.placeRoad(road1, edge1, true);
 	}
 
 	@Test
-	public void testCanPlaceDwelling() {
-		// fail("Not yet implemented");
+	public void testCanPlaceDwelling() throws CatanException {
+		HexLocation hex1 = new HexLocation(0, 0);
+		HexLocation hex4 = new HexLocation(0, 3);
+		HexLocation hex7 = new HexLocation(0, 1);
+
+		VertexLocation vertex1 = new VertexLocation(hex1, VertexDirection.NorthWest);
+		VertexLocation vertex2 = new VertexLocation(hex1, VertexDirection.East);
+		VertexLocation vertex3 = new VertexLocation(hex1, VertexDirection.NorthEast);
+		VertexLocation vertex4 = new VertexLocation(hex4, VertexDirection.NorthWest);
+		VertexLocation vertex5 = new VertexLocation(hex4, VertexDirection.NorthEast);
+		VertexLocation vertex6 = new VertexLocation(hex4, VertexDirection.NorthEast);
+		VertexLocation vertex7 = new VertexLocation(hex1, VertexDirection.SouthWest);
+
+		Dwelling dwelling1 = new Settlement(this.player1, vertex1);
+		Dwelling dwelling2 = new Settlement(this.player1, vertex2);
+		Dwelling dwelling3 = new Settlement(this.player1, vertex3);
+		Dwelling dwelling4 = new Settlement(this.player1, vertex4);
+		Dwelling dwelling5 = new Settlement(this.player1, vertex5);
+		Dwelling dwelling6 = new Settlement(this.player1, vertex6);
+		Dwelling dwelling7 = new Settlement(this.player2, vertex7);
+
+		EdgeLocation edge1 = new EdgeLocation(hex1, EdgeDirection.North);
+		EdgeLocation edge2 = new EdgeLocation(hex1, EdgeDirection.NorthEast);
+		EdgeLocation edge7_1 = new EdgeLocation(hex1, EdgeDirection.NorthWest);
+		EdgeLocation edge7_2 = new EdgeLocation(hex1, EdgeDirection.SouthWest);
+		EdgeLocation edge7_3 = new EdgeLocation(hex7, EdgeDirection.NorthWest);
+
+		Road road1 = new Road(this.player1, edge1);
+		Road road2 = new Road(this.player1, edge2);
+		Road road7_1 = new Road(this.player1, edge7_1);
+		Road road7_2 = new Road(this.player1, edge7_2);
+		Road road7_3 = new Road(this.player1, edge7_3);
+
+		// 1. try to place the first dwelling
+		assertTrue("can place the first dwelling",
+				this.board.canPlaceDwelling(dwelling1, vertex1, true));
+		this.board.placeDwelling(dwelling1, vertex1, true);
+		this.board.placeRoad(road1, edge1, true);
+
+		// 2. try to place the second dwelling
+		assertTrue("can place the second dwelling",
+				this.board.canPlaceDwelling(dwelling2, vertex2, true));
+		this.board.placeDwelling(dwelling2, vertex2, true);
+		this.board.placeRoad(road2, edge2, true);
+
+		// 3. try to place a dwelling too close to another dwelling
+		assertFalse("cannot place a dwelling adjacent to another dwelling",
+				this.board.canPlaceDwelling(dwelling3, vertex3, false));
+
+		// 4. try to place a dwelling not connected to a road
+		assertFalse("cannot place a dwelling disconnected from a road",
+				this.board.canPlaceDwelling(dwelling4, vertex4, false));
+
+		// 5. try to place a dwelling on the water
+		assertFalse("cannot place a dwelling on the water",
+				this.board.canPlaceDwelling(dwelling5, vertex5, false));
+
+		// 6. try to place a dwelling on the coast
+		assertTrue("can place a dwelling on the coast",
+				this.board.canPlaceDwelling(dwelling6, vertex6, true));
+		this.board.placeDwelling(dwelling6, vertex6, true);
+
+		// 7. try to place a dwelling between another player's roads
+		this.board.placeRoad(road7_1, edge7_1, false);
+		this.board.placeRoad(road7_2, edge7_2, false);
+		this.board.placeRoad(road7_3, edge7_3, false);
+		assertFalse("cannot place a dwelling between another player's roads",
+				this.board.canPlaceDwelling(dwelling7, vertex7, false));
 	}
 
 	@Test
-	public void testPlaceDwelling() {
-		// fail("Not yet implemented");
+	public void testPlaceDwelling() throws CatanException {
+		HexLocation hex1 = new HexLocation(0, 0);
+		VertexLocation vertex1 = new VertexLocation(hex1, VertexDirection.NorthWest);
+		Dwelling dwelling1 = new Settlement(this.player1, vertex1);
+
+		// place a dwelling
+		this.board.placeDwelling(dwelling1, vertex1, true);
+
+		// try to place another dwelling on top of it
+		this.thrown.expect(CatanException.class);
+		this.board.placeDwelling(dwelling1, vertex1, true);
 	}
 
 	@Test
-	public void testGetHarborsByPlayer() {
-		// fail("Not yet implemented");
-	}
+	public void testGetHarborsByPlayer() throws CatanException {
+		VertexLocation vertex1 = new VertexLocation(new HexLocation(0, 3),
+				VertexDirection.NorthWest);
+		VertexLocation vertex2 = new VertexLocation(new HexLocation(2, 1),
+				VertexDirection.NorthWest);
+		VertexLocation vertex3 = new VertexLocation(new HexLocation(3, -1),
+				VertexDirection.West);
+		VertexLocation vertex4 = new VertexLocation(new HexLocation(3, -3),
+				VertexDirection.SouthWest);
+		VertexLocation vertex5 = new VertexLocation(new HexLocation(1, -3),
+				VertexDirection.SouthWest);
+		VertexLocation vertex6 = new VertexLocation(new HexLocation(-1, -2),
+				VertexDirection.SouthWest);
+		VertexLocation vertex7 = new VertexLocation(new HexLocation(-3, 0),
+				VertexDirection.SouthEast);
+		VertexLocation vertex8 = new VertexLocation(new HexLocation(-3, 2),
+				VertexDirection.NorthEast);
+		VertexLocation vertex9 = new VertexLocation(new HexLocation(-2, 3),
+				VertexDirection.NorthEast);
 
+		Dwelling dwelling1 = new Settlement(this.player1, vertex1);
+		Dwelling dwelling2 = new Settlement(this.player1, vertex2);
+		Dwelling dwelling3 = new Settlement(this.player2, vertex3);
+		Dwelling dwelling4 = new Settlement(this.player2, vertex4);
+		Dwelling dwelling5 = new Settlement(this.player3, vertex5);
+		Dwelling dwelling6 = new Settlement(this.player3, vertex6);
+		Dwelling dwelling7 = new Settlement(this.player4, vertex7);
+		Dwelling dwelling8 = new Settlement(this.player4, vertex8);
+		Dwelling dwelling9 = new Settlement(this.player4, vertex9);
+
+		this.board.placeDwelling(dwelling1, vertex1, true);
+		this.board.placeDwelling(dwelling2, vertex2, true);
+		this.board.placeDwelling(dwelling3, vertex3, true);
+		this.board.placeDwelling(dwelling4, vertex4, true);
+		this.board.placeDwelling(dwelling5, vertex5, true);
+		this.board.placeDwelling(dwelling6, vertex6, true);
+		this.board.placeDwelling(dwelling7, vertex7, true);
+		this.board.placeDwelling(dwelling8, vertex8, true);
+		this.board.placeDwelling(dwelling9, vertex9, true);
+
+		Map<PlayerNumber, Collection<Harbor>> harbors =
+				this.board.getHarborsByPlayer();
+
+		assertEquals("player one has two harbors", 2, harbors.get(this.player1).size());
+		assertEquals("player two has two harbors", 2, harbors.get(this.player2).size());
+		assertEquals("player three has two harbors", 2, harbors.get(this.player3).size());
+		assertEquals("player four has three harbors", 3, harbors.get(this.player4).size());
+
+		this.board = new Board(true, true, true);
+
+	}
 }
