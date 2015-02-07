@@ -24,12 +24,18 @@ public class PlayerHoldings implements Hand {
 	private Collection<Harbor> harbors;
 	/**
 	 * Default constructor for the PlayerHolings class.
-	 * Not Implemented
+	 * 
 	 */
 	public PlayerHoldings()
 	{
 		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
+		for(ResourceType type: ResourceType.values()){
+			resourceCards.put(type, new ArrayList<ResourceCard>());
+		}
 		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
+		for(DevCardType type: DevCardType.values()){
+			developmentCards.put(type, new ArrayList<DevelopmentCard>());
+		}
 		playedKnights = new ArrayList<DevelopmentCard>();
 		playedMonuments = new ArrayList<DevelopmentCard>();
 		harbors = new ArrayList<Harbor>();
@@ -38,6 +44,17 @@ public class PlayerHoldings implements Hand {
 	public PlayerHoldings(TransportPlayer player,
 							Collection<Harbor> myHarbors)
 	{
+		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
+		for(ResourceType type: ResourceType.values()){
+			resourceCards.put(type, new ArrayList<ResourceCard>());
+		}
+		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
+		for(DevCardType type: DevCardType.values()){
+			developmentCards.put(type, new ArrayList<DevelopmentCard>());
+		}
+		playedKnights = new ArrayList<DevelopmentCard>();
+		playedMonuments = new ArrayList<DevelopmentCard>();
+		harbors = new ArrayList<Harbor>();
 		int playedSoldier = player.soldiers;
 		int monuments = player.monuments;
 		TransportResources myResources = player.resources; 
@@ -54,21 +71,21 @@ public class PlayerHoldings implements Hand {
 		this.setPlayedMonuments(makeDevTypePile(DevCardType.MONUMENT,monuments, false));
 		
 		//Development cards
-		developmentCards.get(playableDev.monopoly).clear();
-		developmentCards.get(playableDev.monopoly).addAll(makeDevTypePile(DevCardType.MONOPOLY, playableDev.monopoly, true));
-		developmentCards.get(playableDev.monopoly).addAll(makeDevTypePile(DevCardType.MONOPOLY, blockedDev.monopoly, false));
-		developmentCards.get(playableDev.monument).clear();
-		developmentCards.get(playableDev.monument).addAll(makeDevTypePile(DevCardType.MONUMENT, playableDev.monument, true));
-		developmentCards.get(playableDev.monument).addAll(makeDevTypePile(DevCardType.MONUMENT, playableDev.monument, false));
-		developmentCards.get(playableDev.roadBuilding).clear();	
-		developmentCards.get(playableDev.roadBuilding).addAll(makeDevTypePile(DevCardType.ROAD_BUILD, playableDev.roadBuilding, true));	
-		developmentCards.get(playableDev.roadBuilding).addAll(makeDevTypePile(DevCardType.ROAD_BUILD, playableDev.roadBuilding, false));
-		developmentCards.get(playableDev.soldier).clear();	
-		developmentCards.get(playableDev.soldier).addAll(makeDevTypePile(DevCardType.SOLDIER, playableDev.soldier, true));
-		developmentCards.get(playableDev.soldier).addAll(makeDevTypePile(DevCardType.SOLDIER, playableDev.soldier, false));
-		developmentCards.get(playableDev.yearOfPlenty).clear();
-		developmentCards.get(playableDev.yearOfPlenty).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,true));
-		developmentCards.get(playableDev.yearOfPlenty).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,false));
+		developmentCards.get(DevCardType.MONOPOLY).clear();
+		developmentCards.get(DevCardType.MONOPOLY).addAll(makeDevTypePile(DevCardType.MONOPOLY, playableDev.monopoly, true));
+		developmentCards.get(DevCardType.MONOPOLY).addAll(makeDevTypePile(DevCardType.MONOPOLY, blockedDev.monopoly, false));
+		developmentCards.get(DevCardType.MONUMENT).clear();
+		developmentCards.get(DevCardType.MONUMENT).addAll(makeDevTypePile(DevCardType.MONUMENT, playableDev.monument, true));
+		developmentCards.get(DevCardType.MONUMENT).addAll(makeDevTypePile(DevCardType.MONUMENT, blockedDev.monument, false));
+		developmentCards.get(DevCardType.ROAD_BUILD).clear();	
+		developmentCards.get(DevCardType.ROAD_BUILD).addAll(makeDevTypePile(DevCardType.ROAD_BUILD, playableDev.roadBuilding, true));	
+		developmentCards.get(DevCardType.ROAD_BUILD).addAll(makeDevTypePile(DevCardType.ROAD_BUILD, blockedDev.roadBuilding, false));
+		developmentCards.get(DevCardType.SOLDIER).clear();	
+		developmentCards.get(DevCardType.SOLDIER).addAll(makeDevTypePile(DevCardType.SOLDIER, playableDev.soldier, true));
+		developmentCards.get(DevCardType.SOLDIER).addAll(makeDevTypePile(DevCardType.SOLDIER, blockedDev.soldier, false));
+		developmentCards.get(DevCardType.YEAR_OF_PLENTY).clear();
+		developmentCards.get(DevCardType.YEAR_OF_PLENTY).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,true));
+		developmentCards.get(DevCardType.YEAR_OF_PLENTY).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, blockedDev.yearOfPlenty,false));
 		
 	}
 	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable)

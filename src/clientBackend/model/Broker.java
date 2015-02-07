@@ -352,4 +352,8 @@ public class Broker {
 		
 		playerHoldings.makeDevelopementCardsPlayable();
 	}
+	public Map<PlayerNumber, Hand> getHoldings() {
+		return holdings;
+	}
+	
 }

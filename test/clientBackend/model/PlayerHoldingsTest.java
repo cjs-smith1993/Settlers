@@ -11,9 +11,15 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import clientBackend.transport.TransportNewDevCards;
+import clientBackend.transport.TransportOldDevCards;
+import clientBackend.transport.TransportPlayer;
+import clientBackend.transport.TransportResources;
 import shared.definitions.DevCardType;
+import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 
 /**
@@ -182,4 +188,103 @@ public class PlayerHoldingsTest {
 		}
 	}
 
+	@Test
+	public void testPlayerHoldings() {
+		PlayerHoldings myholding = new PlayerHoldings();
+		for(DevCardType type: DevCardType.values()){
+			assertTrue(myholding.getDevelopmentCards().get(type).isEmpty());
+		}
+		for(ResourceType type: ResourceType.values()){
+			assertTrue(myholding.getResourceCards().get(type).isEmpty());
+		}
+		assertTrue(myholding.getHarbors().isEmpty());
+		assertTrue(myholding.getPlayedKnights().isEmpty());
+		assertTrue(myholding.getPlayedMonuments().isEmpty());
+	}
+
+	@Test
+	
+	public void testPlayerHoldingsTransportPlayerCollectionOfHarbor() {
+		
+			
+		TransportPlayer play = new TransportPlayer();
+		play.monuments = 3;
+		TransportNewDevCards newDevCards = new TransportNewDevCards();
+		newDevCards.monopoly = 0;
+		newDevCards.monument = 2;
+		newDevCards.roadBuilding = 1;
+		newDevCards.soldier = 3;
+		newDevCards.yearOfPlenty = 4;
+		play.newDevCards = newDevCards;
+		TransportOldDevCards old = new TransportOldDevCards();
+		old.monopoly = 2;
+		old.monument = 1;
+		old.roadBuilding = 0;
+		old.soldier = 1;
+		old.yearOfPlenty = 5;
+		play.oldDevCards = old;
+		play.playerIndex = PlayerNumber.ONE;
+		TransportResources res = new TransportResources();
+		res.brick = 1;
+		res.ore = 2;
+		res.sheep = 3;
+		res.wheat = 4;
+		res.wood = 5;
+		play.resources = res;
+		play.soldiers = 5;
+		play.victoryPoints = 3;
+		
+		Collection<Harbor> harbors = new ArrayList<Harbor>();
+		Harbor h = new Harbor(null, null, null, 0);
+		harbors.add(h);
+		
+		PlayerHoldings hold = new PlayerHoldings(play, harbors);
+		assertTrue("number of horbors right", hold.getHarbors().size() == 1);
+		assertTrue("number of soldiers" , hold.getPlayedKnights().size() == 5);
+		assertTrue("number of monuments", hold.getPlayedMonuments().size() == 3);
+		for(ResourceType type: ResourceType.values()){
+			switch(type){
+			case BRICK:
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 1);
+				break;
+			case WOOD:
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 5);
+				break;
+			case WHEAT:
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 4);
+				break;
+			case ORE:
+				assertTrue("The correct number of ore", hold.getResourceCardCount(type)== 2);
+				break;
+			case SHEEP:
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 3);
+				break;
+			default:
+				break;
+			}
+		}
+			for(DevCardType type: DevCardType.values()){
+				switch(type){
+				case MONOPOLY:
+					assertTrue("The correct number of monopoly", hold.getDevelopmentCardCount(type)== 2);
+					break;
+				case MONUMENT:
+					assertTrue("The correct number of monument", hold.getDevelopmentCardCount(type)== 3);
+					break;
+				case ROAD_BUILD:
+					assertTrue("The correct number of road_building", hold.getDevelopmentCardCount(type)== 1);
+					break;
+				case SOLDIER:
+					assertTrue("The correct number of soldier", hold.getDevelopmentCardCount(type)== 4);
+					break;
+				case YEAR_OF_PLENTY:
+					assertTrue("The correct number of YOP", hold.getDevelopmentCardCount(type)== 9);
+					break;
+				default:
+					break;
+				}
+		}
+		
+	}
+	
 }

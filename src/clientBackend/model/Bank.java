@@ -2,6 +2,7 @@ package clientBackend.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -24,23 +25,26 @@ public class Bank implements Hand{
 	 */
 	public Bank()
 	{
+		resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
+		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
+		playedCards = new ArrayList<DevelopmentCard>();
 		//make all the cards put them in the space
 		for(ResourceType type: ResourceType.values())
 		{
-			resourceCards.get(type).addAll(makeTypeDeck(type));
+			resourceCards.put(type, makeTypeDeck(type, 0));
 		}
 		
 		for(DevCardType type: DevCardType.values())
 		{
 			switch(type){
 			case SOLDIER:
-				developmentCards.get(type).addAll(makeDevelopmentDeck(type, 14));
+				developmentCards.put(type, makeDevelopmentDeck(type, 14));
 				break;
 			case MONUMENT:
-				developmentCards.get(type).addAll(makeDevelopmentDeck(type, 5));
+				developmentCards.put(type, makeDevelopmentDeck(type, 5));
 				break;
 			default:
-				developmentCards.get(type).addAll(makeDevelopmentDeck(type, 2));
+				developmentCards.put(type, makeDevelopmentDeck(type, 2));
 				break;
 			}
 		}
@@ -49,42 +53,59 @@ public class Bank implements Hand{
 	
 	public Bank(TransportDeck devDeck, TransportBank resDeck)
 	{
+		resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
+		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
+		playedCards = new ArrayList<DevelopmentCard>();
 		//resource cards
-		makeResourceDeck(ResourceType.BRICK, resDeck.brick);
-		makeResourceDeck(ResourceType.WOOD, resDeck.wood);
-		makeResourceDeck(ResourceType.WHEAT, resDeck.wheat);
-		makeResourceDeck(ResourceType.SHEEP, resDeck.sheep);
-		makeResourceDeck(ResourceType.ORE, resDeck.ore);
+		for(ResourceType type: ResourceType.values()){
+			switch(type){
+			case BRICK:
+				resourceCards.put(type, makeTypeDeck(type, resDeck.brick));
+				break;
+			case WOOD:
+				resourceCards.put(type, makeTypeDeck(type, resDeck.wood));
+				break;
+			case WHEAT:
+				resourceCards.put(type, makeTypeDeck(type, resDeck.wheat));
+				break;
+			case ORE:
+				resourceCards.put(type, makeTypeDeck(type, resDeck.ore));
+				break;
+			case SHEEP:
+				resourceCards.put(type, makeTypeDeck(type, resDeck.sheep));
+				break;
+			default:
+				resourceCards.put(type, makeTypeDeck(type, 0));
+				break;
+			}
+		}
+		for(DevCardType type: DevCardType.values())
+		{
+			switch(type){
+			case SOLDIER:
+				developmentCards.put(type, makeDevelopmentDeck(type, devDeck.soldier));
+				break;
+			case MONUMENT:
+				developmentCards.put(type, makeDevelopmentDeck(type, devDeck.monument));
+				break;
+			case YEAR_OF_PLENTY:
+				developmentCards.put(type, makeDevelopmentDeck(type, devDeck.yearOfPlenty));
+				break;
+			case MONOPOLY:
+				developmentCards.put(type, makeDevelopmentDeck(type, devDeck.monopoly));
+				break;
+			case ROAD_BUILD:
+				developmentCards.put(type, makeDevelopmentDeck(type, devDeck.roadBuilding));
+				break;
+			default:
+				developmentCards.put(type, makeDevelopmentDeck(type, 2));
+				break;
+			}
+		}
 		//Development cards
-		makeDevTypePile(DevCardType.MONOPOLY, devDeck.monopoly);
-		makeDevTypePile(DevCardType.MONUMENT, devDeck.monument);
-		makeDevTypePile(DevCardType.ROAD_BUILD, devDeck.roadBuilding);
-		makeDevTypePile(DevCardType.SOLDIER, devDeck.soldier);
-		makeDevTypePile(DevCardType.YEAR_OF_PLENTY, devDeck.yearOfPlenty);
 		
 	}
-	private void makeDevTypePile(DevCardType type, int count)
-	{
-		Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
-		for(int i = 0; i < count; ++i)
-		{
-			newPile.add(new DevelopmentCard(type));
-		}
-		developmentCards.get(type).clear();
-		developmentCards.get(type).addAll(newPile);
-		newPile.clear();
-	}
-	private void makeResourceDeck(ResourceType type, int count)
-	{
-		Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
-		for(int i = 0; i < count; ++i)
-		{
-			newPile.add(new ResourceCard(type));
-		}
-		resourceCards.get(type).clear();
-		resourceCards.get(type).addAll(newPile);
-		newPile.clear();
-	}
+	
 	private Collection<DevelopmentCard> makeDevelopmentDeck(
 			DevCardType type, int j) {
 		Collection<DevelopmentCard> typeDeck = new ArrayList<DevelopmentCard>();
@@ -94,9 +115,10 @@ public class Bank implements Hand{
 		}
 		return typeDeck;
 	}
-	private Collection<ResourceCard> makeTypeDeck(ResourceType type) {
+	private Collection<ResourceCard> makeTypeDeck(ResourceType type, int count) {
 		Collection<ResourceCard> typeDeck = new ArrayList<ResourceCard>();
-		for(int i = 0; i < 25; i++)
+		if(count == 0)count = 25;
+		for(int i = 0; i < count; i++)
 		{
 			typeDeck.add(new ResourceCard(type));
 		}
@@ -147,10 +169,11 @@ public class Bank implements Hand{
 	@Override
 	public boolean addDevelopmentCardCollection(DevCardType type,
 			Collection<DevelopmentCard> newCards) {
-		boolean added = true;
-		if(!playedCards.addAll(newCards))
+		boolean added = false;
+		if(type != DevCardType.SOLDIER || type != DevCardType.MONUMENT)
 		{
-			added = false;
+			added = playedCards.addAll(newCards);
+			
 		}
 		return added;
 	}
@@ -178,6 +201,14 @@ public class Bank implements Hand{
 	 */
 	public int getResourceCardCount(ResourceType type) {
 		return resourceCards.get(type).size();
+	}
+
+	public Collection<DevelopmentCard> getPlayedCards() {
+		return playedCards;
+	}
+
+	public void setPlayedCards(Collection<DevelopmentCard> playedCards) {
+		this.playedCards = playedCards;
 	}
 
 	
