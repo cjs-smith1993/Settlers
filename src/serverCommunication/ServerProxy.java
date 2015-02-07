@@ -14,6 +14,7 @@ import shared.definitions.*;
 import shared.locations.*;
 import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.*;
+import clientBackend.model.CatanException;
 import clientBackend.model.Game;
 
 /**
@@ -225,11 +226,18 @@ public class ServerProxy implements ServerInterface {
 	public void gameModel(int version) throws ServerException {
 		DTOGameModel data = new DTOGameModel(version);
 
+		String response = "";
+		
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/model");
-			String response = this.doPost(url, data);
-			System.out.println(this.consoleNote + response);
+			response = this.doPost(url, data);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			CatanSerializer.getInstance().deserializeModel(response);
+		} catch (CatanException e) {
 			e.printStackTrace();
 		}
 	}
