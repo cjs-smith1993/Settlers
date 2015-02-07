@@ -20,8 +20,11 @@ public class PostOffice {
 	}
 	
 	public PostOffice(List<TransportLine> chat, List<TransportLine> log) {
+		chat = new ArrayList<>();
+		log = new ArrayList<>();
+		
 		generateMessages(chat, this.chat);
-		generateMessages(log, this.chat);
+		generateMessages(log, this.log);
 	}
 	
 	private void generateMessages(List<TransportLine> newCommunications, List<Message> existingCommunications) {
