@@ -10,6 +10,9 @@ public class BoardFactory {
 	private static HexLocation desertLocation;
 
 	public static HexLocation getDesertLocation() {
+		if (BoardFactory.desertLocation == null) {
+			BoardFactory.desertLocation = new HexLocation(2, 0);
+		}
 		return BoardFactory.desertLocation;
 	}
 
@@ -97,7 +100,7 @@ public class BoardFactory {
 		int idx = 0;
 		for (HexLocation location : landHexes) {
 			// don't put a tile where the desert should go
-			if (location.equals(desertLocation)) {
+			if (randomize && location.equals(desertLocation)) {
 				continue;
 			}
 
@@ -105,9 +108,11 @@ public class BoardFactory {
 			tile.setLocation(location);
 			tiles.put(location, tile);
 		}
-		Tile desertTile = landTiles.get(idx);
-		desertTile.setLocation(desertLocation);
-		tiles.put(desertLocation, desertTile);
+		if (randomize) {
+			Tile desertTile = landTiles.get(idx);
+			desertTile.setLocation(desertLocation);
+			tiles.put(desertLocation, desertTile);
+		}
 
 		ArrayList<HexLocation> waterHexes = getWaterHexLocations(false);
 		ArrayList<Tile> waterTiles = getWaterTiles();
