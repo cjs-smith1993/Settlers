@@ -22,9 +22,9 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> builtRoads;
 	
 	public Scoreboard(List<TransportPlayer> player, TransportTurnTracker turnTracker) {
-		initializeMap(points);
-		initializeMap(activeKnights);
-		initializeMap(builtRoads);
+		points = initializeMap();
+		activeKnights = initializeMap();
+		builtRoads = initializeMap();
 		
 		largestArmy = turnTracker.largestArmy;
 		longestRoad = turnTracker.longestRoad;
@@ -35,25 +35,30 @@ public class Scoreboard {
 	}
 	
 	public Scoreboard() {
-		initializeMap(points);
-		initializeMap(activeKnights);
-		initializeMap(builtRoads);
+		points = initializeMap();
+		activeKnights = initializeMap();
+		builtRoads = initializeMap();
 		
 		largestArmy = PlayerNumber.BANK;
 		longestRoad = PlayerNumber.BANK;
 	}
 	
-	private void initializeMap(Map<PlayerNumber, Integer> map) {
-		map = new HashMap<PlayerNumber, Integer>();
+	private Map<PlayerNumber, Integer> initializeMap() {
+		HashMap<PlayerNumber, Integer> map = new HashMap<PlayerNumber, Integer>();
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 4; i++) {
 			map.put(PlayerNumber.values()[i], 0);
 		}
+		
+		return map;
 	}
 	
 	private void countRoads(List<TransportPlayer> players) {		
 		for (int i = 0; i < players.size(); i++) {
-			builtRoads.put(players.get(i).playerIndex, players.get(i).roads);
+			TransportPlayer player = players.get(i);
+			PlayerNumber number = player.playerIndex;
+			int roads = player.roads;
+			builtRoads.put(number, roads);
 		}
 	}
 	
