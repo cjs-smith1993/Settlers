@@ -299,8 +299,8 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/rollNumber");
 			String response = this.doPost(url, data);
-			//System.out.println(this.consoleNote + response);
-		} catch (IOException e) {
+			CatanSerializer.getInstance().deserializeModel(response);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -5,7 +5,7 @@ import shared.definitions.*;
 /**
  * Represents an exception that occurs within the context of the game *
  */
-public class CatanException extends Throwable {
+public class CatanException extends Exception {
 	private CatanExceptionType type;
 	private String message;
 	

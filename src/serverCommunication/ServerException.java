@@ -7,7 +7,7 @@ import shared.definitions.*;
  * specific information stored that will help determine what todo with the
  * exception
  */
-public class ServerException extends Throwable {
+public class ServerException extends Exception {
 	private ServerExceptionType type;
 	private String message;
 
