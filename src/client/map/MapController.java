@@ -32,6 +32,7 @@ public class MapController extends Controller implements IMapController {
 	private IRobView getRobView() {
 		return robView;
 	}
+	
 	private void setRobView(IRobView robView) {
 		this.robView = robView;
 	}

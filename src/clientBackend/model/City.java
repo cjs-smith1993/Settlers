@@ -1,6 +1,7 @@
 package clientBackend.model;
 
 import shared.definitions.PlayerNumber;
+import shared.definitions.PropertyType;
 import shared.locations.VertexLocation;
 
 /**
@@ -13,11 +14,13 @@ public class City extends Dwelling {
 		this.owner = owner;
 		this.location = null;
 		this.victoryPoints = 2;
+		this.propertyType = PropertyType.CITY;
 	}
 
 	public City(PlayerNumber owner, VertexLocation location) {
 		this.owner = owner;
 		this.location = location;
 		this.victoryPoints = 2;
+		this.propertyType = PropertyType.CITY;
 	}
 }

@@ -18,6 +18,8 @@ public class Player {
 	private ArrayList<Road> availableRoads;
 	private ArrayList<Settlement> availableSettlements;
 	private ArrayList<City> availableCities;
+	private boolean hasPlayedDevCard;
+	
 	public final static int MAX_ROADS = 15;
 	public final static int MAX_SETTLEMENTS = 5;
 	public final static int MAX_CITIES = 4;
@@ -67,9 +69,11 @@ public class Player {
 		this.color = player.color;
 		this.number = player.playerIndex;
 
-		availableRoads = initializeRoads(player.roads);
-		availableSettlements = initializeSettlements(player.settlements);
-		availableCities = initializeCities(player.cities);
+		this.availableRoads = initializeRoads(player.roads);
+		this.availableSettlements = initializeSettlements(player.settlements);
+		this.availableCities = initializeCities(player.cities);
+		
+		this.setHasPlayedDevCard(player.playedDevCard);
 	}
 	
 	public int getNumRoads() {
@@ -125,6 +129,14 @@ public class Player {
 		return this.number;
 	}
 	
+	public boolean hasPlayedDevCard() {
+		return hasPlayedDevCard;
+	}
+
+	public void setHasPlayedDevCard(boolean hasPlayedDevCard) {
+		this.hasPlayedDevCard = hasPlayedDevCard;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
@@ -143,4 +155,6 @@ public class Player {
 				other.getColor() == this.getColor() &&
 				other.getNumber() == this.getNumber());
 	}
+
+	
 }

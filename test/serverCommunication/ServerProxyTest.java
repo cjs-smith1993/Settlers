@@ -86,20 +86,20 @@ public class ServerProxyTest {
 		}
 	}
 
-//	@Test
-//	public void testMovesRoad_Building() {
-//		HexLocation hexLocation1 = new HexLocation(2, 2);
-//		EdgeLocation location1 = new EdgeLocation(hexLocation1, EdgeDirection.North);
-//
-//		HexLocation hexLocation2 = new HexLocation(1, 1);
-//		EdgeLocation location2 = new EdgeLocation(hexLocation2, EdgeDirection.South);
-//		
-//		try {
-//			proxy.movesRoad_Building(3, location1, location2);
-//		} catch (ServerException e) {
-//			fail("Server did not return STATUS CODE 200.");
-//		}
-//	}
+	@Test
+	public void testMovesRoad_Building() {
+		HexLocation hexLocation1 = new HexLocation(2, 2);
+		EdgeLocation location1 = new EdgeLocation(hexLocation1, EdgeDirection.North);
+
+		HexLocation hexLocation2 = new HexLocation(1, 1);
+		EdgeLocation location2 = new EdgeLocation(hexLocation2, EdgeDirection.South);
+		
+		try {
+			proxy.movesRoad_Building(3, location1, location2);
+		} catch (ServerException e) {
+			fail("Server did not return STATUS CODE 200.");
+		}
+	}
 
 	@Test
 	public void testMovesSoldier() {

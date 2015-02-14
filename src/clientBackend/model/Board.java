@@ -264,7 +264,7 @@ public class Board {
 	 *            apply
 	 * @return true if the road can be built at the desired location
 	 */
-	public boolean canPlaceRoad(Road road, EdgeLocation edge, boolean setupPhase) {
+	public boolean canPlaceRoad(PlayerNumber owner, EdgeLocation edge, boolean setupPhase) {
 		// disallow if a road already exists here
 		if (this.roads.get(edge) != null) {
 			return false;
@@ -275,13 +275,12 @@ public class Board {
 			return false;
 		}
 
-		PlayerNumber owner = road.getOwner();
 		Collection<Road> connectedRoads = this.getAdjacentRoads(edge);
 		Collection<Road> validConnectedRoads = new ArrayList<Road>();
 		for (Road r : connectedRoads) {
 			if (r.getOwner() == owner) {
 				EdgeLocation edge1 = r.getLocation();
-				EdgeLocation edge2 = road.getLocation();
+				EdgeLocation edge2 = edge;
 				VertexLocation sharedVertex = Geometer.getSharedVertex(edge1, edge2);
 				if (sharedVertex != null) {
 					Dwelling sharedDwelling = this.dwellings.get(sharedVertex);
@@ -294,7 +293,7 @@ public class Board {
 
 		boolean roadRuleMet = !validConnectedRoads.isEmpty();
 		if (setupPhase) {
-			Collection<Dwelling> connectedDwellings = this.getAdjacentDwellings(road.getLocation());
+			Collection<Dwelling> connectedDwellings = this.getAdjacentDwellings(edge);
 			ArrayList<Dwelling> ownedDwellings = new ArrayList<Dwelling>();
 			for (Dwelling dwelling : connectedDwellings) {
 				if (dwelling.getOwner() == owner) {
@@ -330,7 +329,7 @@ public class Board {
 	 *             if the road cannot be placed at the desired location
 	 */
 	public void placeRoad(Road road, EdgeLocation edge, boolean setupPhase) throws CatanException {
-		if (this.canPlaceRoad(road, edge, setupPhase)) {
+		if (this.canPlaceRoad(road.getOwner(), edge, setupPhase)) {
 			road.setLocation(edge.getNormalizedLocation());
 			this.roads.put(edge.getNormalizedLocation(), road);
 		}
@@ -351,20 +350,34 @@ public class Board {
 	 *            true if the game is in the setup phase and normal rules do not
 	 *            apply
 	 */
-	public boolean canPlaceDwelling(Dwelling dwelling, VertexLocation vertex, boolean setupPhase) {
-		// disallow if a dwelling already exists here
-		if (this.dwellings.get(vertex) != null) {
+	public boolean canPlaceDwelling(PlayerNumber owner, VertexLocation vertex, boolean setupPhase, PropertyType type) {
+		// disallow if the property type is not a settlement or city
+		if (type != PropertyType.SETTLEMENT && type != PropertyType.CITY) {
 			return false;
+		}
+		
+		Dwelling currentProperty = dwellings.get(vertex);
+		// disallow if property is a settlement and a dwelling already exists here
+		if (type == PropertyType.SETTLEMENT) {
+			if (currentProperty != null) {// I could have combined these but this way is more explicit @kevinjreece
+				return false;
+			}
+		}
+		// disallow if property is a city and there is not already one of the owner's settlements at that location
+		else if (type == PropertyType.CITY) {
+			if (currentProperty == null || currentProperty.getOwner() != owner) {
+				return false;
+			}
 		}
 
 		// disallow if this vertex is not on land
 		if (!this.isLand(vertex)) {
 			return false;
 		}
-
+		
+		
 		Collection<Dwelling> adjacentDwellings = this.getAdjacentDwellings(vertex);
 
-		PlayerNumber owner = dwelling.getOwner();
 		Collection<Road> connectedRoads = this.getAdjacentRoads(vertex);
 		Collection<Road> validConnectedRoads = new ArrayList<Road>();
 		for (Road road : connectedRoads) {
@@ -393,7 +406,7 @@ public class Board {
 	 */
 	public void placeDwelling(Dwelling dwelling, VertexLocation vertex, boolean setupPhase)
 			throws CatanException {
-		if (this.canPlaceDwelling(dwelling, vertex, setupPhase)) {
+		if (this.canPlaceDwelling(dwelling.getOwner(), vertex, setupPhase, dwelling.getPropertyType())) {
 			dwelling.setLocation(vertex.getNormalizedLocation());
 			this.dwellings.put(vertex.getNormalizedLocation(), dwelling);
 		}
@@ -424,3 +437,24 @@ public class Board {
 		return harborsByPlayer;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

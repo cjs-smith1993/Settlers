@@ -11,7 +11,10 @@ import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
+import shared.definitions.ResourceType;
 import shared.definitions.Status;
+import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 
 public class Facade {
 	private Board board;
@@ -23,6 +26,16 @@ public class Facade {
 	private int version;
 
 	private final int ROBBER_ROLL = 7;
+	
+	private boolean isPlaying(PlayerNumber player) {
+		
+		if (this.game.getStatus() == Status.PLAYING
+				&& this.game.getCurrentPlayer() == player) {
+			return true;
+		}
+
+		return false;
+	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
 		this.board = new Board(model.map);
@@ -109,28 +122,71 @@ public class Facade {
 	 * @throws CatanException
 	 */
 	public boolean canBuildCity(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have enough resources?
-		// Does the client player have at least one available city?
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
+		if (this.isPlaying(player)
 				&& this.broker.canPurchase(player, PropertyType.CITY)
-				&& this.game.hasSettlement(player)) {
+				&& this.game.hasCity(player)) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public boolean canOfferTrade(PlayerNumber player) {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have any cards?
+	/**
+	 * Determines if a player can place a road at the desired location
+	 * @param player
+	 * @param edge
+	 * @param isSetupPhase
+	 * @return
+	 */
+	public boolean canPlaceRoad(PlayerNumber player, EdgeLocation edge, boolean isSetupPhase) {
+		
+		if (this.isPlaying(player)
+				&& this.board.canPlaceRoad(player, edge, isSetupPhase)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Determines if a player can place a settlement at the desired location
+	 * @param player
+	 * @param vertex
+	 * @param isSetupPhase
+	 * @return
+	 */
+	public boolean canPlaceSettlement(PlayerNumber player, VertexLocation vertex, boolean isSetupPhase) {
+		
+		if (this.isPlaying(player)
+				&& this.board.canPlaceDwelling(player, vertex, isSetupPhase, PropertyType.SETTLEMENT)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Determines if a player can place a city at the desired location
+	 * @param player
+	 * @param vertex
+	 * @param isSetupPhase
+	 * @return
+	 */
+	public boolean canPlaceCity(PlayerNumber player, VertexLocation vertex) {
+		boolean isSetupPhase = false;
+		
+		if (this.isPlaying(player)
+				&& this.board.canPlaceDwelling(player, vertex, isSetupPhase, PropertyType.CITY)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean canOfferTrade(PlayerNumber player, ResourceInvoice invoice) {
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
+		if (this.isPlaying(player)
 				&& this.broker.hasResourceCard(player)) {
 			return true;
 		}
@@ -148,13 +204,9 @@ public class Facade {
 		return false;
 	}
 
-	public boolean canMaritimeTrade(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player hane any cards?
-		// Does the client player own at least one harbor?
-
-		if (this.canOfferTrade(player)
+	public boolean canMaritimeTrade(PlayerNumber player, int ratio, ResourceType giving, ResourceType getting) throws CatanException {
+		
+		if (this.isPlaying(player)
 				&& this.broker.hasHarbor(player)) {
 			return true;
 		}
@@ -163,12 +215,7 @@ public class Facade {
 	}
 
 	public boolean canFinishTurn(PlayerNumber player) {
-		if (this.game.getStatus() == Status.PLAYING
-				&& this.game.getCurrentPlayer() == player) {
-			return true;
-		}
-
-		return false;
+		return isPlaying(player);
 	}
 
 	public void finishTurn(PlayerNumber player) throws CatanException {
@@ -185,13 +232,8 @@ public class Facade {
 	}
 
 	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have enough resources?
-		// Is there at least one more development card in the deck?
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
+		if (this.isPlaying(player)
 				&& this.broker.canPurchase(player, PropertyType.DEVELOPMENT_CARD)
 				&& this.broker.hasDevelopmentCard(player)) {
 			return true;

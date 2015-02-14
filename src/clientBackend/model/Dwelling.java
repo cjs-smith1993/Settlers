@@ -15,8 +15,9 @@ public abstract class Dwelling {
 	protected PlayerNumber owner;
 	protected VertexLocation location;
 	protected int victoryPoints;
+	protected PropertyType propertyType;
 
-	public PlayerNumber getOwner() {
+ 	public PlayerNumber getOwner() {
 		return this.owner;
 	}
 
@@ -30,6 +31,10 @@ public abstract class Dwelling {
 
 	public int getVictoryPoints() {
 		return this.victoryPoints;
+	}
+	
+	public PropertyType getPropertyType() {
+		return propertyType;
 	}
 
 	@Override

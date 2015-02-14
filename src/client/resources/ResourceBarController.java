@@ -8,7 +8,7 @@ import client.base.*;
 /**
  * Implementation for the resource bar controller
  */
-public class ResourceBarController extends Controller implements IResourceBarController {
+public class ResourceBarController extends Controller implements IResourceBarController, Observer {
 
 	private Map<ResourceBarElement, IAction> elementActions;
 	
@@ -17,6 +17,16 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		super(view);
 		
 		elementActions = new HashMap<ResourceBarElement, IAction>();
+		
+		elementActions.put(ResourceBarElement.ROAD, new IAction() {
+
+			@Override
+			public void execute() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 
 	@Override
@@ -67,6 +77,13 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			IAction action = elementActions.get(element);
 			action.execute();
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+		// for each element in view, determine if enabled
 	}
 
 }
