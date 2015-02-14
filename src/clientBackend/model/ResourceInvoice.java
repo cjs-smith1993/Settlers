@@ -10,14 +10,35 @@ import shared.definitions.ResourceType;
 public class ResourceInvoice {
 
 	/**
-	 * The type of the resource
+	 * number of brick to trade 
+	 * (+) is the number to give to the dstPlayer
+	 * (-) is the number to receive from the dstPlayer
 	 */
-	public ResourceType resource;
-
+	private int brick;
 	/**
-	 * The number of resources (greater than zero)
+	 * number of wood to trade 
+	 * (+) is the number to give to the dstPlayer
+	 * (-) is the number to receive from the dstPlayer
 	 */
-	public int count;
+	private int wood;
+	/**
+	 * number of wheat to trade 
+	 * (+) is the number to give to the dstPlayer
+	 * (-) is the number to receive from the dstPlayer
+	 */
+	private int wheat;
+	/**
+	 * number of ore to trade 
+	 * (+) is the number to give to the dstPlayer
+	 * (-) is the number to receive from the dstPlayer
+	 */
+	private int ore;
+	/**
+	 * number of sheep to trade 
+	 * (+) is the number to give to the dstPlayer
+	 * (-) is the number to receive from the dstPlayer
+	 */
+	private int sheep;
 
 	/**
 	 * The player from which the resource is being withdrawn, or the bank
@@ -29,33 +50,60 @@ public class ResourceInvoice {
 	 */
 	public PlayerNumber destinationPlayer;
 
-	public ResourceInvoice(ResourceType type, int count, PlayerNumber sourcePlayer,
+	public ResourceInvoice(PlayerNumber sourcePlayer,
 			PlayerNumber destinationPlayer)
 	{
-		this.resource = type;
-		this.count = count;
 		this.sourcePlayer = sourcePlayer;
 		this.destinationPlayer = destinationPlayer;
+		this.setBrick(0);
+		this.setOre(0);
+		this.setSheep(0);
+		this.setWheat(0);
+		this.setWood(0);
 	}
 
-	public ResourceType getResource() {
-		return this.resource;
+	public int getBrick() {
+		return brick;
 	}
 
-	public void setResource(ResourceType resource) {
-		this.resource = resource;
+	public void setBrick(int brick) {
+		this.brick = brick;
 	}
 
-	public int getCount() {
-		return this.count;
+	public int getWood() {
+		return wood;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setWood(int wood) {
+		this.wood = wood;
+	}
+
+	public int getWheat() {
+		return wheat;
+	}
+
+	public void setWheat(int wheat) {
+		this.wheat = wheat;
+	}
+
+	public int getOre() {
+		return ore;
+	}
+
+	public void setOre(int ore) {
+		this.ore = ore;
+	}
+
+	public int getSheep() {
+		return sheep;
+	}
+
+	public void setSheep(int sheep) {
+		this.sheep = sheep;
 	}
 
 	public PlayerNumber getSourcePlayer() {
-		return this.sourcePlayer;
+		return sourcePlayer;
 	}
 
 	public void setSourcePlayer(PlayerNumber sourcePlayer) {
@@ -63,7 +111,7 @@ public class ResourceInvoice {
 	}
 
 	public PlayerNumber getDestinationPlayer() {
-		return this.destinationPlayer;
+		return destinationPlayer;
 	}
 
 	public void setDestinationPlayer(PlayerNumber destinationPlayer) {
@@ -71,37 +119,55 @@ public class ResourceInvoice {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		ResourceInvoice other = (ResourceInvoice) obj;
-		if (this.count != other.count) {
-			return false;
-		}
-		if (this.destinationPlayer != other.destinationPlayer) {
-			return false;
-		}
-		if (this.resource != other.resource) {
-			return false;
-		}
-		if (this.sourcePlayer != other.sourcePlayer) {
-			return false;
-		}
-		return true;
+	public String toString() {
+		return "ResourceInvoice [brick=" + brick + ", wood=" + wood
+				+ ", wheat=" + wheat + ", ore=" + ore + ", sheep=" + sheep
+				+ ", sourcePlayer=" + sourcePlayer + ", destinationPlayer="
+				+ destinationPlayer + "]";
 	}
 
 	@Override
-	public String toString() {
-		return "ResourceInvoice [resource=" + this.resource + ", count=" + this.count
-				+ ", sourcePlayer=" + this.sourcePlayer + ", destinationPlayer="
-				+ this.destinationPlayer + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + brick;
+		result = prime
+				* result
+				+ ((destinationPlayer == null) ? 0 : destinationPlayer
+						.hashCode());
+		result = prime * result + ore;
+		result = prime * result + sheep;
+		result = prime * result
+				+ ((sourcePlayer == null) ? 0 : sourcePlayer.hashCode());
+		result = prime * result + wheat;
+		result = prime * result + wood;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResourceInvoice other = (ResourceInvoice) obj;
+		if (brick != other.brick)
+			return false;
+		if (destinationPlayer != other.destinationPlayer)
+			return false;
+		if (ore != other.ore)
+			return false;
+		if (sheep != other.sheep)
+			return false;
+		if (sourcePlayer != other.sourcePlayer)
+			return false;
+		if (wheat != other.wheat)
+			return false;
+		if (wood != other.wood)
+			return false;
+		return true;
 	}
 
 }

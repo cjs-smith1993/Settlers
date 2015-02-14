@@ -56,9 +56,58 @@ public class Broker {
 		boolean success = false;
 		Hand srcPlayer = holdings.get(invoice.getSourcePlayer());
 		Hand dstPlayer = holdings.get(invoice.getDestinationPlayer());
-		ResourceType type = invoice.getResource();
-		int count = invoice.getCount();
+		int brick = invoice.getBrick();
+		int wood = invoice.getWood();
+		int wheat = invoice.getWheat();
+		int sheep = invoice.getSheep();
+		int ore = invoice.getOre();
+		if(brick != 0){
+			if(brick > 0){
+				success = tradeCards(srcPlayer,dstPlayer,ResourceType.BRICK,brick);
+			}
+			else{
+				success = tradeCards(dstPlayer,srcPlayer,ResourceType.BRICK,-brick);
+			}
+		}
+		if(wood != 0){
+			if(wood > 0){
+				success = tradeCards(srcPlayer,dstPlayer,ResourceType.WOOD,wood);
+			}
+			else{
+				success = tradeCards(dstPlayer,srcPlayer,ResourceType.WOOD,-wood);
+			}
+		}
+		if(wheat != 0){
+			if(wheat > 0){
+				success = tradeCards(srcPlayer,dstPlayer,ResourceType.WHEAT,wheat);
+			}
+			else{
+				success = tradeCards(dstPlayer,srcPlayer,ResourceType.WHEAT,-wheat);
+			}
+		}
+		if(sheep != 0){
+			if(sheep > 0){
+				success = tradeCards(srcPlayer,dstPlayer,ResourceType.SHEEP,sheep);
+			}
+			else{
+				success = tradeCards(dstPlayer,srcPlayer,ResourceType.SHEEP,-sheep);
+			}
+		}
+		if(ore != 0){
+			if(ore > 0){
+				success = tradeCards(srcPlayer,dstPlayer,ResourceType.ORE,ore);
+			}
+			else{
+				success = tradeCards(dstPlayer,srcPlayer,ResourceType.ORE,-ore);
+			}
+		}
+		return success;
+	}
+	
+	private boolean tradeCards(Hand srcPlayer, Hand dstPlayer, ResourceType type, int count) throws CatanException{
+		boolean success = false;
 		//add to the logic if bank do special things
+
 		Collection<ResourceCard> lostResources = srcPlayer.removeResourceCard(type, count);
 		if(lostResources.isEmpty()){
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "There was not enough cards in the hand to remove!");
@@ -68,10 +117,8 @@ public class Broker {
 			srcPlayer.addResourceCardCollection(type, lostResources);
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The cards were not added to the destination player!");
 		}
-		
 		return success;
 	}
-	
 	/**
 	 * Returns whether the player can purchase the desired property
 	 * @param player the player
@@ -130,44 +177,37 @@ public class Broker {
 	 * @throws CatanException if the player cannot purchase the property
 	 */
 	public void purchase(PlayerNumber player, PropertyType type) throws CatanException {
-		ResourceInvoice brick;
-		ResourceInvoice wood;
-		ResourceInvoice sheep;
-		ResourceInvoice wheat;
-		ResourceInvoice ore;
+		ResourceInvoice purchase;
 		if(!(this.canPurchase(player, type))){
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Not enough resource cards to purchase");
 		}
 		switch(type){
 		case ROAD:
-			brick = new ResourceInvoice(ResourceType.BRICK, 1, player, PlayerNumber.BANK);
-			wood = new ResourceInvoice(ResourceType.WOOD, 1, player, PlayerNumber.BANK);
-			this.processInvoice(brick);
-			this.processInvoice(wood);
+			purchase = new ResourceInvoice(player, PlayerNumber.BANK);
+			purchase.setBrick(1);
+			purchase.setWood(1);
+			this.processInvoice(purchase);
 			break;
 		case CITY:
-			ore = new ResourceInvoice(ResourceType.ORE, 3, player, PlayerNumber.BANK);
-			wheat = new ResourceInvoice(ResourceType.WHEAT, 2, player, PlayerNumber.BANK);
-			this.processInvoice(ore);
-			this.processInvoice(wheat);
+			purchase = new ResourceInvoice(player, PlayerNumber.BANK);
+			purchase.setOre(3);
+			purchase.setWheat(2);
+			this.processInvoice(purchase);
 			break;
 		case SETTLEMENT:
-			brick = new ResourceInvoice(ResourceType.BRICK, 1, player, PlayerNumber.BANK);
-			wood = new ResourceInvoice(ResourceType.WOOD, 1, player, PlayerNumber.BANK);
-			sheep = new ResourceInvoice(ResourceType.SHEEP, 1, player, PlayerNumber.BANK);
-			wheat = new ResourceInvoice(ResourceType.WHEAT, 1, player, PlayerNumber.BANK);
-			this.processInvoice(brick);
-			this.processInvoice(wood);
-			this.processInvoice(sheep);
-			this.processInvoice(wheat);
+			purchase = new ResourceInvoice(player, PlayerNumber.BANK);
+			purchase.setBrick(1);
+			purchase.setWood(1);
+			purchase.setSheep(1);
+			purchase.setWheat(1);
+			this.processInvoice(purchase);
 			break;
 		case DEVELOPMENT_CARD:
-			ore = new ResourceInvoice(ResourceType.ORE, 1, player, PlayerNumber.BANK);
-			sheep = new ResourceInvoice(ResourceType.SHEEP, 1, player, PlayerNumber.BANK);
-			wheat = new ResourceInvoice(ResourceType.WHEAT, 1, player, PlayerNumber.BANK);
-			this.processInvoice(ore);
-			this.processInvoice(sheep);
-			this.processInvoice(wheat);
+			purchase = new ResourceInvoice(player, PlayerNumber.BANK);
+			purchase.setOre(1);
+			purchase.setSheep(1);
+			purchase.setWheat(1);
+			this.processInvoice(purchase);
 			break;
 		}
 	}
