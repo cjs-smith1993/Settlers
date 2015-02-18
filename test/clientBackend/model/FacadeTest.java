@@ -61,6 +61,7 @@ public class FacadeTest {
 		this.player.resources = new TransportResources();
 		this.player.oldDevCards = new TransportOldDevCards();
 		this.player.newDevCards = new TransportNewDevCards();
+		this.player.playedDevCard = false;
 
 		this.player.resources.brick = 2;
 		this.player.resources.ore = 4;
@@ -205,8 +206,51 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testCanUseRoadBuilder() {
-		//fail("Not yet implemented");
+	public void testCanUseRoadBuilder() throws CatanException {
+		this.model.turnTracker.status = Status.ROLLING;
+		this.model.players[0].oldDevCards.roadBuilding = 1;
+		this.facade.initializeModel(this.model);
+
+		// 1. Not in playing state
+		assertFalse("cannot play card when not in the playing state",
+				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+
+		this.model.turnTracker.status = Status.PLAYING;
+		this.facade.initializeModel(this.model);
+
+		// 2. Not your turn
+		assertFalse("cannot play card when it is not your turn",
+				this.facade.canUseRoadBuilder(PlayerNumber.TWO));
+
+		// 3. Cannot play when you just bought the card
+		this.model.players[0].oldDevCards.roadBuilding = 0;
+		this.model.players[0].newDevCards.roadBuilding = 1;
+		this.facade.initializeModel(this.model);
+		assertFalse("cannot play a card on the turn the card was bought",
+				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+
+		this.model.players[0].oldDevCards.roadBuilding = 2;
+		this.model.players[0].newDevCards.roadBuilding = 0;
+		this.facade.initializeModel(this.model);
+
+		// 4. Can play when it is your turn
+		assertTrue("can play road building when it is your turn",
+				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+
+		this.model.players[0].playedDevCard = true;
+		this.facade.initializeModel(this.model);
+
+		// 5. Cannot play when you've already played a card
+		assertFalse("cannot play more than one card per turn",
+				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+
+		this.model.players[0].playedDevCard = false;
+		this.model.players[0].roads = 1;
+		this.facade.initializeModel(this.model);
+
+		// 6. Cannot play when you don't have enough roads
+		assertFalse("cannot play with only one available road",
+				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
 	}
 
 	@Test
@@ -215,13 +259,83 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testCanUseMonopoly() {
-		//fail("Not yet implemented");
+	public void testCanUseMonopoly() throws CatanException {
+		this.model.turnTracker.status = Status.ROLLING;
+		this.model.players[0].oldDevCards.roadBuilding = 1;
+		this.facade.initializeModel(this.model);
+
+		// 1. Not in playing state
+		assertFalse("cannot play card when not in the playing state",
+				this.facade.canUseMonopoly(PlayerNumber.ONE));
+
+		this.model.turnTracker.status = Status.PLAYING;
+		this.facade.initializeModel(this.model);
+
+		// 2. Not your turn
+		assertFalse("cannot play card when it is not your turn",
+				this.facade.canUseMonopoly(PlayerNumber.TWO));
+
+		// 3. Cannot play when you just bought the card
+		this.model.players[0].oldDevCards.monopoly = 0;
+		this.model.players[0].newDevCards.monopoly = 1;
+		this.facade.initializeModel(this.model);
+		assertFalse("cannot play a card on the turn the card was bought",
+				this.facade.canUseMonopoly(PlayerNumber.ONE));
+
+		this.model.players[0].oldDevCards.monopoly = 2;
+		this.model.players[0].newDevCards.monopoly = 0;
+		this.facade.initializeModel(this.model);
+
+		// 4. Can play when it is your turn
+		assertTrue("can play monopoly when it is your turn",
+				this.facade.canUseMonopoly(PlayerNumber.ONE));
+
+		this.model.players[0].playedDevCard = true;
+		this.facade.initializeModel(this.model);
+
+		// 5. Cannot play when you've already played a card
+		assertFalse("cannot play more than one card per turn",
+				this.facade.canUseMonopoly(PlayerNumber.ONE));
 	}
 
 	@Test
-	public void testCanUseMonument() {
-		//fail("Not yet implemented");
+	public void testCanUseMonument() throws CatanException {
+		this.model.turnTracker.status = Status.ROLLING;
+		this.model.players[0].oldDevCards.monument = 1;
+		this.facade.initializeModel(this.model);
+
+		// 1. Not in playing state
+		assertFalse("cannot play card when not in the playing state",
+				this.facade.canUseMonument(PlayerNumber.ONE));
+
+		this.model.turnTracker.status = Status.PLAYING;
+		this.facade.initializeModel(this.model);
+
+		// 2. Not your turn
+		assertFalse("cannot play card when it is not your turn",
+				this.facade.canUseMonument(PlayerNumber.TWO));
+
+		// 3. Cannot play when you just bought the card
+		this.model.players[0].oldDevCards.monument = 0;
+		this.model.players[0].newDevCards.monument = 1;
+		this.facade.initializeModel(this.model);
+		assertFalse("cannot play a card on the turn the card was bought",
+				this.facade.canUseMonument(PlayerNumber.ONE));
+
+		this.model.players[0].oldDevCards.monument = 2;
+		this.model.players[0].newDevCards.monument = 0;
+		this.facade.initializeModel(this.model);
+
+		// 4. Can play when it is your turn
+		assertTrue("can play monopoly when it is your turn",
+				this.facade.canUseMonument(PlayerNumber.ONE));
+
+		this.model.players[0].playedDevCard = true;
+		this.facade.initializeModel(this.model);
+
+		// 5. Can play when you've already played another dev card
+		assertTrue("can play more than one monument per turn",
+				this.facade.canUseMonument(PlayerNumber.ONE));
 	}
 
 	@Test
