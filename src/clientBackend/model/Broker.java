@@ -301,7 +301,8 @@ public class Broker {
 		return beenPlayed;
 		
 	}
-	public boolean CanMaritimeTrade(PlayerNumber player){
+	
+	public boolean canMaritimeTrade(PlayerNumber player){
 		boolean enough = false;
 		for(ResourceType type: ResourceType.values())
 		{
@@ -313,6 +314,7 @@ public class Broker {
 		}
 		return enough;
 	}
+	
 	/**
 	 * This is a method to check if the source player in the invoice
 	 * has the necessary resources to trade.
@@ -361,6 +363,7 @@ public class Broker {
 		}
 		return canTrade;//canDiscardCards(player, 1);
 	}
+	
 	/**
 	 * This method will check the destination player to see 
 	 * if they have enough resources to complete the trade.
@@ -408,6 +411,7 @@ public class Broker {
 		}
 		return canAccept;
 	}
+	
 	/**
 	 * Determines whether the player has the necessary number of cards to return to the BANK.
 	 * @return canDiscardCards
