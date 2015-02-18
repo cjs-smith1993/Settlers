@@ -216,11 +216,14 @@ public class Broker {
 			purchase.setSheep(1);
 			purchase.setWheat(1);
 			this.processInvoice(purchase);
-			//if this happens draw a dev card.
+			((PlayerHoldings) holdings.get(player)).addDevelopmentCard(drawDevelopmentCard());
 			break;
 		}
 	}
 	
+	private DevelopmentCard drawDevelopmentCard() {
+		return ((Bank) holdings.get(PlayerNumber.BANK)).drawDevelopmentCard();
+	}
 	/**
 	 * Returns whether the player can play the desired development card
 	 * @param player the player

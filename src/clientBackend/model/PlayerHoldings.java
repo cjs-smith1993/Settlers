@@ -273,5 +273,10 @@ public class PlayerHoldings implements Hand {
 			Map<DevCardType, Collection<DevelopmentCard>> developmentCards) {
 		this.developmentCards = developmentCards;
 	}
+	public void addDevelopmentCard(DevelopmentCard devCard) {
+		DevCardType type = devCard.getType();
+		developmentCards.get(type).add(devCard);
+		
+	}
 		
 }
