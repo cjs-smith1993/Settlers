@@ -5,17 +5,18 @@ import shared.definitions.*;
 /**
  * Represents an exception that occurs within the context of the game *
  */
+@SuppressWarnings("serial")
 public class CatanException extends Exception {
 	private CatanExceptionType type;
 	private String message;
-	
-	public CatanException(CatanExceptionType type, String message){ 
+
+	public CatanException(CatanExceptionType type, String message) {
 		this.type = type;
 		this.message = message;
 	}
 
 	public CatanExceptionType getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(CatanExceptionType type) {
@@ -23,7 +24,7 @@ public class CatanException extends Exception {
 	}
 
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
 
 	public void setMessage(String message) {
@@ -32,6 +33,6 @@ public class CatanException extends Exception {
 
 	@Override
 	public String toString() {
-		return "CatanException of type:" + type + "\n\tMessage: " + message + "\n";
+		return "CatanException of type:" + this.type + "\n\tMessage: " + this.message + "\n";
 	}
 }
