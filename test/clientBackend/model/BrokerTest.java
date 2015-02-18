@@ -248,8 +248,8 @@ public class BrokerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue("Can trade the cards",myBroker.canMaritimeTrade(PlayerNumber.ONE));
-		assertFalse("can not trade cards",myBroker.canMaritimeTrade(PlayerNumber.TWO));
+		assertTrue("Can trade the cards",myBroker.canMaritimeTrade(PlayerNumber.ONE, ResourceType.BRICK));
+		assertFalse("can not trade cards",myBroker.canMaritimeTrade(PlayerNumber.TWO, ResourceType.BRICK));
 	}
 	@Test
 	public void testCanOfferTrade(){

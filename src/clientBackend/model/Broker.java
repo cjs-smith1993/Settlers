@@ -322,17 +322,39 @@ public class Broker {
 	//not sure what this should be
 	//maritime trade can be any ratio 2,3,4 as long as they have the correct port.
 
-	public boolean canMaritimeTrade(PlayerNumber player){
+	public boolean canMaritimeTrade(PlayerNumber player, ResourceType type){
 		boolean enough = false;
-		for(ResourceType type: ResourceType.values())
+		int bestRatio = findBestRatio(player, type);
+		if(holdings.get(player).getResourceCardCount(type) >= bestRatio)
 		{
-			if(holdings.get(player).getResourceCardCount(type) >= 4)
-			{
-				enough = true;
-				return enough;
-			}
+			enough = true;
+			return enough;
 		}
 		return enough;
+	}
+	
+	/**
+	 * finds the best Maritime trade ratio for the given player
+	 * if the player is the bank it will return a 0
+	 * @param player
+	 * @param type
+	 * @return a 0 if fails a 2,3, or 4 for other one that is the ratio for the given type
+	 */
+	public int findBestRatio(PlayerNumber player, ResourceType type){
+		if (player == PlayerNumber.BANK) {
+			return 0;
+		}
+		int min = 4;
+		PlayerHoldings hand = (PlayerHoldings) holdings.get(player);
+		for(Harbor harbor: hand.getHarbors()){
+			if(harbor.getResource() == type){
+				return harbor.getRatio();
+			}
+			else if(harbor.getResource() == ResourceType.ALL){
+				min = 3;
+			}
+		}
+		return min;
 	}
 	
 	/**
