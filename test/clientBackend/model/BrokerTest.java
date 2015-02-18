@@ -248,11 +248,10 @@ public class BrokerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue("Can trade the cards",myBroker.CanMaritimeTrade(PlayerNumber.ONE));
-		assertFalse("can not trade cards",myBroker.CanMaritimeTrade(PlayerNumber.TWO));
+		assertTrue("Can trade the cards",myBroker.canMaritimeTrade(PlayerNumber.ONE));
+		assertFalse("can not trade cards",myBroker.canMaritimeTrade(PlayerNumber.TWO));
 	}
 	@Test
-	@Ignore
 	public void testCanOfferTrade(){
 		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, PlayerNumber.ONE);
 		invoice.setBrick(3);
@@ -263,11 +262,30 @@ public class BrokerTest {
 		try {
 			assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
 		} catch (CatanException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		assertTrue("Can offer the cards",myBroker.canOfferTrade(PlayerNumber.ONE));
-		assertFalse("can not offer cards",myBroker.canOfferTrade(PlayerNumber.TWO));
+		invoice = new ResourceInvoice(PlayerNumber.BANK, PlayerNumber.TWO);
+		invoice.setBrick(2);
+		invoice.setOre(2);
+		invoice.setSheep(2);
+		invoice.setWheat(2);
+		invoice.setWood(2);
+		try {
+			assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
+		} catch (CatanException e) {
+			
+			e.printStackTrace();
+		}
+		invoice = new ResourceInvoice(PlayerNumber.TWO, PlayerNumber.ONE);
+		invoice.setBrick(-3);
+		invoice.setOre(2);
+		invoice.setSheep(0);
+		invoice.setWheat(0);
+		invoice.setWood(0);
+		
+		assertTrue("Can offer the cards",myBroker.canOfferTrade(invoice));
+		assertTrue("can Accept the trade",myBroker.canAcceptTrade(invoice));
 		
 	}
 	@Test

@@ -103,7 +103,15 @@ public class Broker {
 		}
 		return success;
 	}
-	
+	/**depriciated
+	 * We dont need this because now process invoice does this all for us
+	 * @param srcPlayer
+	 * @param dstPlayer
+	 * @param type
+	 * @param count
+	 * @return
+	 * @throws CatanException
+	 */
 	private boolean tradeCards(Hand srcPlayer, Hand dstPlayer, ResourceType type, int count) throws CatanException{
 		boolean success = false;
 		//add to the logic if bank do special things
@@ -208,6 +216,7 @@ public class Broker {
 			purchase.setSheep(1);
 			purchase.setWheat(1);
 			this.processInvoice(purchase);
+			//if this happens draw a dev card.
 			break;
 		}
 	}
@@ -301,7 +310,15 @@ public class Broker {
 		return beenPlayed;
 		
 	}
-	
+
+	/**
+	 * tells if a Given player can use a special maritime trade
+	 * @param player
+	 * @return return true if he can false otherwise
+	 */
+	//not sure what this should be
+	//maritime trade can be any ratio 2,3,4 as long as they have the correct port.
+
 	public boolean canMaritimeTrade(PlayerNumber player){
 		boolean enough = false;
 		for(ResourceType type: ResourceType.values())
@@ -371,10 +388,11 @@ public class Broker {
 	 * @return return true if the dest player has the needed resources false otherwise.
 	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice){
+		//TODO not makeing the correct comparison
 		boolean canAccept = false;
 		PlayerNumber player = invoice.getSourcePlayer();
 		PlayerHoldings hand = (PlayerHoldings)holdings.get(player);
-		if(-(hand.getResourceCardCount(ResourceType.BRICK))<=invoice.getBrick()){
+		if((-(hand.getResourceCardCount(ResourceType.BRICK)))<=invoice.getBrick()){
 			canAccept = true;
 		}
 		else{
@@ -451,6 +469,7 @@ public class Broker {
 	 * @param player
 	 * @return
 	 */
+	//TODO not sure what this is meant to do?
 	public boolean hasResourceCard(PlayerNumber player){
 		boolean hasCard = false;
 		Hand local = holdings.get(player);
