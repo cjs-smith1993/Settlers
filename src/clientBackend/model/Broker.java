@@ -313,12 +313,100 @@ public class Broker {
 		}
 		return enough;
 	}
-	//this is just a temp function but it does what we need to
-	public boolean canTrade(ResourceInvoice invoice)
+	/**
+	 * This is a method to check if the source player in the invoice
+	 * has the necessary resources to trade.
+	 * @param invoice
+	 * @return true if can offer trade false otherwise
+	 */
+	public boolean canOfferTrade(ResourceInvoice invoice)
 	{
-		//TODO check if src can give neg res 
-		//can dst give the pos res
-		return true;//canDiscardCards(player, 1);
+		boolean canTrade = false;
+		PlayerNumber player = invoice.getSourcePlayer();
+		PlayerHoldings hand = (PlayerHoldings)holdings.get(player);
+		if(hand.getResourceCardCount(ResourceType.BRICK)>=invoice.getBrick()){
+			canTrade = true;
+		}
+		else{
+			canTrade = false;
+			return canTrade;
+		}
+		if(hand.getResourceCardCount(ResourceType.WHEAT)>=invoice.getWheat()){
+			canTrade = true;
+		}
+		else{
+			canTrade = false;
+			return canTrade;
+		}
+		if(hand.getResourceCardCount(ResourceType.WOOD)>=invoice.getWood()){
+			canTrade = true;
+		}
+		else{
+			canTrade = false;
+			return canTrade;
+		}
+		if(hand.getResourceCardCount(ResourceType.ORE)>=invoice.getOre()){
+			canTrade = true;
+		}
+		else{
+			canTrade = false;
+			return canTrade;
+		}
+		if(hand.getResourceCardCount(ResourceType.SHEEP)>=invoice.getSheep()){
+			canTrade = true;
+		}
+		else{
+			canTrade = false;
+			return canTrade;
+		}
+		return canTrade;//canDiscardCards(player, 1);
+	}
+	/**
+	 * This method will check the destination player to see 
+	 * if they have enough resources to complete the trade.
+	 * @param invoice
+	 * @return return true if the dest player has the needed resources false otherwise.
+	 */
+	public boolean canAcceptTrade(ResourceInvoice invoice){
+		boolean canAccept = false;
+		PlayerNumber player = invoice.getSourcePlayer();
+		PlayerHoldings hand = (PlayerHoldings)holdings.get(player);
+		if(-(hand.getResourceCardCount(ResourceType.BRICK))<=invoice.getBrick()){
+			canAccept = true;
+		}
+		else{
+			canAccept = false;
+			return canAccept;
+		}
+		if(-(hand.getResourceCardCount(ResourceType.WHEAT))<=invoice.getWheat()){
+			canAccept = true;
+		}
+		else{
+			canAccept = false;
+			return canAccept;
+		}
+		if(-(hand.getResourceCardCount(ResourceType.WOOD))<=invoice.getWood()){
+			canAccept = true;
+		}
+		else{
+			canAccept = false;
+			return canAccept;
+		}
+		if(-(hand.getResourceCardCount(ResourceType.ORE))<=invoice.getOre()){
+			canAccept = true;
+		}
+		else{
+			canAccept = false;
+			return canAccept;
+		}
+		if(-(hand.getResourceCardCount(ResourceType.SHEEP))<=invoice.getSheep()){
+			canAccept = true;
+		}
+		else{
+			canAccept = false;
+			return canAccept;
+		}
+		return canAccept;
 	}
 	/**
 	 * Determines whether the player has the necessary number of cards to return to the BANK.
