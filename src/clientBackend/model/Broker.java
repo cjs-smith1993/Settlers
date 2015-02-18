@@ -314,9 +314,11 @@ public class Broker {
 		return enough;
 	}
 	//this is just a temp function but it does what we need to
-	public boolean canOfferTrade(PlayerNumber player)
+	public boolean canTrade(ResourceInvoice invoice)
 	{
-		return canDiscardCards(player, 1);
+		//TODO check if src can give neg res 
+		//can dst give the pos res
+		return true;//canDiscardCards(player, 1);
 	}
 	/**
 	 * Determines whether the player has the necessary number of cards to return to the BANK.

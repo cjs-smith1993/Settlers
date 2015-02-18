@@ -129,7 +129,39 @@ public class Bank implements Hand{
 	 * @param player
 	 */
 	public DevelopmentCard drawDevelopmentCard() {
+		RandomNumberGenerator randNum = new RandomNumberGenerator();
+		int rand = randNum.generate(0, getDevelopmentCardCount(null));
+		int soldierCount = getDevelopmentCardCount(DevCardType.SOLDIER);
+		int monoplyCount = getDevelopmentCardCount(DevCardType.MONOPOLY);
+		int monumentCount = getDevelopmentCardCount(DevCardType.MONUMENT);
+		int roadBuildCount = getDevelopmentCardCount(DevCardType.ROAD_BUILD);
+		int yearofPlentyCount = getDevelopmentCardCount(DevCardType.YEAR_OF_PLENTY);
+		if(rand < soldierCount){
+			return getDevelopmentCard(DevCardType.SOLDIER);
+		}
+		rand -= (soldierCount-1);
+		if(rand < monoplyCount){
+			return getDevelopmentCard(DevCardType.MONOPOLY);
+		}
+		rand -= (monoplyCount-1);
+		if(rand < roadBuildCount){
+			return getDevelopmentCard(DevCardType.ROAD_BUILD);
+		}
+		rand -= (roadBuildCount-1);
+		if(rand < yearofPlentyCount){
+			return getDevelopmentCard(DevCardType.YEAR_OF_PLENTY);
+		}
+		rand -= (yearofPlentyCount-1);
+		if(rand < monumentCount){
+			return getDevelopmentCard(DevCardType.MONOPOLY);
+		}
 		return null;
+	}
+	private DevelopmentCard getDevelopmentCard(DevCardType type){
+		Iterator<DevelopmentCard> iter = developmentCards.get(type).iterator();
+		DevelopmentCard card = iter.next();
+		iter.remove();
+		return card;
 	}
 	
 	/**
