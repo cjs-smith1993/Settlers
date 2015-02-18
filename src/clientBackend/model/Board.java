@@ -235,15 +235,17 @@ public class Board {
 
 				boolean invoiceExists = false;
 				for (ResourceInvoice invoice : invoices) {
-					if (invoice.getDestinationPlayer() == dest && invoice.getResource() == type) {
+					if (invoice.getDestinationPlayer() == dest) {
 						invoiceExists = true;
-						invoice.setCount(invoice.getCount() + count);
+						int currentCount = invoice.getResource(type);
+						invoice.setResource(type, currentCount + count);
 						break;
 					}
 				}
 
 				if (!invoiceExists) {
-					ResourceInvoice invoice = new ResourceInvoice(type, count, src, dest);
+					ResourceInvoice invoice = new ResourceInvoice(src, dest);
+					invoice.setResource(type, count);
 					invoices.add(invoice);
 				}
 			}
@@ -340,42 +342,56 @@ public class Board {
 	}
 
 	/**
+	 * Returns whether a settlement can be placed at the desired vertex
+	 *
+	 * @param owner
+	 * @param vertex
+	 * @param setupPhase
+	 * @return true if the owner can place a settlement at the desired vertex
+	 */
+	public boolean canPlaceSettlement(PlayerNumber owner, VertexLocation vertex, boolean setupPhase) {
+		Dwelling currentProperty = this.dwellings.get(vertex.getNormalizedLocation());
+		// disallow if a dwelling already exists here
+		if (currentProperty != null) {
+			return false;
+		}
+		return this.canPlaceDwelling(owner, vertex, setupPhase);
+	}
+
+	/**
+	 * Returns whether a city can be placed at the desired vertex
+	 *
+	 * @param owner
+	 * @param vertex
+	 * @param setupPhase
+	 * @return true if the owner can place a city at the desired vertex
+	 */
+	public boolean canPlaceCity(PlayerNumber owner, VertexLocation vertex, boolean setupPhase) {
+		Dwelling currentProperty = this.dwellings.get(vertex.getNormalizedLocation());
+		// disallow if there is not already one of the owner's settlements at that location
+		if (currentProperty == null || currentProperty.getOwner() != owner) {
+			return false;
+		}
+		return this.canPlaceDwelling(owner, vertex, setupPhase);
+	}
+
+	/**
 	 * Returns whether a dwelling can be placed at the desired location
 	 *
-	 * @param dwelling
-	 *            the player's dwelling
+	 * @param owner
+	 *            the player
 	 * @param location
 	 *            the desired location
 	 * @param setupPhase
 	 *            true if the game is in the setup phase and normal rules do not
 	 *            apply
 	 */
-	public boolean canPlaceDwelling(PlayerNumber owner, VertexLocation vertex, boolean setupPhase, PropertyType type) {
-		// disallow if the property type is not a settlement or city
-		if (type != PropertyType.SETTLEMENT && type != PropertyType.CITY) {
-			return false;
-		}
-		
-		Dwelling currentProperty = dwellings.get(vertex);
-		// disallow if property is a settlement and a dwelling already exists here
-		if (type == PropertyType.SETTLEMENT) {
-			if (currentProperty != null) {// I could have combined these but this way is more explicit @kevinjreece
-				return false;
-			}
-		}
-		// disallow if property is a city and there is not already one of the owner's settlements at that location
-		else if (type == PropertyType.CITY) {
-			if (currentProperty == null || currentProperty.getOwner() != owner) {
-				return false;
-			}
-		}
-
+	public boolean canPlaceDwelling(PlayerNumber owner, VertexLocation vertex, boolean setupPhase) {
 		// disallow if this vertex is not on land
 		if (!this.isLand(vertex)) {
 			return false;
 		}
-		
-		
+
 		Collection<Dwelling> adjacentDwellings = this.getAdjacentDwellings(vertex);
 
 		Collection<Road> connectedRoads = this.getAdjacentRoads(vertex);
@@ -392,26 +408,59 @@ public class Board {
 	}
 
 	/**
-	 * Places a dwelling at the given vertex
+	 * Places a settlement at the given vertex
 	 *
-	 * @param dwelling
-	 *            the dwelling to be placed on the board
-	 * @param location
-	 *            the desired vertex for the dwelling
+	 * @param settlement
+	 *            the settlement to be placed on the board
+	 * @param vertex
+	 *            the desired vertex for the settlement
 	 * @param setupPhase
 	 *            true if the game is in the setup phase and normal rules do not
 	 *            apply
 	 * @throws CatanException
-	 *             if the dwelling cannot be placed at the desired location
+	 *             if the settlement cannot be placed at the desired location
+	 * @return the settlement that was at this location
 	 */
-	public void placeDwelling(Dwelling dwelling, VertexLocation vertex, boolean setupPhase)
+	public void placeSettlement(Settlement settlement, VertexLocation vertex, boolean setupPhase)
 			throws CatanException {
-		if (this.canPlaceDwelling(dwelling.getOwner(), vertex, setupPhase, dwelling.getPropertyType())) {
-			dwelling.setLocation(vertex.getNormalizedLocation());
-			this.dwellings.put(vertex.getNormalizedLocation(), dwelling);
+		if (this.canPlaceSettlement(settlement.getOwner(), vertex, setupPhase)) {
+			settlement.setLocation(vertex.getNormalizedLocation());
+			this.dwellings.put(vertex.getNormalizedLocation(), settlement);
 		}
 		else {
-			String message = "A dwelling cannot be placed at " + vertex.toString();
+			String message = "A settlement cannot be placed at " + vertex.toString();
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, message);
+		}
+	}
+
+	/**
+	 * Places a city at the given vertex
+	 *
+	 * @param city
+	 *            the city to be placed on the board
+	 * @param vertex
+	 *            the desired vertex for the city
+	 * @param setupPhase
+	 *            true if the game is in the setup phase and normal rules do not
+	 *            apply
+	 * @throws CatanException
+	 *             if the city cannot be placed at the desired location
+	 * @return the settlement that was at this location
+	 */
+	public Dwelling placeCity(City city, VertexLocation vertex, boolean setupPhase)
+			throws CatanException {
+		if (this.canPlaceCity(city.getOwner(), vertex, setupPhase)) {
+			// get the old settlement
+			Dwelling oldSettlement = this.dwellings.get(vertex.getNormalizedLocation());
+
+			// place the new city
+			city.setLocation(vertex.getNormalizedLocation());
+			this.dwellings.put(vertex.getNormalizedLocation(), city);
+
+			return oldSettlement;
+		}
+		else {
+			String message = "A city cannot be placed at " + vertex.toString();
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, message);
 		}
 	}
@@ -437,24 +486,3 @@ public class Board {
 		return harborsByPlayer;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
