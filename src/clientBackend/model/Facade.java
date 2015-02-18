@@ -14,6 +14,7 @@ import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import shared.definitions.Status;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
 public class Facade {
@@ -75,15 +76,10 @@ public class Facade {
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
 	 */
-	public boolean canBuildRoad(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have enough resources?
-		// Does the client player have at least one available road?
+	public boolean canBuildRoad(PlayerNumber player, boolean isFree) throws CatanException {
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.broker.canPurchase(player, PropertyType.ROAD)
+		if (this.isPlaying(player)
+				&& (isFree || this.broker.canPurchase(player, PropertyType.ROAD))
 				&& this.game.hasRoad(player)) {
 			return true;
 		}
@@ -98,15 +94,10 @@ public class Facade {
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
 	 */
-	public boolean canBuildSettlement(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have enough resources?
-		// Does the client player have at least one available settlement?
+	public boolean canBuildSettlement(PlayerNumber player, boolean isFree) throws CatanException {
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.broker.canPurchase(player, PropertyType.SETTLEMENT)
+		if (this.isPlaying(player)
+				&& (isFree || this.broker.canPurchase(player, PropertyType.SETTLEMENT))
 				&& this.game.hasSettlement(player)) {
 			return true;
 		}
@@ -159,7 +150,7 @@ public class Facade {
 	public boolean canPlaceSettlement(PlayerNumber player, VertexLocation vertex, boolean isSetupPhase) {
 		
 		if (this.isPlaying(player)
-				&& this.board.canPlaceDwelling(player, vertex, isSetupPhase, PropertyType.SETTLEMENT)) {
+				&& this.board.canPlaceSettlement(player, vertex, isSetupPhase)) {
 			return true;
 		}
 		
@@ -177,37 +168,34 @@ public class Facade {
 		boolean isSetupPhase = false;
 		
 		if (this.isPlaying(player)
-				&& this.board.canPlaceDwelling(player, vertex, isSetupPhase, PropertyType.CITY)) {
+				&& this.board.canPlaceCity(player, vertex, isSetupPhase)) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public boolean canOfferTrade(PlayerNumber player, ResourceInvoice invoice) {
-
-		if (this.isPlaying(player)
-				&& this.broker.hasResourceCard(player)) {
+	public boolean canOfferTrade(ResourceInvoice invoice) {
+		if (this.isPlaying(invoice.getSourcePlayer())
+				&& this.broker.canOfferTrade(invoice)) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public boolean canAcceptTrade(PlayerNumber player) {
-		// Does the player have any resource cards?
-
-		if (this.broker.hasResourceCard(player)) {
+	public boolean canAcceptTrade(ResourceInvoice invoice) {
+		if (this.broker.canAcceptTrade(invoice)) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public boolean canMaritimeTrade(PlayerNumber player, int ratio, ResourceType giving, ResourceType getting) throws CatanException {
+	public boolean canMaritimeTrade(PlayerNumber player, ResourceType giving) throws CatanException {
 		
 		if (this.isPlaying(player)
-				&& this.broker.hasHarbor(player)) {
+				&& this.broker.canMaritimeTrade(player, giving)) {
 			return true;
 		}
 
@@ -218,119 +206,186 @@ public class Facade {
 		return isPlaying(player);
 	}
 
-	public void finishTurn(PlayerNumber player) throws CatanException {
-		if (!this.canFinishTurn(player)) {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
-					"Cannot finish turn for player " + player);
-		}
-
-		this.broker.makeDevelopmentCardsPlayable(player);
-		this.game.advanceTurn();
-		this.game.setLastDiceRoll(-1);
-		this.game.setCurrentPlayerHasRolled(false);
-
-	}
-
+/*/	public void finishTurn(PlayerNumber player) throws CatanException {
+//		if (!this.canFinishTurn(player)) {
+//			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+//					"Cannot finish turn for player " + player);
+//		}
+//
+//		this.broker.makeDevelopmentCardsPlayable(player);
+//		this.game.advanceTurn();
+//		this.game.setLastDiceRoll(-1);
+//		this.game.setCurrentPlayerHasRolled(false);
+//
+//	}
+/*/
+	
 	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
 
 		if (this.isPlaying(player)
 				&& this.broker.canPurchase(player, PropertyType.DEVELOPMENT_CARD)
-				&& this.broker.hasDevelopmentCard(player)) {
+				&& this.broker.hasDevelopmentCard(PlayerNumber.BANK)) {
 			return true;
 		}
 
 		return false;
 	}
 
+	/**
+	 * Determines if the player is playing,
+	 * if they have a playable Year of Plenty card,
+	 * and if they have not played another non-Monument development card
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean canUseYearOfPlenty(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have a playable Year of Plenty
-		// developement card?
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY)) {
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY)
+				&& !this.game.hasPlayedDevCard(player)) {
 			return true;
 		}
 
 		return false;
 	}
+	
+	/**
+	 * Determines if the player is playing,
+	 * if they can use a Year of Plenty card,
+	 * and if the bank has one of each of the two resource types
+	 * @param player
+	 * @param resource1
+	 * @param resource2
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canPlayYearOfPlenty(PlayerNumber player, ResourceType resource1, ResourceType resource2) 
+			throws CatanException {
+		if (this.isPlaying(player)
+				&& this.canUseYearOfPlenty(player)
+				&& this.broker.hasNecessaryResourceAmount(PlayerNumber.BANK, resource1, 1)
+				&& this.broker.hasNecessaryResourceAmount(PlayerNumber.BANK, resource2, 1)) {
+			return true;
+		}
+		
+		return false;
+	}
 
+	/**
+	 * Determines if the player is playing,
+	 * if they have a playable RoadBuilding card,
+	 * if they have not played another non-Monument development card,
+	 * and if they have at least 2 available roads
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean canUseRoadBuilder(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have a playable Road Builder
-		// developement card?
-
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD)) {
+		
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD)
+				&& !this.game.hasPlayedDevCard(player)
+				&& this.game.getNumRoads(player) >= 2) {
 			return true;
 		}
 
 		return false;
 	}
 
+	/**
+	 * Determines if the player is playing,
+	 * if they have a playable Soldier card,
+	 * and if they have not played another non-Monument development card
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean canUseSoldier(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have an available Soldier
-		// developement card?
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.SOLDIER)) {
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.SOLDIER)
+				&& !this.game.hasPlayedDevCard(player)) {
 			return true;
 		}
 
 		return false;
 	}
-
+	
+	/**
+	 * Determines if the player is playing,
+	 * if they have a playable Monopoly card,
+	 * and if they have not played another non-Monument development card
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean canUseMonopoly(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have a playable Monopoly
-		// development card?
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONOPOLY)) {
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONOPOLY)
+				&& !this.game.hasPlayedDevCard(player)) {
 			return true;
 		}
 
 		return false;
 	}
 
+	/**
+	 * Determines if the player is playing
+	 * and if they have a playable Monument card
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean canUseMonument(PlayerNumber player) throws CatanException {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Does the client player have a playable Monument
-		// development card?
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
+		if (this.isPlaying(player)
 				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONUMENT)) {
 			return true;
 		}
 
 		return false;
 	}
+	
+	/**
+	 * Determines if the Robber can be placed on a location
+	 * @param player
+	 * @param location
+	 * @return
+	 */
+	public boolean canPlaceRobber(PlayerNumber player, HexLocation location) {
 
-	public boolean canPlaceRobber(PlayerNumber player) {
-		// Has player rolled yet?
-		// Is it the client player's turn?
-		// Was a 7 rolled?
+		if (this.game.getCurrentPlayer() == player
+				&& this.game.getStatus() == Status.ROBBING
+				&& this.board.canMoveRobber(location)) {
+			return true;
+		}
 
-		if (this.game.getCurrentPlayerHasRolled()
-				&& this.game.getCurrentPlayer() == player
-				&& this.game.getLastDiceRoll() == this.ROBBER_ROLL) {
+		return false;
+	}
+	
+	/**
+	 * Determines if the player can rob the victim
+	 * @param player
+	 * @param victim
+	 * @return
+	 */
+	public boolean canRobPlayer(PlayerNumber player, PlayerNumber victim) {
+
+		if (this.game.getCurrentPlayer() == player
+				&& this.game.getStatus() == Status.ROBBING
+				&& this.broker.hasResourceCard(victim)) {
 			return true;
 		}
 
 		return false;
 	}
 
+	/*
+	 * Getters and Setters
+	 * */
+	
 	public PlayerNumber getClientPlayer() {
 		return this.clientPlayer;
 	}

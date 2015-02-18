@@ -196,7 +196,11 @@ public class Game {
 		return (players.get(number).getNumRoads() > 0);
 	}
 	
-	public boolean hasSettlement(PlayerNumber number) throws CatanException {
+	public int getNumRoads(PlayerNumber player) {
+		return players.get(player).getNumRoads();
+	}
+	
+ 	public boolean hasSettlement(PlayerNumber number) throws CatanException {
 		if (players.get(number) == null) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
 					"Player " + number + " does not exist");
@@ -219,6 +223,10 @@ public class Game {
 					"Player " + number + " does not exist");
 		}
 		return (players.get(number).getNumCities() > 0);
+	}
+	
+	public boolean hasPlayedDevCard(PlayerNumber player) {
+		return players.get(player).hasPlayedDevCard();
 	}
 	
 	/**
