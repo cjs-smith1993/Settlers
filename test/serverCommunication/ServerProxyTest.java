@@ -24,7 +24,7 @@ public class ServerProxyTest {
 	public static void setUpBeforeClass() throws Exception {
 		try {
 			proxy.userLogin("Pete", "pete");
-			proxy.gamesJoin(0, CatanColor.BLUE);
+			proxy.gamesJoin(0, CatanColor.RED);
 		} catch (ServerException e) {
 			fail("\n-----------------\nERROR: COULD NOT LOGIN TO SERVER, PRIOR TO ServerProxyTest RUNS.\n-----------------\n");
 		}
@@ -88,14 +88,14 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMovesRoad_Building() {
-		HexLocation hexLocation1 = new HexLocation(2, 2);
-		EdgeLocation location1 = new EdgeLocation(hexLocation1, EdgeDirection.North);
+		HexLocation hexLocation1 = new HexLocation(0, 0);
+		EdgeLocation location1 = new EdgeLocation(hexLocation1, EdgeDirection.NorthEast);
 
-		HexLocation hexLocation2 = new HexLocation(1, 1);
+		HexLocation hexLocation2 = new HexLocation(1, -1);
 		EdgeLocation location2 = new EdgeLocation(hexLocation2, EdgeDirection.South);
 		
 		try {
-			proxy.movesRoad_Building(3, location1, location2);
+			proxy.movesRoad_Building(0, location1, location2);
 		} catch (ServerException e) {
 			fail("Server did not return STATUS CODE 200.");
 		}

@@ -152,7 +152,7 @@ public class Game {
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, 
-					"Cannot add player. Duplicate player info: " + new_player);
+					"Cannot add player. Duplicate player info: " + new_player.name);
 		}
 	}
 	
