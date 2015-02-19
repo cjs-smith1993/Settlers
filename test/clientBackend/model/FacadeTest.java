@@ -4,10 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import shared.definitions.CatanColor;
@@ -392,13 +389,13 @@ public class FacadeTest {
 	@Test
 	public void testCanRobPlayer() throws CatanException {
 		this.model.turnTracker.status = Status.ROBBING;
-		
+
 		// 1. Test rob player with no cards, should fail
 		TransportPlayer otherPlayer = new TransportPlayer();
 		otherPlayer.resources = new TransportResources();
 		otherPlayer.oldDevCards = new TransportOldDevCards();
 		otherPlayer.newDevCards = new TransportNewDevCards();
-		
+
 		otherPlayer.playerIndex = PlayerNumber.TWO;
 		otherPlayer.resources.brick = 0;
 		otherPlayer.resources.wood = 0;
@@ -408,40 +405,33 @@ public class FacadeTest {
 		otherPlayer.color = CatanColor.WHITE;
 		otherPlayer.name = "OtherPlayer";
 		otherPlayer.playerID = 1;
-		
+
 		this.model.players = new TransportPlayer[2];
-		this.model.players[0] = player;
+		this.model.players[0] = this.player;
 		this.model.players[1] = otherPlayer;
-		this.facade.initializeModel(model);
+		this.facade.initializeModel(this.model);
 		assertFalse(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
-		
+
 		// 2. Test rob player with one card, should succeed
 		otherPlayer.resources.brick = 1;
-		this.facade.initializeModel(model);
-		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));	
+		this.facade.initializeModel(this.model);
+		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
 	}
-	
+
 	@Test
 	public void testCanPlaceRobber() throws CatanException {
 		this.model.turnTracker.status = Status.ROBBING;
 		this.model.map.robber = new TransportRobber();
 		this.model.map.robber.x = 0;
 		this.model.map.robber.y = 0;
-		this.facade.initializeModel(model);
+		this.facade.initializeModel(this.model);
 		// 1. Test place Robber on same location; should fail
 		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 0)));
 		// 2. Test place Rober on new location; should pass
 		assertTrue(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 1)));
 		// 3. Test place Robber on water; should fail
 		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(-3, 0)));
-		
+
 	}
 
 }
-
-
-
-
-
-
-
