@@ -31,7 +31,7 @@ public class Bank implements Hand{
 		//make all the cards put them in the space
 		for(ResourceType type: ResourceType.values())
 		{
-			resourceCards.put(type, makeTypeDeck(type, 0));
+			resourceCards.put(type, makeTypeDeck(type, 25));
 		}
 		
 		for(DevCardType type: DevCardType.values())
@@ -117,9 +117,10 @@ public class Bank implements Hand{
 	}
 	private Collection<ResourceCard> makeTypeDeck(ResourceType type, int count) {
 		Collection<ResourceCard> typeDeck = new ArrayList<ResourceCard>();
-		if(count == 0)count = 25;
-		for(int i = 0; i < count; i++)
-		{
+		if(count < 0) {
+			count = 25;
+		}
+		for(int i = 0; i < count; i++) {
 			typeDeck.add(new ResourceCard(type));
 		}
 		return typeDeck;
