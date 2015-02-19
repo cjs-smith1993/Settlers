@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import shared.definitions.PlayerNumber;
+import shared.definitions.ResourceType;
 import shared.definitions.Status;
 import clientBackend.transport.*;
 
@@ -191,18 +192,49 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testFinishTurn() throws CatanException {
-
-	}
-
-	@Test
 	public void testCanBuyDevCard() {
 		//fail("Not yet implemented");
 	}
 
 	@Test
-	public void testCanUseYearOfPlenty() {
-		//fail("Not yet implemented");
+	public void testCanPlayYearOfPlenty() throws CatanException {
+		// 1. Test doesn't have a card
+		this.model.players[0].oldDevCards.yearOfPlenty = 0;
+		this.model.players[0].newDevCards.yearOfPlenty = 1;
+		this.facade.initializeModel(model);
+		/*
+		 * Should not pass
+		 */
+		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
+		
+		// 2. Test has a card
+		this.model.players[0].oldDevCards.yearOfPlenty = 1;
+		this.model.players[0].newDevCards.yearOfPlenty = 0;
+		this.facade.initializeModel(model);
+		/*
+		 * Should pass
+		 */
+		assertTrue(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
+		
+		// 3. Test has a card but player has already played another dev card
+		this.model.players[0].oldDevCards.yearOfPlenty = 1;
+		this.model.players[0].newDevCards.yearOfPlenty = 0;
+		this.model.players[0].playedDevCard = true;
+		this.facade.initializeModel(model);
+		/*
+		 * Should not pass
+		 */
+		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
+		
+		// 4. Test bank doesn't have resources
+		this.model.bank.wood = 0;
+		this.model.players[0].playedDevCard = false;
+		this.facade.initializeModel(model);
+		/*
+		 * Should not pass
+		 */
+		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
+		
 	}
 
 	@Test
