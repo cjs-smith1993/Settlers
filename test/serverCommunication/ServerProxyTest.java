@@ -5,11 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clientBackend.model.CatanException;
 import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
-import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -19,7 +17,7 @@ import shared.locations.VertexLocation;
 
 public class ServerProxyTest {
 	private static ServerProxy proxy = new ServerProxy("localhost", 8081);
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		try {
@@ -51,7 +49,7 @@ public class ServerProxyTest {
 	@Test
 	public void testMovesRobPlayer() {
 		HexLocation location = new HexLocation(2, 2);
-		
+
 		try {
 			proxy.movesRobPlayer(3, 0, location);
 		} catch (ServerException e) {
@@ -93,7 +91,7 @@ public class ServerProxyTest {
 
 		HexLocation hexLocation2 = new HexLocation(1, -1);
 		EdgeLocation location2 = new EdgeLocation(hexLocation2, EdgeDirection.South);
-		
+
 		try {
 			proxy.movesRoad_Building(0, location1, location2);
 		} catch (ServerException e) {
@@ -104,7 +102,7 @@ public class ServerProxyTest {
 	@Test
 	public void testMovesSoldier() {
 		HexLocation location = new HexLocation(2, 2);
-		
+
 		try {
 			proxy.movesSoldier(3, 0, location);
 		} catch (ServerException e) {
@@ -134,7 +132,7 @@ public class ServerProxyTest {
 	public void testMovesBuildRoad() {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		EdgeLocation location = new EdgeLocation(hexLocation, EdgeDirection.North);
-		
+
 		try {
 			proxy.movesBuildRoad(3, location, true);
 		} catch (ServerException e) {
@@ -146,7 +144,7 @@ public class ServerProxyTest {
 	public void testMovesBuildSettlement() {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		VertexLocation location = new VertexLocation(hexLocation, VertexDirection.East);
-		
+
 		try {
 			proxy.movesBuildSettlement(3, location, false);
 		} catch (ServerException e) {
@@ -158,7 +156,7 @@ public class ServerProxyTest {
 	public void testMovesBuildCity() {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		VertexLocation location = new VertexLocation(hexLocation, VertexDirection.East);
-		
+
 		try {
 			proxy.movesBuildCity(3, location);
 		} catch (ServerException e) {

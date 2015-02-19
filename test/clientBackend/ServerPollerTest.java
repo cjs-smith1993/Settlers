@@ -5,14 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-
 import serverCommunication.ServerException;
 import serverCommunication.ServerInterface;
 import serverCommunication.ServerMock5;
-import shared.definitions.PlayerNumber;
 import clientBackend.model.Facade;
-import clientBackend.transport.TransportDeck;
 
 public class ServerPollerTest {
 

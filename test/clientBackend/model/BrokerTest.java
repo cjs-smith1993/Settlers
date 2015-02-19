@@ -2,24 +2,11 @@ package clientBackend.model;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import clientBackend.transport.TransportBank;
-import clientBackend.transport.TransportDeck;
-import clientBackend.transport.TransportNewDevCards;
-import clientBackend.transport.TransportOldDevCards;
-import clientBackend.transport.TransportPlayer;
-import clientBackend.transport.TransportResources;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
@@ -173,8 +160,9 @@ public class BrokerTest {
 					assertTrue("the number was correctly transfered", this.myBroker.getHoldings()
 							.get(PlayerNumber.ONE).getResourceCardCount(ResourceType.SHEEP) == 1);
 					break;
+				default:
+					break;
 				}
-
 			}
 		}
 	}

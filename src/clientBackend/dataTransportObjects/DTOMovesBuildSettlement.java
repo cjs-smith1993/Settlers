@@ -3,7 +3,6 @@ package clientBackend.dataTransportObjects;
 import java.util.HashMap;
 import java.util.Map;
 
-import shared.definitions.PlayerNumber;
 import shared.locations.VertexDirection;
 
 public class DTOMovesBuildSettlement {
@@ -11,15 +10,16 @@ public class DTOMovesBuildSettlement {
 	int playerIndex;
 	Map<String, Object> vertexLocation;
 	Boolean free = false;
-	
-	public DTOMovesBuildSettlement(int playerIndex, int x, int y, VertexDirection direction, Boolean free) {
+
+	public DTOMovesBuildSettlement(int playerIndex, int x, int y, VertexDirection direction,
+			Boolean free) {
 		this.playerIndex = playerIndex;
-		
-		vertexLocation = new HashMap<>();
-		vertexLocation.put("x", x);
-		vertexLocation.put("y", y);
-		vertexLocation.put("direction", direction);
-		
+
+		this.vertexLocation = new HashMap<>();
+		this.vertexLocation.put("x", x);
+		this.vertexLocation.put("y", y);
+		this.vertexLocation.put("direction", direction);
+
 		this.free = free;
 	}
 }

@@ -5,10 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import clientBackend.transport.TransportBank;

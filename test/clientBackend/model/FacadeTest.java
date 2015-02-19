@@ -179,24 +179,24 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testCanMaritimeTrade() throws CatanException{
+	public void testCanMaritimeTrade() throws CatanException {
 		PlayerNumber one = PlayerNumber.ONE;
 		TransportPort port = new TransportPort();
 		port.direction = EdgeDirection.NorthEast;
 		port.location = new TransportHexLocation();
-		port.location.x=3;
+		port.location.x = 3;
 		port.location.y = 3;
 		port.ratio = 3;
 		port.resource = ResourceType.ALL;
-		model.map.ports.add(port);
+		this.model.map.ports.add(port);
 		TransportSettlement TS = new TransportSettlement();
 		TS.location = new TransportVertexLocation();
 		TS.location.x = 3;
 		TS.location.y = 3;
 		TS.location.direction = VertexDirection.East;
 		TS.owner = PlayerNumber.ONE;
-		model.map.settlements.add(TS);
-		this.facade.initializeModel(model);
+		this.model.map.settlements.add(TS);
+		this.facade.initializeModel(this.model);
 		ResourceType giving = ResourceType.SHEEP;
 		//Cannot trade
 		assertFalse(this.facade.canMaritimeTrade(one, giving));
@@ -223,40 +223,44 @@ public class FacadeTest {
 		// 1. Test doesn't have a card
 		this.model.players[0].oldDevCards.yearOfPlenty = 0;
 		this.model.players[0].newDevCards.yearOfPlenty = 1;
-		this.facade.initializeModel(model);
+		this.facade.initializeModel(this.model);
 		/*
 		 * Should not pass
 		 */
-		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
-		
+		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
+				ResourceType.WOOD));
+
 		// 2. Test has a card
 		this.model.players[0].oldDevCards.yearOfPlenty = 1;
 		this.model.players[0].newDevCards.yearOfPlenty = 0;
-		this.facade.initializeModel(model);
+		this.facade.initializeModel(this.model);
 		/*
 		 * Should pass
 		 */
-		assertTrue(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
-		
+		assertTrue(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
+				ResourceType.WOOD));
+
 		// 3. Test has a card but player has already played another dev card
 		this.model.players[0].oldDevCards.yearOfPlenty = 1;
 		this.model.players[0].newDevCards.yearOfPlenty = 0;
 		this.model.players[0].playedDevCard = true;
-		this.facade.initializeModel(model);
+		this.facade.initializeModel(this.model);
 		/*
 		 * Should not pass
 		 */
-		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
-		
+		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
+				ResourceType.WOOD));
+
 		// 4. Test bank doesn't have resources
 		this.model.bank.wood = 0;
 		this.model.players[0].playedDevCard = false;
-		this.facade.initializeModel(model);
+		this.facade.initializeModel(this.model);
 		/*
 		 * Should not pass
 		 */
-		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK, ResourceType.WOOD));
-		
+		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
+				ResourceType.WOOD));
+
 	}
 
 	@Test

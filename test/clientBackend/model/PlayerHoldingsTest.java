@@ -11,7 +11,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import clientBackend.transport.TransportNewDevCards;
@@ -33,9 +32,9 @@ public class PlayerHoldingsTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
-		
+
 	}
+
 	private PlayerHoldings holdings1 = new PlayerHoldings();
 	private PlayerHoldings holdings2 = new PlayerHoldings();
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
@@ -46,23 +45,23 @@ public class PlayerHoldingsTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
-		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
-		for(ResourceType type: ResourceType.values())
+		this.resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
+		this.developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
+		for (ResourceType type : ResourceType.values())
 		{
 			Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
-			for(int i = 0; i < 5; ++i)
+			for (int i = 0; i < 5; ++i)
 			{
 				newPile.add(new ResourceCard(type));
 			}
-			resourceCards.put(type,newPile);
+			this.resourceCards.put(type, newPile);
 		}
-		for(DevCardType type: DevCardType.values())
+		for (DevCardType type : DevCardType.values())
 		{
 			Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
-			for(int i = 0; i < 2; ++i)
+			for (int i = 0; i < 2; ++i)
 			{
-				if(i == 0)
+				if (i == 0)
 				{
 					newPile.add(new DevelopmentCard(type, false));
 				}
@@ -71,12 +70,12 @@ public class PlayerHoldingsTest {
 					newPile.add(new DevelopmentCard(type, true));
 				}
 			}
-			developmentCards.put(type, newPile);
+			this.developmentCards.put(type, newPile);
 		}
-		holdings1.setResourceCards(resourceCards);
-		holdings1.setDevelopmentCards(developmentCards);
-		holdings2.setResourceCards(resourceCards);
-		holdings2.setDevelopmentCards(developmentCards);
+		this.holdings1.setResourceCards(this.resourceCards);
+		this.holdings1.setDevelopmentCards(this.developmentCards);
+		this.holdings2.setResourceCards(this.resourceCards);
+		this.holdings2.setDevelopmentCards(this.developmentCards);
 	}
 
 	/**
@@ -84,104 +83,111 @@ public class PlayerHoldingsTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		for(ResourceType type: ResourceType.values())
+		for (ResourceType type : ResourceType.values())
 		{
-			resourceCards.get(type).clear();
+			this.resourceCards.get(type).clear();
 		}
 	}
-	
+
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
 
 	/**
-	 * Test method for {@link clientBackend.model.PlayerHoldings#removeResourceCard(shared.definitions.ResourceType, int)}.
+	 * Test method for
+	 * {@link clientBackend.model.PlayerHoldings#removeResourceCard(shared.definitions.ResourceType, int)}
+	 * .
 	 */
 	@Test
 	public void testRemoveResourceCard() {
 		ResourceType type = ResourceType.BRICK;
-		int initCount = holdings1.getResourceCardCount(type);
+		int initCount = this.holdings1.getResourceCardCount(type);
 		assertTrue("The count started corrctly!", initCount == 5);
 		Collection<ResourceCard> removed;
-		removed = holdings1.removeResourceCard(type, 3);
-		int afterCount = holdings1.getResourceCardCount(type);
+		removed = this.holdings1.removeResourceCard(type, 3);
+		int afterCount = this.holdings1.getResourceCardCount(type);
 		assertTrue("The resources were removed.", afterCount == 2);
-		assertTrue("There were the correct number in the removed", removed.size()==3);
+		assertTrue("There were the correct number in the removed", removed.size() == 3);
 	}
 
 	/**
-	 * Test method for {@link clientBackend.model.PlayerHoldings#addResourceCardCollection(shared.definitions.ResourceType, java.util.Collection)}.
+	 * Test method for
+	 * {@link clientBackend.model.PlayerHoldings#addResourceCardCollection(shared.definitions.ResourceType, java.util.Collection)}
+	 * .
 	 */
 	@Test
 	public void testAddResourceCardCollection() {
 		Collection<ResourceCard> adding = new ArrayList<ResourceCard>();
 		ResourceType type = ResourceType.WOOD;
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			adding.add(new ResourceCard(type));
 		}
 		assertTrue("There are three wood", adding.size() == 3);
-		assertTrue("The cards were added",holdings1.addResourceCardCollection(type, adding));
-		int newSize = holdings1.getResourceCardCount(type);
+		assertTrue("The cards were added", this.holdings1.addResourceCardCollection(type, adding));
+		int newSize = this.holdings1.getResourceCardCount(type);
 		assertTrue("There are the correct number of cards", newSize == 8);
 	}
 
 	/**
-	 * Test method for {@link clientBackend.model.PlayerHoldings#removeDevelopmentCard(shared.definitions.DevCardType, int)}.
+	 * Test method for
+	 * {@link clientBackend.model.PlayerHoldings#removeDevelopmentCard(shared.definitions.DevCardType, int)}
+	 * .
 	 */
 	@Test
 	public void testRemoveDevelopmentCard() {
 		int initCount;
-		for(DevCardType type: DevCardType.values())
+		for (DevCardType type : DevCardType.values())
 		{
-			initCount = holdings2.getDevelopmentCardCount(type);			
+			initCount = this.holdings2.getDevelopmentCardCount(type);
 			assertTrue("correct ammount in start", initCount == 2);
 			Collection<DevelopmentCard> removed;
-			removed = holdings2.removeDevelopmentCard(type, 1);
+			removed = this.holdings2.removeDevelopmentCard(type, 1);
 			int removedSize = removed.size();
-			int remainingSize = holdings2.getDevelopmentCardCount(type);
+			int remainingSize = this.holdings2.getDevelopmentCardCount(type);
 			assertTrue("correct amount in the removed", removedSize == 1);
 			assertTrue("correct amount left in collection", remainingSize == 1);
 			//removeing from an empty list
-			holdings2.getDevelopmentCards().get(type).clear();
-			removed = holdings2.removeDevelopmentCard(type, 1);
+			this.holdings2.getDevelopmentCards().get(type).clear();
+			removed = this.holdings2.removeDevelopmentCard(type, 1);
 			assertTrue("The empty list removes nothing", removed.isEmpty());
-			
+
 		}
-		
-		
+
 	}
 
 	/**
-	 * Test method for {@link clientBackend.model.PlayerHoldings#addDevelopmentCardCollection(shared.definitions.DevCardType, java.util.Collection)}.
+	 * Test method for
+	 * {@link clientBackend.model.PlayerHoldings#addDevelopmentCardCollection(shared.definitions.DevCardType, java.util.Collection)}
+	 * .
 	 */
 	@Test
-
 	public void testAddDevelopmentCardCollection() {
 
 		Collection<DevelopmentCard> adding = new ArrayList<DevelopmentCard>();
-		for(DevCardType type: DevCardType.values())
+		for (DevCardType type : DevCardType.values())
 		{
 			adding.add(new DevelopmentCard(type));
-			boolean added = holdings2.addDevelopmentCardCollection(type,adding);
+			boolean added = this.holdings2.addDevelopmentCardCollection(type, adding);
 			int addingSize = adding.size();
 
-			if(added)
+			if (added)
 			{
 				int afterSize = 0;
-				switch(type){
-					case SOLDIER:
-						afterSize = holdings2.getPlayedKnights().size();
-						break;
-					case MONUMENT:
-						afterSize = holdings2.getPlayedMonuments().size();
-						break;
-					default:
-							fail("This should not be reached");
+				switch (type) {
+				case SOLDIER:
+					afterSize = this.holdings2.getPlayedKnights().size();
+					break;
+				case MONUMENT:
+					afterSize = this.holdings2.getPlayedMonuments().size();
+					break;
+				default:
+					fail("This should not be reached");
 				}
 				assertTrue("correct amount added", afterSize == addingSize);
-			}else{
-				
+			}
+			else {
+
 				assertFalse("correct ammount was added", added);
 			}
 			adding.clear();
@@ -191,10 +197,10 @@ public class PlayerHoldingsTest {
 	@Test
 	public void testPlayerHoldings() {
 		PlayerHoldings myholding = new PlayerHoldings();
-		for(DevCardType type: DevCardType.values()){
+		for (DevCardType type : DevCardType.values()) {
 			assertTrue(myholding.getDevelopmentCards().get(type).isEmpty());
 		}
-		for(ResourceType type: ResourceType.values()){
+		for (ResourceType type : ResourceType.values()) {
 			assertTrue(myholding.getResourceCards().get(type).isEmpty());
 		}
 		assertTrue(myholding.getHarbors().isEmpty());
@@ -203,10 +209,8 @@ public class PlayerHoldingsTest {
 	}
 
 	@Test
-	
 	public void testPlayerHoldingsTransportPlayerCollectionOfHarbor() {
-		
-			
+
 		TransportPlayer play = new TransportPlayer();
 		play.monuments = 3;
 		TransportNewDevCards newDevCards = new TransportNewDevCards();
@@ -233,58 +237,61 @@ public class PlayerHoldingsTest {
 		play.resources = res;
 		play.soldiers = 5;
 		play.victoryPoints = 3;
-		
+
 		Collection<Harbor> harbors = new ArrayList<Harbor>();
 		Harbor h = new Harbor(null, null, null, 0);
 		harbors.add(h);
-		
+
 		PlayerHoldings hold = new PlayerHoldings(play, harbors);
 		assertTrue("number of horbors right", hold.getHarbors().size() == 1);
-		assertTrue("number of soldiers" , hold.getPlayedKnights().size() == 5);
+		assertTrue("number of soldiers", hold.getPlayedKnights().size() == 5);
 		assertTrue("number of monuments", hold.getPlayedMonuments().size() == 3);
-		for(ResourceType type: ResourceType.values()){
-			switch(type){
+		for (ResourceType type : ResourceType.values()) {
+			switch (type) {
 			case BRICK:
-				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 1);
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type) == 1);
 				break;
 			case WOOD:
-				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 5);
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type) == 5);
 				break;
 			case WHEAT:
-				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 4);
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type) == 4);
 				break;
 			case ORE:
-				assertTrue("The correct number of ore", hold.getResourceCardCount(type)== 2);
+				assertTrue("The correct number of ore", hold.getResourceCardCount(type) == 2);
 				break;
 			case SHEEP:
-				assertTrue("The correct number of brick", hold.getResourceCardCount(type)== 3);
+				assertTrue("The correct number of brick", hold.getResourceCardCount(type) == 3);
 				break;
 			default:
 				break;
 			}
 		}
-			for(DevCardType type: DevCardType.values()){
-				switch(type){
-				case MONOPOLY:
-					assertTrue("The correct number of monopoly", hold.getDevelopmentCardCount(type)== 2);
-					break;
-				case MONUMENT:
-					assertTrue("The correct number of monument", hold.getDevelopmentCardCount(type)== 3);
-					break;
-				case ROAD_BUILD:
-					assertTrue("The correct number of road_building", hold.getDevelopmentCardCount(type)== 1);
-					break;
-				case SOLDIER:
-					assertTrue("The correct number of soldier", hold.getDevelopmentCardCount(type)== 4);
-					break;
-				case YEAR_OF_PLENTY:
-					assertTrue("The correct number of YOP", hold.getDevelopmentCardCount(type)== 9);
-					break;
-				default:
-					break;
-				}
+		for (DevCardType type : DevCardType.values()) {
+			switch (type) {
+			case MONOPOLY:
+				assertTrue("The correct number of monopoly",
+						hold.getDevelopmentCardCount(type) == 2);
+				break;
+			case MONUMENT:
+				assertTrue("The correct number of monument",
+						hold.getDevelopmentCardCount(type) == 3);
+				break;
+			case ROAD_BUILD:
+				assertTrue("The correct number of road_building",
+						hold.getDevelopmentCardCount(type) == 1);
+				break;
+			case SOLDIER:
+				assertTrue("The correct number of soldier", hold.getDevelopmentCardCount(type) == 4);
+				break;
+			case YEAR_OF_PLENTY:
+				assertTrue("The correct number of YOP", hold.getDevelopmentCardCount(type) == 9);
+				break;
+			default:
+				break;
+			}
 		}
-		
+
 	}
-	
+
 }

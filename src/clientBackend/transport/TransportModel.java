@@ -1,7 +1,5 @@
 package clientBackend.transport;
 
-import java.util.List;
-
 public class TransportModel {
 	public TransportDeck deck;
 	public TransportMap map;
