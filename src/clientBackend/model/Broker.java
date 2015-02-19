@@ -399,14 +399,16 @@ public class Broker {
 	 * @return true if can offer trade false otherwise
 	 */
 	public boolean canOfferTrade(ResourceInvoice invoice) {
-		PlayerNumber player = invoice.getSourcePlayer();
-		PlayerHoldings hand = (PlayerHoldings) this.holdings.get(player);
+		PlayerNumber sourcePlayer = invoice.getSourcePlayer();
+		PlayerHoldings sourceHand = (PlayerHoldings) this.holdings.get(sourcePlayer);
 
 		for (ResourceType type : ResourceType.values()) {
 			if (type == ResourceType.ALL || type == ResourceType.NONE) {
 				continue;
 			}
-			if (hand.getResourceCardCount(type) < invoice.getResource(type)) {
+			int numSourceOffering = invoice.getResource(type);
+			int numSourceAvailable = sourceHand.getResourceCardCount(type);
+			if (numSourceOffering > 0 && numSourceAvailable < numSourceOffering) {
 				return false;
 			}
 		}
@@ -423,14 +425,16 @@ public class Broker {
 	 *         otherwise.
 	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice) {
-		PlayerNumber player = invoice.getDestinationPlayer();
-		PlayerHoldings hand = (PlayerHoldings) this.holdings.get(player);
+		PlayerNumber destPlayer = invoice.getDestinationPlayer();
+		PlayerHoldings destHand = (PlayerHoldings) this.holdings.get(destPlayer);
 
 		for (ResourceType type : ResourceType.values()) {
 			if (type == ResourceType.ALL || type == ResourceType.NONE) {
 				continue;
 			}
-			if (-hand.getResourceCardCount(type) > invoice.getResource(type)) {
+			int numDestOffering = -invoice.getResource(type);
+			int numDestAvailable = destHand.getResourceCardCount(type);
+			if (numDestOffering > 0 && numDestAvailable < numDestOffering) {
 				return false;
 			}
 		}
