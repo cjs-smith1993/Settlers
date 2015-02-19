@@ -10,10 +10,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.definitions.Status;
 import shared.locations.EdgeDirection;
+import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import clientBackend.transport.*;
 
@@ -49,11 +51,11 @@ public class FacadeTest {
 		this.model.turnTracker.status = Status.PLAYING;
 		this.model.turnTracker.currentTurn = PlayerNumber.ONE;
 
-		this.model.deck.yearOfPlenty = 2;
-		this.model.deck.monopoly = 2;
-		this.model.deck.soldier = 14;
-		this.model.deck.roadBuilding = 2;
-		this.model.deck.monument = 5;
+		this.model.deck.yearOfPlenty = 1;
+		this.model.deck.monopoly = 1;
+		this.model.deck.soldier = 13;
+		this.model.deck.roadBuilding = 1;
+		this.model.deck.monument = 4;
 
 		this.model.bank.brick = 23;
 		this.model.bank.ore = 21;
@@ -82,6 +84,9 @@ public class FacadeTest {
 		this.player.settlements = 5;
 		this.player.cities = 4;
 		this.player.playerIndex = PlayerNumber.ONE;
+		this.player.color = CatanColor.BLUE;
+		this.player.name = "FirstPlayer";
+		this.player.playerID = 0;
 
 		this.model.players[0] = this.player;
 
@@ -397,8 +402,58 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testCanPlaceRobber() {
-		//fail("Not yet implemented");
+	public void testCanRobPlayer() throws CatanException {
+		this.model.turnTracker.status = Status.ROBBING;
+		
+		// 1. Test rob player with no cards, should fail
+		TransportPlayer otherPlayer = new TransportPlayer();
+		otherPlayer.resources = new TransportResources();
+		otherPlayer.oldDevCards = new TransportOldDevCards();
+		otherPlayer.newDevCards = new TransportNewDevCards();
+		
+		otherPlayer.playerIndex = PlayerNumber.TWO;
+		otherPlayer.resources.brick = 0;
+		otherPlayer.resources.wood = 0;
+		otherPlayer.resources.sheep = 0;
+		otherPlayer.resources.ore = 0;
+		otherPlayer.resources.wheat = 0;
+		otherPlayer.color = CatanColor.WHITE;
+		otherPlayer.name = "OtherPlayer";
+		otherPlayer.playerID = 1;
+		
+		this.model.players = new TransportPlayer[2];
+		this.model.players[0] = player;
+		this.model.players[1] = otherPlayer;
+		this.facade.initializeModel(model);
+		assertFalse(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
+		
+		// 2. Test rob player with one card, should succeed
+		otherPlayer.resources.brick = 1;
+		this.facade.initializeModel(model);
+		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));	
+	}
+	
+	@Test
+	public void testCanPlaceRobber() throws CatanException {
+		this.model.turnTracker.status = Status.ROBBING;
+		this.model.map.robber = new TransportRobber();
+		this.model.map.robber.x = 0;
+		this.model.map.robber.y = 0;
+		this.facade.initializeModel(model);
+		// 1. Test place Robber on same location; should fail
+		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 0)));
+		// 2. Test place Rober on new location; should pass
+		assertTrue(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 1)));
+		// 3. Test place Robber on water; should fail
+		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(-3, 0)));
+		
 	}
 
 }
+
+
+
+
+
+
+
