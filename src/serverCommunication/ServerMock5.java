@@ -9,9 +9,9 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import clientBackend.CatanSerializer;
+import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
-import clientBackend.model.Game;
 
 public class ServerMock5 implements ServerInterface {
 	private int version;
@@ -48,15 +48,16 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public Collection<Game> gamesList() throws ServerException {
+	public Collection<DTOGame> gamesList() throws ServerException {
 		//		String json = "[{'title':'DefaultGame','id':0,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]},{'title':'AIGame','id':1,'players':[{'color':'orange','name':'Pete','id':10},{'color':'puce','name':'Steve','id':-2},{'color':'blue','name':'Squall','id':-3},{'color':'yellow','name':'Quinn','id':-4}]},{'title':'EmptyGame','id':2,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]}]";
-		return new ArrayList<Game>();
+		return new ArrayList<DTOGame>();
 	}
 
 	@Override
-	public void gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
+	public boolean gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
 			String name) throws ServerException {
 		//		String json = "{'title':'dummy','id':3,'players':[{},{},{},{}]}";
+		return true;
 	}
 
 	@Override
@@ -85,8 +86,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public void gameCommands() throws ServerException {
-
+	public String gameCommands() throws ServerException {
+		return "[]";
 	}
 
 	@Override
@@ -95,13 +96,14 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public void gameAddAI(String AIType) throws ServerException {
-
+	public boolean gameAddAI(String AIType) throws ServerException {
+		return true;
 	}
 
 	@Override
-	public void gameListAI() throws ServerException {
+	public Collection<String> gameListAI() throws ServerException {
 		//		String json = "['LARGEST_ARMY']";
+		return null;
 	}
 
 	@Override
@@ -203,7 +205,6 @@ public class ServerMock5 implements ServerInterface {
 
 	@Override
 	public boolean utilChangeLogLevel(String logLevel) throws ServerException {
-		return false;
+		return true;
 	}
-
 }

@@ -2,7 +2,7 @@ package serverCommunication;
 
 import java.util.Collection;
 
-import clientBackend.model.Game;
+import clientBackend.dataTransportObjects.DTOGame;
 import shared.definitions.*;
 import shared.locations.*;
 
@@ -17,9 +17,9 @@ public interface ServerInterface {
 
 	public boolean userRegister(String username, String password) throws ServerException;
 
-	public Collection<Game> gamesList() throws ServerException;
+	public Collection<DTOGame> gamesList() throws ServerException;
 
-	public void gamesCreate(
+	public boolean gamesCreate(
 			boolean randomTiles,
 			boolean randomNumbers,
 			boolean randomPorts,
@@ -35,13 +35,13 @@ public interface ServerInterface {
 
 	public void gameReset() throws ServerException;//also returns the whole game json thing
 
-	public void gameCommands() throws ServerException;//this will return a list of commands that we could just write to a file
+	public String gameCommands() throws ServerException;//this will return a list of commands that we could just write to a file
 
 	public void gameCommands(String commandList) throws ServerException;//this will return the json game after the list entered were run
 
-	public void gameAddAI(String AIType) throws ServerException;//boolean if they were successfully added
+	public boolean gameAddAI(String AIType) throws ServerException;//boolean if they were successfully added
 
-	public void gameListAI() throws ServerException; //returns a json blob that has the types of AI
+	public Collection<String> gameListAI() throws ServerException; //returns a json blob that has the types of AI
 
 	public void movesSendChat(
 			int playerIndex,

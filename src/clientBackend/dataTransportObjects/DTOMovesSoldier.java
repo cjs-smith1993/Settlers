@@ -1,20 +1,17 @@
 package clientBackend.dataTransportObjects;
 
-import java.util.HashMap;
-import java.util.Map;
+import shared.locations.HexLocation;
 
 public class DTOMovesSoldier {
 	String type = "Soldier";
 	int playerIndex;
 	int victimIndex;
-	Map<String, Object> location;
+	HexLocation location;
 
-	public DTOMovesSoldier(int playerIndex, int victimIndex, String x, String y) {
+	public DTOMovesSoldier(int playerIndex, int victimIndex, int x, int y) {
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 
-		this.location = new HashMap<>();
-		this.location.put("x", x);
-		this.location.put("y", y);
+		this.location = new HexLocation(x, y);
 	}
 }
