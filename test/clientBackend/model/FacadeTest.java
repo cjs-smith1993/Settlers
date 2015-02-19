@@ -22,14 +22,6 @@ public class FacadeTest {
 	TransportModel model;
 	TransportPlayer player;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		this.facade = new Facade();
@@ -100,10 +92,6 @@ public class FacadeTest {
 		}
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void testCanDiscardCards() throws CatanException {
 
@@ -153,30 +141,30 @@ public class FacadeTest {
 		assertFalse(this.facade.canRollNumber(PlayerNumber.ONE));
 	}
 
-	@Test
-	public void testCanBuildRoad() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCanBuildSettlement() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCanBuildCity() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCanOfferTrade() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCanAcceptTrade() {
-		//fail("Not yet implemented");
-	}
+	//	@Test
+	//	public void testCanBuildRoad() {
+	//		//fail("Not yet implemented");
+	//	}
+	//
+	//	@Test
+	//	public void testCanBuildSettlement() {
+	//		//fail("Not yet implemented");
+	//	}
+	//
+	//	@Test
+	//	public void testCanBuildCity() {
+	//		//fail("Not yet implemented");
+	//	}
+	//
+	//	@Test
+	//	public void testCanOfferTrade() {
+	//		//fail("Not yet implemented");
+	//	}
+	//
+	//	@Test
+	//	public void testCanAcceptTrade() {
+	//		//fail("Not yet implemented");
+	//	}
 
 	@Test
 	public void testCanMaritimeTrade() throws CatanException {
@@ -213,10 +201,10 @@ public class FacadeTest {
 		assertTrue(this.facade.canFinishTurn(PlayerNumber.ONE));
 	}
 
-	@Test
-	public void testCanBuyDevCard() {
-		//fail("Not yet implemented");
-	}
+	//	@Test
+	//	public void testCanBuyDevCard() {
+	//		//fail("Not yet implemented");
+	//	}
 
 	@Test
 	public void testCanPlayYearOfPlenty() throws CatanException {
