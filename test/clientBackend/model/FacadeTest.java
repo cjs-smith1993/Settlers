@@ -13,6 +13,8 @@ import org.junit.Test;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.definitions.Status;
+import shared.locations.EdgeDirection;
+import shared.locations.VertexDirection;
 import clientBackend.transport.*;
 
 public class FacadeTest {
@@ -177,8 +179,28 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testCanMaritimeTrade() {
-		//fail("Not yet implemented");
+	public void testCanMaritimeTrade() throws CatanException{
+		PlayerNumber one = PlayerNumber.ONE;
+		TransportPort port = new TransportPort();
+		port.direction = EdgeDirection.NorthEast;
+		port.location = new TransportHexLocation();
+		port.location.x=3;
+		port.location.y = 3;
+		port.ratio = 3;
+		port.resource = ResourceType.ALL;
+		model.map.ports.add(port);
+		TransportSettlement TS = new TransportSettlement();
+		TS.location = new TransportVertexLocation();
+		TS.location.x = 3;
+		TS.location.y = 3;
+		TS.location.direction = VertexDirection.East;
+		TS.owner = PlayerNumber.ONE;
+		model.map.settlements.add(TS);
+		this.facade.initializeModel(model);
+		ResourceType giving = ResourceType.SHEEP;
+		//Cannot trade
+		assertFalse(this.facade.canMaritimeTrade(one, giving));
+		assertTrue(this.facade.canMaritimeTrade(one, ResourceType.ORE));
 	}
 
 	@Test
