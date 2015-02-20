@@ -130,8 +130,9 @@ public class LoginView extends OverlayView implements ILoginView
     private Border createBufferBorder()
     {
         final int BUFFER_SPACE = 15;
-        Border innerBuffer = BorderFactory.createEmptyBorder(BUFFER_SPACE, BUFFER_SPACE, BUFFER_SPACE, BUFFER_SPACE);
-        Border outerBuffer = BorderFactory.createEmptyBorder(BUFFER_SPACE, BUFFER_SPACE, BUFFER_SPACE, BUFFER_SPACE);
+        final int MAGIC_NUMBER = 100; // courtesy of Chris
+        Border innerBuffer = BorderFactory.createEmptyBorder(BUFFER_SPACE, BUFFER_SPACE, MAGIC_NUMBER, BUFFER_SPACE);
+        Border outerBuffer = BorderFactory.createEmptyBorder(BUFFER_SPACE, BUFFER_SPACE, MAGIC_NUMBER, BUFFER_SPACE);
         Border etching = BorderFactory.createEtchedBorder();
 
         Border outerCompound = BorderFactory.createCompoundBorder(outerBuffer, etching);
