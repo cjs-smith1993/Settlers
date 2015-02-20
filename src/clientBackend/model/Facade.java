@@ -3,6 +3,8 @@ package clientBackend.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
@@ -15,7 +17,7 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
-public class Facade {
+public class Facade extends Observable {
 	private Board board;
 	private Broker broker;
 	private Game game;
@@ -23,6 +25,7 @@ public class Facade {
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
 	private int version;
+	private ArrayList<Observer> observers;
 
 	private boolean isPlaying(PlayerNumber player) {
 
@@ -43,8 +46,17 @@ public class Facade {
 		this.scoreboard = new Scoreboard(players, model.turnTracker);
 		this.postOffice = new PostOffice(model.chat.lines, model.log.lines);
 		this.version = model.version;
+		
+		for (Observer o : observers) {
+			o.notify();
+		}
 	}
 
+	@Override
+	public void addObserver(Observer o) {
+		this.observers.add(o);
+	}
+	
 	public boolean canDiscardCards(PlayerNumber player) {
 
 		if (this.game.getStatus() == Status.DISCARDING
