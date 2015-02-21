@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
 import serverCommunication.ServerProxy;
+import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
@@ -54,12 +56,18 @@ public class Facade extends Observable {
 
 	public void initializeModel(TransportModel model) throws CatanException {
 		this.board = new Board(model.map);
+		
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
 		this.broker = new Broker(model.bank, model.deck, players,
 				this.board.getHarborsByPlayer());
+		
 		this.game = new Game(players, model.turnTracker);
 		this.scoreboard = new Scoreboard(players, model.turnTracker);
-		this.postOffice = new PostOffice(model.chat.lines, model.log.lines);
+		
+		List<TransportLine> chat = new ArrayList<TransportLine>(Arrays.asList(model.chat.lines));
+		List<TransportLine> log = new ArrayList<TransportLine>(Arrays.asList(model.log.lines));
+		
+		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
 		this.setChanged();
 		this.notifyObservers();
@@ -466,6 +474,18 @@ public class Facade extends Observable {
 
 	public int getVersion() {
 		return this.version;
+	}
+	
+	public List<Message> getMessages() {
+		return postOffice.getMessages();
+	}
+	
+	public List<Message> getLog() {
+		return postOffice.getLog();
+	}
+	
+	public CatanColor getPlayerColor(PlayerNumber player) {
+		return game.getPlayers().get(player).getColor();
 	}
 	
 	public int getResourceCount(ResourceType resource) {
