@@ -77,6 +77,7 @@ public class Facade extends Observable {
 		this.notifyObservers(someValue);
 	}
 
+	@Override
 	public void addObserver(Observer o) {
 		// This needs to be super.addObserver(o) because this.addObserver() calls itself.
 		super.addObserver(o);
@@ -439,9 +440,9 @@ public class Facade extends Observable {
 	}
 
 	/*
-	 * Getters and Setters
+	 * Facade Getters and Setters
 	 */
-
+	
 	public PlayerNumber getClientPlayer() {
 		return this.clientPlayer;
 	}
@@ -489,6 +490,10 @@ public class Facade extends Observable {
 	public int getVersion() {
 		return this.version;
 	}
+	
+	/*
+	 * "Model" Getters and Setters
+	 */
 	
 	public List<Message> getMessages() {
 		return postOffice.getMessages();
