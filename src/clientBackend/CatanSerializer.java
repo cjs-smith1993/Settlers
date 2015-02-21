@@ -5,6 +5,7 @@ import clientBackend.model.Facade;
 import clientBackend.transport.TransportModel;
 
 import com.google.gson.Gson;
+import java.lang.reflect.Type;
 
 /**
  * Serializes and deserializes between the model's internal representation and
@@ -65,9 +66,7 @@ public class CatanSerializer {
 	 *            a JSON representation of a Catan object
 	 * @return the JSON representation of the object
 	 * */
-	public Object deserializeObject(String gsonString) {
-		Object deserializedObject = this.gson.fromJson(gsonString, Object.class);
-
-		return deserializedObject;
+	public Object deserializeObject(String gsonString, Type objectType) {
+		return this.gson.fromJson(gsonString, objectType);
 	}
 }
