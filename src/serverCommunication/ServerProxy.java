@@ -163,13 +163,13 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean userLogin(String username, String password) throws ServerException {
+	public boolean userLogin(String username, String password) {
 		DTOUserLogin data = new DTOUserLogin(username, password);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/user/login");
 			this.doPost(url, data);
-		} catch (IOException e) {
+		} catch (IOException | ServerException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -178,13 +178,13 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean userRegister(String username, String password) throws ServerException {
+	public boolean userRegister(String username, String password) {
 		DTOUserRegister data = new DTOUserRegister(username, password);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/user/register");
 			this.doPost(url, data);
-		} catch (IOException e) {
+		} catch (IOException | ServerException e) {
 			e.printStackTrace();
 			return false;
 		}
