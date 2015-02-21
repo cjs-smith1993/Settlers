@@ -11,9 +11,6 @@ import java.net.URL;
 //import java.net.URLDecoder;
 import java.util.Collection;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import shared.definitions.*;
 import shared.locations.*;
 import clientBackend.CatanSerializer;
@@ -201,16 +198,26 @@ public class ServerProxy implements ServerInterface {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<DTOGame> gamesList() throws ServerException {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/list");
 			String response = this.doGet(url);
-			Gson gson = new Gson();
-			Type type = new TypeToken<Collection<DTOGame>>() {
-			}.getType();
-			Collection<DTOGame> list = gson.fromJson(response, type);
-			return list;
+			Object o = CatanSerializer.getInstance().deserializeObject(response);
+			if (o instanceof Collection<?>) {// Make sure o is a Collection
+				Collection<?> collection = (Collection<?>) o;
+				if (collection.iterator().next() instanceof DTOGame) {// Make sure the Collection contains DTOGames
+					Collection<DTOGame> list = (Collection<DTOGame>) o;
+					return list;
+				}
+				else {
+					throw new IOException();
+				}
+			}
+			else {
+				throw new IOException();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -338,16 +345,26 @@ public class ServerProxy implements ServerInterface {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<String> gameListAI() throws ServerException {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/listAI");
 			String response = this.doGet(url);
-			Gson gson = new Gson();
-			Type type = new TypeToken<Collection<String>>() {
-			}.getType();
-			Collection<String> types = gson.fromJson(response, type);
-			return types;
+			Object o = CatanSerializer.getInstance().deserializeObject(response);
+			if (o instanceof Collection<?>) {// Make sure o is a Collection
+				Collection<?> collection = (Collection<?>) o;
+				if (collection.iterator().next() instanceof String) {// Make sure the Collection contains String
+					Collection<String> list = (Collection<String>) o;
+					return list;
+				}
+				else {
+					throw new IOException();
+				}
+			}
+			else {
+				throw new IOException();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

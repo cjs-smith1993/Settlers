@@ -2,15 +2,18 @@ package clientBackend.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import clientBackend.ServerPoller;
+import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
+import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
@@ -25,7 +28,7 @@ import shared.locations.VertexLocation;
 public class Facade extends Observable {
 	private static Facade facadeInstance;
 	private ServerProxy proxy;
-	private ServerPoller poller;
+//	private ServerPoller poller;
 	private Board board;
 	private Broker broker;
 	private Game game;
@@ -45,10 +48,10 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-		if (poller == null) {
-			poller = new ServerPoller(ServerProxy.getInstance());
-			poller.initializeTimer();
-		}
+//		if (poller == null) {
+//			poller = new ServerPoller(ServerProxy.getInstance());
+//			poller.initializeTimer();
+//		}
 		
 		this.board = new Board(model.map);
 		
@@ -93,14 +96,22 @@ public class Facade extends Observable {
 		return false;
 	}
 	
+	/*
+	 * Server Calls (with associated "can" methods)
+	 */
+	
 	public boolean login(String username, String password) {
 		return this.proxy.userLogin(username, password);
 	}
-
+	
 	public boolean register(String username, String password) {
 		return this.proxy.userRegister(username, password);
 	}
 
+	public Collection<DTOGame> getGamesList() throws ServerException {
+		return this.proxy.gamesList();
+	}
+	
 	public boolean canDiscardCards(PlayerNumber player) {
 
 		if (this.game.getStatus() == Status.DISCARDING

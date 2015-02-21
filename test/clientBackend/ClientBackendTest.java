@@ -7,7 +7,7 @@ public class ClientBackendTest {
 	public static void main(String[] args) {
 
 		String[] testClasses = new String[] {
-				"serverCommunication.ServerProxyTest"
+				"clientBackend.ServerPollerTest"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);
