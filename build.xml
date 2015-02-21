@@ -49,7 +49,7 @@
 		</java>
 	</target>
     
-	<target name="client" description="Runs the demo client">
+	<target name="demo" description="Runs the demo client">
 		<java jar="${client.jar.file}" fork="true" dir="${demo.dir}">
 			<assertions>
 				<enable/>
@@ -175,15 +175,26 @@
 	</target>
 	
 	<target name="test-subset" depends="compile" description="run automated client backend tests">
-			<java classname="clientBackend.ClientBackendTest" fork="yes">
-				<classpath>
-					<pathelement location="${java.lib}/junit-4.11.jar"/>
-					<pathelement location="${java.lib}/hamcrest-core-1.3.jar"/>
-					<pathelement location="${java.lib}/gson-2.2.4.jar"/>
-					<pathelement location="${java.build}"/>
-				</classpath>
-			</java>
-		</target>
+		<java classname="clientBackend.ClientBackendTest" fork="yes">
+			<classpath>
+				<pathelement location="${java.lib}/junit-4.11.jar"/>
+				<pathelement location="${java.lib}/hamcrest-core-1.3.jar"/>
+				<pathelement location="${java.lib}/gson-2.2.4.jar"/>
+				<pathelement location="${java.build}"/>
+			</classpath>
+		</java>
+	</target>
 	
+	<target name="client" depends="compile" description="run the client">
+		<java classname="client.main.Catan" fork="yes">
+			<classpath>
+				<pathelement location="${java.lib}/junit-4.11.jar"/>
+				<pathelement location="${java.lib}/hamcrest-core-1.3.jar"/>
+				<pathelement location="${java.lib}/gson-2.2.4.jar"/>
+				<pathelement location="${java.build}"/>
+			</classpath>
+		</java>
+	</target>
+	 
 </project>
 
