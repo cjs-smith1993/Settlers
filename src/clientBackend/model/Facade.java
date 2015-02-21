@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import clientBackend.ServerPoller;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
@@ -28,7 +27,6 @@ import shared.locations.VertexLocation;
 public class Facade extends Observable {
 	private static Facade facadeInstance;
 	private ServerProxy proxy;
-//	private ServerPoller poller;
 	private Board board;
 	private Broker broker;
 	private Game game;
@@ -48,11 +46,6 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-//		if (poller == null) {
-//			poller = new ServerPoller(ServerProxy.getInstance());
-//			poller.initializeTimer();
-//		}
-		
 		this.board = new Board(model.map);
 		
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
@@ -61,13 +54,6 @@ public class Facade extends Observable {
 		
 		this.game = new Game(players, model.turnTracker);
 		this.scoreboard = new Scoreboard(players, model.turnTracker);
-		
-//		System.out.println("\nChatCount:" + model.chat.lines.length + "\n");
-//		System.out.println("\nChatCount:" + model.log.lines.length + "\n");
-		
-		if (model.chat.lines == null || model.log.lines == null) {
-			System.out.println("\n PostOffice: chat/log is null!");
-		}
 		
 		List<TransportLine> chat = new ArrayList<TransportLine>(Arrays.asList(model.chat.lines));
 		List<TransportLine> log = new ArrayList<TransportLine>(Arrays.asList(model.log.lines));
@@ -82,7 +68,6 @@ public class Facade extends Observable {
 
 	@Override
 	public void addObserver(Observer o) {
-		// This needs to be super.addObserver(o) because this.addObserver() calls itself.
 		super.addObserver(o);
 	}
 

@@ -1,7 +1,10 @@
 package client.login;
 
+import javax.swing.JOptionPane;
+
 import client.base.*;
 import client.misc.*;
+import clientBackend.model.Facade;
 
 /**
  * Implementation for the login controller
@@ -10,6 +13,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
+	private Facade facade;
 	
 	/**
 	 * LoginController constructor
@@ -20,7 +24,7 @@ public class LoginController extends Controller implements ILoginController {
 	public LoginController(ILoginView view, IMessageView messageView) {
 
 		super(view);
-		
+		//this.facade = Facade.getInstance();
 		this.messageView = messageView;
 	}
 	
@@ -62,23 +66,50 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void signIn() {
-		
-		// TODO: log in user
-		
 
+		LoginView myView = (LoginView) this.getView();
+		String username = myView.getLoginUsername();
+		String password = myView.getLoginPassword();
+		
+		if(!(facade.login(username, password))) {
+			JOptionPane.showMessageDialog(null,
+			    "Could not Log on.",
+			    "Login Error",
+			    JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
 		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+			getLoginView().closeModal();
+			loginAction.execute();
+		}
 	}
 
 	@Override
 	public void register() {
 		
 		// TODO: register new user (which, if successful, also logs them in)
+		LoginView myView = (LoginView) this.getView();
+		String username = myView.getRegisterUsername();
+		String password = myView.getRegisterPassword();
+		String rePassword = myView.getRegisterPasswordRepeat();
 		
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(password != rePassword) {
+			JOptionPane.showMessageDialog(null,
+				    "The passwords you entered do not match.",
+				    "Register Error",
+				    JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if(!(facade.register(username, password))) {
+			JOptionPane.showMessageDialog(null,
+				    "Could not register not sure if you are already registered or if the info just failed.",
+				    "Register Error",
+				    JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
+			// If register succeeded
+			getLoginView().closeModal();
+			loginAction.execute();
+		}
 	}
 
 }
