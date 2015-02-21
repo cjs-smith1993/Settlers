@@ -1,6 +1,7 @@
 package client.points;
 
 import client.base.*;
+import clientBackend.model.Facade;
 
 
 /**
@@ -9,6 +10,7 @@ import client.base.*;
 public class PointsController extends Controller implements IPointsController {
 
 	private IGameFinishedView finishedView;
+	private Facade facade = Facade.getInstance();
 	
 	/**
 	 * PointsController constructor
@@ -33,15 +35,14 @@ public class PointsController extends Controller implements IPointsController {
 	public IGameFinishedView getFinishedView() {
 		return finishedView;
 	}
+	
 	public void setFinishedView(IGameFinishedView finishedView) {
 		this.finishedView = finishedView;
 	}
 
 	private void initFromModel() {
-		//<temp>		
-		getPointsView().setPoints(5);
-		//</temp>
+		int score = facade.getPlayerScore(facade.getClientPlayer());
+		getPointsView().setPoints(score);
 	}
-	
 }
 

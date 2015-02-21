@@ -469,4 +469,8 @@ public class Facade extends Observable {
 	public int getResourceCount(ResourceType resource) {
 		return broker.getResourceCardCount(clientPlayer, resource);
 	}
+	
+	public int getPlayerScore(PlayerNumber player) {
+		return scoreboard.getPoints(player);
+	}
 }

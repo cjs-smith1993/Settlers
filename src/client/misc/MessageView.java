@@ -23,8 +23,6 @@ public class MessageView extends OverlayView implements IMessageView {
 	private JPanel buttonPanel;
 	private JLabel message;
 	
-	
-
 	public MessageView() {
 		
 		this.setOpaque(true);
@@ -73,7 +71,6 @@ public class MessageView extends OverlayView implements IMessageView {
 	public void setMessage(String message) {
 		this.message.setText(String.format("<html><div style=\"width:%dpx;\">%s</div><html>", 500, message));
 	}
-	
 }
 
 
