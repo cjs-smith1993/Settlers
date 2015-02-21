@@ -12,6 +12,7 @@ import client.login.*;
 import client.join.*;
 import client.misc.*;
 import client.base.*;
+import clientBackend.ServerPoller;
 import clientBackend.model.Facade;
 
 /**
@@ -130,6 +131,8 @@ public class Catan extends JFrame
 		}
 
 		facade.setClientNumber("Pete");
+		ServerPoller poller = new ServerPoller(proxy);
+		poller.initializeTimer();
 	}
 }
 
