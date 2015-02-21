@@ -2,7 +2,6 @@ package serverCommunication;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.BeforeClass;
@@ -38,13 +37,12 @@ public class ServerProxyTest {
 			Collection<DTOGame> games = proxy.gamesList();
 			assertTrue(games.iterator().next() instanceof DTOGame);
 			return;
-		}
-		catch (Exception err) {
+		} catch (Exception err) {
 			fail("GamesList did not return a collection of DTOGame");
 			err.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testgamesCreate() {
 		try {
@@ -52,26 +50,24 @@ public class ServerProxyTest {
 			DTOGame game = proxy.gamesCreate(true, true, true, gameTitle);
 			assertTrue(game.title.equals(gameTitle));
 			return;
-		}
-		catch (Exception err) {
+		} catch (Exception err) {
 			fail("GamesCreate did not return the created game");
 			err.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testgameListAI() {
 		try {
-			Collection<String> AIlist= proxy.gameListAI();
+			Collection<String> AIlist = proxy.gameListAI();
 			assertTrue(AIlist.iterator().next() instanceof String);
 			return;
-		}
-		catch (Exception err) {
+		} catch (Exception err) {
 			fail("GameListAI did not return a collection of String");
 			err.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testMovesSendChat() throws ServerException {
 		try {
