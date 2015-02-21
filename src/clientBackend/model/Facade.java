@@ -13,6 +13,7 @@ import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
 import serverCommunication.ServerException;
+import serverCommunication.ServerInterface;
 import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
@@ -46,6 +47,10 @@ public class Facade extends Observable {
 		return facadeInstance;
 	}
 
+	public void setProxy(ServerInterface server) {
+		proxy = (ServerProxy) server;
+	}
+	
 	public void initializeModel(TransportModel model) throws CatanException {
 		this.board = new Board(model.map);
 		
