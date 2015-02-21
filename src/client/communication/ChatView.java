@@ -66,7 +66,7 @@ public class ChatView extends PanelView implements IChatView {
         add(chatScrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.PAGE_END);
         
-	setBackground(Color.white);
+        setBackground(Color.white);
     }
 
     @Override
@@ -96,7 +96,6 @@ public class ChatView extends PanelView implements IChatView {
      * Handles events that occur on the chat view.
      */
     private class EventListener extends KeyAdapter implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             sendMessage();

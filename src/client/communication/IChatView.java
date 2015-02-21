@@ -18,4 +18,3 @@ public interface IChatView extends IView
 	 */
 	void setEntries(List<LogEntry> entries);
 }
-

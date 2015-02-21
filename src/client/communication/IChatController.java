@@ -16,4 +16,3 @@ public interface IChatController extends IController
 	 */
 	void sendMessage(String message);
 }
-

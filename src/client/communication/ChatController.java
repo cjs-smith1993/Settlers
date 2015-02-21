@@ -1,13 +1,18 @@
 package client.communication;
 
+import serverCommunication.ServerException;
+import serverCommunication.ServerProxy;
 import client.base.*;
+import clientBackend.model.Facade;
 
 
 /**
  * Chat controller implementation
  */
 public class ChatController extends Controller implements IChatController {
-
+	ServerProxy proxy = ServerProxy.getInstance();
+	Facade facade = Facade.getInstance();
+	
 	public ChatController(IChatView view) {
 		
 		super(view);
@@ -20,7 +25,11 @@ public class ChatController extends Controller implements IChatController {
 
 	@Override
 	public void sendMessage(String message) {
-		
+		try {
+			proxy.movesSendChat(facade.getClientPlayer().getInteger(), message);
+		} catch (ServerException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
