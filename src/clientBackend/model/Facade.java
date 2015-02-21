@@ -43,7 +43,7 @@ public class Facade extends Observable {
 
 	private Facade() {}
 	
-	public Facade getInstance() {
+	public static Facade getInstance() {
 		if (facadeInstance == null) {
 			facadeInstance = new Facade();
 		}
