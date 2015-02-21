@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import serverCommunication.ServerException;
 import serverCommunication.ServerInterface;
+import serverCommunication.ServerProxy;
 import clientBackend.model.Facade;
 
 /**
@@ -12,15 +13,27 @@ import clientBackend.model.Facade;
  * there is new information
  */
 public class ServerPoller {
+	private static ServerPoller poller;
 	private ServerInterface server;
 	private Facade facade;
 
 	/**
 	 * A Server Interface is passed in to provide dependency injection
 	 */
-	public ServerPoller(ServerInterface server, Facade facade) {
+	private ServerPoller(ServerInterface server, Facade facade) {
 		this.server = server;
 		this.facade = facade;
+	}
+	
+	public static ServerPoller getInstance() {
+		if (poller == null) {
+			ServerProxy proxy = ServerProxy.getInstance();
+			Facade facade = Facade.getInstance();
+			
+			poller = new ServerPoller(proxy, facade);
+		}
+		
+		return poller;
 	}
 
 	public void initializeTimer() {
@@ -36,7 +49,7 @@ public class ServerPoller {
 	/**
 	 * Polls the server proxy with the current version number
 	 */
-	public void poll() {
+	private void poll() {
 		final int versionNumber = this.facade.getVersion();
 
 		try {
