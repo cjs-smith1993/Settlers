@@ -3,6 +3,7 @@ package clientBackend.model;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,10 +33,19 @@ public class FacadeTest {
 		this.model.players = new TransportPlayer[1];
 		this.model.map = new TransportMap();
 		this.model.turnTracker = new TransportTurnTracker();
+	
+		
 		this.model.chat = new TransportChat();
-		this.model.chat.lines = new ArrayList<TransportLine>();
+		this.model.chat.lines = new TransportLine[1];
+		this.model.chat.lines[0] = new TransportLine();
+		this.model.chat.lines[0].message = "Test message.";
+		this.model.chat.lines[0].source = "Billy Joel";
+		
 		this.model.log = new TransportLog();
-		this.model.log.lines = new ArrayList<TransportLine>();
+		this.model.log.lines = new TransportLine[1];
+		this.model.log.lines[0] = new TransportLine();
+		this.model.log.lines[0].message = "Luke, I am your baby-daddy.";
+		this.model.log.lines[0].source = "Darth Vader";
 
 		this.model.turnTracker.status = Status.PLAYING;
 		this.model.turnTracker.currentTurn = PlayerNumber.ONE;

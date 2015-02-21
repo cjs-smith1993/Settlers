@@ -280,7 +280,7 @@ public class ServerProxy implements ServerInterface {
 	@Override
 	public void gameModel(int version) throws ServerException {
 		DTOGameModel data = new DTOGameModel(version);
-
+		
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/model");
 			String response = this.doPost(url, data);

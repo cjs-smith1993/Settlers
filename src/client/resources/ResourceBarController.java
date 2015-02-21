@@ -19,9 +19,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
 		super(view);
 		
-		// TODO: Remove me.
-		update(null, null);
-		
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 		
 		elementActions.put(ResourceBarElement.ROAD, new IAction() {
@@ -32,6 +29,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 				
 			}
 		});
+		
+		Facade.getInstance().addObserver(this);
 	}
 
 	@Override

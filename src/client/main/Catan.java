@@ -118,7 +118,8 @@ public class Catan extends JFrame
 		try {
 			proxy.userLogin("Pete", "pete");
 			proxy.gamesJoin(0, CatanColor.RED);
-		} catch (ServerException e) {
+		} 
+		catch (ServerException e) {
 			fail("\n-----------------\nERROR: COULD NOT LOGIN TO SERVER, PRIOR TO ServerProxyTest RUNS.\n-----------------\n");
 		}
 		

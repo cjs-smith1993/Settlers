@@ -11,15 +11,12 @@ import shared.locations.VertexLocation;
 import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.model.CatanException;
-import clientBackend.model.Facade;
 
 public class ServerMock5 implements ServerInterface {
 	private int version;
-	private Facade facade;
 
-	public ServerMock5(Facade facade) {
+	public ServerMock5() {
 		this.version = 1;
-		this.facade = facade;
 	}
 
 	public void sendDummyData(boolean incrementVersion) {
@@ -30,7 +27,6 @@ public class ServerMock5 implements ServerInterface {
 			}
 			int idx = json.indexOf("version") + "version".length() + 2;
 			json = json.substring(0, idx) + this.version + "}";
-			CatanSerializer.getInstance().setFacade(this.facade);
 			CatanSerializer.getInstance().deserializeModel(json);
 		} catch (CatanException e) {
 			e.printStackTrace();

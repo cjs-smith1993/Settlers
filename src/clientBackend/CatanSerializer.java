@@ -13,21 +13,18 @@ import com.google.gson.Gson;
 public class CatanSerializer {
 	final Gson gson = new Gson();
 	private static CatanSerializer serializer;
-	private Facade facade = Facade.getInstance();
+	private Facade facade;
 
 	public static CatanSerializer getInstance() {
 		if (serializer == null) {
 			serializer = new CatanSerializer();
 		}
+		
 		return serializer;
 	}
 
 	private CatanSerializer() {
-
-	}
-
-	public void setFacade(Facade facade) {
-		this.facade = facade;
+		facade = Facade.getInstance();
 	}
 
 	/**

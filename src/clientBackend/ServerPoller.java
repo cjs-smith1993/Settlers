@@ -5,7 +5,6 @@ import java.util.TimerTask;
 
 import serverCommunication.ServerException;
 import serverCommunication.ServerInterface;
-import serverCommunication.ServerProxy;
 import clientBackend.model.Facade;
 
 /**
@@ -13,48 +12,43 @@ import clientBackend.model.Facade;
  * there is new information
  */
 public class ServerPoller {
-	private static ServerPoller poller;
 	private ServerInterface server;
 	private Facade facade;
+	private boolean hasStartedPolling = false;
 
 	/**
 	 * A Server Interface is passed in to provide dependency injection
 	 */
-	private ServerPoller(ServerInterface server, Facade facade) {
+	public ServerPoller(ServerInterface server) {
 		this.server = server;
-		this.facade = facade;
-	}
-	
-	public static ServerPoller getInstance() {
-		if (poller == null) {
-			ServerProxy proxy = ServerProxy.getInstance();
-			Facade facade = Facade.getInstance();
-			
-			poller = new ServerPoller(proxy, facade);
-		}
-		
-		return poller;
+		this.facade = Facade.getInstance();
 	}
 
 	public void initializeTimer() {
-		new Timer().schedule(
-				new TimerTask() {
-					@Override
-					public void run() {
-						ServerPoller.this.poll();
-					}
-				}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
+		if (!hasStartedPolling) {
+			hasStartedPolling = true;
+			
+			new Timer().schedule(
+					new TimerTask() {
+						@Override
+						public void run() {
+							System.out.println("SERVER_POLLER: Proxy polled.");
+							ServerPoller.this.poll();
+						}
+					}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
+		}
 	}
 
 	/**
 	 * Polls the server proxy with the current version number
 	 */
-	private void poll() {
+	public void poll() {
 		final int versionNumber = this.facade.getVersion();
 
 		try {
 			this.server.gameModel(versionNumber);
 		} catch (ServerException e) {
+			e.printStackTrace();
 			System.out
 					.println("\n------------\nERROR: Server Poller is having issues.\n------------\n");
 		}

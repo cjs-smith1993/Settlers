@@ -23,8 +23,7 @@ public class ChatController extends Controller implements IChatController, Obser
 	public ChatController(IChatView view) {
 		super(view);
 		
-		// TODO: Remove me, I'm temporary.
-		update(null, null);
+		Facade.getInstance().addObserver(this);
 	}
 
 	@Override
