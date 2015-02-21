@@ -27,7 +27,6 @@ import shared.locations.VertexLocation;
 public class Facade extends Observable {
 	private static Facade facadeInstance;
 	private ServerProxy proxy;
-//	private ServerPoller poller;
 	private Board board;
 	private Broker broker;
 	private Game game;
