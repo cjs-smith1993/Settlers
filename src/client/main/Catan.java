@@ -1,12 +1,18 @@
 package client.main;
 
+import static org.junit.Assert.fail;
+
 import javax.swing.*;
 
+import serverCommunication.ServerException;
+import serverCommunication.ServerProxy;
+import shared.definitions.CatanColor;
 import client.catan.*;
 import client.login.*;
 import client.join.*;
 import client.misc.*;
 import client.base.*;
+import clientBackend.model.Facade;
 
 /**
  * Main entry point for the Catan program
@@ -55,6 +61,8 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
+				setupClientBackend();
+				
 				new Catan();
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
@@ -103,5 +111,24 @@ public class Catan extends JFrame
 		});
 	}
 	
+	private static void setupClientBackend() {
+		ServerProxy proxy = ServerProxy.getInstance();
+		Facade facade = Facade.getInstance();
+		
+		try {
+			proxy.userLogin("Pete", "pete");
+			proxy.gamesJoin(0, CatanColor.RED);
+		} catch (ServerException e) {
+			fail("\n-----------------\nERROR: COULD NOT LOGIN TO SERVER, PRIOR TO ServerProxyTest RUNS.\n-----------------\n");
+		}
+		
+		try {
+			proxy.gameModel(0);
+		} catch (ServerException e) {
+			e.printStackTrace();
+		}
+
+		facade.setClientNumber("Pete");
+	}
 }
 

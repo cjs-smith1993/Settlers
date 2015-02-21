@@ -3,6 +3,7 @@ package clientBackend.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -47,6 +48,7 @@ public class Facade extends Observable {
 		if (facadeInstance == null) {
 			facadeInstance = new Facade();
 		}
+		
 		return facadeInstance;
 	}
 
@@ -470,7 +472,30 @@ public class Facade extends Observable {
 		return broker.getResourceCardCount(clientPlayer, resource);
 	}
 	
+	public int getHoldingCount(PropertyType property) {
+		switch (property) {
+		case ROAD:
+			return game.getPlayers().get(clientPlayer).getNumRoads();
+		case SETTLEMENT:
+			return game.getPlayers().get(clientPlayer).getNumSettlements();
+		case CITY:
+			return game.getPlayers().get(clientPlayer).getNumCities();
+		default:
+			return -1;
+		}
+	}
+	
 	public int getPlayerScore(PlayerNumber player) {
 		return scoreboard.getPoints(player);
+	}
+	
+	public void setClientNumber(String playerName) {
+		for (Map.Entry<PlayerNumber, Player> entry : game.getPlayers().entrySet()) {
+			String name = entry.getValue().getUser().getName();
+			
+			if (name.equals(playerName)) {
+				clientPlayer = entry.getKey();
+			}
+		}
 	}
 }

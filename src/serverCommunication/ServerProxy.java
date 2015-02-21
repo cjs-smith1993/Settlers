@@ -25,6 +25,7 @@ import clientBackend.model.CatanException;
  * not have to worry about communication details
  */
 public class ServerProxy implements ServerInterface {
+	private static ServerProxy proxy;
 	private CatanSerializer serializer;
 	private String userCookie;
 	private String gameCookie;
@@ -34,10 +35,18 @@ public class ServerProxy implements ServerInterface {
 	private final String HTTP_GET = "GET";
 	private final String HTTP_POST = "POST";
 
-	public ServerProxy(String hostname, int port) {
+	private ServerProxy(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port;
 		this.serializer = CatanSerializer.getInstance();
+	}
+	
+	public static ServerProxy getInstance() {
+		if (proxy == null) {
+			proxy = new ServerProxy("localhost", 8081);
+		}
+		
+		return proxy;
 	}
 
 	public String getHostname() {
