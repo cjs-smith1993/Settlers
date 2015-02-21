@@ -14,54 +14,52 @@ public class LoginController extends Controller implements ILoginController {
 	private IMessageView messageView;
 	private IAction loginAction;
 	private Facade facade;
-	
+
 	/**
 	 * LoginController constructor
-	 * 
-	 * @param view Login view
-	 * @param messageView Message view (used to display error messages that occur during the login process)
+	 *
+	 * @param view
+	 *            Login view
+	 * @param messageView
+	 *            Message view (used to display error messages that occur during
+	 *            the login process)
 	 */
 	public LoginController(ILoginView view, IMessageView messageView) {
-
 		super(view);
-		//this.facade = Facade.getInstance();
+		this.facade = Facade.getInstance();
 		this.messageView = messageView;
 	}
-	
+
 	public ILoginView getLoginView() {
-		
-		return (ILoginView)super.getView();
+		return (ILoginView) super.getView();
 	}
-	
+
 	public IMessageView getMessageView() {
-		
-		return messageView;
+		return this.messageView;
 	}
-	
+
 	/**
 	 * Sets the action to be executed when the user logs in
-	 * 
-	 * @param value The action to be executed when the user logs in
+	 *
+	 * @param value
+	 *            The action to be executed when the user logs in
 	 */
 	public void setLoginAction(IAction value) {
-		
-		loginAction = value;
+		this.loginAction = value;
 	}
-	
+
 	/**
 	 * Returns the action to be executed when the user logs in
-	 * 
+	 *
 	 * @return The action to be executed when the user logs in
 	 */
 	public IAction getLoginAction() {
-		
-		return loginAction;
+		return this.loginAction;
 	}
 
 	@Override
 	public void start() {
-		
-		getLoginView().showModal();
+		this.getLoginView().showModal();
 	}
 
 	@Override
@@ -70,47 +68,48 @@ public class LoginController extends Controller implements ILoginController {
 		LoginView myView = (LoginView) this.getView();
 		String username = myView.getLoginUsername();
 		String password = myView.getLoginPassword();
-		
-		if(!(facade.login(username, password))) {
+
+		if (!(this.facade.login(username, password))) {
 			JOptionPane.showMessageDialog(null,
-			    "Could not Log on.",
-			    "Login Error",
-			    JOptionPane.INFORMATION_MESSAGE);
+					"Could not Log on.",
+					"Login Error",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		else {
-		// If log in succeeded
-			getLoginView().closeModal();
-			loginAction.execute();
+			// If log in succeeded
+			this.getLoginView().closeModal();
+			this.loginAction.execute();
 		}
 	}
 
 	@Override
 	public void register() {
-		
+
 		// TODO: register new user (which, if successful, also logs them in)
 		LoginView myView = (LoginView) this.getView();
 		String username = myView.getRegisterUsername();
 		String password = myView.getRegisterPassword();
 		String rePassword = myView.getRegisterPasswordRepeat();
-		
-		if(password != rePassword) {
+
+		if (password != rePassword) {
 			JOptionPane.showMessageDialog(null,
-				    "The passwords you entered do not match.",
-				    "Register Error",
-				    JOptionPane.INFORMATION_MESSAGE);
+					"The passwords you entered do not match.",
+					"Register Error",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
-		else if(!(facade.register(username, password))) {
-			JOptionPane.showMessageDialog(null,
-				    "Could not register not sure if you are already registered or if the info just failed.",
-				    "Register Error",
-				    JOptionPane.INFORMATION_MESSAGE);
+		else if (!(this.facade.register(username, password))) {
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Could not register not sure if you are already registered or if the info just failed.",
+							"Register Error",
+							JOptionPane.INFORMATION_MESSAGE);
 		}
 		else {
 			// If register succeeded
-			getLoginView().closeModal();
-			loginAction.execute();
+			this.getLoginView().closeModal();
+			this.loginAction.execute();
 		}
 	}
 
 }
-
