@@ -91,7 +91,7 @@ public class LoginController extends Controller implements ILoginController {
 		String password = myView.getRegisterPassword();
 		String rePassword = myView.getRegisterPasswordRepeat();
 
-		if (password != rePassword) {
+		if (!password.equals(rePassword)) {
 			JOptionPane.showMessageDialog(null,
 					"The passwords you entered do not match.",
 					"Register Error",
