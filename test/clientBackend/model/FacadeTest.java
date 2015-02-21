@@ -23,7 +23,7 @@ public class FacadeTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.facade = new Facade();
+		this.facade = Facade.getInstance();
 		this.model = new TransportModel();
 		this.player = new TransportPlayer();
 

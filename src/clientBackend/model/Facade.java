@@ -20,7 +20,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
 public class Facade extends Observable {
-	private Facade facadeInstance;
+	private static Facade facadeInstance;
 	private ServerProxy proxy;
 	private Board board;
 	private Broker broker;
@@ -41,15 +41,16 @@ public class Facade extends Observable {
 		return false;
 	}
 
-	private Facade() {}
-	
+	private Facade() {
+	}
+
 	public static Facade getInstance() {
 		if (facadeInstance == null) {
 			facadeInstance = new Facade();
 		}
 		return facadeInstance;
 	}
-	
+
 	public void initializeModel(TransportModel model) throws CatanException {
 		this.board = new Board(model.map);
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
@@ -67,15 +68,15 @@ public class Facade extends Observable {
 	public void addObserver(Observer o) {
 		this.observers.add(o);
 	}
-	
+
 	public boolean login(String username, String password) {
-		return proxy.userLogin(username, password);
+		return this.proxy.userLogin(username, password);
 	}
-	
+
 	public boolean register(String username, String password) {
-		return proxy.userRegister(username, password);
+		return this.proxy.userRegister(username, password);
 	}
-	
+
 	public boolean canDiscardCards(PlayerNumber player) {
 
 		if (this.game.getStatus() == Status.DISCARDING

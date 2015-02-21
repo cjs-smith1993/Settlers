@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 public class CatanSerializer {
 	final Gson gson = new Gson();
 	private static CatanSerializer serializer;
-	private Facade facade = new Facade();
+	private Facade facade = Facade.getInstance();
 
 	public static CatanSerializer getInstance() {
 		if (serializer == null) {
@@ -40,7 +40,7 @@ public class CatanSerializer {
 	 */
 	public void deserializeModel(String gsonString) throws CatanException {
 		TransportModel transportModel = this.gson.fromJson(gsonString, TransportModel.class);
-		
+
 		this.facade.initializeModel(transportModel);
 	}
 

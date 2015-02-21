@@ -18,7 +18,7 @@ public class ServerPollerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.facade = new Facade();
+		this.facade = Facade.getInstance();
 		this.mock5 = new ServerMock5(this.facade);
 		this.poller = new ServerPoller(this.mock5, this.facade);
 	}
