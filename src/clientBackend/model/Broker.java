@@ -550,6 +550,8 @@ public class Broker {
 	public Map<PlayerNumber, Hand> getHoldings() {
 		return this.holdings;
 	}
-	//canOfferTrade(PlayerNumber player, PlayerNumber receiver, ResourceInvoice offer);
-	//canMaritimeTrade(PlayerNumber player, int ratio, ResourceType giving, ResourceType getting);
+	
+	public int getResourceCardCount(PlayerNumber player, ResourceType resource) {
+		return getHoldings().get(player).getResourceCardCount(resource);
+	}
 }

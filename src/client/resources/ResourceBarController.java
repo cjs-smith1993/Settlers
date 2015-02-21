@@ -2,8 +2,9 @@ package client.resources;
 
 import java.util.*;
 
+import shared.definitions.ResourceType;
 import client.base.*;
-
+import clientBackend.model.Facade;
 
 /**
  * Implementation for the resource bar controller
@@ -11,10 +12,14 @@ import client.base.*;
 public class ResourceBarController extends Controller implements IResourceBarController, Observer {
 
 	private Map<ResourceBarElement, IAction> elementActions;
+	private Facade facade = Facade.getInstance();
 	
 	public ResourceBarController(IResourceBarView view) {
 
 		super(view);
+		
+		// TODO: Remove me.
+		update(null, null);
 		
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 		
@@ -25,7 +30,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 				// TODO Auto-generated method stub
 				
 			}
-			
 		});
 	}
 
@@ -71,7 +75,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	}
 	
 	private void executeElementAction(ResourceBarElement element) {
-		
 		if (elementActions.containsKey(element)) {
 			
 			IAction action = elementActions.get(element);
@@ -79,12 +82,18 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 	}
 
+	/**
+	 * @param Observable The observable object.
+	 * @param Object Should be null.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-		// for each element in view, determine if enabled
+		IResourceBarView view = getView();
+		view.setElementAmount(ResourceBarElement.BRICK, facade.getResourceCount(ResourceType.BRICK));
+		view.setElementAmount(ResourceBarElement.ORE, facade.getResourceCount(ResourceType.ORE));
+		view.setElementAmount(ResourceBarElement.SHEEP, facade.getResourceCount(ResourceType.SHEEP));
+		view.setElementAmount(ResourceBarElement.WHEAT, facade.getResourceCount(ResourceType.WHEAT));
+		view.setElementAmount(ResourceBarElement.WOOD, facade.getResourceCount(ResourceType.WOOD));
 	}
-
 }
 

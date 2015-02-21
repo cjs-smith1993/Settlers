@@ -8,7 +8,6 @@ import java.util.Observer;
 
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
-import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
@@ -465,5 +464,9 @@ public class Facade extends Observable {
 
 	public int getVersion() {
 		return this.version;
+	}
+	
+	public int getResourceCount(ResourceType resource) {
+		return broker.getResourceCardCount(clientPlayer, resource);
 	}
 }
