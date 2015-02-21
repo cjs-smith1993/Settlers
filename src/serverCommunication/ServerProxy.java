@@ -11,6 +11,8 @@ import java.net.URL;
 //import java.net.URLDecoder;
 import java.util.Collection;
 
+import com.google.gson.reflect.TypeToken;
+
 import shared.definitions.*;
 import shared.locations.*;
 import clientBackend.CatanSerializer;
@@ -204,12 +206,12 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/list");
 			String response = this.doGet(url);
-			Object o = CatanSerializer.getInstance().deserializeObject(response);
+			Type objectType = new TypeToken<Collection<DTOGame>>() {}.getType();
+			Object o = serializer.deserializeObject(response, objectType);
 			if (o instanceof Collection<?>) {// Make sure o is a Collection
 				Collection<?> collection = (Collection<?>) o;
 				if (collection.iterator().next() instanceof DTOGame) {// Make sure the Collection contains DTOGames
-					Collection<DTOGame> list = (Collection<DTOGame>) o;
-					return list;
+					return (Collection<DTOGame>) o;
 				}
 				else {
 					throw new IOException();
@@ -225,7 +227,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean gamesCreate(
+	public DTOGame gamesCreate(
 			boolean randomTiles,
 			boolean randomNumbers,
 			boolean randomPorts,
@@ -234,12 +236,19 @@ public class ServerProxy implements ServerInterface {
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/create");
-			this.doPost(url, data);
+			String response = this.doPost(url, data);
+			Type objectType = new TypeToken<DTOGame>() {}.getType();
+			Object o = serializer.deserializeObject(response, objectType);
+			if (o instanceof DTOGame) {
+				return (DTOGame) o;
+			}
+			else {
+				throw new IOException();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
 		}
-		return true;
+		return null;
 	}
 
 	@Override
@@ -351,7 +360,8 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/listAI");
 			String response = this.doGet(url);
-			Object o = CatanSerializer.getInstance().deserializeObject(response);
+			Type objectType = new TypeToken<Collection<String>>() {}.getType();
+			Object o = CatanSerializer.getInstance().deserializeObject(response, objectType);
 			if (o instanceof Collection<?>) {// Make sure o is a Collection
 				Collection<?> collection = (Collection<?>) o;
 				if (collection.iterator().next() instanceof String) {// Make sure the Collection contains String

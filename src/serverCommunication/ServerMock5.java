@@ -50,10 +50,10 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
+	public DTOGame gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
 			String name) throws ServerException {
 		//		String json = "{'title':'dummy','id':3,'players':[{},{},{},{}]}";
-		return true;
+		return null;
 	}
 
 	@Override

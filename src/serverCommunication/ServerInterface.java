@@ -19,7 +19,7 @@ public interface ServerInterface {
 
 	public Collection<DTOGame> gamesList() throws ServerException;
 
-	public boolean gamesCreate(
+	public DTOGame gamesCreate(
 			boolean randomTiles,
 			boolean randomNumbers,
 			boolean randomPorts,

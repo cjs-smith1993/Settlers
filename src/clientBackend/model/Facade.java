@@ -15,6 +15,7 @@ import clientBackend.transport.TransportPlayer;
 import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
+import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
@@ -95,6 +96,20 @@ public class Facade extends Observable {
 
 	public Collection<DTOGame> getGamesList() throws ServerException {
 		return this.proxy.gamesList();
+	}
+	
+	public DTOGame createGame(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name)
+			throws ServerException, CatanException {
+		if (name.isEmpty()) {
+			return this.proxy.gamesCreate(randomTiles, randomNumbers, randomPorts, name);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Name of game cannot be empty");
+		}
+	}
+	
+	public void joinGame(int gameId, String desiredColor) {
+		
 	}
 	
 	public boolean canDiscardCards(PlayerNumber player) {
