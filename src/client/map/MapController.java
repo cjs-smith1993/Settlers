@@ -6,12 +6,13 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
+import clientBackend.model.Board;
 import clientBackend.model.Facade;
 
 /**
  * Implementation for the map controller
  */
-public class MapController extends Controller implements IMapController {
+public class MapController extends Controller implements IMapController, Observer {
 
 	private IRobView robView;
 	private Facade facade;
@@ -40,6 +41,8 @@ public class MapController extends Controller implements IMapController {
 	}
 
 	protected void initFromModel() {
+		Board board = this.facade.getBoard();
+		board.getRobberLocation();
 
 		//<temp>
 
@@ -168,6 +171,11 @@ public class MapController extends Controller implements IMapController {
 
 	public void robPlayer(RobPlayerInfo victim) {
 
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.initFromModel();
 	}
 
 }
