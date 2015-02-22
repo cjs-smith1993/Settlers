@@ -37,37 +37,38 @@ public class Facade extends Observable {
 	private int version = 1;
 	private int resourceCardLimit = 7;
 
-	private Facade() {}
+	private Facade() {
+	}
 
 	public static Facade getInstance() {
 		if (facadeInstance == null) {
 			facadeInstance = new Facade();
 		}
-		
+
 		return facadeInstance;
 	}
 
 	public void setProxy(ServerInterface server) {
-		this.server = (ServerInterface) server;
+		this.server = server;
 	}
-	
+
 	public void initializeModel(TransportModel model) throws CatanException {
 		this.board = new Board(model.map);
-		
+
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
 		this.broker = new Broker(model.bank, model.deck, players,
 				this.board.getHarborsByPlayer());
-		
+
 		this.game = new Game(players, model.turnTracker);
 		this.scoreboard = new Scoreboard(players, model.turnTracker);
-		
+
 		List<TransportLine> chat = new ArrayList<TransportLine>(Arrays.asList(model.chat.lines));
 		List<TransportLine> log = new ArrayList<TransportLine>(Arrays.asList(model.log.lines));
-		
+
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
 		String someValue = "howdy";
-		
+
 		this.setChanged();
 		this.notifyObservers(someValue);
 	}
@@ -78,7 +79,6 @@ public class Facade extends Observable {
 	}
 
 	private boolean isPlaying(PlayerNumber player) {
-
 		if (this.game.getState() == CatanState.PLAYING
 				&& this.game.getCurrentPlayer() == player) {
 			return true;
@@ -86,28 +86,30 @@ public class Facade extends Observable {
 
 		return false;
 	}
-	
+
 	/*
 	 * Server Calls (with associated "can" methods)
 	 */
-	
+
 	/**
 	 * Calls userLogin() on the server
+	 *
 	 * @param username
 	 * @param password
 	 * @return
-	 * @throws ServerException 
+	 * @throws ServerException
 	 */
 	public boolean login(String username, String password) {
 		return this.server.userLogin(username, password);
 	}
-	
+
 	/**
 	 * Calls userRegister() on the server
+	 *
 	 * @param username
 	 * @param password
 	 * @return
-	 * @throws ServerException 
+	 * @throws ServerException
 	 */
 	public boolean register(String username, String password) {
 		return this.server.userRegister(username, password);
@@ -115,15 +117,17 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls gamesList() on the server
+	 *
 	 * @return
 	 * @throws ServerException
 	 */
 	public Collection<DTOGame> getGamesList() {
 		return this.server.gamesList();
 	}
-	
+
 	/**
 	 * Calls gamesCreate() on the server
+	 *
 	 * @param randomTiles
 	 * @param randomNumbers
 	 * @param randomPorts
@@ -132,18 +136,21 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 * @throws CatanException
 	 */
-	public DTOGame createGame(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String gameName) 
+	public DTOGame createGame(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
+			String gameName)
 			throws CatanException {
 		if (gameName != null && !gameName.isEmpty()) {
 			return this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Name of game cannot be empty");
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"Name of game cannot be empty");
 		}
 	}
-	
+
 	/**
 	 * Calls gamesJoin() on the server
+	 *
 	 * @param gameId
 	 * @param desiredColor
 	 * @return
@@ -152,9 +159,10 @@ public class Facade extends Observable {
 	public boolean joinGame(int gameId, CatanColor desiredColor) {
 		return this.server.gamesJoin(gameId, desiredColor);
 	}
-	
+
 	/**
 	 * Calls gamesSave() on the server
+	 *
 	 * @param gameId
 	 * @param fileName
 	 * @return
@@ -162,15 +170,17 @@ public class Facade extends Observable {
 	 */
 	public boolean saveGame(int gameId, String fileName) throws CatanException {
 		if (fileName != null && !fileName.isEmpty()) {
-			return server.gamesSave(gameId, fileName);
+			return this.server.gamesSave(gameId, fileName);
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "File name cannot be empty");
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"File name cannot be empty");
 		}
 	}
-	
+
 	/**
 	 * Calls gamesLoad() on the server
+	 *
 	 * @param fileName
 	 * @return
 	 * @throws ServerException
@@ -178,23 +188,26 @@ public class Facade extends Observable {
 	 */
 	public boolean gamesLoad(String fileName) throws ServerException, CatanException {
 		if (fileName != null && !fileName.isEmpty()) {
-			return server.gamesLoad(fileName);
+			return this.server.gamesLoad(fileName);
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "File name cannot be empty");
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"File name cannot be empty");
 		}
 	}
-	
+
 	/**
 	 * Calls gamesReset() on the server
+	 *
 	 * @throws ServerException
 	 */
 	public void resetGame() {
 		this.server.gameReset();
 	}
-	
+
 	/**
 	 * Determines if the player needs to discard cards
+	 *
 	 * @param player
 	 * @return
 	 */
@@ -210,6 +223,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player can roll the dice for their turn
+	 *
 	 * @param player
 	 * @return
 	 */
@@ -335,6 +349,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if a player can offer a certain trade
+	 *
 	 * @param invoice
 	 * @return
 	 */
@@ -349,6 +364,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if a player can accept a certain trade
+	 *
 	 * @param invoice
 	 * @return
 	 */
@@ -361,7 +377,9 @@ public class Facade extends Observable {
 	}
 
 	/**
-	 * Determines if a player has enough of a certain resource to perform a maritime trade
+	 * Determines if a player has enough of a certain resource to perform a
+	 * maritime trade
+	 *
 	 * @param player
 	 * @param giving
 	 * @return
@@ -561,7 +579,7 @@ public class Facade extends Observable {
 	/*
 	 * Facade Getters and Setters
 	 */
-	
+
 	public PlayerNumber getClientPlayer() {
 		return this.clientPlayer;
 	}
@@ -609,55 +627,59 @@ public class Facade extends Observable {
 	public int getVersion() {
 		return this.version;
 	}
-	
+
 	/*
 	 * "Model" Getters and Setters
 	 */
-	
+
 	public List<Message> getMessages() {
-		return postOffice.getMessages();
+		return this.postOffice.getMessages();
 	}
-	
+
 	public List<Message> getLog() {
-		return postOffice.getLog();
+		return this.postOffice.getLog();
 	}
-	
+
 	public CatanColor getPlayerColor(PlayerNumber player) {
-		return game.getPlayers().get(player).getColor();
+		return this.game.getPlayers().get(player).getColor();
 	}
-	
+
 	public int getResourceCount(ResourceType resource) {
-		return broker.getResourceCardCount(clientPlayer, resource);
+		return this.broker.getResourceCardCount(this.clientPlayer, resource);
 	}
-	
+
 	public int getHoldingCount(PropertyType property) {
 		switch (property) {
 		case ROAD:
-			return game.getPlayers().get(clientPlayer).getNumRoads();
+			return this.game.getPlayers().get(this.clientPlayer).getNumRoads();
 		case SETTLEMENT:
-			return game.getPlayers().get(clientPlayer).getNumSettlements();
+			return this.game.getPlayers().get(this.clientPlayer).getNumSettlements();
 		case CITY:
-			return game.getPlayers().get(clientPlayer).getNumCities();
+			return this.game.getPlayers().get(this.clientPlayer).getNumCities();
 		default:
 			return -1;
 		}
 	}
-	
+
 	public int getPlayerScore(PlayerNumber player) {
-		return scoreboard.getPoints(player);
+		return this.scoreboard.getPoints(player);
 	}
-	
+
 	public void setClientNumber(String playerName) {
-		for (Map.Entry<PlayerNumber, Player> entry : game.getPlayers().entrySet()) {
+		for (Map.Entry<PlayerNumber, Player> entry : this.game.getPlayers().entrySet()) {
 			String name = entry.getValue().getUser().getName();
-			
+
 			if (name.equals(playerName)) {
-				clientPlayer = entry.getKey();
+				this.clientPlayer = entry.getKey();
 			}
 		}
 	}
-	
+
 	public CatanState getModelState() {
-		return game.getState();
+		return this.game.getState();
+	}
+
+	public boolean isClientTurn() {
+		return this.getClientPlayer() == this.game.getCurrentPlayer();
 	}
 }
