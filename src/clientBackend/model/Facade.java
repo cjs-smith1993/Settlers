@@ -117,20 +117,30 @@ public class Facade extends Observable {
 		
 	}
 	
+	/**
+	 * Determines if the player needs to discard cards
+	 * @param player
+	 * @return
+	 */
 	public boolean canDiscardCards(PlayerNumber player) {
 
-		if (this.game.getStatus() == Status.DISCARDING
-				&& this.broker.canDiscardCards(player, 8)) {
+		if (this.game.getState() == CatanState.DISCARDING
+				&& (this.broker.getResourceCardCount(player, ResourceType.ALL) <= this.resourceCardLimit)) {
 			return true;
 		}
 
 		return false;
 	}
 
+	/**
+	 * Determines if the player can roll the dice for their turn
+	 * @param player
+	 * @return
+	 */
 	public boolean canRollNumber(PlayerNumber player) {
 
 		if (this.game.getCurrentPlayer() == player
-				&& this.game.getStatus() == Status.ROLLING) {
+				&& this.game.getState() == CatanState.ROLLING) {
 			return true;
 		}
 
