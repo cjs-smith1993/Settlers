@@ -275,48 +275,4 @@ public class BrokerTest {
 		assertTrue("can Accept the trade", this.myBroker.canAcceptTrade(invoice));
 	}
 
-	@Test
-	public void testCanDiscardCards() {
-		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, PlayerNumber.ONE);
-		invoice.setBrick(3);
-		invoice.setOre(3);
-		invoice.setSheep(3);
-		invoice.setWheat(3);
-		invoice.setWood(3);
-		try {
-			assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
-		} catch (CatanException e) {
-			e.printStackTrace();
-		}
-		assertTrue("Can remove the cards", this.myBroker.canDiscardCards(PlayerNumber.ONE, 7));
-		assertFalse("can not remove cards", this.myBroker.canDiscardCards(PlayerNumber.TWO, 7));
-	}
-
-	//	@Test
-	//	@Ignore
-	//	public void testHasNecessaryResourceAmount() {
-	//		fail("Not yet implemented");
-	//	}
-	//
-	//	@Test
-	//	@Ignore
-	//	public void testHasResourceCard() {
-	//		fail("Not yet implemented");
-	//	}
-	//
-	//	@Test
-	//	@Ignore
-	//	public void testHasHarbor() {
-	//		fail("Not yet implemented");
-	//	}
-	//
-	//	@Test
-	//	@Ignore
-	//	public void testHasDevelopmentCard() {
-	//		fail("Not yet implemented");
-	//	}
-
-	/*
-	 * cnadiscard canoffertrade canmaitimtrade buy dev card use dev card
-	 */
 }
