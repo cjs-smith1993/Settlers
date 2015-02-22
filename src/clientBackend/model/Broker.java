@@ -352,9 +352,6 @@ public class Broker {
 	 * @param player
 	 * @return return true if he can false otherwise
 	 */
-	//not sure what this should be
-	//maritime trade can be any ratio 2,3,4 as long as they have the correct port.
-
 	public boolean canMaritimeTrade(PlayerNumber player, ResourceType type) {
 		boolean enough = false;
 		int bestRatio = this.findBestRatio(player, type);
@@ -443,28 +440,6 @@ public class Broker {
 	}
 
 	/**
-	 * Determines whether the player has the necessary number of cards to return
-	 * to the BANK.
-	 *
-	 * @return canDiscardCards
-	 */
-	public boolean canDiscardCards(PlayerNumber player, int discardAmount) {
-		int cardCount = 0;
-
-		cardCount += this.holdings.get(player).getResourceCardCount(ResourceType.BRICK);
-		cardCount += this.holdings.get(player).getResourceCardCount(ResourceType.ORE);
-		cardCount += this.holdings.get(player).getResourceCardCount(ResourceType.SHEEP);
-		cardCount += this.holdings.get(player).getResourceCardCount(ResourceType.WHEAT);
-		cardCount += this.holdings.get(player).getResourceCardCount(ResourceType.WOOD);
-
-		if (cardCount >= discardAmount) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Determines whether the player has adequate resources.
 	 *
 	 * @param resourceType
@@ -481,25 +456,6 @@ public class Broker {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Determines whether the player has at least one resource card
-	 *
-	 * @param player
-	 * @return
-	 */
-	//TODO not sure what this is meant to do?
-	public boolean hasResourceCard(PlayerNumber player) {
-		boolean hasCard = false;
-		Hand local = this.holdings.get(player);
-		for (ResourceType type : ResourceType.values()) {
-			if (local.getResourceCardCount(type) > 0) {
-				hasCard = true;
-				break;
-			}
-		}
-		return hasCard;
 	}
 
 	/**

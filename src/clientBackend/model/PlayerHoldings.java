@@ -119,11 +119,9 @@ public class PlayerHoldings implements Hand {
 		
 		if (type == null) {
 			int total = 0;
-			
 			for (Collection<DevelopmentCard> cards : developmentCards.values()) {
 				total += cards.size();
 			}
-			
 			return total;
 		}
 		
@@ -137,7 +135,18 @@ public class PlayerHoldings implements Hand {
 	 * @return the number of resource cards
 	 */
 	public int getResourceCardCount(ResourceType type) {
-		return resourceCards.get(type).size();
+		if (type == ResourceType.ALL) {
+			int totalCards = 0;
+			for (ResourceType resourceType : ResourceType.values()) {
+				if (resourceType != ResourceType.ALL && resourceType != ResourceType.NONE) {
+					totalCards += resourceCards.get(resourceType).size();
+				}
+			}
+			return totalCards;
+		}
+		else {
+			return resourceCards.get(type).size();
+		}
 	}
 	
 	/**

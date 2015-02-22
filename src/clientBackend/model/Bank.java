@@ -213,19 +213,17 @@ public class Bank implements Hand{
 	
 	@Override
 	public int getDevelopmentCardCount(DevCardType type) {
-		
 		if (type == null) {
 			int total = 0;
-			
 			for (Collection<DevelopmentCard> cards : developmentCards.values()) {
 				total += cards.size();
 			}
-			
 			return total;
 		}
 		
 		return developmentCards.get(type).size();
 	}
+	
 	/**
 	 * Returns the number of available resource cards of the desired type in
 	 * the bank
@@ -233,7 +231,18 @@ public class Bank implements Hand{
 	 * @return the number of available resource cards of the desired type
 	 */
 	public int getResourceCardCount(ResourceType type) {
-		return resourceCards.get(type).size();
+		if (type == ResourceType.ALL) {
+			int totalCards = 0;
+			for (ResourceType resourceType : ResourceType.values()) {
+				if (resourceType != ResourceType.ALL && resourceType != ResourceType.NONE) {
+					totalCards += resourceCards.get(resourceType).size();
+				}
+			}
+			return totalCards;
+		}
+		else {
+			return resourceCards.get(type).size();
+		}
 	}
 
 	public Collection<DevelopmentCard> getPlayedCards() {
