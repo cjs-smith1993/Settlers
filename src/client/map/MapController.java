@@ -24,8 +24,6 @@ public class MapController extends Controller implements IMapController, Observe
 		this.setRobView(robView);
 
 		this.facade = Facade.getInstance();
-
-		this.initFromModel();
 	}
 
 	public IMapView getView() {
