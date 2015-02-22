@@ -36,6 +36,7 @@ public class Facade extends Observable {
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
 	private int version = 1;
+	private int resourceCardLimit = 7;
 
 	private Facade() {}
 
