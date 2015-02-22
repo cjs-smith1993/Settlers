@@ -160,7 +160,11 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 */
 	public boolean joinGame(int gameId, CatanColor desiredColor) {
-		return this.server.gamesJoin(gameId, desiredColor);
+		boolean success = this.server.gamesJoin(gameId, desiredColor);
+		if (success) {
+			this.getModel();
+		}
+		return success;
 	}
 
 	/**
@@ -196,6 +200,14 @@ public class Facade extends Observable {
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
 					"File name cannot be empty");
+		}
+	}
+
+	public void getModel() {
+		try {
+			this.server.gameModel(this.version);
+		} catch (IOException | ServerException e) {
+			e.printStackTrace();
 		}
 	}
 
