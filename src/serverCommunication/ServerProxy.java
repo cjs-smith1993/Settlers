@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 //import java.net.URLDecoder;
 import java.util.Collection;
@@ -40,12 +39,12 @@ public class ServerProxy implements ServerInterface {
 		this.port = port;
 		this.serializer = CatanSerializer.getInstance();
 	}
-	
+
 	public static ServerProxy getInstance() {
 		if (proxy == null) {
 			proxy = new ServerProxy("localhost", 8081);
 		}
-		
+
 		return proxy;
 	}
 
@@ -207,8 +206,9 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/list");
 			String response = this.doGet(url);
-			Type objectType = new TypeToken<Collection<DTOGame>>() {}.getType();
-			return (Collection<DTOGame>) serializer.deserializeObject(response, objectType);
+			Type objectType = new TypeToken<Collection<DTOGame>>() {
+			}.getType();
+			return (Collection<DTOGame>) this.serializer.deserializeObject(response, objectType);
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
 		}
@@ -226,7 +226,8 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/create");
 			String response = this.doPost(url, data);
-			Type objectType = new TypeToken<DTOGame>() {}.getType();
+			Type objectType = new TypeToken<DTOGame>() {
+			}.getType();
 			return (DTOGame) this.serializer.deserializeObject(response, objectType);
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
@@ -279,7 +280,7 @@ public class ServerProxy implements ServerInterface {
 	@Override
 	public void gameModel(int version) throws IOException, ServerException {
 		DTOGameModel data = new DTOGameModel(version);
-		
+
 		URL url = new URL(this.getUrlPrefix() + "/game/model");
 		String response = this.doPost(url, data);
 		this.deserializeResponse(response);
@@ -339,7 +340,8 @@ public class ServerProxy implements ServerInterface {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/listAI");
 			String response = this.doGet(url);
-			Type objectType = new TypeToken<Collection<String>>() {}.getType();
+			Type objectType = new TypeToken<Collection<String>>() {
+			}.getType();
 			return (Collection<String>) this.serializer.deserializeObject(response, objectType);
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
