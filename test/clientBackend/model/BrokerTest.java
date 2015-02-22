@@ -33,7 +33,9 @@ public class BrokerTest {
 				assertTrue(dev == 25);
 				int res = 0;
 				for (ResourceType type : ResourceType.values()) {
-					res += this.myBroker.getHoldings().get(player).getResourceCardCount(type);
+					if (type != ResourceType.ALL && type != ResourceType.NONE) {
+						res += this.myBroker.getHoldings().get(player).getResourceCardCount(type);
+					}
 				}
 				assertTrue(res == 175);
 				break;

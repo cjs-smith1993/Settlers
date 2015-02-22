@@ -1,5 +1,6 @@
 package clientBackend;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,10 +48,13 @@ public class ServerPoller {
 
 		try {
 			this.server.gameModel(versionNumber);
-		} catch (ServerException e) {
-			e.printStackTrace();
+		} catch (IOException | ServerException e) {
 			System.out
 					.println("\n------------\nERROR: Server Poller is having issues.\n------------\n");
+			if (e instanceof ServerException) {
+				System.out.println(e.toString());
+			}
+			e.printStackTrace();
 		}
 	}
 }

@@ -34,173 +34,170 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean userLogin(String username, String password) throws ServerException {
+	public boolean userLogin(String username, String password) {
 		return true;
 	}
 
 	@Override
-	public boolean userRegister(String username, String password) throws ServerException {
+	public boolean userRegister(String username, String password) {
 		return true;
 	}
 
 	@Override
-	public Collection<DTOGame> gamesList() throws ServerException {
+	public Collection<DTOGame> gamesList() {
 		//		String json = "[{'title':'DefaultGame','id':0,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]},{'title':'AIGame','id':1,'players':[{'color':'orange','name':'Pete','id':10},{'color':'puce','name':'Steve','id':-2},{'color':'blue','name':'Squall','id':-3},{'color':'yellow','name':'Quinn','id':-4}]},{'title':'EmptyGame','id':2,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]}]";
 		return new ArrayList<DTOGame>();
 	}
 
 	@Override
 	public DTOGame gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
-			String name) throws ServerException {
+			String name) {
 		//		String json = "{'title':'dummy','id':3,'players':[{},{},{},{}]}";
 		return null;
 	}
 
 	@Override
-	public boolean gamesJoin(int gameId, CatanColor color) throws ServerException {
+	public boolean gamesJoin(int gameId, CatanColor color) {
 		return true;
 	}
 
 	@Override
-	public boolean gamesSave(int gameId, String name) throws ServerException {
+	public boolean gamesSave(int gameId, String name) {
 		return true;
 	}
 
 	@Override
-	public boolean gamesLoad(String name) throws ServerException {
+	public boolean gamesLoad(String name) {
 		return true;
 	}
 
 	@Override
-	public void gameModel(int version) throws ServerException {
+	public void gameModel(int version) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void gameReset() throws ServerException {
+	public void gameReset() {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public String gameCommands() throws ServerException {
+	public String gameCommands() {
 		return "[]";
 	}
 
 	@Override
-	public void gameCommands(String commandList) throws ServerException {
+	public void gameCommands(String commandList) {
 		//		String json = "[]";
 	}
 
 	@Override
-	public boolean gameAddAI(String AIType) throws ServerException {
+	public boolean gameAddAI(String AIType) {
 		return true;
 	}
 
 	@Override
-	public Collection<String> gameListAI() throws ServerException {
+	public Collection<String> gameListAI() {
 		//		String json = "['LARGEST_ARMY']";
 		return null;
 	}
 
 	@Override
-	public void movesSendChat(int playerIndex, String content) throws ServerException {
+	public void movesSendChat(int playerIndex, String content) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesRollNumber(int playerIndex, int number) throws ServerException {
+	public void movesRollNumber(int playerIndex, int number) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesRobPlayer(int playerIndex, int victimIndex,
-			HexLocation location) throws ServerException {
+			HexLocation location) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesFinishTurn(String type, int playerIndex) throws ServerException {
+	public void movesFinishTurn(String type, int playerIndex) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesBuyDevCard(String type, int playerIndex) throws ServerException {
+	public void movesBuyDevCard(String type, int playerIndex) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesYear_of_Plenty(int playerIndex, ResourceType resource1,
-			ResourceType resource2) throws ServerException {
+			ResourceType resource2) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesRoad_Building(int playerIndex, EdgeLocation spot1, EdgeLocation spot2)
-			throws ServerException {
+	public void movesRoad_Building(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesSoldier(int playerIndex, int victimIndex,
-			HexLocation location) throws ServerException {
+			HexLocation location) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesMonopoly(ResourceType resource, int playerIndex)
-			throws ServerException {
+			 {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesMonument(String type, int playerIndex) throws ServerException {
+	public void movesMonument(String type, int playerIndex) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free)
-			throws ServerException {
+	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free)
-			throws ServerException {
+	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesBuildCity(int playerIndex, VertexLocation location)
-			throws ServerException {
+			 {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesOfferTrade(int playerIndex, int brick, int ore, int sheep, int wheat,
-			int wood, int receiver) throws ServerException {
+			int wood, int receiver) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesAcceptTrade(int playerIndex, boolean willAccept)
-			throws ServerException {
+			 {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource,
-			ResourceType outputResource) throws ServerException {
+			ResourceType outputResource) {
 		this.sendDummyData(true);
 	}
 
 	@Override
 	public void movesDiscardCards(int playerIndex, int brick, int ore, int sheep,
-			int wheat, int wood) throws ServerException {
+			int wheat, int wood) {
 		this.sendDummyData(true);
 	}
 
 	@Override
-	public boolean utilChangeLogLevel(String logLevel) throws ServerException {
+	public boolean utilChangeLogLevel(String logLevel) {
 		return true;
 	}
 }

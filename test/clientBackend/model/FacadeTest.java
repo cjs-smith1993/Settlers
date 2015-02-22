@@ -118,14 +118,14 @@ public class FacadeTest {
 		 * Should work because the status is discarding and the player has more
 		 * than 7 cards
 		 */
-		assertTrue(this.facade.canDiscardCards(PlayerNumber.ONE));
+		assertTrue(this.facade.needsToDiscardCards(PlayerNumber.ONE));
 
 		this.player.resources.brick = 7;
 		this.model.players = new TransportPlayer[1];
 		this.model.players[0] = this.player;
 		this.facade.initializeModel(this.model);
 		/* Should fail because the client player only has 7 resource cards */
-		assertFalse(this.facade.canDiscardCards(PlayerNumber.ONE));
+		assertFalse(this.facade.needsToDiscardCards(PlayerNumber.ONE));
 
 		this.model.turnTracker.status = CatanState.ROLLING;
 		this.player.resources.brick = 8;
@@ -133,7 +133,7 @@ public class FacadeTest {
 		this.model.players[0] = this.player;
 		this.facade.initializeModel(this.model);
 		/* Should fail because the status is not discarding */
-		assertFalse(this.facade.canDiscardCards(PlayerNumber.ONE));
+		assertFalse(this.facade.needsToDiscardCards(PlayerNumber.ONE));
 	}
 
 	@Test

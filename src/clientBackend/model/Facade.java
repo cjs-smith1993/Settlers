@@ -14,7 +14,6 @@ import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
 import serverCommunication.ServerException;
 import serverCommunication.ServerInterface;
-import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
@@ -28,7 +27,7 @@ import shared.locations.VertexLocation;
 
 public class Facade extends Observable {
 	private static Facade facadeInstance;
-	private ServerProxy proxy;
+	private ServerInterface server;
 	private Board board;
 	private Broker broker;
 	private Game game;
@@ -49,7 +48,7 @@ public class Facade extends Observable {
 	}
 
 	public void setProxy(ServerInterface server) {
-		proxy = (ServerProxy) server;
+		this.server = (ServerInterface) server;
 	}
 	
 	public void initializeModel(TransportModel model) throws CatanException {
@@ -92,30 +91,106 @@ public class Facade extends Observable {
 	 * Server Calls (with associated "can" methods)
 	 */
 	
+	/**
+	 * Calls userLogin() on the server
+	 * @param username
+	 * @param password
+	 * @return
+	 * @throws ServerException 
+	 */
 	public boolean login(String username, String password) {
-		return this.proxy.userLogin(username, password);
+		return this.server.userLogin(username, password);
 	}
 	
+	/**
+	 * Calls userRegister() on the server
+	 * @param username
+	 * @param password
+	 * @return
+	 * @throws ServerException 
+	 */
 	public boolean register(String username, String password) {
-		return this.proxy.userRegister(username, password);
+		return this.server.userRegister(username, password);
 	}
 
-	public Collection<DTOGame> getGamesList() throws ServerException {
-		return this.proxy.gamesList();
+	/**
+	 * Calls gamesList() on the server
+	 * @return
+	 * @throws ServerException
+	 */
+	public Collection<DTOGame> getGamesList() {
+		return this.server.gamesList();
 	}
 	
-	public DTOGame createGame(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name)
-			throws ServerException, CatanException {
-		if (name.isEmpty()) {
-			return this.proxy.gamesCreate(randomTiles, randomNumbers, randomPorts, name);
+	/**
+	 * Calls gamesCreate() on the server
+	 * @param randomTiles
+	 * @param randomNumbers
+	 * @param randomPorts
+	 * @param name
+	 * @return
+	 * @throws ServerException
+	 * @throws CatanException
+	 */
+	public DTOGame createGame(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String gameName) 
+			throws CatanException {
+		if (gameName != null && !gameName.isEmpty()) {
+			return this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Name of game cannot be empty");
 		}
 	}
 	
-	public void joinGame(int gameId, String desiredColor) {
-		
+	/**
+	 * Calls gamesJoin() on the server
+	 * @param gameId
+	 * @param desiredColor
+	 * @return
+	 * @throws ServerException
+	 */
+	public boolean joinGame(int gameId, CatanColor desiredColor) {
+		return this.server.gamesJoin(gameId, desiredColor);
+	}
+	
+	/**
+	 * Calls gamesSave() on the server
+	 * @param gameId
+	 * @param fileName
+	 * @return
+	 * @throws ServerException
+	 */
+	public boolean saveGame(int gameId, String fileName) throws CatanException {
+		if (fileName != null && !fileName.isEmpty()) {
+			return server.gamesSave(gameId, fileName);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "File name cannot be empty");
+		}
+	}
+	
+	/**
+	 * Calls gamesLoad() on the server
+	 * @param fileName
+	 * @return
+	 * @throws ServerException
+	 * @throws CatanException
+	 */
+	public boolean gamesLoad(String fileName) throws ServerException, CatanException {
+		if (fileName != null && !fileName.isEmpty()) {
+			return server.gamesLoad(fileName);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "File name cannot be empty");
+		}
+	}
+	
+	/**
+	 * Calls gamesReset() on the server
+	 * @throws ServerException
+	 */
+	public void resetGame() {
+		this.server.gameReset();
 	}
 	
 	/**
@@ -123,10 +198,10 @@ public class Facade extends Observable {
 	 * @param player
 	 * @return
 	 */
-	public boolean canDiscardCards(PlayerNumber player) {
+	public boolean needsToDiscardCards(PlayerNumber player) {
 
 		if (this.game.getState() == CatanState.DISCARDING
-				&& (this.broker.getResourceCardCount(player, ResourceType.ALL) <= this.resourceCardLimit)) {
+				&& (this.broker.getResourceCardCount(player, ResourceType.ALL) > this.resourceCardLimit)) {
 			return true;
 		}
 
@@ -258,6 +333,11 @@ public class Facade extends Observable {
 		return false;
 	}
 
+	/**
+	 * Determines if a player can offer a certain trade
+	 * @param invoice
+	 * @return
+	 */
 	public boolean canOfferTrade(ResourceInvoice invoice) {
 		if (this.isPlaying(invoice.getSourcePlayer())
 				&& this.broker.canOfferTrade(invoice)) {
@@ -267,6 +347,11 @@ public class Facade extends Observable {
 		return false;
 	}
 
+	/**
+	 * Determines if a player can accept a certain trade
+	 * @param invoice
+	 * @return
+	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice) {
 		if (this.broker.canAcceptTrade(invoice)) {
 			return true;
@@ -275,6 +360,13 @@ public class Facade extends Observable {
 		return false;
 	}
 
+	/**
+	 * Determines if a player has enough of a certain resource to perform a maritime trade
+	 * @param player
+	 * @param giving
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean canMaritimeTrade(PlayerNumber player, ResourceType giving) throws CatanException {
 
 		if (this.isPlaying(player)
