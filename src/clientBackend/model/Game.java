@@ -19,7 +19,7 @@ public class Game {
 	private PlayerNumber currentPlayer;
 	private boolean currentPlayerHasRolled = false;
 	private Map<PlayerNumber, Player> players;
-	private Status status;
+	private CatanState state;
 	
 	/**
 	 * Returns the next available player number
@@ -67,8 +67,8 @@ public class Game {
 		}
 		
 		currentPlayer = tracker.currentTurn;
-		currentPlayerHasRolled = ((tracker.status == Status.ROLLING) ? false : true);
-		status = tracker.status;
+		currentPlayerHasRolled = ((tracker.status == CatanState.ROLLING) ? false : true);
+		state = tracker.status;
 	}
 	
 	/**
@@ -288,11 +288,11 @@ public class Game {
 		return players;
 	}
 
-	public Status getStatus() {
-		return status;
+	public CatanState getState() {
+		return state;
 	}
 
-	public void setStatus(Status status) {
-		this.status = status;
+	public void setState(CatanState state) {
+		this.state = state;
 	}
 }

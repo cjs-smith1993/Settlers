@@ -10,7 +10,7 @@ import org.junit.Test;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
-import shared.definitions.Status;
+import shared.definitions.CatanState;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
@@ -45,7 +45,7 @@ public class FacadeTest {
 		this.model.log.lines[0].message = "Luke, I am your baby-daddy.";
 		this.model.log.lines[0].source = "Darth Vader";
 
-		this.model.turnTracker.status = Status.PLAYING;
+		this.model.turnTracker.status = CatanState.PLAYING;
 		this.model.turnTracker.currentTurn = PlayerNumber.ONE;
 
 		this.model.deck.yearOfPlenty = 1;
@@ -112,7 +112,7 @@ public class FacadeTest {
 		this.player.resources.wood = 0;
 		this.model.players = new TransportPlayer[1];
 		this.model.players[0] = this.player;
-		this.model.turnTracker.status = Status.DISCARDING;
+		this.model.turnTracker.status = CatanState.DISCARDING;
 		this.facade.initializeModel(this.model);
 		/*
 		 * Should work because the status is discarding and the player has more
@@ -127,7 +127,7 @@ public class FacadeTest {
 		/* Should fail because the client player only has 7 resource cards */
 		assertFalse(this.facade.canDiscardCards(PlayerNumber.ONE));
 
-		this.model.turnTracker.status = Status.ROLLING;
+		this.model.turnTracker.status = CatanState.ROLLING;
 		this.player.resources.brick = 8;
 		this.model.players = new TransportPlayer[1];
 		this.model.players[0] = this.player;
@@ -138,7 +138,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanRollNumber() throws CatanException {
-		this.model.turnTracker.status = Status.ROLLING;
+		this.model.turnTracker.status = CatanState.ROLLING;
 		this.facade.initializeModel(this.model);
 		/*
 		 * Should pass because it is the player's turn and the status is rolling
@@ -203,7 +203,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanFinishTurn() throws CatanException {
-		this.model.turnTracker.status = Status.PLAYING;
+		this.model.turnTracker.status = CatanState.PLAYING;
 		this.facade.initializeModel(this.model);
 		/*
 		 * Should pass because it is the player's turn and the status is playing
@@ -263,7 +263,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanUseRoadBuilder() throws CatanException {
-		this.model.turnTracker.status = Status.ROLLING;
+		this.model.turnTracker.status = CatanState.ROLLING;
 		this.model.players[0].oldDevCards.roadBuilding = 1;
 		this.facade.initializeModel(this.model);
 
@@ -271,7 +271,7 @@ public class FacadeTest {
 		assertFalse("cannot play card when not in the playing state",
 				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
 
-		this.model.turnTracker.status = Status.PLAYING;
+		this.model.turnTracker.status = CatanState.PLAYING;
 		this.facade.initializeModel(this.model);
 
 		// 2. Not your turn
@@ -316,7 +316,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanUseMonopoly() throws CatanException {
-		this.model.turnTracker.status = Status.ROLLING;
+		this.model.turnTracker.status = CatanState.ROLLING;
 		this.model.players[0].oldDevCards.roadBuilding = 1;
 		this.facade.initializeModel(this.model);
 
@@ -324,7 +324,7 @@ public class FacadeTest {
 		assertFalse("cannot play card when not in the playing state",
 				this.facade.canUseMonopoly(PlayerNumber.ONE));
 
-		this.model.turnTracker.status = Status.PLAYING;
+		this.model.turnTracker.status = CatanState.PLAYING;
 		this.facade.initializeModel(this.model);
 
 		// 2. Not your turn
@@ -356,7 +356,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanUseMonument() throws CatanException {
-		this.model.turnTracker.status = Status.ROLLING;
+		this.model.turnTracker.status = CatanState.ROLLING;
 		this.model.players[0].oldDevCards.monument = 1;
 		this.facade.initializeModel(this.model);
 
@@ -364,7 +364,7 @@ public class FacadeTest {
 		assertFalse("cannot play card when not in the playing state",
 				this.facade.canUseMonument(PlayerNumber.ONE));
 
-		this.model.turnTracker.status = Status.PLAYING;
+		this.model.turnTracker.status = CatanState.PLAYING;
 		this.facade.initializeModel(this.model);
 
 		// 2. Not your turn
@@ -396,7 +396,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanRobPlayer() throws CatanException {
-		this.model.turnTracker.status = Status.ROBBING;
+		this.model.turnTracker.status = CatanState.ROBBING;
 
 		// 1. Test rob player with no cards, should fail
 		TransportPlayer otherPlayer = new TransportPlayer();
@@ -428,7 +428,7 @@ public class FacadeTest {
 
 	@Test
 	public void testCanPlaceRobber() throws CatanException {
-		this.model.turnTracker.status = Status.ROBBING;
+		this.model.turnTracker.status = CatanState.ROBBING;
 		this.model.map.robber = new TransportRobber();
 		this.model.map.robber.x = 0;
 		this.model.map.robber.y = 0;

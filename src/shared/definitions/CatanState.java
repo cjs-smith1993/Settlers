@@ -2,7 +2,7 @@ package shared.definitions;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum Status {
+public enum CatanState {
 	@SerializedName("Rolling")ROLLING,
 	@SerializedName("Robbing")ROBBING,
 	@SerializedName("Playing")PLAYING,

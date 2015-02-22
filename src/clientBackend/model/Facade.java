@@ -21,7 +21,7 @@ import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
-import shared.definitions.Status;
+import shared.definitions.CatanState;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -79,7 +79,7 @@ public class Facade extends Observable {
 
 	private boolean isPlaying(PlayerNumber player) {
 
-		if (this.game.getStatus() == Status.PLAYING
+		if (this.game.getState() == CatanState.PLAYING
 				&& this.game.getCurrentPlayer() == player) {
 			return true;
 		}
@@ -429,7 +429,7 @@ public class Facade extends Observable {
 	public boolean canPlaceRobber(PlayerNumber player, HexLocation location) {
 
 		if (this.game.getCurrentPlayer() == player
-				&& this.game.getStatus() == Status.ROBBING
+				&& this.game.getState() == CatanState.ROBBING
 				&& this.board.canMoveRobber(location)) {
 			return true;
 		}
@@ -447,8 +447,8 @@ public class Facade extends Observable {
 	public boolean canRobPlayer(PlayerNumber player, PlayerNumber victim) {
 
 		if (this.game.getCurrentPlayer() == player
-				&& this.game.getStatus() == Status.ROBBING
-				&& this.broker.hasResourceCard(victim)) {
+				&& this.game.getState() == CatanState.ROBBING
+				&& (this.broker.getResourceCardCount(victim, ResourceType.ALL) > 0)) {
 			return true;
 		}
 
@@ -552,5 +552,9 @@ public class Facade extends Observable {
 				clientPlayer = entry.getKey();
 			}
 		}
+	}
+	
+	public CatanState getModelState() {
+		return game.getState();
 	}
 }
