@@ -1,10 +1,10 @@
 package clientBackend.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,6 +34,7 @@ public class Facade extends Observable {
 	private PostOffice postOffice;
 	private Scoreboard scoreboard;
 	private PlayerNumber clientPlayer;
+	private String clientName;
 	private int version = 1;
 	private int resourceCardLimit = 7;
 
@@ -68,6 +69,8 @@ public class Facade extends Observable {
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
 		String someValue = "howdy";
+
+		this.setClientPlayer(this.clientName);
 
 		this.setChanged();
 		this.notifyObservers(someValue);
@@ -584,6 +587,22 @@ public class Facade extends Observable {
 		return this.clientPlayer;
 	}
 
+	public void setClientPlayer(String name) {
+		for (Player player : this.game.getPlayers().values()) {
+			if (player.getUser().getName().equals(name)) {
+				this.clientPlayer = player.getNumber();
+			}
+		}
+	}
+
+	public String getClientName() {
+		return this.clientName;
+	}
+
+	public void setClientName(String name) {
+		this.clientName = name;
+	}
+
 	public Board getBoard() {
 		return this.board;
 	}
@@ -663,16 +682,6 @@ public class Facade extends Observable {
 
 	public int getPlayerScore(PlayerNumber player) {
 		return this.scoreboard.getPoints(player);
-	}
-
-	public void setClientNumber(String playerName) {
-		for (Map.Entry<PlayerNumber, Player> entry : this.game.getPlayers().entrySet()) {
-			String name = entry.getValue().getUser().getName();
-
-			if (name.equals(playerName)) {
-				this.clientPlayer = entry.getKey();
-			}
-		}
 	}
 
 	public CatanState getModelState() {
