@@ -26,9 +26,9 @@ public class ServerPoller {
 	}
 
 	public void initializeTimer() {
-		if (!hasStartedPolling) {
-			hasStartedPolling = true;
-			
+		if (!this.hasStartedPolling) {
+			this.hasStartedPolling = true;
+
 			new Timer().schedule(
 					new TimerTask() {
 						@Override
@@ -44,13 +44,17 @@ public class ServerPoller {
 	 * Polls the server proxy with the current version number
 	 */
 	public void poll() {
+		if (this.facade.getGame() == null) {
+			return;
+		}
+
 		final int versionNumber = this.facade.getVersion();
 
 		try {
 			this.server.gameModel(versionNumber);
 		} catch (IOException | ServerException e) {
-			System.out
-					.println("\n------------\nERROR: Server Poller is having issues.\n------------\n");
+			String error = "\n------------\nERROR: Server Poller is having issues.\n------------\n";
+			System.out.println(error);
 			if (e instanceof ServerException) {
 				System.out.println(e.toString());
 			}
