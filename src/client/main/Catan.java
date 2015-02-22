@@ -1,12 +1,8 @@
 package client.main;
 
-import static org.junit.Assert.fail;
-
 import javax.swing.*;
 
-import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
-import shared.definitions.CatanColor;
 import client.catan.*;
 import client.login.*;
 import client.join.*;
@@ -116,20 +112,21 @@ public class Catan extends JFrame
 		Facade facade = Facade.getInstance();
 		facade.setProxy(proxy);
 
-		try {
-			proxy.userLogin("Pete", "pete");
-			proxy.gamesJoin(0, CatanColor.RED);
-		} catch (ServerException e) {
-			fail("\n-----------------\nERROR: COULD NOT LOGIN TO SERVER, PRIOR TO ServerProxyTest RUNS.\n-----------------\n");
-		}
-
-		try {
-			proxy.gameModel(0);
-		} catch (ServerException e) {
-			e.printStackTrace();
-		}
-
-		facade.setClientNumber("Pete");
+		//				try {
+		//					proxy.userLogin("Pete", "pete");
+		//					proxy.gamesJoin(0, CatanColor.RED);
+		//					proxy.
+		//				} catch (ServerException e) {
+		//					fail("\n-----------------\nERROR: COULD NOT LOGIN TO SERVER, PRIOR TO ServerProxyTest RUNS.\n-----------------\n");
+		//				}
+		//		
+		//				try {
+		//					proxy.gameModel(0);
+		//				} catch (ServerException e) {
+		//					e.printStackTrace();
+		//				}
+		//		
+		//				facade.setClientNumber("Pete");
 		ServerPoller poller = new ServerPoller(proxy);
 		poller.initializeTimer();
 	}
