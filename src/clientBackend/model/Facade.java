@@ -253,6 +253,22 @@ public class Facade extends Observable {
 	}
 
 	/**
+	 * Rolls the dice if the player can roll
+	 *
+	 * @param player
+	 *            the player attempting to roll the dice
+	 * @return the result of the dice roll, or -1 if the roll was not allowed
+	 */
+	public int rollNumber(PlayerNumber player) {
+		if (this.canRollNumber(player)) {
+			int number = this.game.rollDice();
+			this.server.movesRollNumber(player.getInteger(), number);
+			return number;
+		}
+		return -1;
+	}
+
+	/**
 	 * Determines if a player has the resources to build a road
 	 *
 	 * @param player
