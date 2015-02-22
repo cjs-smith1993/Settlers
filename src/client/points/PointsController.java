@@ -1,48 +1,54 @@
 package client.points;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import client.base.*;
 import clientBackend.model.Facade;
-
 
 /**
  * Implementation for the points controller
  */
-public class PointsController extends Controller implements IPointsController {
+public class PointsController extends Controller implements IPointsController, Observer {
 
 	private IGameFinishedView finishedView;
 	private Facade facade = Facade.getInstance();
-	
+
 	/**
 	 * PointsController constructor
-	 * 
-	 * @param view Points view
-	 * @param finishedView Game finished view, which is displayed when the game is over
+	 *
+	 * @param view
+	 *            Points view
+	 * @param finishedView
+	 *            Game finished view, which is displayed when the game is over
 	 */
 	public PointsController(IPointsView view, IGameFinishedView finishedView) {
-		
+
 		super(view);
-		
-		setFinishedView(finishedView);
-		
-		initFromModel();
+
+		this.setFinishedView(finishedView);
 	}
-	
+
 	public IPointsView getPointsView() {
-		
-		return (IPointsView)super.getView();
+
+		return (IPointsView) super.getView();
 	}
-	
+
 	public IGameFinishedView getFinishedView() {
-		return finishedView;
+		return this.finishedView;
 	}
-	
+
 	public void setFinishedView(IGameFinishedView finishedView) {
 		this.finishedView = finishedView;
 	}
 
 	private void initFromModel() {
-		int score = facade.getPlayerScore(facade.getClientPlayer());
-		getPointsView().setPoints(score);
+		int score = this.facade.getPlayerScore(this.facade.getClientPlayer());
+		this.getPointsView().setPoints(score);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.initFromModel();
 	}
 }
-
