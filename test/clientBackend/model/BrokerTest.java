@@ -37,7 +37,7 @@ public class BrokerTest {
 						res += this.myBroker.getHoldings().get(player).getResourceCardCount(type);
 					}
 				}
-				assertTrue(res == 175);
+				assertTrue(res == 125);
 				break;
 			default:
 				PlayerHoldings holding = (PlayerHoldings) this.myBroker.getHoldings().get(player);
@@ -180,7 +180,6 @@ public class BrokerTest {
 		try {
 			assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
 		} catch (CatanException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (PropertyType type : PropertyType.values()) {
@@ -192,7 +191,6 @@ public class BrokerTest {
 				assertFalse("Holding that is lacking",
 						this.myBroker.canPurchase(PlayerNumber.TWO, type));
 			} catch (CatanException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
