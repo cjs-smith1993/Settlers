@@ -40,7 +40,7 @@ public interface ServerInterface {
 
 	public void gameCommands(String commandList);//this will return the json game after the list entered were run
 
-	public boolean gameAddAI(String AIType);//boolean if they were successfully added
+	public boolean gameAddAI(AIType AItype);//boolean if they were successfully added
 
 	public Collection<String> gameListAI(); //returns a json blob that has the types of AI
 

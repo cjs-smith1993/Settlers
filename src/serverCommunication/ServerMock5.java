@@ -3,6 +3,7 @@ package serverCommunication;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -92,7 +93,7 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean gameAddAI(String AIType) {
+	public boolean gameAddAI(AIType AItype) {
 		return true;
 	}
 

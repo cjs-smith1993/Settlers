@@ -48,22 +48,6 @@ public class ServerProxy implements ServerInterface {
 		return proxy;
 	}
 
-	public String getHostname() {
-		return this.hostname;
-	}
-
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
-
-	public int getPort() {
-		return this.port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
 	private String getUrlPrefix() {
 		return "http://" + this.hostname + ":" + this.port;
 	}
@@ -170,6 +154,10 @@ public class ServerProxy implements ServerInterface {
 		}
 	}
 
+	/*
+	 * User methods
+	 */
+	
 	@Override
 	public boolean userLogin(String username, String password) {
 		DTOUserLogin data = new DTOUserLogin(username, password);
@@ -200,6 +188,10 @@ public class ServerProxy implements ServerInterface {
 		return true;
 	}
 
+	/*
+	 * Games methods
+	 */
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<DTOGame> gamesList() {
@@ -277,6 +269,10 @@ public class ServerProxy implements ServerInterface {
 		return true;
 	}
 
+	/*
+	 * Game methods
+	 */
+	
 	@Override
 	public void gameModel(int version) throws IOException, ServerException {
 		DTOGameModel data = new DTOGameModel(version);
@@ -298,6 +294,17 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
+	public void gameCommands(String commandList) {
+		try {
+			URL url = new URL(this.getUrlPrefix() + "/game/commands");
+			String response = this.doPost(url, commandList);
+			this.deserializeResponse(response);
+		} catch (IOException | ServerException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
 	public String gameCommands() {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/commands");
@@ -310,19 +317,8 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public void gameCommands(String commandList) {
-		try {
-			URL url = new URL(this.getUrlPrefix() + "/game/commands");
-			String response = this.doPost(url, commandList);
-			this.deserializeResponse(response);
-		} catch (IOException | ServerException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public boolean gameAddAI(String AIType) {
-		DTOAIType type = new DTOAIType(AIType);
+	public boolean gameAddAI(AIType AItype) {
+		DTOAIType type = new DTOAIType(AItype);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/addAI");
@@ -349,6 +345,10 @@ public class ServerProxy implements ServerInterface {
 		return null;
 	}
 
+	/*
+	 * Moves methods
+	 */
+	
 	@Override
 	public void movesSendChat(int playerIndex, String content) {
 		DTOMovesSendChat data = new DTOMovesSendChat(playerIndex, content);
@@ -644,4 +644,25 @@ public class ServerProxy implements ServerInterface {
 
 		return false;
 	}
+
+	/*
+	 * Getters and setters
+	 */
+	
+	public String getHostname() {
+		return this.hostname;
+	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+	}
+
+	public int getPort() {
+		return this.port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 }
