@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
 import client.base.*;
 import clientBackend.model.Facade;
 import clientBackend.model.Message;
-
 
 /**
  * Chat controller implementation

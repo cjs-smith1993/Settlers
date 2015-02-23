@@ -1,48 +1,42 @@
 package client.communication;
 
 import java.util.*;
-import java.util.List;
 
 import client.base.*;
+import clientBackend.model.Facade;
+import clientBackend.model.Message;
 import shared.definitions.*;
 
 
 /**
  * Game history controller implementation
  */
-public class GameHistoryController extends Controller implements IGameHistoryController {
-
+public class GameHistoryController extends Controller implements IGameHistoryController, Observer {
+	Facade facade = Facade.getInstance();
+	
 	public GameHistoryController(IGameHistoryView view) {
-		
 		super(view);
-		
-		initFromModel();
+		Facade.getInstance().addObserver(this);
 	}
 	
 	@Override
 	public IGameHistoryView getView() {
-		
 		return (IGameHistoryView)super.getView();
 	}
 	
-	private void initFromModel() {
+	@Override
+	public void update(Observable o, Object arg) {
+		List<Message> logs = facade.getLog();
+		CatanColor color = facade.getPlayerColor(facade.getClientPlayer());
 		
-		//<temp>
+		List<LogEntry> logEntries = new ArrayList<>();
 		
-		List<LogEntry> entries = new ArrayList<LogEntry>();
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
+		for (int i = 0; i < logs.size(); i++) {
+			LogEntry entry = new LogEntry(color, logs.get(i).getMessage());
+			logEntries.add(entry);
+		}
 		
-		getView().setEntries(entries);
-	
-		//</temp>
+		getView().setEntries(logEntries);
 	}
-	
 }
 
