@@ -2,6 +2,8 @@ package client.main;
 
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+
 import javax.swing.*;
 
 import serverCommunication.ServerException;
@@ -116,16 +118,12 @@ public class Catan extends JFrame
 		Facade facade = Facade.getInstance();
 		facade.setProxy(proxy);
 
-		try {
-			proxy.userLogin("Pete", "pete");
-			proxy.gamesJoin(0, CatanColor.RED);
-		} catch (ServerException e) {
-			fail("\n-----------------\nERROR: COULD NOT LOGIN TO SERVER, PRIOR TO ServerProxyTest RUNS.\n-----------------\n");
-		}
+		proxy.userLogin("Pete", "pete");
+		proxy.gamesJoin(0, CatanColor.RED);
 
 		try {
 			proxy.gameModel(0);
-		} catch (ServerException e) {
+		} catch (IOException | ServerException e) {
 			e.printStackTrace();
 		}
 

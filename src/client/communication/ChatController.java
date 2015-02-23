@@ -33,11 +33,7 @@ public class ChatController extends Controller implements IChatController, Obser
 
 	@Override
 	public void sendMessage(String message) {
-		try {
-			proxy.movesSendChat(facade.getClientPlayer().getInteger(), message);
-		} catch (ServerException e) {
-			e.printStackTrace();
-		}
+		proxy.movesSendChat(facade.getClientPlayer().getInteger(), message);
 	}
 
 	@Override
