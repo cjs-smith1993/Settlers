@@ -42,13 +42,9 @@ public class PointsController extends Controller implements IPointsController, O
 		this.finishedView = finishedView;
 	}
 
-	private void initFromModel() {
-		int score = this.facade.getPlayerScore(this.facade.getClientPlayer());
-		this.getPointsView().setPoints(score);
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
-		this.initFromModel();
+		int score = this.facade.getPlayerScore(this.facade.getClientPlayer());
+		this.getPointsView().setPoints(score);
 	}
 }
