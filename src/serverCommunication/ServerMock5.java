@@ -98,7 +98,7 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public Collection<String> gameListAI() {
+	public Collection<AIType> gameListAI() {
 		//		String json = "['LARGEST_ARMY']";
 		return null;
 	}

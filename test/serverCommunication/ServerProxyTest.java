@@ -10,6 +10,7 @@ import org.junit.Test;
 import clientBackend.dataTransportObjects.DTOGame;
 import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
+import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
@@ -55,8 +56,9 @@ public class ServerProxyTest {
 	@Test
 	public void testgameListAI() {
 		try {
-			Collection<String> AIlist = proxy.gameListAI();
-			assertTrue(AIlist.iterator().next() instanceof String);
+			Collection<AIType> AIlist = proxy.gameListAI();
+			AIType AI = AIlist.iterator().next();
+			assertTrue(AI instanceof AIType);
 			return;
 		} catch (Exception err) {
 			fail("GameListAI did not return a collection of String");

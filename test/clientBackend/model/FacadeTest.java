@@ -262,28 +262,28 @@ public class FacadeTest {
 	}
 
 	@Test
-	public void testCanUseRoadBuilder() throws CatanException {
+	public void testCanUseRoadBuilding() throws CatanException {
 		this.model.turnTracker.status = CatanState.ROLLING;
 		this.model.players[0].oldDevCards.roadBuilding = 1;
 		this.facade.initializeModel(this.model);
 
 		// 1. Not in playing state
 		assertFalse("cannot play card when not in the playing state",
-				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+				this.facade.canUseRoadBuilding(PlayerNumber.ONE));
 
 		this.model.turnTracker.status = CatanState.PLAYING;
 		this.facade.initializeModel(this.model);
 
 		// 2. Not your turn
 		assertFalse("cannot play card when it is not your turn",
-				this.facade.canUseRoadBuilder(PlayerNumber.TWO));
+				this.facade.canUseRoadBuilding(PlayerNumber.TWO));
 
 		// 3. Cannot play when you just bought the card
 		this.model.players[0].oldDevCards.roadBuilding = 0;
 		this.model.players[0].newDevCards.roadBuilding = 1;
 		this.facade.initializeModel(this.model);
 		assertFalse("cannot play a card on the turn the card was bought",
-				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+				this.facade.canUseRoadBuilding(PlayerNumber.ONE));
 
 		this.model.players[0].oldDevCards.roadBuilding = 2;
 		this.model.players[0].newDevCards.roadBuilding = 0;
@@ -291,14 +291,14 @@ public class FacadeTest {
 
 		// 4. Can play when it is your turn
 		assertTrue("can play road building when it is your turn",
-				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+				this.facade.canUseRoadBuilding(PlayerNumber.ONE));
 
 		this.model.players[0].playedDevCard = true;
 		this.facade.initializeModel(this.model);
 
 		// 5. Cannot play when you've already played a card
 		assertFalse("cannot play more than one card per turn",
-				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+				this.facade.canUseRoadBuilding(PlayerNumber.ONE));
 
 		this.model.players[0].playedDevCard = false;
 		this.model.players[0].roads = 1;
@@ -306,7 +306,7 @@ public class FacadeTest {
 
 		// 6. Cannot play when you don't have enough roads
 		assertFalse("cannot play with only one available road",
-				this.facade.canUseRoadBuilder(PlayerNumber.ONE));
+				this.facade.canUseRoadBuilding(PlayerNumber.ONE));
 	}
 
 	@Test

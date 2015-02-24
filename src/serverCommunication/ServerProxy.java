@@ -332,13 +332,13 @@ public class ServerProxy implements ServerInterface {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<String> gameListAI() {
+	public Collection<AIType> gameListAI() {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/listAI");
 			String response = this.doGet(url);
-			Type objectType = new TypeToken<Collection<String>>() {
+			Type objectType = new TypeToken<Collection<AIType>>() {
 			}.getType();
-			return (Collection<String>) this.serializer.deserializeObject(response, objectType);
+			return (Collection<AIType>) this.serializer.deserializeObject(response, objectType);
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
 		}

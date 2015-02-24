@@ -42,7 +42,7 @@ public interface ServerInterface {
 
 	public boolean gameAddAI(AIType AItype);//boolean if they were successfully added
 
-	public Collection<String> gameListAI(); //returns a json blob that has the types of AI
+	public Collection<AIType> gameListAI(); //returns a json blob that has the types of AI
 
 	public void movesSendChat(int playerIndex, String content);//returns an updated json of the game there is a message portion of the json blob
 

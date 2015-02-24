@@ -238,30 +238,32 @@ public class Facade extends Observable {
 	 * Calls gameAddAI() on the server
 	 * @param AItype
 	 */
-	public void addAI(AIType AItype) {// TODO
-		 
+	public boolean addAI(AIType AItype) {
+		 return this.server.gameAddAI(AItype);
+	}
+	
+	/**
+	 * Calls gameListAI() on the server
+	 * @return
+	 */
+	public Collection<AIType> getAITypes() {
+		return this.server.gameListAI();
 	}
 	
 	/*
 	 * Moves server methods
 	 */
-	
+
 	/**
-	 * Determines if the player needs to discard cards
-	 *
-	 * @param player
+	 * Calls movesSendChat() on the server
+	 * @param playerIndex
+	 * @param content
 	 * @return
 	 */
-	public boolean needsToDiscardCards(PlayerNumber player) {
-
-		if (this.game.getState() == CatanState.DISCARDING
-				&& (this.broker.getResourceCardCount(player, ResourceType.ALL) > this.resourceCardLimit)) {
-			return true;
-		}
-
+	public boolean sendChat(PlayerNumber playerIndex, String content) {//TODO
 		return false;
 	}
-
+	
 	/**
 	 * Determines if the player can roll the dice for their turn
 	 *
@@ -294,6 +296,194 @@ public class Facade extends Observable {
 		return -1;
 	}
 
+	/**
+	 * Determines if the Robber can be placed on a location
+	 * @param player
+	 * @param location
+	 * @return
+	 */
+	public boolean canPlaceRobber(PlayerNumber player, HexLocation location) {
+
+		if (this.game.getCurrentPlayer() == player
+				&& this.game.getState() == CatanState.ROBBING
+				&& this.board.canMoveRobber(location)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player can rob the victim
+	 * @param player
+	 * @param victim
+	 * @return
+	 */
+	public boolean canRobPlayer(PlayerNumber player, PlayerNumber victim) {
+
+		if (this.game.getCurrentPlayer() == player
+				&& this.game.getState() == CatanState.ROBBING
+				&& (this.broker.getResourceCardCount(victim, ResourceType.ALL) > 0)) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Determines if the player can finish their turn
+	 * @param player
+	 * @return
+	 */
+	public boolean canFinishTurn(PlayerNumber player) {
+		return this.isPlaying(player);
+	}
+	
+	/**
+	 * Calls movesFinishTurn() on the server
+	 * @return
+	 */
+	public boolean finishTurn() {//TODO
+		return false;
+	}
+	
+	/**
+	 * Determines if the player can buy a development card
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
+
+		if (this.isPlaying(player)
+				&& this.broker.canPurchase(player, PropertyType.DEVELOPMENT_CARD)
+				&& this.broker.hasDevelopmentCard(PlayerNumber.BANK)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player is playing, if they have a playable Year of
+	 * Plenty card, and if they have not played another non-Monument development
+	 * card
+	 *
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canUseYearOfPlenty(PlayerNumber player) throws CatanException {
+
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY)
+				&& !this.game.hasPlayedDevCard(player)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player is playing, if they can use a Year of Plenty
+	 * card, and if the bank has one of each of the two resource types
+	 *
+	 * @param player
+	 * @param resource1
+	 * @param resource2
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canPlayYearOfPlenty(PlayerNumber player, ResourceType resource1,
+			ResourceType resource2)
+			throws CatanException {
+		if (this.isPlaying(player)
+				&& this.canUseYearOfPlenty(player)
+				&& this.broker.hasNecessaryResourceAmount(PlayerNumber.BANK, resource1, 1)
+				&& this.broker.hasNecessaryResourceAmount(PlayerNumber.BANK, resource2, 1)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player is playing, if they have a playable RoadBuilding
+	 * card, if they have not played another non-Monument development card, and
+	 * if they have at least 2 available roads
+	 *
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canUseRoadBuilding(PlayerNumber player) throws CatanException {
+
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD)
+				&& !this.game.hasPlayedDevCard(player)
+				&& this.game.getNumRoads(player) >= 2) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player is playing, if they have a playable Soldier
+	 * card, and if they have not played another non-Monument development card
+	 *
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canUseSoldier(PlayerNumber player) throws CatanException {
+
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.SOLDIER)
+				&& !this.game.hasPlayedDevCard(player)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player is playing, if they have a playable Monopoly
+	 * card, and if they have not played another non-Monument development card
+	 *
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canUseMonopoly(PlayerNumber player) throws CatanException {
+
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONOPOLY)
+				&& !this.game.hasPlayedDevCard(player)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if the player is playing and if they have a playable Monument
+	 * card
+	 *
+	 * @param player
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canUseMonument(PlayerNumber player) throws CatanException {
+
+		if (this.isPlaying(player)
+				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONUMENT)) {
+			return true;
+		}
+
+		return false;
+	}
+	
 	/**
 	 * Determines if a player has the resources to build a road
 	 *
@@ -452,187 +642,25 @@ public class Facade extends Observable {
 		return false;
 	}
 
-	public boolean canFinishTurn(PlayerNumber player) {
-		return this.isPlaying(player);
-	}
-
-	/*
-	 * / public void finishTurn(PlayerNumber player) throws CatanException { //
-	 * if (!this.canFinishTurn(player)) { // throw new
-	 * CatanException(CatanExceptionType.ILLEGAL_OPERATION, //
-	 * "Cannot finish turn for player " + player); // } // //
-	 * this.broker.makeDevelopmentCardsPlayable(player); //
-	 * this.game.advanceTurn(); // this.game.setLastDiceRoll(-1); //
-	 * this.game.setCurrentPlayerHasRolled(false); // // } /
-	 */
-
-	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
-
-		if (this.isPlaying(player)
-				&& this.broker.canPurchase(player, PropertyType.DEVELOPMENT_CARD)
-				&& this.broker.hasDevelopmentCard(PlayerNumber.BANK)) {
-			return true;
-		}
-
-		return false;
-	}
-
 	/**
-	 * Determines if the player is playing, if they have a playable Year of
-	 * Plenty card, and if they have not played another non-Monument development
-	 * card
-	 *
+	 * Determines if the player needs to discard cards
 	 * @param player
 	 * @return
-	 * @throws CatanException
 	 */
-	public boolean canUseYearOfPlenty(PlayerNumber player) throws CatanException {
+	public boolean needsToDiscardCards(PlayerNumber player) {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY)
-				&& !this.game.hasPlayedDevCard(player)) {
+		if (this.game.getState() == CatanState.DISCARDING
+				&& (this.broker.getResourceCardCount(player, ResourceType.ALL) > this.resourceCardLimit)) {
 			return true;
 		}
 
 		return false;
 	}
-
-	/**
-	 * Determines if the player is playing, if they can use a Year of Plenty
-	 * card, and if the bank has one of each of the two resource types
-	 *
-	 * @param player
-	 * @param resource1
-	 * @param resource2
-	 * @return
-	 * @throws CatanException
-	 */
-	public boolean canPlayYearOfPlenty(PlayerNumber player, ResourceType resource1,
-			ResourceType resource2)
-			throws CatanException {
-		if (this.isPlaying(player)
-				&& this.canUseYearOfPlenty(player)
-				&& this.broker.hasNecessaryResourceAmount(PlayerNumber.BANK, resource1, 1)
-				&& this.broker.hasNecessaryResourceAmount(PlayerNumber.BANK, resource2, 1)) {
-			return true;
-		}
-
+	
+	public boolean discardCards() {
 		return false;
 	}
-
-	/**
-	 * Determines if the player is playing, if they have a playable RoadBuilding
-	 * card, if they have not played another non-Monument development card, and
-	 * if they have at least 2 available roads
-	 *
-	 * @param player
-	 * @return
-	 * @throws CatanException
-	 */
-	public boolean canUseRoadBuilder(PlayerNumber player) throws CatanException {
-
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD)
-				&& !this.game.hasPlayedDevCard(player)
-				&& this.game.getNumRoads(player) >= 2) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determines if the player is playing, if they have a playable Soldier
-	 * card, and if they have not played another non-Monument development card
-	 *
-	 * @param player
-	 * @return
-	 * @throws CatanException
-	 */
-	public boolean canUseSoldier(PlayerNumber player) throws CatanException {
-
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.SOLDIER)
-				&& !this.game.hasPlayedDevCard(player)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determines if the player is playing, if they have a playable Monopoly
-	 * card, and if they have not played another non-Monument development card
-	 *
-	 * @param player
-	 * @return
-	 * @throws CatanException
-	 */
-	public boolean canUseMonopoly(PlayerNumber player) throws CatanException {
-
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONOPOLY)
-				&& !this.game.hasPlayedDevCard(player)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determines if the player is playing and if they have a playable Monument
-	 * card
-	 *
-	 * @param player
-	 * @return
-	 * @throws CatanException
-	 */
-	public boolean canUseMonument(PlayerNumber player) throws CatanException {
-
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONUMENT)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determines if the Robber can be placed on a location
-	 *
-	 * @param player
-	 * @param location
-	 * @return
-	 */
-	public boolean canPlaceRobber(PlayerNumber player, HexLocation location) {
-
-		if (this.game.getCurrentPlayer() == player
-				&& this.game.getState() == CatanState.ROBBING
-				&& this.board.canMoveRobber(location)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determines if the player can rob the victim
-	 *
-	 * @param player
-	 * @param victim
-	 * @return
-	 */
-	public boolean canRobPlayer(PlayerNumber player, PlayerNumber victim) {
-
-		if (this.game.getCurrentPlayer() == player
-				&& this.game.getState() == CatanState.ROBBING
-				&& (this.broker.getResourceCardCount(victim, ResourceType.ALL) > 0)) {
-			return true;
-		}
-
-		return false;
-	}
-
+	
 	/*
 	 * Facade Getters and Setters
 	 */
