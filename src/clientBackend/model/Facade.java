@@ -490,6 +490,18 @@ public class Facade extends Observable {
 		return false;
 	}
 
+	public boolean useRoadBuilding(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
+		
+		if (this.canUseRoadBuilding(playerIndex)
+				&& this.canPlaceRoad(playerIndex, edge1, false)
+				&& this.canPlaceRoad(playerIndex, edge2, false)) {
+			return this.server.movesRoad_Building(playerIndex, edge1, edge2);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use road building");
+		}
+	}
+	
 	/**
 	 * Determines if the player is playing, if they have a playable Soldier
 	 * card, and if they have not played another non-Monument development card
@@ -498,15 +510,34 @@ public class Facade extends Observable {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseSoldier(PlayerNumber player) throws CatanException {
+	public boolean canUseSoldier(PlayerNumber playerIndex) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.SOLDIER)
-				&& !this.game.hasPlayedDevCard(player)) {
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canPlayDevelopmentCard(playerIndex, DevCardType.SOLDIER)
+				&& !this.game.hasPlayedDevCard(playerIndex)) {
 			return true;
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Calls movesSoldier() on the server
+	 * @param playerIndex
+	 * @param victimIndex
+	 * @param newLocation
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean useSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex, HexLocation newLocation) throws CatanException {
+		
+		if (this.canUseSoldier(playerIndex)
+				&& this.canRobPlayer(playerIndex, victimIndex)) {
+			return this.server.movesSoldier(playerIndex, victimIndex, newLocation);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use soldier");
+		}
 	}
 
 	/**
