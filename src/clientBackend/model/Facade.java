@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import clientBackend.dataTransportObjects.DTOGame;
-import clientBackend.dataTransportObjects.DTOPlayer;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;

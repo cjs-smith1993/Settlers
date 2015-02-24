@@ -7,9 +7,7 @@ import shared.definitions.*;
  * Interface for the turn tracker view, which displays whose turn it is, and
  * what state the game is in
  */
-public interface ITurnTrackerView extends IView
-{
-	
+public interface ITurnTrackerView extends IView {
 	/**
 	 * Sets the color to display for the local player
 	 * 

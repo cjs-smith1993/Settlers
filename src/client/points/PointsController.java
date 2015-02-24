@@ -10,7 +10,6 @@ import clientBackend.model.Facade;
  * Implementation for the points controller
  */
 public class PointsController extends Controller implements IPointsController, Observer {
-
 	private IGameFinishedView finishedView;
 	private Facade facade = Facade.getInstance();
 
