@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import clientBackend.dataTransportObjects.DTOGame;
+import clientBackend.dataTransportObjects.DTOPlayer;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
@@ -148,7 +149,9 @@ public class Facade extends Observable {
 			String gameName)
 			throws CatanException {
 		if (gameName != null && !gameName.isEmpty()) {
-			return this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
+			DTOGame new_game = this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
+			this.joinGame(new_game.id, CatanColor.BLUE);
+			return new_game;
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
@@ -207,7 +210,14 @@ public class Facade extends Observable {
 					"File name cannot be empty");
 		}
 	}
+	
+	/*
+	 * Game server methods
+	 */
 
+	/**
+	 * Calls gameModel() on the server
+	 */
 	public void getModel() {
 		try {
 			this.server.gameModel(this.version);
@@ -215,10 +225,6 @@ public class Facade extends Observable {
 			e.printStackTrace();
 		}
 	}
-	
-	/*
-	 * Game server methods
-	 */
 	
 	/**
 	 * Calls gameReset() on the server
@@ -228,6 +234,10 @@ public class Facade extends Observable {
 		this.server.gameReset();
 	}
 
+	/**
+	 * Calls gameAddAI() on the server
+	 * @param AItype
+	 */
 	public void addAI(AIType AItype) {
 		 
 	}
@@ -735,4 +745,31 @@ public class Facade extends Observable {
 	public boolean isClientTurn() {
 		return this.getClientPlayer() == this.game.getCurrentPlayer();
 	}
+	
+	public Collection<DTOPlayer> getPlayers() {// TODO
+		return null;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
