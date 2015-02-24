@@ -14,6 +14,7 @@ import clientBackend.transport.TransportModel;
 import clientBackend.transport.TransportPlayer;
 import serverCommunication.ServerException;
 import serverCommunication.ServerInterface;
+import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.definitions.DevCardType;
@@ -91,7 +92,7 @@ public class Facade extends Observable {
 	}
 
 	/*
-	 * Server Calls (with associated "can" methods)
+	 * User server methods
 	 */
 
 	/**
@@ -118,6 +119,10 @@ public class Facade extends Observable {
 		return this.server.userRegister(username, password);
 	}
 
+	/*
+	 * Games server methods
+	 */
+	
 	/**
 	 * Calls gamesList() on the server
 	 *
@@ -193,7 +198,7 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 * @throws CatanException
 	 */
-	public boolean gamesLoad(String fileName) throws ServerException, CatanException {
+	public boolean loadGame(String fileName) throws ServerException, CatanException {
 		if (fileName != null && !fileName.isEmpty()) {
 			return this.server.gamesLoad(fileName);
 		}
@@ -210,16 +215,27 @@ public class Facade extends Observable {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/*
+	 * Game server methods
+	 */
+	
 	/**
-	 * Calls gamesReset() on the server
-	 *
+	 * Calls gameReset() on the server
 	 * @throws ServerException
 	 */
 	public void resetGame() {
 		this.server.gameReset();
 	}
 
+	public void addAI(AIType AItype) {
+		 
+	}
+	
+	/*
+	 * Moves server methods
+	 */
+	
 	/**
 	 * Determines if the player needs to discard cards
 	 *

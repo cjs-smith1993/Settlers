@@ -1,9 +1,11 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.AIType;
+
 public class DTOAIType {
-	public String type;
+	public AIType type;
 	
-	public DTOAIType (String type) {
+	public DTOAIType (AIType type) {
 		this.type = type;
 	}
 }
