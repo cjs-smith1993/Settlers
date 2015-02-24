@@ -65,7 +65,9 @@ public class Game {
 		this.players = new HashMap<PlayerNumber, Player>();
 
 		for (TransportPlayer player : new_players) {
-			this.addPlayer(player);
+			if (player != null) {
+				this.addPlayer(player);
+			}
 		}
 
 		this.currentPlayer = tracker.currentTurn;
@@ -78,7 +80,7 @@ public class Game {
 	/**
 	 * Returns whether a player can be added to the game To be used at initial
 	 * game creation
-	 * 
+	 *
 	 * @param user
 	 *            the user to be added
 	 * @param color
@@ -102,7 +104,7 @@ public class Game {
 	/**
 	 * Adds a player for the user with the desired color to the game To be used
 	 * at initial game creation
-	 * 
+	 *
 	 * @param user
 	 *            the user to be added
 	 * @param color
@@ -125,7 +127,7 @@ public class Game {
 	/**
 	 * Returns whether a player can be added to the game To be used throughout
 	 * the game to update the model
-	 * 
+	 *
 	 * @param user
 	 *            the user to be added
 	 * @param color
@@ -155,7 +157,7 @@ public class Game {
 	/**
 	 * Adds a player to the game model To be used throughout the game to update
 	 * the model
-	 * 
+	 *
 	 * @param user
 	 *            the user to be added
 	 * @param color

@@ -39,6 +39,9 @@ public class Broker {
 		this.holdings = new HashMap<PlayerNumber, Hand>();
 		this.holdings.put(PlayerNumber.BANK, new Bank(bankDevCard, resources));
 		for (TransportPlayer player : playerList) {
+			if (player == null) {
+				continue;
+			}
 			PlayerNumber playerNum = player.playerIndex;
 			this.holdings.put(playerNum, new PlayerHoldings(player, harborMap.get(playerNum)));
 		}
@@ -506,8 +509,8 @@ public class Broker {
 	public Map<PlayerNumber, Hand> getHoldings() {
 		return this.holdings;
 	}
-	
+
 	public int getResourceCardCount(PlayerNumber player, ResourceType resource) {
-		return getHoldings().get(player).getResourceCardCount(resource);
+		return this.getHoldings().get(player).getResourceCardCount(resource);
 	}
 }
