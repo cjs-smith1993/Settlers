@@ -115,7 +115,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				
 				newPlayer.setId(player.id);
 				newPlayer.setName(player.name);
-				
+				newPlayer.setColor(player.color);
 				if(newPlayer.getName() != null) {
 					newGame.addPlayer(newPlayer);
 				}
