@@ -116,7 +116,7 @@ public class Catan extends JFrame
 		Facade facade = Facade.getInstance();
 		facade.setProxy(proxy);
 
-		proxy.userLogin("Pete", "pete");
+		/*proxy.userLogin("Pete", "pete");
 		proxy.gamesJoin(0, CatanColor.RED);
 
 		try {
@@ -127,6 +127,6 @@ public class Catan extends JFrame
 
 		facade.setClientName("Pete");
 		ServerPoller poller = new ServerPoller(proxy);
-		poller.initializeTimer();
+		poller.initializeTimer();*/
 	}
 }
