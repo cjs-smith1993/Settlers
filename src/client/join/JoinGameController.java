@@ -1,20 +1,29 @@
 package client.join;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
+import clientBackend.dataTransportObjects.DTOGame;
+import clientBackend.dataTransportObjects.DTOPlayer;
+import clientBackend.model.Facade;
 
 
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController {
+public class JoinGameController extends Controller implements IJoinGameController, Observer {
 
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+	private Facade facade;
 	
 	/**
 	 * JoinGameController constructor
@@ -29,6 +38,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		super(view);
 
+		facade = Facade.getInstance();
+		facade.addObserver(this);
 		setNewGameView(newGameView);
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
@@ -89,6 +100,31 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
+		JoinGameView view = (JoinGameView) super.getView();
+		Collection<DTOGame> games = facade.getGamesList();
+		PlayerInfo playerInfo = new PlayerInfo();
+		Collection<GameInfo> gameInfo = new ArrayList();
+		
+		for (DTOGame game: games) {
+			GameInfo newGame = new GameInfo();
+			
+			newGame.setId(game.id);
+			newGame.setTitle(game.title);
+			for (DTOPlayer player: game.players) {
+				PlayerInfo newPlayer = new PlayerInfo();
+				
+				newPlayer.setId(player.id);
+				newPlayer.setName(player.name);
+				
+				if(newPlayer.getName() != null) {
+					newGame.addPlayer(newPlayer);
+				}
+			}
+			gameInfo.add(newGame);
+		}
+		
+		GameInfo[] information = gameInfo.toArray(new GameInfo[0]);
+		view.setGames( information, playerInfo);
 		
 		getJoinGameView().showModal();
 	}
@@ -130,6 +166,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
