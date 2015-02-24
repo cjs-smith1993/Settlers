@@ -748,18 +748,8 @@ public class Facade extends Observable {
 		return this.getClientPlayer() == this.game.getCurrentPlayer();
 	}
 	
-	public ArrayList<DTOPlayer> getPlayers() {
-		Map<PlayerNumber, Player> players = game.getPlayers();
-		ArrayList<DTOPlayer> simplePlayers = new ArrayList<DTOPlayer>();
-		
-		for (Player eachPlayer : players.values()) {
-			DTOPlayer newPlayer = new DTOPlayer(eachPlayer.getColor(), 
-												eachPlayer.getUser().getName(), 
-												eachPlayer.getUser().getUserId());
-			simplePlayers.add(newPlayer);
-		}
-		
-		return simplePlayers;
+	public Map<PlayerNumber, Player> getPlayers() {
+		return this.game.getPlayers();
 	}
 }
 
