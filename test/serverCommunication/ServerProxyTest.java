@@ -68,33 +68,33 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMovesSendChat() {
-		proxy.movesSendChat(3, "Hello world!");
+		assertTrue(proxy.movesSendChat(3, "Hello world!"));
 	}
 
 	@Test
 	public void testMovesRollNumber() {
-		proxy.movesRollNumber(3, 4);
+		assertTrue(proxy.movesRollNumber(3, 4));
 	}
 
 	@Test
 	public void testMovesRobPlayer() {
 		HexLocation location = new HexLocation(2, 2);
-		proxy.movesRobPlayer(3, 0, location);
+		assertTrue(proxy.movesRobPlayer(3, 0, location));
 	}
 
 	@Test
 	public void testMovesFinishTurn() {
-		proxy.movesFinishTurn("Null", 3);
+		assertTrue(proxy.movesFinishTurn("Null", 3));
 	}
 
 	@Test
 	public void testMovesBuyDevCard() {
-		proxy.movesBuyDevCard(null, 3);
+		assertTrue(proxy.movesBuyDevCard(null, 3));
 	}
 
 	@Test
 	public void testMovesYear_of_Plenty() {
-		proxy.movesYear_of_Plenty(3, ResourceType.BRICK, ResourceType.WOOD);
+		assertTrue(proxy.movesYear_of_Plenty(3, ResourceType.BRICK, ResourceType.WOOD));
 	}
 
 	@Test
@@ -105,24 +105,24 @@ public class ServerProxyTest {
 		HexLocation hexLocation2 = new HexLocation(1, -1);
 		EdgeLocation location2 = new EdgeLocation(hexLocation2, EdgeDirection.South);
 
-		proxy.movesRoad_Building(0, location1, location2);
+		assertTrue(proxy.movesRoad_Building(0, location1, location2));
 	}
 
 	@Test
 	public void testMovesSoldier() {
 		HexLocation location = new HexLocation(2, 2);
 
-		proxy.movesSoldier(3, 0, location);
+		assertTrue(proxy.movesSoldier(3, 0, location));
 	}
 
 	@Test
 	public void testMovesMonopoly() {
-		proxy.movesMonopoly(ResourceType.BRICK, 3);
+		assertTrue(proxy.movesMonopoly(ResourceType.BRICK, 3));
 	}
 
 	@Test
 	public void testMovesMonument() {
-		proxy.movesMonument(null, 0);
+		assertTrue(proxy.movesMonument(null, 0));
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class ServerProxyTest {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		EdgeLocation location = new EdgeLocation(hexLocation, EdgeDirection.North);
 
-		proxy.movesBuildRoad(3, location, true);
+		assertTrue(proxy.movesBuildRoad(3, location, true));
 	}
 
 	@Test
@@ -138,7 +138,7 @@ public class ServerProxyTest {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		VertexLocation location = new VertexLocation(hexLocation, VertexDirection.East);
 
-		proxy.movesBuildSettlement(3, location, false);
+		assertTrue(proxy.movesBuildSettlement(3, location, false));
 	}
 
 	@Test
@@ -146,26 +146,26 @@ public class ServerProxyTest {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		VertexLocation location = new VertexLocation(hexLocation, VertexDirection.East);
 
-		proxy.movesBuildCity(3, location);
+		assertTrue(proxy.movesBuildCity(3, location));
 	}
 
 	@Test
 	public void testMovesOfferTrade() {
-		proxy.movesOfferTrade(3, 0, 0, 0, 0, 1, 0);
+		assertTrue(proxy.movesOfferTrade(3, 0, 0, 0, 0, 1, 0));
 	}
 
 	@Test
 	public void testMovesAcceptTrade() {
-		proxy.movesAcceptTrade(3, true);
+		assertTrue(proxy.movesAcceptTrade(3, true));
 	}
 
 	@Test
 	public void testMovesMaritimeTrade() {
-		proxy.movesMaritimeTrade(3, 3, ResourceType.BRICK, ResourceType.ORE);
+		assertTrue(proxy.movesMaritimeTrade(3, 3, ResourceType.BRICK, ResourceType.ORE));
 	}
 
 	@Test
 	public void testMovesDiscardCards() {
-		proxy.movesDiscardCards(3, 2, 2, 2, 2, 2);
+		assertTrue(proxy.movesDiscardCards(3, 2, 2, 2, 2, 2));
 	}
 }

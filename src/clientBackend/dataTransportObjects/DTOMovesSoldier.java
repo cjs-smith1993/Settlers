@@ -1,14 +1,15 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
 import shared.locations.HexLocation;
 
 public class DTOMovesSoldier {
 	String type = "Soldier";
-	int playerIndex;
-	int victimIndex;
+	PlayerNumber playerIndex;
+	PlayerNumber victimIndex;
 	HexLocation location;
 
-	public DTOMovesSoldier(int playerIndex, int victimIndex, int x, int y) {
+	public DTOMovesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex, int x, int y) {
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 

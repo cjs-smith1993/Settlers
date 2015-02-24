@@ -3,12 +3,14 @@ package clientBackend.dataTransportObjects;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.definitions.PlayerNumber;
+
 public class DTOMovesDiscardCards {
 	String type = "discardCards";
-	int playerIndex;
+	PlayerNumber playerIndex;
 	Map<String, Object> discardedCards;
 
-	public DTOMovesDiscardCards(int playerIndex, int brick, int ore, int sheep, int wheat, int wood) {
+	public DTOMovesDiscardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood) {
 		this.playerIndex = playerIndex;
 
 		this.discardedCards = new HashMap<>();

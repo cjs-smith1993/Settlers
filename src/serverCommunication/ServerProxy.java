@@ -350,35 +350,39 @@ public class ServerProxy implements ServerInterface {
 	 */
 	
 	@Override
-	public void movesSendChat(int playerIndex, String content) {
+	public boolean movesSendChat(PlayerNumber playerIndex, String content) {
 		DTOMovesSendChat data = new DTOMovesSendChat(playerIndex, content);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/sendChat");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesRollNumber(int playerIndex, int number) {
+	public boolean movesRollNumber(PlayerNumber playerIndex, int number) {
 		DTOMovesRollNumber data = new DTOMovesRollNumber(playerIndex, number);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/rollNumber");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesRobPlayer(
-			int playerIndex,
-			int victimIndex,
+	public boolean movesRobPlayer(
+			PlayerNumber playerIndex,
+			PlayerNumber victimIndex,
 			HexLocation location) {
 		int x = location.getX();
 		int y = location.getY();
@@ -388,40 +392,46 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/robPlayer");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesFinishTurn(String type, int playerIndex) {
+	public boolean movesFinishTurn(PlayerNumber playerIndex) {
 		DTOMovesFinishTurn data = new DTOMovesFinishTurn(playerIndex);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesBuyDevCard(String type, int playerIndex) {
+	public boolean movesBuyDevCard(PlayerNumber playerIndex) {
 		DTOMovesBuyDevCard data = new DTOMovesBuyDevCard(playerIndex);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesYear_of_Plenty(
-			int playerIndex,
+	public boolean movesYear_of_Plenty(
+			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2) {
 		DTOMovesYearOfPlenty data = new DTOMovesYearOfPlenty(playerIndex, resource1, resource2);
@@ -430,13 +440,15 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Year_of_Plenty");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesRoad_Building(int playerIndex, EdgeLocation edge1, EdgeLocation edge2) {
+	public boolean movesRoad_Building(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2) {
 
 		HexLocation hex1 = edge1.getHexLoc();
 		int x1 = hex1.getX();
@@ -453,13 +465,15 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Road_Building");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) {
+	public boolean movesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex, HexLocation location) {
 
 		int x = location.getX();
 		int y = location.getY();
@@ -470,39 +484,45 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Soldier");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesMonopoly(ResourceType resource, int playerIndex) {
+	public boolean movesMonopoly(ResourceType resource, PlayerNumber playerIndex) {
 		DTOMovesMonopoly data = new DTOMovesMonopoly(resource, playerIndex);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Monopoly");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesMonument(String type, int playerIndex) {
+	public boolean movesMonument(String type, PlayerNumber playerIndex) {
 		DTOMovesMonument data = new DTOMovesMonument(playerIndex);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/Monument");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) {
+	public boolean movesBuildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean free) {
 
 		HexLocation hex = location.getHexLoc();
 		int x = hex.getX();
@@ -515,13 +535,15 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/buildRoad");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) {
+	public boolean movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location, boolean free) {
 
 		HexLocation hex = location.getHexLoc();
 		int x = hex.getX();
@@ -534,13 +556,15 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/buildSettlement");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesBuildCity(int playerIndex, VertexLocation location) {
+	public boolean movesBuildCity(PlayerNumber playerIndex, VertexLocation location) {
 
 		HexLocation hex = location.getHexLoc();
 		int x = hex.getX();
@@ -553,20 +577,22 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/buildCity");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesOfferTrade(
-			int playerIndex,
+	public boolean movesOfferTrade(
+			PlayerNumber playerIndex,
 			int brick,
 			int ore,
 			int sheep,
 			int wheat,
 			int wood,
-			int receiver) {
+			PlayerNumber receiver) {
 		DTOMovesOfferTrade data = new DTOMovesOfferTrade(playerIndex, brick, ore, sheep, wheat,
 				wood, receiver);
 
@@ -574,27 +600,31 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/offerTrade");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesAcceptTrade(int playerIndex, boolean willAccept) {
+	public boolean movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept) {
 		DTOMovesAcceptTrade data = new DTOMovesAcceptTrade(playerIndex, willAccept);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/acceptTrade");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesMaritimeTrade(
-			int playerIndex,
+	public boolean movesMaritimeTrade(
+			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
 			ResourceType outputResource) {
@@ -605,14 +635,16 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/maritimeTrade");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void movesDiscardCards(
-			int playerIndex,
+	public boolean movesDiscardCards(
+			PlayerNumber playerIndex,
 			int brick,
 			int ore,
 			int sheep,
@@ -625,8 +657,10 @@ public class ServerProxy implements ServerInterface {
 			URL url = new URL(this.getUrlPrefix() + "/moves/discardCards");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
+			return true;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 

@@ -1,12 +1,14 @@
 package clientBackend.dataTransportObjects;
 
+import shared.definitions.PlayerNumber;
+
 public class DTOMovesRobPlayer {
 	String type = "robPlayer";
-	int playerIndex;
-	int victimIndex;
+	PlayerNumber playerIndex;
+	PlayerNumber victimIndex;
 	DTOHexLocation location;
 
-	public DTOMovesRobPlayer(int playerIndex, int victimIndex, int x, int y) {
+	public DTOMovesRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, int x, int y) {
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 

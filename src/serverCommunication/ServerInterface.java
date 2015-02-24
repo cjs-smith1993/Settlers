@@ -14,17 +14,23 @@ import shared.locations.*;
  */
 
 public interface ServerInterface {
+	
+	/*
+	 * User methods
+	 */
+	
 	public boolean userLogin(String username, String password);
 
 	public boolean userRegister(String username, String password);
 
+	/*
+	 * Games methods
+	 */
+	
 	public Collection<DTOGame> gamesList();
 
-	public DTOGame gamesCreate(
-			boolean randomTiles,
-			boolean randomNumbers,
-			boolean randomPorts,
-			String name);//The json is the name of the game, the id of the game, and the list of players of the game
+	public DTOGame gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name);
+	//The json is the name of the game, the id of the game, and the list of players of the game
 
 	public boolean gamesJoin(int gameId, CatanColor color);//if they successfully joined the game
 
@@ -32,6 +38,10 @@ public interface ServerInterface {
 
 	public boolean gamesLoad(String name);//success of the load
 
+	/*
+	 * Game methods
+	 */
+	
 	public void gameModel(int version) throws IOException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	public void gameReset();//also returns the whole game json thing
@@ -44,73 +54,77 @@ public interface ServerInterface {
 
 	public Collection<AIType> gameListAI(); //returns a json blob that has the types of AI
 
-	public void movesSendChat(int playerIndex, String content);//returns an updated json of the game there is a message portion of the json blob
+	/*
+	 * Moves methods
+	 */
+	
+	public boolean movesSendChat(PlayerNumber playerIndex, String content);//returns an updated json of the game there is a message portion of the json blob
 
-	public void movesRollNumber(
-			int playerIndex,
+	public boolean movesRollNumber(
+			PlayerNumber playerIndex,
 			int number);//returns updated Json
 
-	public void movesRobPlayer(
-			int playerIndex,
-			int victimIndex,
+	public boolean movesRobPlayer(
+			PlayerNumber playerIndex,
+			PlayerNumber victimIndex,
 			HexLocation location);//returns updated json
 
-	public void movesFinishTurn(String type, int playerIndex);//returns updated json
+	public boolean movesFinishTurn(PlayerNumber playerIndex);//returns updated json
 
-	public void movesBuyDevCard(String type, int playerIndex);//returns updated json
+	public boolean movesBuyDevCard(PlayerNumber playerIndex);//returns updated json
 
-	public void movesYear_of_Plenty(
-			int playerIndex,
+	public boolean movesYear_of_Plenty(
+			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2);//returns updated json
 
-	public void movesRoad_Building(
-			int playerIndex,
+	public boolean movesRoad_Building(
+			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2); //returns updated json
 
-	public void movesSoldier(
-			int playerIndex,
-			int victimIndex,
+	public boolean movesSoldier(
+			PlayerNumber playerIndex,
+			PlayerNumber victimIndex,
 			HexLocation location);//returns updated json
 
-	public void movesMonopoly(
+	public boolean movesMonopoly(
 			ResourceType resource,
-			int playerIndex);//returns updated json
+			PlayerNumber playerIndex);//returns updated json
 
-	public void movesMonument(String type, int playerIndex);//returns updated json
+	public boolean movesMonument(String type, PlayerNumber playerIndex);//returns updated json
 
-	public void movesBuildRoad(
-			int playerIndex,
+	public boolean movesBuildRoad(
+			PlayerNumber playerIndex,
 			EdgeLocation location,
 			boolean free);//returns updated json
 
-	public void movesBuildSettlement(
-			int playerIndex,
+	public boolean movesBuildSettlement(
+			PlayerNumber playerIndex,
 			VertexLocation location,
 			boolean free);//returns updated json
 
-	public void movesBuildCity(
-			int playerIndex,
+	public boolean movesBuildCity(
+			PlayerNumber playerIndex,
 			VertexLocation location);//returns updated json
 
-	public void movesOfferTrade(
-			int playerIndex, int brick, int ore,
+	public boolean movesOfferTrade(
+			PlayerNumber playerIndex, int brick, int ore,
 			int sheep, int wheat, int wood,
-			int receiver);//returns updated json
+			PlayerNumber receiver);//returns updated json
 
-	public void movesAcceptTrade(
-			int playerIndex,
+	public boolean movesAcceptTrade(
+			PlayerNumber playerIndex,
 			boolean willAccept);//returns updated json
 
-	public void movesMaritimeTrade(
-			int playerIndex,
+	public boolean movesMaritimeTrade(
+			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
 			ResourceType outputResource);//returns updated json
 
-	public void movesDiscardCards(
-			int playerIndex, int brick, int ore, int sheep, int wheat, int wood)
+	public boolean movesDiscardCards(
+			PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood)
 			throws ServerException;//returns updated json
 
 	public boolean utilChangeLogLevel(String logLevel);//if the log level was changed correctly
