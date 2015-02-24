@@ -12,6 +12,7 @@ import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
+import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -68,33 +69,33 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMovesSendChat() {
-		assertTrue(proxy.movesSendChat(3, "Hello world!"));
+		assertTrue(proxy.movesSendChat(PlayerNumber.FOUR, "Hello world!"));
 	}
 
 	@Test
 	public void testMovesRollNumber() {
-		assertTrue(proxy.movesRollNumber(3, 4));
+		assertTrue(proxy.movesRollNumber(PlayerNumber.FOUR, 4));
 	}
 
 	@Test
 	public void testMovesRobPlayer() {
 		HexLocation location = new HexLocation(2, 2);
-		assertTrue(proxy.movesRobPlayer(3, 0, location));
+		assertTrue(proxy.movesRobPlayer(PlayerNumber.FOUR, PlayerNumber.ONE, location));
 	}
 
 	@Test
 	public void testMovesFinishTurn() {
-		assertTrue(proxy.movesFinishTurn("Null", 3));
+		assertTrue(proxy.movesFinishTurn(PlayerNumber.FOUR));
 	}
 
 	@Test
 	public void testMovesBuyDevCard() {
-		assertTrue(proxy.movesBuyDevCard(null, 3));
+		assertTrue(proxy.movesBuyDevCard(PlayerNumber.FOUR));
 	}
 
 	@Test
 	public void testMovesYear_of_Plenty() {
-		assertTrue(proxy.movesYear_of_Plenty(3, ResourceType.BRICK, ResourceType.WOOD));
+		assertTrue(proxy.movesYear_of_Plenty(PlayerNumber.FOUR, ResourceType.BRICK, ResourceType.WOOD));
 	}
 
 	@Test
@@ -105,24 +106,24 @@ public class ServerProxyTest {
 		HexLocation hexLocation2 = new HexLocation(1, -1);
 		EdgeLocation location2 = new EdgeLocation(hexLocation2, EdgeDirection.South);
 
-		assertTrue(proxy.movesRoad_Building(0, location1, location2));
+		assertTrue(proxy.movesRoad_Building(PlayerNumber.ONE, location1, location2));
 	}
 
 	@Test
 	public void testMovesSoldier() {
 		HexLocation location = new HexLocation(2, 2);
 
-		assertTrue(proxy.movesSoldier(3, 0, location));
+		assertTrue(proxy.movesSoldier(PlayerNumber.FOUR, PlayerNumber.ONE, location));
 	}
 
 	@Test
 	public void testMovesMonopoly() {
-		assertTrue(proxy.movesMonopoly(ResourceType.BRICK, 3));
+		assertTrue(proxy.movesMonopoly(ResourceType.BRICK, PlayerNumber.FOUR));
 	}
 
 	@Test
 	public void testMovesMonument() {
-		assertTrue(proxy.movesMonument(null, 0));
+		assertTrue(proxy.movesMonument(PlayerNumber.FOUR));
 	}
 
 	@Test
@@ -130,7 +131,7 @@ public class ServerProxyTest {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		EdgeLocation location = new EdgeLocation(hexLocation, EdgeDirection.North);
 
-		assertTrue(proxy.movesBuildRoad(3, location, true));
+		assertTrue(proxy.movesBuildRoad(PlayerNumber.FOUR, location, true));
 	}
 
 	@Test
@@ -138,7 +139,7 @@ public class ServerProxyTest {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		VertexLocation location = new VertexLocation(hexLocation, VertexDirection.East);
 
-		assertTrue(proxy.movesBuildSettlement(3, location, false));
+		assertTrue(proxy.movesBuildSettlement(PlayerNumber.FOUR, location, false));
 	}
 
 	@Test
@@ -146,26 +147,26 @@ public class ServerProxyTest {
 		HexLocation hexLocation = new HexLocation(1, 1);
 		VertexLocation location = new VertexLocation(hexLocation, VertexDirection.East);
 
-		assertTrue(proxy.movesBuildCity(3, location));
+		assertTrue(proxy.movesBuildCity(PlayerNumber.FOUR, location));
 	}
 
 	@Test
 	public void testMovesOfferTrade() {
-		assertTrue(proxy.movesOfferTrade(3, 0, 0, 0, 0, 1, 0));
+		assertTrue(proxy.movesOfferTrade(PlayerNumber.FOUR, 0, 0, 0, 0, 1, PlayerNumber.ONE));
 	}
 
 	@Test
 	public void testMovesAcceptTrade() {
-		assertTrue(proxy.movesAcceptTrade(3, true));
+		assertTrue(proxy.movesAcceptTrade(PlayerNumber.FOUR, true));
 	}
 
 	@Test
 	public void testMovesMaritimeTrade() {
-		assertTrue(proxy.movesMaritimeTrade(3, 3, ResourceType.BRICK, ResourceType.ORE));
+		assertTrue(proxy.movesMaritimeTrade(PlayerNumber.FOUR, 3, ResourceType.BRICK, ResourceType.ORE));
 	}
 
 	@Test
 	public void testMovesDiscardCards() {
-		assertTrue(proxy.movesDiscardCards(3, 2, 2, 2, 2, 2));
+		assertTrue(proxy.movesDiscardCards(PlayerNumber.FOUR, 2, 2, 2, 2, 2));
 	}
 }

@@ -92,7 +92,7 @@ public interface ServerInterface {
 			ResourceType resource,
 			PlayerNumber playerIndex);//returns updated json
 
-	public boolean movesMonument(String type, PlayerNumber playerIndex);//returns updated json
+	public boolean movesMonument(PlayerNumber playerIndex);//returns updated json
 
 	public boolean movesBuildRoad(
 			PlayerNumber playerIndex,

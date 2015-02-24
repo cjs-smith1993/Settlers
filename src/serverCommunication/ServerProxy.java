@@ -507,7 +507,7 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesMonument(String type, PlayerNumber playerIndex) {
+	public boolean movesMonument(PlayerNumber playerIndex) {
 		DTOMovesMonument data = new DTOMovesMonument(playerIndex);
 
 		try {

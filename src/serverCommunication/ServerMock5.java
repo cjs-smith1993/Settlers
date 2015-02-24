@@ -155,7 +155,7 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesMonument(String type, PlayerNumber playerIndex) {
+	public boolean movesMonument(PlayerNumber playerIndex) {
 		return this.sendDummyData(true);
 	}
 
