@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -149,9 +151,9 @@ public class Facade extends Observable {
 			String gameName)
 			throws CatanException {
 		if (gameName != null && !gameName.isEmpty()) {
-			DTOGame new_game = this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
-			this.joinGame(new_game.id, CatanColor.BLUE);
-			return new_game;
+			DTOGame newGame = this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
+			this.joinGame(newGame.id, CatanColor.BLUE);
+			return newGame;
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
@@ -238,7 +240,7 @@ public class Facade extends Observable {
 	 * Calls gameAddAI() on the server
 	 * @param AItype
 	 */
-	public void addAI(AIType AItype) {
+	public void addAI(AIType AItype) {// TODO
 		 
 	}
 	
@@ -746,8 +748,18 @@ public class Facade extends Observable {
 		return this.getClientPlayer() == this.game.getCurrentPlayer();
 	}
 	
-	public Collection<DTOPlayer> getPlayers() {// TODO
-		return null;
+	public ArrayList<DTOPlayer> getPlayers() {
+		Map<PlayerNumber, Player> players = game.getPlayers();
+		ArrayList<DTOPlayer> simplePlayers = new ArrayList<DTOPlayer>();
+		
+		for (Player eachPlayer : players.values()) {
+			DTOPlayer newPlayer = new DTOPlayer(eachPlayer.getColor(), 
+												eachPlayer.getUser().getName(), 
+												eachPlayer.getUser().getUserId());
+			simplePlayers.add(newPlayer);
+		}
+		
+		return simplePlayers;
 	}
 }
 
