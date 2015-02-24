@@ -11,6 +11,7 @@ import client.data.*;
 import client.misc.*;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.dataTransportObjects.DTOPlayer;
+import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 
 
@@ -143,8 +144,25 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void createNewGame() {
+		boolean randomTiles;
+		boolean randomNumbers;
+		boolean randomPorts;
+		String gameName;
 		
-		getNewGameView().closeModal();
+		randomTiles = newGameView.getRandomlyPlaceHexes();
+		randomNumbers = newGameView.getRandomlyPlaceNumbers();
+		randomPorts = newGameView.getUseRandomPorts();
+		gameName = newGameView.getTitle();
+		
+		try {
+			facade.createGame(randomTiles, randomNumbers, randomPorts, gameName);
+			getNewGameView().closeModal();
+			start();
+		} catch (CatanException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
