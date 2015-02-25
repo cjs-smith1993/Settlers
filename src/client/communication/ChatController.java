@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
 import client.base.*;
 import clientBackend.model.Facade;
@@ -15,7 +14,6 @@ import clientBackend.model.Message;
  * Chat controller implementation
  */
 public class ChatController extends Controller implements IChatController, Observer {
-	ServerProxy proxy = ServerProxy.getInstance();
 	Facade facade = Facade.getInstance();
 
 	public ChatController(IChatView view) {
@@ -31,7 +29,7 @@ public class ChatController extends Controller implements IChatController, Obser
 
 	@Override
 	public void sendMessage(String message) {
-		this.proxy.movesSendChat(this.facade.getClientPlayer(), message);
+		this.facade.sendChat(this.facade.getClientPlayer(), message);
 	}
 
 	@Override
