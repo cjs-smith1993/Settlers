@@ -174,4 +174,12 @@ public class Scoreboard {
 	public int getPoints(PlayerNumber player) {
 		return this.points.get(player);
 	}
+	
+	public PlayerNumber getLargestArmyPlayer() {
+		return this.largestArmy;
+	}
+	
+	public PlayerNumber getLongestRoadPlayer() {
+		return this.longestRoad;
+	}
 }

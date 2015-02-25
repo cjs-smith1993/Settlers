@@ -260,7 +260,7 @@ public class Facade extends Observable {
 	 * @param content
 	 * @return
 	 */
-	public boolean sendChat(PlayerNumber playerIndex, String content) {//TODO
+	public boolean sendChat(PlayerNumber playerIndex, String content) {
 		return this.server.movesSendChat(playerIndex, content);
 	}
 	
@@ -635,7 +635,7 @@ public class Facade extends Observable {
 	
 	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree) throws CatanException {
 		if (this.canBuildRoad(playerIndex, isFree)) {
-			return this.server.movesBuildRoad(playerIndex, location, isFSree);
+			return this.server.movesBuildRoad(playerIndex, location, isFree);
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build road");
@@ -916,6 +916,14 @@ public class Facade extends Observable {
 	
 	public Map<PlayerNumber, Player> getPlayers() {
 		return this.game.getPlayers();
+	}
+	
+	public PlayerNumber getLongestRoadPlayer() {
+		return this.scoreboard.getLongestRoadPlayer();
+	}
+	
+	public PlayerNumber getLargestArmyPlayer() {
+		return this.scoreboard.getLargestArmyPlayer();
 	}
 }
 
