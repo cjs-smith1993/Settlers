@@ -43,11 +43,11 @@ public interface IDomesticTradeController extends IController
 	 * Called by the domestic trade overlay when the user selects a player to
 	 * trade with.
 	 * 
-	 * @param playerIndex
+	 * @param playerNumber
 	 *            The index [0, 3] of the selected trading partner, or -1 if
 	 *            "None" was selected
 	 */
-	void setPlayerToTradeWith(int playerIndex);
+	void setPlayerToTradeWith(PlayerNumber playerNumber);
 	
 	/**
 	 * Called by the domestic trade overlay when the user selects a resource to
