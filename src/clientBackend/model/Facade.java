@@ -123,7 +123,7 @@ public class Facade extends Observable {
 	/*
 	 * Games server methods
 	 */
-	
+
 	/**
 	 * Calls gamesList() on the server
 	 *
@@ -149,7 +149,8 @@ public class Facade extends Observable {
 			String gameName)
 			throws CatanException {
 		if (gameName != null && !gameName.isEmpty()) {
-			DTOGame newGame = this.server.gamesCreate(randomTiles, randomNumbers, randomPorts, gameName);
+			DTOGame newGame = this.server.gamesCreate(randomTiles, randomNumbers, randomPorts,
+					gameName);
 			this.joinGame(newGame.id, CatanColor.BLUE);
 			return newGame;
 		}
@@ -210,7 +211,7 @@ public class Facade extends Observable {
 					"File name cannot be empty");
 		}
 	}
-	
+
 	/*
 	 * Game server methods
 	 */
@@ -225,9 +226,10 @@ public class Facade extends Observable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Calls gameReset() on the server
+	 *
 	 * @throws ServerException
 	 */
 	public void resetGame() {
@@ -236,26 +238,33 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls gameAddAI() on the server
+	 *
 	 * @param AItype
 	 */
 	public boolean addAI(AIType AItype) {
-		 return this.server.gameAddAI(AItype);
+		boolean success = this.server.gameAddAI(AItype);
+		if (success) {
+			this.getModel();
+		}
+		return success;
 	}
-	
+
 	/**
 	 * Calls gameListAI() on the server
+	 *
 	 * @return
 	 */
 	public Collection<AIType> getAITypes() {
 		return this.server.gameListAI();
 	}
-	
+
 	/*
 	 * Moves server methods
 	 */
 
 	/**
 	 * Calls movesSendChat() on the server
+	 *
 	 * @param playerIndex
 	 * @param content
 	 * @return
@@ -263,7 +272,7 @@ public class Facade extends Observable {
 	public boolean sendChat(PlayerNumber playerIndex, String content) {
 		return this.server.movesSendChat(playerIndex, content);
 	}
-	
+
 	/**
 	 * Determines if the player can roll the dice for their turn
 	 *
@@ -300,6 +309,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the Robber can be placed on a location
+	 *
 	 * @param player
 	 * @param location
 	 * @return
@@ -317,6 +327,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player can rob the victim
+	 *
 	 * @param player
 	 * @param victim
 	 * @return
@@ -331,41 +342,45 @@ public class Facade extends Observable {
 
 		return false;
 	}
-	
+
 	/**
 	 * Calls movesRobPlayer() on the server
+	 *
 	 * @param playerIndex
 	 * @param victim
 	 * @param newLocation
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean robPlayer(PlayerNumber playerIndex, PlayerNumber victim, HexLocation newLocation) throws CatanException {
-		
+	public boolean robPlayer(PlayerNumber playerIndex, PlayerNumber victim, HexLocation newLocation)
+			throws CatanException {
+
 		if (this.canPlaceRobber(playerIndex, newLocation) && this.canRobPlayer(playerIndex, victim)) {
-			return this.server.movesRobPlayer(playerIndex, victim, newLocation); 
+			return this.server.movesRobPlayer(playerIndex, victim, newLocation);
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot rob player");
 		}
 	}
-	
+
 	/**
 	 * Determines if the player can finish their turn
+	 *
 	 * @param player
 	 * @return
 	 */
 	public boolean canFinishTurn(PlayerNumber playerIndex) {
 		return this.isPlaying(playerIndex);
 	}
-	
+
 	/**
 	 * Calls movesFinishTurn() on the server
+	 *
 	 * @return
-	 * @throws CatanException 
+	 * @throws CatanException
 	 */
 	public boolean finishTurn(PlayerNumber playerIndex) throws CatanException {
-		
+
 		if (this.canFinishTurn(playerIndex)) {
 			return this.server.movesFinishTurn(playerIndex);
 		}
@@ -373,9 +388,10 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot finish turn");
 		}
 	}
-	
+
 	/**
 	 * Determines if the player can buy a development card
+	 *
 	 * @param player
 	 * @return
 	 * @throws CatanException
@@ -393,20 +409,22 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesBuyDevCard() on the server
+	 *
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
 	 */
 	public boolean buyDevCard(PlayerNumber playerIndex) throws CatanException {
-		
+
 		if (this.canBuyDevCard(playerIndex)) {
 			return this.server.movesBuyDevCard(playerIndex);
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot buy a development card");
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
+					"Cannot buy a development card");
 		}
 	}
-	
+
 	/**
 	 * Determines if the player is playing, if they have a playable Year of
 	 * Plenty card, and if they have not played another non-Monument development
@@ -452,6 +470,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesYear_of_Plenty() on the server
+	 * 
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -459,7 +478,7 @@ public class Facade extends Observable {
 	 * @throws CatanException
 	 */
 	public boolean useYearOfPlenty(PlayerNumber playerIndex, ResourceType resource1,
-			ResourceType resource2) 
+			ResourceType resource2)
 			throws CatanException {
 		if (this.canPlayYearOfPlenty(playerIndex, resource1, resource2)) {
 			return this.server.movesYear_of_Plenty(playerIndex, resource1, resource2);
@@ -492,14 +511,16 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesRoad_Building() on the server
+	 * 
 	 * @param playerIndex
 	 * @param edge1
 	 * @param edge2
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean useRoadBuilding(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
-		
+	public boolean useRoadBuilding(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2)
+			throws CatanException {
+
 		if (this.canUseRoadBuilding(playerIndex)
 				&& this.canPlaceRoad(playerIndex, edge1, false)
 				&& this.canPlaceRoad(playerIndex, edge2, false)) {
@@ -509,7 +530,7 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use road building");
 		}
 	}
-	
+
 	/**
 	 * Determines if the player is playing, if they have a playable Soldier
 	 * card, and if they have not played another non-Monument development card
@@ -528,17 +549,19 @@ public class Facade extends Observable {
 
 		return false;
 	}
-	
+
 	/**
 	 * Calls movesSoldier() on the server
+	 *
 	 * @param playerIndex
 	 * @param victimIndex
 	 * @param newLocation
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean useSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex, HexLocation newLocation) throws CatanException {
-		
+	public boolean useSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex,
+			HexLocation newLocation) throws CatanException {
+
 		if (this.canUseSoldier(playerIndex)
 				&& this.canRobPlayer(playerIndex, victimIndex)) {
 			return this.server.movesSoldier(playerIndex, victimIndex, newLocation);
@@ -569,13 +592,15 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesMonopoly() on the server
+	 * 
 	 * @param playerIndex
 	 * @param resource
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean useMonopoly(PlayerNumber playerIndex, ResourceType resource) throws CatanException {
-		
+	public boolean useMonopoly(PlayerNumber playerIndex, ResourceType resource)
+			throws CatanException {
+
 		if (this.canUseMonopoly(playerIndex)) {
 			return this.server.movesMonopoly(resource, playerIndex);
 		}
@@ -583,9 +608,11 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use monopoly");
 		}
 	}
-	
+
 	/**
-	 * Determines if the player is playing and if they have a playable Monument card
+	 * Determines if the player is playing and if they have a playable Monument
+	 * card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -599,15 +626,16 @@ public class Facade extends Observable {
 
 		return false;
 	}
-	
+
 	/**
 	 * Calls movesMonument() on the server
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
 	 */
 	public boolean useMonument(PlayerNumber playerIndex) throws CatanException {
-		
+
 		if (this.canUseMonument(playerIndex)) {
 			return this.server.movesMonument(playerIndex);
 		}
@@ -615,9 +643,10 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use monument");
 		}
 	}
-	
+
 	/**
 	 * Determines if a player has the resources to build a road
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
@@ -632,8 +661,9 @@ public class Facade extends Observable {
 
 		return false;
 	}
-	
-	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree) throws CatanException {
+
+	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree)
+			throws CatanException {
 		if (this.canBuildRoad(playerIndex, isFree)) {
 			return this.server.movesBuildRoad(playerIndex, location, isFree);
 		}
@@ -784,6 +814,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player needs to discard cards
+	 *
 	 * @param player
 	 * @return
 	 */
@@ -796,11 +827,11 @@ public class Facade extends Observable {
 
 		return false;
 	}
-	
+
 	public boolean discardCards() {
 		return false;
 	}
-	
+
 	/*
 	 * Facade Getters and Setters
 	 */
@@ -913,39 +944,16 @@ public class Facade extends Observable {
 	public boolean isClientTurn() {
 		return this.getClientPlayer() == this.game.getCurrentPlayer();
 	}
-	
+
 	public Map<PlayerNumber, Player> getPlayers() {
 		return this.game.getPlayers();
 	}
-	
+
 	public PlayerNumber getLongestRoadPlayer() {
 		return this.scoreboard.getLongestRoadPlayer();
 	}
-	
+
 	public PlayerNumber getLargestArmyPlayer() {
 		return this.scoreboard.getLargestArmyPlayer();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
