@@ -451,7 +451,7 @@ public class Facade extends Observable {
 	}
 
 	/**
-	 * Calls movesYear_of_Plenty on the server
+	 * Calls movesYear_of_Plenty() on the server
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -490,6 +490,14 @@ public class Facade extends Observable {
 		return false;
 	}
 
+	/**
+	 * Calls movesRoad_Building() on the server
+	 * @param playerIndex
+	 * @param edge1
+	 * @param edge2
+	 * @return
+	 * @throws CatanException
+	 */
 	public boolean useRoadBuilding(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
 		
 		if (this.canUseRoadBuilding(playerIndex)
@@ -506,7 +514,7 @@ public class Facade extends Observable {
 	 * Determines if the player is playing, if they have a playable Soldier
 	 * card, and if they have not played another non-Monument development card
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
 	 */
@@ -548,11 +556,11 @@ public class Facade extends Observable {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseMonopoly(PlayerNumber player) throws CatanException {
+	public boolean canUseMonopoly(PlayerNumber playerIndex) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONOPOLY)
-				&& !this.game.hasPlayedDevCard(player)) {
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canPlayDevelopmentCard(playerIndex, DevCardType.MONOPOLY)
+				&& !this.game.hasPlayedDevCard(playerIndex)) {
 			return true;
 		}
 
@@ -560,17 +568,32 @@ public class Facade extends Observable {
 	}
 
 	/**
-	 * Determines if the player is playing and if they have a playable Monument
-	 * card
-	 *
-	 * @param player
+	 * Calls movesMonopoly() on the server
+	 * @param playerIndex
+	 * @param resource
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseMonument(PlayerNumber player) throws CatanException {
+	public boolean useMonopoly(PlayerNumber playerIndex, ResourceType resource) throws CatanException {
+		
+		if (this.canUseMonopoly(playerIndex)) {
+			return this.server.movesMonopoly(resource, playerIndex);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use monopoly");
+		}
+	}
+	
+	/**
+	 * Determines if the player is playing and if they have a playable Monument card
+	 * @param playerIndex
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean canUseMonument(PlayerNumber playerIndex) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.MONUMENT)) {
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canPlayDevelopmentCard(playerIndex, DevCardType.MONUMENT)) {
 			return true;
 		}
 
@@ -578,21 +601,45 @@ public class Facade extends Observable {
 	}
 	
 	/**
+	 * Calls movesMonument() on the server
+	 * @param playerIndex
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean useMonument(PlayerNumber playerIndex) throws CatanException {
+		
+		if (this.canUseMonument(playerIndex)) {
+			return this.server.movesMonument(playerIndex);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot use monument");
+		}
+	}
+	
+	/**
 	 * Determines if a player has the resources to build a road
-	 *
-	 * @param player
+	 * @param playerIndex
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
 	 */
-	public boolean canBuildRoad(PlayerNumber player, boolean isFree) throws CatanException {
+	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& (isFree || this.broker.canPurchase(player, PropertyType.ROAD))
-				&& this.game.hasRoad(player)) {
+		if (this.isPlaying(playerIndex)
+				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.ROAD))
+				&& this.game.hasRoad(playerIndex)) {
 			return true;
 		}
 
 		return false;
+	}
+	
+	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree) throws CatanException {
+		if (this.canBuildRoad(playerIndex, isFree)) {
+			return this.server.movesBuildRoad(playerIndex, location, isFSree);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build road");
+		}
 	}
 
 	/**
