@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import client.data.PlayerInfo;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
@@ -945,8 +946,19 @@ public class Facade extends Observable {
 		return this.getClientPlayer() == this.game.getCurrentPlayer();
 	}
 
-	public Map<PlayerNumber, Player> getPlayers() {
-		return this.game.getPlayers();
+	public List<PlayerInfo> getPlayers() {
+		Map<PlayerNumber, Player> fullPlayers = this.game.getPlayers();
+		List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
+		
+		for (Player eachPlayer : fullPlayers.values()) {
+			PlayerInfo info = new PlayerInfo(eachPlayer.getUser().getUserId(),
+					eachPlayer.getNumber(),
+					eachPlayer.getUser().getName(),
+					eachPlayer.getColor());
+			playerInfos.add(info);
+		}
+		
+		return playerInfos;
 	}
 
 	public PlayerNumber getLongestRoadPlayer() {
