@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import shared.definitions.CatanState;
 import client.base.*;
+import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 
 /**
@@ -45,10 +46,15 @@ public class RollController extends Controller implements IRollController, Obser
 
 	@Override
 	public void rollDice() {
-		int value = this.facade.rollNumber(this.facade.getClientPlayer());
-		if (value > 0) {
-			this.getResultView().setRollValue(value);
-			this.getResultView().showModal();
+		int value;
+		try {
+			value = this.facade.rollNumber(this.facade.getClientPlayer());
+			if (value > 0) {
+				this.getResultView().setRollValue(value);
+				this.getResultView().showModal();
+			}
+		} catch (CatanException e) {
+			e.printStackTrace();
 		}
 	}
 
