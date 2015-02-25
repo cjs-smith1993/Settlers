@@ -4,16 +4,16 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesOfferTrade {
 	String type = "offerTrade";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	DTOOffer offer;
-	PlayerNumber receiver;
+	int receiver;
 
 	public DTOMovesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood,
 			PlayerNumber receiver) {
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 
 		this.offer = new DTOOffer(brick, ore, sheep, wheat, wood);
 
-		this.receiver = receiver;
+		this.receiver = receiver.getInteger();
 	}
 }

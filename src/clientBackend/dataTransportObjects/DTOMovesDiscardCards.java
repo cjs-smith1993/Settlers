@@ -7,11 +7,11 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesDiscardCards {
 	String type = "discardCards";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	Map<String, Object> discardedCards;
 
 	public DTOMovesDiscardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood) {
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 
 		this.discardedCards = new HashMap<>();
 		this.discardedCards.put("brick", brick);

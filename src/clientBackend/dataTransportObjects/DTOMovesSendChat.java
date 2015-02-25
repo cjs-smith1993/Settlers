@@ -4,11 +4,11 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesSendChat {
 	String type = "sendChat";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	String content;
 
 	public DTOMovesSendChat(PlayerNumber playerIndex, String content) {
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.content = content;
 	}
 }

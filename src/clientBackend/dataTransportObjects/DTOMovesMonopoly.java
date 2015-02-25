@@ -6,10 +6,10 @@ import shared.definitions.ResourceType;
 public class DTOMovesMonopoly {
 	String type = "Monopoly";
 	ResourceType resource;
-	PlayerNumber playerIndex;
+	int playerIndex;
 
 	public DTOMovesMonopoly(ResourceType resource, PlayerNumber playerIndex) {
 		this.resource = resource;
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 	}
 }

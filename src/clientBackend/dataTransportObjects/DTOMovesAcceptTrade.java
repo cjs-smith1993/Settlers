@@ -4,11 +4,11 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesAcceptTrade {
 	String type = "acceptTrade";
-	PlayerNumber playerIndex;
+	int playerIndex;
 	Boolean willAccept = false;
 
 	public DTOMovesAcceptTrade(PlayerNumber playerIndex, Boolean willAccept) {
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.willAccept = willAccept;
 	}
 }
