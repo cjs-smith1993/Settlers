@@ -24,7 +24,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private Facade facade;
+	
+	//these are variables I made
+	private int localPlayerId = -1;
 	private int gameId = -1;
+	private GameInfo gameInfo;
 
 	/**
 	 * JoinGameController constructor
@@ -103,7 +107,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		JoinGameView view = (JoinGameView) super.getView();
 		Collection<DTOGame> games = this.facade.getGamesList();
 		PlayerInfo playerInfo = new PlayerInfo();
-		
+		//setlocalPlayerId as well
+		localPlayerId = 10;
+		playerInfo.setId(localPlayerId);
+		//need to find the serverID of the player 
+		//that is what is used for the check of re-join
 		Collection<GameInfo> gameInfo = new ArrayList<GameInfo>();
 
 		for (DTOGame game : games) {
@@ -157,7 +165,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			this.getNewGameView().closeModal();
 			this.start();
 		} catch (CatanException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -165,6 +172,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void startJoinGame(GameInfo game) {
 		gameId = game.getId();
+		gameInfo = game;
+		for(PlayerInfo info:game.getPlayers()) {
+			CatanColor color = info.getColor();
+			if(info.getId() != localPlayerId) {
+				this.getSelectColorView().setColorEnabled(color, false);
+			}
+		}
 		this.getSelectColorView().showModal();
 	}
 
@@ -178,6 +192,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		// If join succeeded
 		if(gameId != -1)
 			facade.joinGame(gameId, color);
+		
+		//this is a place that we could start the poller.
 		this.getSelectColorView().closeModal();
 		this.getJoinGameView().closeModal();
 		this.joinAction.execute();
