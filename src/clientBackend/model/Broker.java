@@ -38,6 +38,7 @@ public class Broker {
 			Collection<Harbor>> harborMap) {
 		this.holdings = new HashMap<PlayerNumber, Hand>();
 		this.holdings.put(PlayerNumber.BANK, new Bank(bankDevCard, resources));
+		
 		for (TransportPlayer player : playerList) {
 			if (player == null) {
 				continue;

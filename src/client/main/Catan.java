@@ -1,12 +1,8 @@
 package client.main;
 
-import java.io.IOException;
-
 import javax.swing.*;
 
-import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
-import shared.definitions.CatanColor;
 import client.catan.*;
 import client.login.*;
 import client.join.*;
@@ -116,17 +112,7 @@ public class Catan extends JFrame
 		Facade facade = Facade.getInstance();
 		facade.setProxy(proxy);
 
-		/*proxy.userLogin("Pete", "pete");
-		proxy.gamesJoin(0, CatanColor.RED);
-
-		try {
-			proxy.gameModel(0);
-		} catch (IOException | ServerException e) {
-			e.printStackTrace();
-		}
-
-		facade.setClientName("Pete");
 		ServerPoller poller = new ServerPoller(proxy);
-		poller.initializeTimer();*/
+		poller.initializeTimer();
 	}
 }
