@@ -24,6 +24,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private Facade facade;
+	private int gameId = -1;
 
 	/**
 	 * JoinGameController constructor
@@ -102,6 +103,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		JoinGameView view = (JoinGameView) super.getView();
 		Collection<DTOGame> games = this.facade.getGamesList();
 		PlayerInfo playerInfo = new PlayerInfo();
+		
 		Collection<GameInfo> gameInfo = new ArrayList<GameInfo>();
 
 		for (DTOGame game : games) {
@@ -162,6 +164,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
+		gameId = game.getId();
 		this.getSelectColorView().showModal();
 	}
 
@@ -173,6 +176,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void joinGame(CatanColor color) {
 		// If join succeeded
+		if(gameId != -1)
+			facade.joinGame(gameId, color);
 		this.getSelectColorView().closeModal();
 		this.getJoinGameView().closeModal();
 		this.joinAction.execute();
