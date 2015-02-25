@@ -85,7 +85,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	}
 
 	@Override
-	public void setPlayerToTradeWith(int playerIndex) {
+	public void setPlayerToTradeWith(PlayerNumber playerIndex) {
 
 	}
 

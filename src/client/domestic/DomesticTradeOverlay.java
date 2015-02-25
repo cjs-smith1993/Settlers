@@ -138,7 +138,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getController().setPlayerToTradeWith(-1);
+				getController().setPlayerToTradeWith(PlayerNumber.BANK);
 			}
 		});
 		noneToggle.setActionCommand("None");
