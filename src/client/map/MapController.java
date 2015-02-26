@@ -6,7 +6,7 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
-import clientBackend.model.Board;
+import client.map.state.*;
 import clientBackend.model.Facade;
 
 /**
@@ -16,14 +16,17 @@ public class MapController extends Controller implements IMapController, Observe
 
 	private IRobView robView;
 	private Facade facade;
+	private DefaultMapControllerState state;
 
 	public MapController(IMapView view, IRobView robView) {
-
 		super(view);
 
 		this.setRobView(robView);
 
 		this.facade = Facade.getInstance();
+		this.facade.addObserver(this);
+
+		this.state = new DefaultMapControllerState();
 	}
 
 	public IMapView getView() {
@@ -39,8 +42,9 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	protected void initFromModel() {
-		Board board = this.facade.getBoard();
-		board.getRobberLocation();
+		//		Board board = this.facade.getBoard();
+		//		board.getRobberLocation();
+		this.state.initFromModel();
 
 		//<temp>
 
@@ -119,61 +123,69 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
+		System.out.println("can place road at " + edgeLoc);
 		return true;
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
+		System.out.println("can place settlement at " + vertLoc);
 		return true;
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
+		System.out.println("can place city at " + vertLoc);
 		return true;
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
+		System.out.println("can place robber at " + hexLoc);
 		return true;
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
+		System.out.println("place road at " + edgeLoc);
 		this.getView().placeRoad(edgeLoc, CatanColor.ORANGE);
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
+		System.out.println("place settlement at " + vertLoc);
 		this.getView().placeSettlement(vertLoc, CatanColor.ORANGE);
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
+		System.out.println("place city at " + vertLoc);
 		this.getView().placeCity(vertLoc, CatanColor.ORANGE);
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
+		System.out.println("place robber at " + hexLoc);
 		this.getView().placeRobber(hexLoc);
 		this.getRobView().showModal();
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
+		System.out.println("start move of " + pieceType);
 		this.getView().startDrop(pieceType, CatanColor.ORANGE, true);
 	}
 
 	public void cancelMove() {
-
+		System.out.println("cancel move");
 	}
 
 	public void playSoldierCard() {
-
+		System.out.println("play soldier");
 	}
 
 	public void playRoadBuildingCard() {
-
+		System.out.println("play road building");
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-
+		System.out.println("rob " + victim);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		this.initFromModel();
 	}
-
 }
