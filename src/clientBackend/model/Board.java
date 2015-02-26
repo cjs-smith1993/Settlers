@@ -158,6 +158,26 @@ public class Board {
 		return false;
 	}
 
+	public Map<Integer, Collection<Chit>> getChits() {
+		return this.chits;
+	}
+
+	public Map<HexLocation, Tile> getTiles() {
+		return this.tiles;
+	}
+
+	public Map<EdgeLocation, Road> getRoads() {
+		return this.roads;
+	}
+
+	public Map<VertexLocation, Dwelling> getDwellings() {
+		return this.dwellings;
+	}
+
+	public Collection<Harbor> getHarbors() {
+		return this.harbors;
+	}
+
 	/**
 	 * Returns the current location of the robber
 	 *
