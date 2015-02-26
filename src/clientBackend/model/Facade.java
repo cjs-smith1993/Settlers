@@ -663,9 +663,18 @@ public class Facade extends Observable {
 		return false;
 	}
 
-	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree)
-			throws CatanException {
-		if (this.canBuildRoad(playerIndex, isFree)) {
+	/**
+	 * Calls movesBuildRoad() on the server
+	 * @param playerIndex
+	 * @param location
+	 * @param isFree
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree, 
+			boolean isSetupPhase) throws CatanException {
+		if (this.canBuildRoad(playerIndex, isFree)
+				&& this.canPlaceRoad(playerIndex, location, isSetupPhase)) {
 			return this.server.movesBuildRoad(playerIndex, location, isFree);
 		}
 		else {
@@ -676,15 +685,15 @@ public class Facade extends Observable {
 	/**
 	 * Determines if a player has the resources to build a settlement
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
 	 */
-	public boolean canBuildSettlement(PlayerNumber player, boolean isFree) throws CatanException {
+	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& (isFree || this.broker.canPurchase(player, PropertyType.SETTLEMENT))
-				&& this.game.hasSettlement(player)) {
+		if (this.isPlaying(playerIndex)
+				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.SETTLEMENT))
+				&& this.game.hasSettlement(playerIndex)) {
 			return true;
 		}
 
@@ -692,8 +701,27 @@ public class Facade extends Observable {
 	}
 
 	/**
+	 * Calls movesBuildSettlement() on the server
+	 * @param playerIndex
+	 * @param vertex
+	 * @param isFree
+	 * @param isSetupPhase
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean buildSettlement(PlayerNumber playerIndex, VertexLocation vertex, boolean isFree,
+			boolean isSetupPhase) throws CatanException {
+		if (this.canBuildSettlement(playerIndex, isFree)
+				&& this.canPlaceSettlement(playerIndex, vertex, isSetupPhase)) {
+			return this.server.movesBuildSettlement(playerIndex, vertex, isFree);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build settlement");
+		}
+	}
+	
+	/**
 	 * Determines if a player has the resources to build a city
-	 *
 	 * @param player
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
