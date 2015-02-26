@@ -160,4 +160,19 @@ public class Geometer {
 			return vertices1.iterator().next();
 		}
 	}
+
+	public static EdgeLocation getSharedEdge(VertexLocation vertex1, VertexLocation vertex2) {
+		Collection<EdgeLocation> adjacentEdges1 = Geometer.getAdjacentEdges(vertex1);
+		Collection<EdgeLocation> adjacentEdges2 = Geometer.getAdjacentEdges(vertex2);
+		Set<EdgeLocation> edges1 = new HashSet<EdgeLocation>(adjacentEdges1);
+		Set<EdgeLocation> edges2 = new HashSet<EdgeLocation>(adjacentEdges2);
+		edges1.retainAll(edges2);
+
+		if (edges1.isEmpty()) {
+			return null;
+		}
+		else {
+			return edges1.iterator().next();
+		}
+	}
 }
