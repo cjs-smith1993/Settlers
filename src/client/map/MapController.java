@@ -7,7 +7,13 @@ import shared.locations.*;
 import client.base.*;
 import client.data.*;
 import client.map.state.*;
+import clientBackend.model.Board;
+import clientBackend.model.Chit;
+import clientBackend.model.Dwelling;
 import clientBackend.model.Facade;
+import clientBackend.model.Harbor;
+import clientBackend.model.Road;
+import clientBackend.model.Tile;
 
 /**
  * Implementation for the map controller
@@ -42,84 +48,51 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	protected void initFromModel() {
-		//		Board board = this.facade.getBoard();
-		//		board.getRobberLocation();
 		this.state.initFromModel();
 
-		//<temp>
+		Board board = this.facade.getBoard();
 
-		Random rand = new Random();
+		// setup tiles
+		for (Tile tile : board.getTiles().values()) {
+			HexLocation location = tile.getLocation();
+			HexType type = TypeConverter.toHexType(tile.getResourceType());
+			this.getView().addHex(location, type);
+		}
 
-		for (int x = 0; x <= 3; ++x) {
-
-			int maxY = 3 - x;
-			for (int y = -3; y <= maxY; ++y) {
-				int r = rand.nextInt(HexType.values().length);
-				HexType hexType = HexType.values()[r];
-				HexLocation hexLoc = new HexLocation(x, y);
-				this.getView().addHex(hexLoc, hexType);
-				this.getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-						CatanColor.RED);
-				this.getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-						CatanColor.BLUE);
-				this.getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-						CatanColor.ORANGE);
-				this.getView().placeSettlement(
-						new VertexLocation(hexLoc, VertexDirection.NorthWest), CatanColor.GREEN);
-				this.getView().placeCity(new VertexLocation(hexLoc, VertexDirection.NorthEast),
-						CatanColor.PURPLE);
-			}
-
-			if (x != 0) {
-				int minY = x - 3;
-				for (int y = minY; y <= 3; ++y) {
-					int r = rand.nextInt(HexType.values().length);
-					HexType hexType = HexType.values()[r];
-					HexLocation hexLoc = new HexLocation(-x, y);
-					this.getView().addHex(hexLoc, hexType);
-					this.getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-							CatanColor.RED);
-					this.getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-							CatanColor.BLUE);
-					this.getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-							CatanColor.ORANGE);
-					this.getView()
-							.placeSettlement(new VertexLocation(hexLoc, VertexDirection.NorthWest),
-									CatanColor.GREEN);
-					this.getView().placeCity(new VertexLocation(hexLoc, VertexDirection.NorthEast),
-							CatanColor.PURPLE);
-				}
+		// setup chits
+		for (Collection<Chit> collection : board.getChits().values()) {
+			for (Chit chit : collection) {
+				this.getView().addNumber(chit.getLocation(), chit.getNumber());
 			}
 		}
 
-		PortType portType = PortType.BRICK;
-		this.getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North),
-				portType);
-		this.getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South),
-				portType);
-		this.getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast),
-				portType);
-		this.getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast),
-				portType);
-		this.getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest),
-				portType);
-		this.getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest),
-				portType);
+		// setup harbors
+		for (Harbor harbor : board.getHarbors()) {
+			VertexLocation[] ports = harbor.getPorts().toArray(new VertexLocation[0]);
+			EdgeLocation edge = Geometer.getSharedEdge(ports[0], ports[1]);
+			PortType type = TypeConverter.toPortType(harbor.getResource());
+			this.getView().addPort(edge, type);
+		}
 
-		this.getView().placeRobber(new HexLocation(0, 0));
+		// setup roads
+		for (Road road : board.getRoads().values()) {
+			CatanColor color = this.facade.getPlayerColor(road.getOwner());
+			this.getView().placeRoad(road.getLocation(), color);
+		}
 
-		this.getView().addNumber(new HexLocation(-2, 0), 2);
-		this.getView().addNumber(new HexLocation(-2, 1), 3);
-		this.getView().addNumber(new HexLocation(-2, 2), 4);
-		this.getView().addNumber(new HexLocation(-1, 0), 5);
-		this.getView().addNumber(new HexLocation(-1, 1), 6);
-		this.getView().addNumber(new HexLocation(1, -1), 8);
-		this.getView().addNumber(new HexLocation(1, 0), 9);
-		this.getView().addNumber(new HexLocation(2, -2), 10);
-		this.getView().addNumber(new HexLocation(2, -1), 11);
-		this.getView().addNumber(new HexLocation(2, 0), 12);
+		// setup dwellings
+		for (Dwelling dwelling : board.getDwellings().values()) {
+			CatanColor color = this.facade.getPlayerColor(dwelling.getOwner());
+			if (dwelling.getPropertyType() == PropertyType.SETTLEMENT) {
+				this.getView().placeSettlement(dwelling.getLocation(), color);
+			}
+			else {
+				this.getView().placeCity(dwelling.getLocation(), color);
+			}
+		}
 
-		//</temp>
+		// setup robber
+		this.getView().placeRobber(board.getRobberLocation());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
