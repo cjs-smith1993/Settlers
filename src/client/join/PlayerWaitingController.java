@@ -8,7 +8,6 @@ import shared.definitions.AIType;
 import client.base.*;
 import client.data.PlayerInfo;
 import clientBackend.model.Facade;
-import clientBackend.model.Player;
 
 /**
  * Implementation for the player waiting controller
