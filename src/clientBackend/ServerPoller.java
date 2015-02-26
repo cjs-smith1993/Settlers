@@ -33,7 +33,6 @@ public class ServerPoller {
 					new TimerTask() {
 						@Override
 						public void run() {
-							System.out.println("SERVER_POLLER: Proxy polled.");
 							ServerPoller.this.poll();
 						}
 					}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
