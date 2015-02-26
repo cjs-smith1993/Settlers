@@ -31,14 +31,14 @@ public class ChatController extends Controller implements IChatController, Obser
 	public void sendMessage(String message) {
 		this.facade.sendChat(this.facade.getClientPlayer(), message);
 	}
-
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		List<Message> messages = this.facade.getMessages();
 		CatanColor color = this.facade.getPlayerColor(this.facade.getClientPlayer());
-
+		
 		List<LogEntry> messageEntries = new ArrayList<>();
-
+		
 		for (int i = 0; i < messages.size(); i++) {
 			LogEntry entry = new LogEntry(color, messages.get(i).getMessage());
 			messageEntries.add(entry);

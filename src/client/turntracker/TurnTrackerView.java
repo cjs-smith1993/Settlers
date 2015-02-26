@@ -15,7 +15,7 @@ import client.utils.ImageUtils;
  */
 @SuppressWarnings("serial")
 public class TurnTrackerView extends PanelView implements ITurnTrackerView {
-
+	
 	private TitlePanel titlePanel;
 	private GameStatePanel gameStatePanel;
 	private JPanel [] playerPanel;

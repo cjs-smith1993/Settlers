@@ -1,11 +1,13 @@
 package client.turntracker;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import shared.definitions.PlayerNumber;
 import client.base.*;
+import client.data.PlayerInfo;
 import clientBackend.model.Facade;
 import clientBackend.model.Player;
 
@@ -34,18 +36,21 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg) {
 		ITurnTrackerView view = getView();
-		Map<PlayerNumber, Player> players = facade.getPlayers();
+		List<PlayerInfo> players = facade.getPlayers();
 		
 		if (players != null) {
-			for (Map.Entry<PlayerNumber, Player> entry : players.entrySet()) {
-				if (entry.getValue() != null) {
-					view.initializePlayer(entry.getKey().getInteger(), entry.getValue().getUser().getName(), entry.getValue().getColor());
+			for (PlayerInfo playerInfo : players) {
+				if (playerInfo != null) {
+					view.initializePlayer(playerInfo.getPlayerIndex().getInteger(), playerInfo.getName(), playerInfo.getColor());
 					
-					if (entry.getKey() == facade.getClientPlayer()) {
-						view.setLocalPlayerColor(entry.getValue().getColor());
+					if (playerInfo.getPlayerIndex() == facade.getClientPlayer()) {
+						view.setLocalPlayerColor(playerInfo.getColor());
 					}
 				}
 			}
+			
+//			PlayerNumber player = facade.getLongestRoadPlayer();
+//			PlayerNumber largestArmyPlayer = facade.getLargestArmyPlayer();
 		}
 	}
 }
