@@ -1,5 +1,6 @@
 package client.join;
 
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -59,18 +60,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Player[] players = this.facade.getPlayers().values().toArray(new Player[0]);
-		PlayerInfo[] playersInfo = new PlayerInfo[players.length];
-		for (int i = 0; i < players.length; i++) {
-			Player player = players[i];
-			PlayerInfo info = new PlayerInfo();
-			info.setId(player.getUser().getUserId());
-			info.setPlayerIndex(player.getNumber());
-			info.setName(player.getUser().getName());
-			info.setColor(player.getColor());
-			playersInfo[i] = info;
-		}
-
-		this.getView().setPlayers(playersInfo);
+		Collection<PlayerInfo> players = this.facade.getPlayers();
+		this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
 	}
 }

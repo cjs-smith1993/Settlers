@@ -961,6 +961,11 @@ public class Facade extends Observable {
 		return playerInfos;
 	}
 
+	public PlayerInfo getClientPlayerInfo() {
+		Player client = this.game.getPlayers().get(this.clientPlayer);
+		return new PlayerInfo(client.getUser().getUserId(), client.getNumber(), client.getUser().getName(), client.getColor());
+	}
+	
 	public PlayerNumber getLongestRoadPlayer() {
 		return this.scoreboard.getLongestRoadPlayer();
 	}
