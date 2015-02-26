@@ -8,6 +8,8 @@ import org.junit.Test;
 import serverCommunication.ServerException;
 import serverCommunication.ServerInterface;
 import serverCommunication.ServerMock5;
+import shared.definitions.CatanColor;
+import shared.definitions.PlayerNumber;
 import clientBackend.ServerPoller;
 import clientBackend.model.Facade;
 
@@ -22,16 +24,22 @@ public class ServerPollerTest {
 		this.facade = Facade.getInstance();
 		this.mock5 = new ServerMock5();
 		this.poller = new ServerPoller(this.mock5);
+
+		this.facade.setProxy(this.mock5);
+		this.facade.login("Pete", "pete");
+		this.facade.joinGame(0, CatanColor.BLUE);
 	}
 
 	@Test
 	public void testPoll() throws ServerException {
 		this.poller.poll();
 		int newVersion = this.facade.getVersion();
-		assertEquals("version should be 2", 2, newVersion);
+		assertEquals("version should be 1", 1, newVersion);
+
+		this.facade.sendChat(PlayerNumber.ONE, "chat");
 
 		this.poller.poll();
 		newVersion = this.facade.getVersion();
-		assertEquals("version should no longer be 3", 3, newVersion);
+		assertEquals("version should no longer be 1", 2, newVersion);
 	}
 }

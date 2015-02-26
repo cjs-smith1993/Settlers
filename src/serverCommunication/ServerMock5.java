@@ -77,7 +77,7 @@ public class ServerMock5 implements ServerInterface {
 
 	@Override
 	public void gameModel(int version) {
-		this.sendDummyData(true);
+		this.sendDummyData(false);
 	}
 
 	@Override
@@ -139,7 +139,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesRoad_Building(PlayerNumber playerIndex, EdgeLocation spot1, EdgeLocation spot2) {
+	public boolean movesRoad_Building(PlayerNumber playerIndex, EdgeLocation spot1,
+			EdgeLocation spot2) {
 		return this.sendDummyData(true);
 	}
 
@@ -165,7 +166,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location, boolean free) {
+	public boolean movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location,
+			boolean free) {
 		return this.sendDummyData(true);
 	}
 
@@ -175,7 +177,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat,
+	public boolean movesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep,
+			int wheat,
 			int wood, PlayerNumber receiver) {
 		return this.sendDummyData(true);
 	}
@@ -186,7 +189,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesMaritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource,
+	public boolean movesMaritimeTrade(PlayerNumber playerIndex, int ratio,
+			ResourceType inputResource,
 			ResourceType outputResource) {
 		return this.sendDummyData(true);
 	}
