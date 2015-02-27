@@ -393,14 +393,14 @@ public class Facade extends Observable {
 	/**
 	 * Determines if the player can buy a development card
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canBuyDevCard(PlayerNumber player) throws CatanException {
+	public boolean canBuyDevCard(PlayerNumber playerIndex) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPurchase(player, PropertyType.DEVELOPMENT_CARD)
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canPurchase(playerIndex, PropertyType.DEVELOPMENT_CARD)
 				&& this.broker.hasDevelopmentCard(PlayerNumber.BANK)) {
 			return true;
 		}
@@ -431,15 +431,15 @@ public class Facade extends Observable {
 	 * Plenty card, and if they have not played another non-Monument development
 	 * card
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseYearOfPlenty(PlayerNumber player) throws CatanException {
+	public boolean canUseYearOfPlenty(PlayerNumber playerIndex) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY)
-				&& !this.game.hasPlayedDevCard(player)) {
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canPlayDevelopmentCard(playerIndex, DevCardType.YEAR_OF_PLENTY)
+				&& !this.game.hasPlayedDevCard(playerIndex)) {
 			return true;
 		}
 
@@ -722,15 +722,15 @@ public class Facade extends Observable {
 	
 	/**
 	 * Determines if a player has the resources to build a city
-	 * @param player
+	 * @param playerIndex
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
 	 */
-	public boolean canBuildCity(PlayerNumber player) throws CatanException {
+	public boolean canBuildCity(PlayerNumber playerIndex) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canPurchase(player, PropertyType.CITY)
-				&& this.game.hasCity(player)) {
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canPurchase(playerIndex, PropertyType.CITY)
+				&& this.game.hasCity(playerIndex)) {
 			return true;
 		}
 
@@ -738,17 +738,35 @@ public class Facade extends Observable {
 	}
 
 	/**
+	 * Calls movesBuildCity() on the server
+	 * @param playerIndex
+	 * @param vertex
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean buildCity(PlayerNumber playerIndex, VertexLocation vertex) throws CatanException {
+		
+		if (this.canBuildCity(playerIndex)
+				&& this.canPlaceCity(playerIndex, vertex)) {
+			return this.server.movesBuildCity(playerIndex, vertex);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build city");
+		}
+	}
+	
+	/**
 	 * Determines if a player can place a road at the desired location
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @param edge
 	 * @param isSetupPhase
 	 * @return
 	 */
-	public boolean canPlaceRoad(PlayerNumber player, EdgeLocation edge, boolean isSetupPhase) {
+	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge, boolean isSetupPhase) {
 
-		if (this.isPlaying(player)
-				&& this.board.canPlaceRoad(player, edge, isSetupPhase)) {
+		if (this.isPlaying(playerIndex)
+				&& this.board.canPlaceRoad(playerIndex, edge, isSetupPhase)) {
 			return true;
 		}
 
@@ -758,16 +776,16 @@ public class Facade extends Observable {
 	/**
 	 * Determines if a player can place a settlement at the desired location
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
 	 * @return
 	 */
-	public boolean canPlaceSettlement(PlayerNumber player, VertexLocation vertex,
+	public boolean canPlaceSettlement(PlayerNumber playerIndex, VertexLocation vertex,
 			boolean isSetupPhase) {
 
-		if (this.isPlaying(player)
-				&& this.board.canPlaceSettlement(player, vertex, isSetupPhase)) {
+		if (this.isPlaying(playerIndex)
+				&& this.board.canPlaceSettlement(playerIndex, vertex, isSetupPhase)) {
 			return true;
 		}
 
@@ -777,16 +795,16 @@ public class Facade extends Observable {
 	/**
 	 * Determines if a player can place a city at the desired location
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
 	 * @return
 	 */
-	public boolean canPlaceCity(PlayerNumber player, VertexLocation vertex) {
+	public boolean canPlaceCity(PlayerNumber playerIndex, VertexLocation vertex) {
 		boolean isSetupPhase = false;
 
-		if (this.isPlaying(player)
-				&& this.board.canPlaceCity(player, vertex, isSetupPhase)) {
+		if (this.isPlaying(playerIndex)
+				&& this.board.canPlaceCity(playerIndex, vertex, isSetupPhase)) {
 			return true;
 		}
 
