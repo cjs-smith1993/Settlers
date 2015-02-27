@@ -8,6 +8,7 @@ import client.base.*;
 import client.data.*;
 import client.map.state.*;
 import clientBackend.model.Board;
+import clientBackend.model.BoardFactory;
 import clientBackend.model.Chit;
 import clientBackend.model.Dwelling;
 import clientBackend.model.Facade;
@@ -67,9 +68,18 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 
 		// setup harbors
+		ArrayList<EdgeLocation> mapViewEdges = BoardFactory.getPortLocations();
 		for (Harbor harbor : board.getHarbors()) {
 			VertexLocation[] ports = harbor.getPorts().toArray(new VertexLocation[0]);
 			EdgeLocation edge = Geometer.getSharedEdge(ports[0], ports[1]);
+
+			// view crap for orienting port correctly
+			for (EdgeLocation viewEdge : mapViewEdges) {
+				if (edge.getNormalizedLocation().equals(viewEdge.getNormalizedLocation())) {
+					edge = new EdgeLocation(viewEdge.getHexLoc(), viewEdge.getDir());
+				}
+			}
+
 			PortType type = TypeConverter.toPortType(harbor.getResource());
 			this.getView().addPort(edge, type);
 		}

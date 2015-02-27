@@ -281,7 +281,7 @@ public class BoardFactory {
 		return harbors;
 	}
 
-	private static ArrayList<EdgeLocation> getPortLocations() {
+	public static ArrayList<EdgeLocation> getPortLocations() {
 		ArrayList<EdgeLocation> ports = new ArrayList<EdgeLocation>();
 
 		ports.add(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North));
