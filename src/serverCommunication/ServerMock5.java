@@ -13,6 +13,7 @@ import shared.locations.VertexLocation;
 import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.model.CatanException;
+import clientBackend.model.ResourceInvoice;
 
 public class ServerMock5 implements ServerInterface {
 	private int version;
@@ -177,9 +178,7 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesOfferTrade(PlayerNumber playerIndex, int brick, int ore, int sheep,
-			int wheat,
-			int wood, PlayerNumber receiver) {
+	public boolean movesOfferTrade(ResourceInvoice invoice) {
 		return this.sendDummyData(true);
 	}
 

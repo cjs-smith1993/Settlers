@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import clientBackend.dataTransportObjects.DTOGame;
+import clientBackend.model.ResourceInvoice;
 import shared.definitions.*;
 import shared.locations.*;
 
@@ -108,10 +109,7 @@ public interface ServerInterface {
 			PlayerNumber playerIndex,
 			VertexLocation location);//returns updated json
 
-	public boolean movesOfferTrade(
-			PlayerNumber playerIndex, int brick, int ore,
-			int sheep, int wheat, int wood,
-			PlayerNumber receiver);//returns updated json
+	public boolean movesOfferTrade(ResourceInvoice invoice);//returns updated json
 
 	public boolean movesAcceptTrade(
 			PlayerNumber playerIndex,

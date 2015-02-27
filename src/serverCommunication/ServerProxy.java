@@ -18,6 +18,7 @@ import shared.locations.*;
 import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.*;
 import clientBackend.model.CatanException;
+import clientBackend.model.ResourceInvoice;
 
 /**
  * Implements the server interface and acts as a proxy server so the client does
@@ -585,16 +586,8 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesOfferTrade(
-			PlayerNumber playerIndex,
-			int brick,
-			int ore,
-			int sheep,
-			int wheat,
-			int wood,
-			PlayerNumber receiver) {
-		DTOMovesOfferTrade data = new DTOMovesOfferTrade(playerIndex, brick, ore, sheep, wheat,
-				wood, receiver);
+	public boolean movesOfferTrade(ResourceInvoice invoice) {
+		DTOMovesOfferTrade data = new DTOMovesOfferTrade(invoice);
 
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/moves/offerTrade");

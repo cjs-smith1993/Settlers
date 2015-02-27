@@ -835,8 +835,7 @@ public class Facade extends Observable {
 	public boolean offerTrade(ResourceInvoice invoice) throws CatanException {
 		
 		if (this.canOfferTrade(invoice)) {
-			return this.server.movesOfferTrade(invoice.sourcePlayer, invoice.getBrick(), invoice.getOre(), 
-					invoice.getSheep(), invoice.getWheat(), invoice.getWood(), invoice.getDestinationPlayer());
+			return this.server.movesOfferTrade(invoice);
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,"Cannot offer trade");

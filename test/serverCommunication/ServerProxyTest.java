@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clientBackend.dataTransportObjects.DTOGame;
+import clientBackend.model.ResourceInvoice;
 import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
 import shared.definitions.AIType;
@@ -152,7 +153,10 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMovesOfferTrade() {
-		assertTrue(proxy.movesOfferTrade(PlayerNumber.FOUR, 0, 0, 0, 0, 1, PlayerNumber.ONE));
+		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.FOUR, PlayerNumber.ONE);
+		invoice.setWood(1);
+		assertTrue(proxy.movesOfferTrade(invoice));
+		
 	}
 
 	@Test
