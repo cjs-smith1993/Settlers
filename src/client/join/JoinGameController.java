@@ -2,8 +2,6 @@ package client.join;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,7 +18,7 @@ import clientBackend.model.Facade;
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController, Observer {
+public class JoinGameController extends Controller implements IJoinGameController {
 
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
@@ -50,7 +48,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		super(view);
 
 		this.facade = Facade.getInstance();
-		this.facade.addObserver(this);
 		this.setNewGameView(newGameView);
 		this.setSelectColorView(selectColorView);
 		this.setMessageView(messageView);
@@ -216,11 +213,4 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			this.joinAction.execute();
 		}
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
