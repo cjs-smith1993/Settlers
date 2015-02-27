@@ -115,7 +115,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
 		this.setGamesList();
-		this.getJoinGameView().showModal();
 	}
 
 	public void setGamesList() {

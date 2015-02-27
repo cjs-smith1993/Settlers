@@ -6,11 +6,11 @@ package clientBackend.model;
  */
 public class User {
 	private String name;
-	private int playerId;
+	private int playerID;
 
 	public User(String name, int playerId) {
 		this.name = name;
-		this.playerId = playerId;
+		this.playerID = playerId;
 	}
 
 	public String getName() {
@@ -18,6 +18,6 @@ public class User {
 	}
 
 	public int getUserId() {
-		return this.playerId;
+		return this.playerID;
 	}
 }
