@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
@@ -24,12 +26,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
-	private Facade facade;
 
-	private PlayerInfo clientPlayer;
-	private int localPlayerId = -1;
-	private int gameId = -1;
-	private GameInfo gameInfo;
+	private Facade facade;
+	private GameInfo curGame;
+	boolean isPolling = false;
 
 	/**
 	 * JoinGameController constructor
@@ -105,14 +105,22 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
-		if (this.clientPlayer == null) {
-			this.clientPlayer = this.facade.getClientPlayer();
+		if (!this.isPolling) {
+			this.isPolling = true;
+
+			new Timer().schedule(new TimerTask() {
+				@Override
+				public void run() {
+					JoinGameController.this.setGamesList();
+				}
+			}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}
 
-		this.setGames();
+		this.setGamesList();
+		this.getJoinGameView().showModal();
 	}
 
-	public void setGames() {
+	public void setGamesList() {
 		Collection<DTOGame> gamesList = this.facade.getGamesList();
 		Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
 
@@ -139,18 +147,24 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
 		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
-		this.getJoinGameView().setGames(gameInfoArray, this.clientPlayer);
-		this.getJoinGameView().showModal();
+		System.out.println("set games");
+		this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
+
+		if (this.getJoinGameView().isModalShowing()) {
+			this.getJoinGameView().showModal();
+		}
 	}
 
 	@Override
 	public void startCreateNewGame() {
+		this.getJoinGameView().closeModal();
 		this.getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() {
 		this.getNewGameView().closeModal();
+		this.getJoinGameView().showModal();
 	}
 
 	@Override
@@ -168,7 +182,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		try {
 			this.facade.createGame(randomTiles, randomNumbers, randomPorts, gameName);
 			this.getNewGameView().closeModal();
-			this.start();
+			this.setGamesList();
+			this.getJoinGameView().showModal();
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
@@ -176,11 +191,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		this.gameId = game.getId();
-		this.gameInfo = game;
-		for (PlayerInfo info : game.getPlayers()) {
-			CatanColor color = info.getColor();
-			if (info.getId() != this.localPlayerId) {
+		this.getJoinGameView().closeModal();
+		this.curGame = game;
+		for (PlayerInfo player : game.getPlayers()) {
+			CatanColor color = player.getColor();
+			if (player.getId() != this.facade.getClientPlayer().getId()) {
 				this.getSelectColorView().setColorEnabled(color, false);
 			}
 		}
@@ -189,20 +204,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void cancelJoinGame() {
-		this.getJoinGameView().closeModal();
+		this.getSelectColorView().closeModal();
+		this.getJoinGameView().showModal();
 	}
 
 	@Override
 	public void joinGame(CatanColor color) {
-		// If join succeeded
-		if (this.gameId != -1) {
-			this.facade.joinGame(this.gameId, color);
+		boolean success = this.facade.joinGame(this.curGame.getId(), color);
+		if (success) {
+			this.getSelectColorView().closeModal();
+			this.joinAction.execute();
 		}
-
-		//this is a place that we could start the poller.
-		this.getSelectColorView().closeModal();
-		this.getJoinGameView().closeModal();
-		this.joinAction.execute();
 	}
 
 	@Override
