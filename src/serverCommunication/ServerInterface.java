@@ -122,8 +122,7 @@ public interface ServerInterface {
 			ResourceType outputResource);//returns updated json
 
 	public boolean movesDiscardCards(
-			PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood)
-			throws ServerException;//returns updated json
+			PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood);//returns updated json
 
 	public boolean utilChangeLogLevel(String logLevel);//if the log level was changed correctly
 }

@@ -915,21 +915,39 @@ public class Facade extends Observable {
 	
 	/**
 	 * Determines if the player needs to discard cards
-	 * @param player
+	 * @param playerIndex
 	 * @return
 	 */
-	public boolean needsToDiscardCards(PlayerNumber player) {
+	public boolean needsToDiscardCards(PlayerNumber playerIndex) {
 
 		if (this.game.getState() == CatanState.DISCARDING
-				&& (this.broker.getResourceCardCount(player, ResourceType.ALL) > this.resourceCardLimit)) {
+				&& (this.broker.getResourceCardCount(playerIndex, ResourceType.ALL) > this.resourceCardLimit)) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public boolean discardCards() {
-		return false;
+	/**
+	 * Calls movesDiscardCards() on the server
+	 * @param playerIndex
+	 * @param brick
+	 * @param ore
+	 * @param sheep
+	 * @param wheat
+	 * @param wood
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean discardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood) 
+			throws CatanException {
+		
+		if (this.needsToDiscardCards(playerIndex)) {
+			return this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot discard cards");
+		}
 	}
 
 	/*
