@@ -849,26 +849,44 @@ public class Facade extends Observable {
 	 * @return
 	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice) {
+	
 		if (this.broker.canAcceptTrade(invoice)) {
 			return true;
 		}
 
 		return false;
 	}
+	
+	/**
+	 * Calls movesAcceptTrade() on the server
+	 * @param invoice
+	 * @param willAccept
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) throws CatanException {
+		
+		if (this.canAcceptTrade(invoice)) {
+			return this.server.movesAcceptTrade(invoice.getDestinationPlayer(), willAccept);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot accept trade");
+		}
+	}
 
 	/**
 	 * Determines if a player has enough of a certain resource to perform a
 	 * maritime trade
 	 *
-	 * @param player
+	 * @param playerIndex
 	 * @param giving
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canMaritimeTrade(PlayerNumber player, ResourceType giving) throws CatanException {
+	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving) throws CatanException {
 
-		if (this.isPlaying(player)
-				&& this.broker.canMaritimeTrade(player, giving)) {
+		if (this.isPlaying(playerIndex)
+				&& this.broker.canMaritimeTrade(playerIndex, giving)) {
 			return true;
 		}
 
@@ -876,8 +894,27 @@ public class Facade extends Observable {
 	}
 
 	/**
+	 * Calls movesMaritimeTrade() on the server
+	 * @param playerIndex
+	 * @param ratio
+	 * @param inputResource
+	 * @param outputResource
+	 * @return
+	 * @throws CatanException
+	 */
+	public boolean maritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource, 
+			ResourceType outputResource) throws CatanException {
+		
+		if (this.canMaritimeTrade(playerIndex, inputResource)) {
+			return this.server.movesMaritimeTrade(playerIndex, ratio, inputResource, outputResource);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot maritime trade");
+		}
+	}
+	
+	/**
 	 * Determines if the player needs to discard cards
-	 *
 	 * @param player
 	 * @return
 	 */
