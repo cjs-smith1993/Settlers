@@ -6,18 +6,18 @@ package clientBackend.model;
  */
 public class User {
 	private String name;
-	private int userId;
-	
-	public User(String name, int userId) {
+	private int playerId;
+
+	public User(String name, int playerId) {
 		this.name = name;
-		this.userId = userId;
+		this.playerId = playerId;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public int getUserId() {
-		return this.userId;
+		return this.playerId;
 	}
 }

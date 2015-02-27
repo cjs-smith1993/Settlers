@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.definitions.CatanColor;
+import shared.definitions.PlayerNumber;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
@@ -24,8 +25,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private Facade facade;
-	
-	//these are variables I made
+
+	private PlayerInfo clientPlayer;
 	private int localPlayerId = -1;
 	private int gameId = -1;
 	private GameInfo gameInfo;
@@ -104,37 +105,41 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
-		JoinGameView view = (JoinGameView) super.getView();
-		Collection<DTOGame> games = this.facade.getGamesList();
-		PlayerInfo playerInfo = new PlayerInfo();
-		//setlocalPlayerId as well
-		localPlayerId = 10;
-		playerInfo.setId(localPlayerId);
-		//need to find the serverID of the player 
-		//that is what is used for the check of re-join
-		Collection<GameInfo> gameInfo = new ArrayList<GameInfo>();
-
-		for (DTOGame game : games) {
-			GameInfo newGame = new GameInfo();
-
-			newGame.setId(game.id);
-			newGame.setTitle(game.title);
-			for (DTOPlayer player : game.players) {
-				PlayerInfo newPlayer = new PlayerInfo();
-
-				newPlayer.setId(player.id);
-				newPlayer.setName(player.name);
-				newPlayer.setColor(player.color);
-				if (newPlayer.getName() != null) {
-					newGame.addPlayer(newPlayer);
-				}
-			}
-			gameInfo.add(newGame);
+		if (this.clientPlayer == null) {
+			this.clientPlayer = this.facade.getClientPlayer();
 		}
 
-		GameInfo[] information = gameInfo.toArray(new GameInfo[0]);
-		view.setGames(information, playerInfo);
+		this.setGames();
+	}
 
+	public void setGames() {
+		Collection<DTOGame> gamesList = this.facade.getGamesList();
+		Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
+
+		for (DTOGame game : gamesList) {
+			GameInfo curGame = new GameInfo();
+
+			curGame.setId(game.id);
+			curGame.setTitle(game.title);
+
+			for (DTOPlayer player : game.players) {
+				if (player.id == -1) {
+					continue;
+				}
+
+				int id = player.id;
+				String name = player.name;
+				CatanColor color = player.color;
+				PlayerNumber index = PlayerNumber.BANK;
+
+				PlayerInfo curPlayer = new PlayerInfo(id, index, name, color);
+				curGame.addPlayer(curPlayer);
+			}
+			gameInfoList.add(curGame);
+		}
+
+		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
+		this.getJoinGameView().setGames(gameInfoArray, this.clientPlayer);
 		this.getJoinGameView().showModal();
 	}
 
@@ -171,11 +176,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		gameId = game.getId();
-		gameInfo = game;
-		for(PlayerInfo info:game.getPlayers()) {
+		this.gameId = game.getId();
+		this.gameInfo = game;
+		for (PlayerInfo info : game.getPlayers()) {
 			CatanColor color = info.getColor();
-			if(info.getId() != localPlayerId) {
+			if (info.getId() != this.localPlayerId) {
 				this.getSelectColorView().setColorEnabled(color, false);
 			}
 		}
@@ -190,9 +195,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void joinGame(CatanColor color) {
 		// If join succeeded
-		if(gameId != -1)
-			facade.joinGame(gameId, color);
-		
+		if (this.gameId != -1) {
+			this.facade.joinGame(this.gameId, color);
+		}
+
 		//this is a place that we could start the poller.
 		this.getSelectColorView().closeModal();
 		this.getJoinGameView().closeModal();

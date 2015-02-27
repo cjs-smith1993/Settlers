@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.definitions.PlayerNumber;
 import client.base.*;
 import client.data.PlayerInfo;
 import clientBackend.model.Facade;
@@ -40,7 +41,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 					view.initializePlayer(playerInfo.getPlayerIndex().getInteger(),
 							playerInfo.getName(), playerInfo.getColor());
 
-					if (playerInfo.getPlayerIndex() == this.facade.getClientPlayer()) {
+					PlayerNumber clientIndex = this.facade.getClientPlayerIndex();
+					if (playerInfo.getPlayerIndex() == clientIndex) {
 						view.setLocalPlayerColor(playerInfo.getColor());
 					}
 				}

@@ -77,7 +77,6 @@ public class LoginController extends Controller implements ILoginController {
 		}
 		else {
 			// If log in succeeded
-			this.facade.setClientName(username);
 			this.getLoginView().closeModal();
 			this.loginAction.execute();
 		}
@@ -108,7 +107,6 @@ public class LoginController extends Controller implements ILoginController {
 		}
 		else {
 			// If register succeeded
-			this.facade.setClientName(username);
 			this.getLoginView().closeModal();
 			this.loginAction.execute();
 		}

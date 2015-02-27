@@ -14,6 +14,7 @@ import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.model.CatanException;
 import clientBackend.model.ResourceInvoice;
+import clientBackend.model.User;
 
 public class ServerMock5 implements ServerInterface {
 	private int version;
@@ -39,8 +40,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public boolean userLogin(String username, String password) {
-		return true;
+	public User userLogin(String username, String password) {
+		return new User("name", -1);
 	}
 
 	@Override

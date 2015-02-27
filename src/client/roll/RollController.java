@@ -48,7 +48,7 @@ public class RollController extends Controller implements IRollController, Obser
 	public void rollDice() {
 		int value;
 		try {
-			value = this.facade.rollNumber(this.facade.getClientPlayer());
+			value = this.facade.rollNumber(this.facade.getClientPlayerIndex());
 			if (value > 0) {
 				this.getResultView().setRollValue(value);
 				this.getResultView().showModal();

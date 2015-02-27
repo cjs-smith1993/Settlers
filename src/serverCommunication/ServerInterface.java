@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.model.ResourceInvoice;
+import clientBackend.model.User;
 import shared.definitions.*;
 import shared.locations.*;
 
@@ -15,22 +16,24 @@ import shared.locations.*;
  */
 
 public interface ServerInterface {
-	
+
 	/*
 	 * User methods
 	 */
-	
-	public boolean userLogin(String username, String password);
+
+	public User userLogin(String username, String password);
 
 	public boolean userRegister(String username, String password);
 
 	/*
 	 * Games methods
 	 */
-	
+
 	public Collection<DTOGame> gamesList();
 
-	public DTOGame gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name);
+	public DTOGame gamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
+			String name);
+
 	//The json is the name of the game, the id of the game, and the list of players of the game
 
 	public boolean gamesJoin(int gameId, CatanColor color);//if they successfully joined the game
@@ -42,7 +45,7 @@ public interface ServerInterface {
 	/*
 	 * Game methods
 	 */
-	
+
 	public void gameModel(int version) throws IOException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	public void gameReset();//also returns the whole game json thing
@@ -58,7 +61,7 @@ public interface ServerInterface {
 	/*
 	 * Moves methods
 	 */
-	
+
 	public boolean movesSendChat(PlayerNumber playerIndex, String content);//returns an updated json of the game there is a message portion of the json blob
 
 	public boolean movesRollNumber(

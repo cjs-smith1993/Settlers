@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 //import java.net.URLDecoder;
 import java.util.Collection;
 
@@ -19,6 +20,7 @@ import clientBackend.CatanSerializer;
 import clientBackend.dataTransportObjects.*;
 import clientBackend.model.CatanException;
 import clientBackend.model.ResourceInvoice;
+import clientBackend.model.User;
 
 /**
  * Implements the server interface and acts as a proxy server so the client does
@@ -72,7 +74,6 @@ public class ServerProxy implements ServerInterface {
 			int idx = cookieText.indexOf('=');
 			String type = cookieText.substring(0, idx);
 			cookieText = cookieText.replaceAll(type + "=", "").replaceAll(";Path=/;", "");
-			//			String cookieJson = URLDecoder.decode(cookieText);
 
 			if (type.equals("catan.user")) {
 				this.userCookie = cookieText;
@@ -158,9 +159,9 @@ public class ServerProxy implements ServerInterface {
 	/*
 	 * User methods
 	 */
-	
+
 	@Override
-	public boolean userLogin(String username, String password) {
+	public User userLogin(String username, String password) {
 		DTOUserLogin data = new DTOUserLogin(username, password);
 
 		try {
@@ -168,10 +169,15 @@ public class ServerProxy implements ServerInterface {
 			this.doPost(url, data);
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 
-		return true;
+		@SuppressWarnings("deprecation")
+		String cookieJson = URLDecoder.decode(this.userCookie);
+		User client = (User) CatanSerializer.getInstance()
+				.deserializeObject(cookieJson, User.class);
+
+		return client;
 	}
 
 	@Override
@@ -192,7 +198,7 @@ public class ServerProxy implements ServerInterface {
 	/*
 	 * Games methods
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<DTOGame> gamesList() {
@@ -273,7 +279,7 @@ public class ServerProxy implements ServerInterface {
 	/*
 	 * Game methods
 	 */
-	
+
 	@Override
 	public void gameModel(int version) throws IOException, ServerException {
 		DTOGameModel data = new DTOGameModel(version);
@@ -304,7 +310,7 @@ public class ServerProxy implements ServerInterface {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public String gameCommands() {
 		try {
@@ -349,7 +355,7 @@ public class ServerProxy implements ServerInterface {
 	/*
 	 * Moves methods
 	 */
-	
+
 	@Override
 	public boolean movesSendChat(PlayerNumber playerIndex, String content) {
 		DTOMovesSendChat data = new DTOMovesSendChat(playerIndex, content);
@@ -449,7 +455,8 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesRoad_Building(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2) {
+	public boolean movesRoad_Building(PlayerNumber playerIndex, EdgeLocation edge1,
+			EdgeLocation edge2) {
 
 		HexLocation hex1 = edge1.getHexLoc();
 		int x1 = hex1.getX();
@@ -474,7 +481,8 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex, HexLocation location) {
+	public boolean movesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex,
+			HexLocation location) {
 
 		int x = location.getX();
 		int y = location.getY();
@@ -544,7 +552,8 @@ public class ServerProxy implements ServerInterface {
 	}
 
 	@Override
-	public boolean movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location, boolean free) {
+	public boolean movesBuildSettlement(PlayerNumber playerIndex, VertexLocation location,
+			boolean free) {
 
 		HexLocation hex = location.getHexLoc();
 		int x = hex.getX();
@@ -675,7 +684,7 @@ public class ServerProxy implements ServerInterface {
 	/*
 	 * Getters and setters
 	 */
-	
+
 	public String getHostname() {
 		return this.hostname;
 	}
