@@ -28,6 +28,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private Facade facade;
 	private GameInfo curGame;
 	boolean isPolling = false;
+	boolean showHub = true;
 
 	/**
 	 * JoinGameController constructor
@@ -118,6 +119,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 	public void setGamesList() {
+		if (this.showHub == false) {
+			return;
+		}
+
 		Collection<DTOGame> gamesList = this.facade.getGamesList();
 		Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
 
@@ -144,24 +149,21 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
 		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
-		System.out.println("set games");
+		this.getJoinGameView().closeModal();
 		this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
-
-		if (this.getJoinGameView().isModalShowing()) {
-			this.getJoinGameView().showModal();
-		}
+		this.getJoinGameView().showModal();
 	}
 
 	@Override
 	public void startCreateNewGame() {
-		this.getJoinGameView().closeModal();
+		this.showHub = false;
 		this.getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() {
+		this.showHub = true;
 		this.getNewGameView().closeModal();
-		this.getJoinGameView().showModal();
 	}
 
 	@Override
@@ -179,8 +181,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		try {
 			this.facade.createGame(randomTiles, randomNumbers, randomPorts, gameName);
 			this.getNewGameView().closeModal();
+			this.showHub = true;
 			this.setGamesList();
-			this.getJoinGameView().showModal();
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
@@ -188,7 +190,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		this.getJoinGameView().closeModal();
+		this.showHub = false;
 		this.curGame = game;
 		for (PlayerInfo player : game.getPlayers()) {
 			CatanColor color = player.getColor();
@@ -201,8 +203,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void cancelJoinGame() {
+		this.showHub = true;
 		this.getSelectColorView().closeModal();
-		this.getJoinGameView().showModal();
 	}
 
 	@Override
@@ -210,6 +212,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		boolean success = this.facade.joinGame(this.curGame.getId(), color);
 		if (success) {
 			this.getSelectColorView().closeModal();
+			this.getJoinGameView().closeModal();
 			this.joinAction.execute();
 		}
 	}
