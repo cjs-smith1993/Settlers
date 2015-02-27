@@ -985,6 +985,10 @@ public class Facade extends Observable {
 		return this.clientPlayer.getPlayerIndex();
 	}
 
+	public void setClientPlayer(PlayerInfo clientPlayer) {
+		this.clientPlayer = clientPlayer;
+	}
+
 	public void finishClientSetup() {
 		Collection<Player> players = this.game.getPlayers().values();
 		for (Player player : players) {
