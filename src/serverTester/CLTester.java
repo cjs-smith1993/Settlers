@@ -164,12 +164,6 @@ public class CLTester implements Runnable {
 		}
 	}
 	
-	private void clear(int repeat) {
-		for (int i = 0; i < repeat; i++) {
-			println("\n");
-		}
-	}
-	
 	private void help() {
 		printDiv();
 		println("Welcome to Help. Here are the available methods:");
