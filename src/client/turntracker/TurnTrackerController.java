@@ -62,10 +62,13 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			PlayerNumber largestArmyPlayer = this.facade.getLargestArmyPlayer();
 
 			for (PlayerInfo p : players) {
-				view.updatePlayer(p.getPlayerIndex().getInteger(),
-						this.facade.getPlayerScore(p.getPlayerIndex()), this.facade.isClientTurn(),
-						largestArmyPlayer == p.getPlayerIndex(),
-						longestRoadPlayer == p.getPlayerIndex());
+				PlayerNumber playerIndex = p.getPlayerIndex();
+				int index = playerIndex.getInteger();
+				int points = this.facade.getPlayerScore(playerIndex);
+				boolean highlight = playerIndex == this.facade.getGame().getCurrentPlayer();
+				boolean hasLargestArmy = playerIndex == largestArmyPlayer;
+				boolean hasLongestRoad = playerIndex == longestRoadPlayer;
+				view.updatePlayer(index, points, highlight, hasLargestArmy, hasLongestRoad);
 			}
 		}
 	}
