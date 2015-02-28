@@ -56,6 +56,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.setMessageView(messageView);
 		
 		timer = new Timer();
+
 	}
 
 	public IJoinGameView getJoinGameView() {
@@ -114,8 +115,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				@Override
 				public void run() {
 					JoinGameController.this.setGamesList();
+					System.out.printf("the join game timer");
 				}
-			}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
+			}, 0, 2000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}
 
 		this.setGamesList();

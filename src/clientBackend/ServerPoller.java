@@ -34,6 +34,7 @@ public class ServerPoller {
 						@Override
 						public void run() {
 							ServerPoller.this.poll();
+							System.out.printf("The poller is polling");
 						}
 					}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}

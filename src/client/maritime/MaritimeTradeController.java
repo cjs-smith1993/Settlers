@@ -51,22 +51,22 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void setGetResource(ResourceType resource) {
-
+		System.out.printf("set get resource");
 	}
 
 	@Override
 	public void setGiveResource(ResourceType resource) {
-
+		System.out.printf("set give resource");
 	}
 
 	@Override
 	public void unsetGetValue() {
-
+		System.out.printf("unset get resource");
 	}
 
 	@Override
 	public void unsetGiveValue() {
-
+		System.out.printf("unset give resource");
 	}
 
 }
