@@ -118,22 +118,31 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	
 	private void setEnabledState(int roadCount, int settlementCount, int cityCount) {
 		IResourceBarView view = getView();
+		PlayerNumber client = facade.getClientPlayerIndex();
 		
-		if (roadCount > 0) {
+		if (roadCount > 0
+				&& facade.getResourceCount(client, ResourceType.BRICK) >= 1
+				&& facade.getResourceCount(client, ResourceType.WOOD) >= 1) {
 			view.setElementEnabled(ResourceBarElement.ROAD, true);
 		}
 		else {
 			view.setElementEnabled(ResourceBarElement.ROAD, false);
 		}
-		
-		if (settlementCount > 0) {
+	
+		if (settlementCount > 0
+				&& facade.getResourceCount(client, ResourceType.BRICK) >= 1
+				&& facade.getResourceCount(client, ResourceType.SHEEP) >= 1
+				&& facade.getResourceCount(client, ResourceType.WHEAT) >= 1
+				&& facade.getResourceCount(client, ResourceType.WOOD) >= 1) {
 			view.setElementEnabled(ResourceBarElement.SETTLEMENT, true);
 		}
 		else {
 			view.setElementEnabled(ResourceBarElement.SETTLEMENT, false);
 		}
 		
-		if (cityCount > 0) {
+		if (cityCount > 0
+				&& facade.getResourceCount(client, ResourceType.ORE) >= 2
+				&& facade.getResourceCount(client, ResourceType.WHEAT) >= 3) {
 			view.setElementEnabled(ResourceBarElement.CITY, true);
 		}
 		else {
