@@ -30,6 +30,7 @@ public class CLTester implements Runnable {
 	private Scanner scanner = new Scanner(System.in);
 	private ServerProxy proxy = ServerProxy.getInstance();
 	private CatanSerializer serializer = CatanSerializer.getInstance();
+	private boolean isPrintOn = false;
 	
 	public CLTester(ServerProxy proxy) {
 		this.proxy = proxy;
@@ -133,6 +134,12 @@ public class CLTester implements Runnable {
 					movesDiscardCards();
 					getModel();
 					break;
+				case "print.off":
+					printOff();
+					break;
+				case "print.on":
+					printOn();
+					break;
 				default:
 					println("Method code not recognized, please try again");
 				}
@@ -153,31 +160,35 @@ public class CLTester implements Runnable {
 	private void help() {
 		printDiv();
 		println("Welcome to Help. Here are the available methods:");
+		println("-----");
 		println("NOTES");
+		println("-----");
+		println("PRINT: To turn print off use: \"print.off\". Turn on is \"print.on\"");
 		println("PLAYERNUMBER: Enter as a number, -1 to 3.");
 		println("RESOURCES: Enter resources as \"wood\", \"sheep\", etc...");
 		println("DIRECTION: Enter directions as \"NE\", \"NW\"");
 		println("FORMAT: \"method.name\" (params) -- Description\n");
-		println("\t\"help\" (none) -- Shows method data and parameters.");
-		println("\t\"model\" (none) -- Gets the current model's JSON.");
-		println("\t\"games.list\" (none) -- List all games.");
-		println("\t\"user.login\" (username, password) -- Logs user in -> Triggers \"user.join\" (gameID, color)");
-		println("\t\"moves.roll\" (rolledNumber) -- Rolls the number of your choice.");
-		println("\t\"moves.rob\" (playerIndex, victimIndex, xLocation, yLocation) -- Robs the player you designate, at a given location.");
-		println("\t\"moves.finish\" (playerIndex) -- Ends the client's turn.");
-		println("\t\"moves.buyDev\" (playerIndex) -- Used to buy development card.");
-		println("\t\"moves.year\" (playerIndex, resource1, resource2) -- Used to free-load two resources.");
-		println("\t\"moves.roadBuilding\" (playerIndex, x1, y1, direction1, x2, y2, direction2) -- Build a road given the input information.");
-		println("\t\"moves.soldier\" (playerIndex, victimIndex, locationX, locationY) -- Assigns the soldier to a given location.");
-		println("\t\"moves.monopoly\" (resource, playerIndex) -- Gets all resources, from all players, of a given resource.");
-		println("\t\"moves.monument\" (playerIndex) -- Applies monument points to a player.");
-		println("\t\"moves.buildRoad\" (playerIndex, roadX, roadY, direction, isFree) -- Places a road at a given location.");
-		println("\t\"moves.buildSettlement\" (playerIndex, settlmentX, settlementY, direction, isFree) -- Places a settlement at a given location.");
-		println("\t\"moves.buildCity\" (playerIndex, x, y, direction) -- Places a city at a given location.");
-		println("\t\"moves.offerTrade\" (qtyBrick, qtyWood, qtyWheat, qtyOre, qtySheep, sourcePlayerIndex, destinationPlayerIndex) -- Offers a trade to a player.");
-		println("\t\"moves.acceptTrade\" (playerIndex, willAcceptTrade) -- Used to accept or reject a trade.");
-		println("\t\"moves.maritimeTrade\" (playerIndex, ratio, inputResource, outputResource) -- Used to execute maritime trade.");
-		println("\t\"moves.discardCards\" (playerIndex, qtyBrick, qtyOre, qtySheep, qtyWheat, qtyWood) -- Discards specified resource cards.");
+		println("-----");
+		println("\t\"help\" (none)");
+		println("\t\"model\" (none)");
+		println("\t\"games.list\" (none)");
+		println("\t\"user.login\" (username, password)");
+		println("\t\"moves.roll\" (rolledNumber)");
+		println("\t\"moves.rob\" (playerIndex, victimIndex, xLocation, yLocation)");
+		println("\t\"moves.finish\" (playerIndex)");
+		println("\t\"moves.buyDev\" (playerIndex)");
+		println("\t\"moves.year\" (playerIndex, resource1, resource2)");
+		println("\t\"moves.roadBuilding\" (playerIndex, x1, y1, direction1, x2, y2, direction2)");
+		println("\t\"moves.soldier\" (playerIndex, victimIndex, locationX, locationY)");
+		println("\t\"moves.monopoly\" (resource, playerIndex)");
+		println("\t\"moves.monument\" (playerIndex)");
+		println("\t\"moves.buildRoad\" (playerIndex, roadX, roadY, direction, isFree)");
+		println("\t\"moves.buildSettlement\" (playerIndex, settlmentX, settlementY, direction, isFree)");
+		println("\t\"moves.buildCity\" (playerIndex, x, y, direction)");
+		println("\t\"moves.offerTrade\" (qtyBrick, qtyWood, qtyWheat, qtyOre, qtySheep, sourcePlayerIndex, destinationPlayerIndex)");
+		println("\t\"moves.acceptTrade\" (playerIndex, willAcceptTrade)");
+		println("\t\"moves.maritimeTrade\" (playerIndex, ratio, inputResource, outputResource)");
+		println("\t\"moves.discardCards\" (playerIndex, qtyBrick, qtyOre, qtySheep, qtyWheat, qtyWood)");
 		printDiv();
 	}
 	
@@ -581,6 +592,14 @@ public class CLTester implements Runnable {
 			}
 		}
 	}
+	
+	private void printOff() {
+		isPrintOn = false;
+	}
+	
+	private void printOn() {
+		isPrintOn = true;
+	}
 
 	/*
 	 * HELPER METHODS
@@ -588,7 +607,11 @@ public class CLTester implements Runnable {
 	private void ctcb(String message) {
 		printDiv();
 		println("Data saved to clipboard!");
-		println(message);
+		
+		if (isPrintOn) {
+			println(message);
+		}
+		
 		printDiv();
 		
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
