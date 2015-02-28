@@ -29,7 +29,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	 * @param view View displayed to let the user select cards to discard
 	 * @param waitView View displayed to notify the user that they are waiting for other players to discard
 	 */
- 	public DiscardController(IDiscardView view, IWaitView waitView) {
+	public DiscardController(IDiscardView view, IWaitView waitView) {
 		
 		super(view);
 		
@@ -95,7 +95,7 @@ public class DiscardController extends Controller implements IDiscardController,
 			
 			// Get max number of each resource to discard
 			for (ResourceType type : ResourceType.values()) {
-				int max = this.facade.getResourceCount(type);
+				int max = this.facade.getResourceCount(clientPlayer, type);
 				this.maxResources.put(type, max);
 				this.getDiscardView().setResourceAmountChangeEnabled(type, max > 0, false);
 			}
