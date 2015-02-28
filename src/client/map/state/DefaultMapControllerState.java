@@ -5,6 +5,7 @@ import java.util.Collection;
 import client.data.RobPlayerInfo;
 import client.map.IMapView;
 import client.map.IRobView;
+import client.map.MapController;
 import client.map.TypeConverter;
 import clientBackend.model.Board;
 import clientBackend.model.Chit;
@@ -23,11 +24,17 @@ import shared.locations.*;
 public class DefaultMapControllerState {
 
 	protected Facade facade;
+	protected MapController controller;
 	protected IMapView view;
 	protected IRobView robView;
 
-	public DefaultMapControllerState(Facade facade, IMapView view, IRobView robView) {
+	public DefaultMapControllerState(
+			Facade facade,
+			MapController controller,
+			IMapView view,
+			IRobView robView) {
 		this.facade = facade;
+		this.controller = controller;
 		this.view = view;
 		this.robView = robView;
 	}

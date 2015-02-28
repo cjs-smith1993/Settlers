@@ -4,12 +4,17 @@ import shared.locations.HexLocation;
 import client.data.RobPlayerInfo;
 import client.map.IMapView;
 import client.map.IRobView;
+import client.map.MapController;
 import clientBackend.model.Facade;
 
 public class RobbingMapControllerState extends DefaultMapControllerState {
 
-	public RobbingMapControllerState(Facade facade, IMapView view, IRobView robView) {
-		super(facade, view, robView);
+	public RobbingMapControllerState(
+			Facade facade,
+			MapController controller,
+			IMapView view,
+			IRobView robView) {
+		super(facade, controller, view, robView);
 	}
 
 	public boolean canPlaceRobber(HexLocation hex) {

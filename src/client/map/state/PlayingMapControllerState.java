@@ -5,13 +5,18 @@ import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 import client.map.IMapView;
 import client.map.IRobView;
+import client.map.MapController;
 import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 
 public class PlayingMapControllerState extends DefaultMapControllerState {
 
-	public PlayingMapControllerState(Facade facade, IMapView view, IRobView robView) {
-		super(facade, view, robView);
+	public PlayingMapControllerState(
+			Facade facade,
+			MapController controller,
+			IMapView view,
+			IRobView robView) {
+		super(facade, controller, view, robView);
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edge) {
@@ -61,6 +66,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
+		this.controller.setModalShowing(true);
 		this.view.startDrop(pieceType, this.facade.getClientPlayerColor(), true);
 	}
 
