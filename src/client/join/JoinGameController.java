@@ -114,7 +114,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}
 
-		this.setGamesList();
 	}
 
 	public void setGamesList() {
