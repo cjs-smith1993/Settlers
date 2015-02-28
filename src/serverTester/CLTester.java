@@ -44,19 +44,20 @@ public class CLTester implements Runnable {
 	public void startCL() {
 		// Display help() on startup.
 		help();
-		
 		while(true) {
 			printDiv();
-			println("Type Desired Action:");
+			println("Type Desired Method");
+			println("Format: \"method.name\"");
 			String data = scanner.nextLine();
-			
-			println("You said: " + data);
 			
 			data = data.toLowerCase();
 			
 			// Place all proxy calls in this block.
 			synchronized (proxy) {
 				switch (data) {
+				case "clear":
+					clear();
+					break;
 				case "help":
 					help();
 					break;
@@ -157,6 +158,18 @@ public class CLTester implements Runnable {
 		return isLoggedIn;
 	}
 	
+	private void clear() {
+		for (int i = 0; i < 40; i++) {
+			println("\n");
+		}
+	}
+	
+	private void clear(int repeat) {
+		for (int i = 0; i < repeat; i++) {
+			println("\n");
+		}
+	}
+	
 	private void help() {
 		printDiv();
 		println("Welcome to Help. Here are the available methods:");
@@ -166,11 +179,13 @@ public class CLTester implements Runnable {
 		println("PRINT: To turn print off use: \"print.off\". Turn on is \"print.on\"");
 		println("PLAYERNUMBER: Enter as a number, -1 to 3.");
 		println("RESOURCES: Enter resources as \"wood\", \"sheep\", etc...");
-		println("DIRECTION: Enter directions as \"NE\", \"NW\"");
-		println("FORMAT: \"method.name\" (params) -- Description\n");
+		println("DIRECTION: Enter directions as \"NE\", \"NW\", etc...");
+		println("-----");
+		println("METHOD FORMAT: \"method.name\" (params)");
 		println("-----");
 		println("\t\"help\" (none)");
-		println("\t\"model\" (none)");
+		println("\t\"clear\" (none) --> Clears console space.");
+		println("\t\"model\" (none) --> Retrieves model. Pastes to your clipboard.");
 		println("\t\"games.list\" (none)");
 		println("\t\"user.login\" (username, password)");
 		println("\t\"moves.roll\" (rolledNumber)");
@@ -606,7 +621,7 @@ public class CLTester implements Runnable {
 	 */
 	private void ctcb(String message) {
 		printDiv();
-		println("Data saved to clipboard!");
+		println("Model saved to your clipboard.");
 		
 		if (isPrintOn) {
 			println(message);
