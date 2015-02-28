@@ -1124,6 +1124,20 @@ public class Facade extends Observable {
 
 		return playerInfos;
 	}
+	
+	public PlayerNumber getPlayerNumberForName(String name) {
+		Map<PlayerNumber, Player> fullPlayers = this.game.getPlayers();
+		
+		for (Map.Entry<PlayerNumber, Player> player : fullPlayers.entrySet()) {
+			if (player != null) {
+				if (player.getValue().getUser().getName().toLowerCase().equals(name)) {
+					return player.getKey();
+				}
+			}
+		}
+		
+		return null;
+	}
 
 	public PlayerNumber getLongestRoadPlayer() {
 		return this.scoreboard.getLongestRoadPlayer();

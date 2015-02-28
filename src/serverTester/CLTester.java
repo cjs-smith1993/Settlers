@@ -64,6 +64,9 @@ public class CLTester implements Runnable {
 				case "model":
 					getModel();
 					break;
+				case "moves.chat":
+					chat();
+					break;
 				case "user.login":
 					login();
 					getModel();
@@ -147,7 +150,7 @@ public class CLTester implements Runnable {
 			}
 		}
 	}
-	
+
 	private boolean isLoggedIn() {
 		boolean isLoggedIn = !proxy.getCookies().isEmpty();
 		
@@ -218,6 +221,26 @@ public class CLTester implements Runnable {
 		}
 		else {
 			println("USER NOT LOGGED IN. CANNOT FETCH MODEL.");
+		}
+	}
+	
+	
+	private void chat() {
+		if (isLoggedIn()) {
+			println("Please enter: playerIndex.");
+			PlayerNumber playerIndex = getPlayerNumber(scanner.nextInt());
+			
+			println("Please enter: message");
+			String message = scanner.nextLine();
+			
+			boolean isSuccess = proxy.movesSendChat(playerIndex, message);
+			
+			if (isSuccess) {
+				println("SUCCESS: Chat away!");
+			}
+			else {
+				println("ERROR: Chat failed.");
+			}
 		}
 	}
 	
