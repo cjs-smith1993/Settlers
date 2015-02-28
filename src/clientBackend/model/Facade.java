@@ -74,8 +74,6 @@ public class Facade extends Observable {
 
 		this.finishClientSetup();
 
-		this.game.setState(CatanState.PLAYING);
-
 		this.setChanged();
 		this.notifyObservers(someValue);
 	}
