@@ -990,6 +990,10 @@ public class Facade extends Observable {
 		return this.clientPlayer.getPlayerIndex();
 	}
 
+	public CatanColor getClientPlayerColor() {
+		return this.clientPlayer.getColor();
+	}
+
 	public void setClientPlayer(PlayerInfo clientPlayer) {
 		this.clientPlayer = clientPlayer;
 	}

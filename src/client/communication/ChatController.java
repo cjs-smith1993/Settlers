@@ -35,7 +35,7 @@ public class ChatController extends Controller implements IChatController, Obser
 	@Override
 	public void update(Observable o, Object arg) {
 		List<Message> messages = this.facade.getMessages();
-		CatanColor color = this.facade.getClientPlayer().getColor();
+		CatanColor color = this.facade.getClientPlayerColor();
 
 		List<LogEntry> messageEntries = new ArrayList<>();
 

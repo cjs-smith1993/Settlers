@@ -26,7 +26,7 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 	@Override
 	public void update(Observable o, Object arg) {
 		List<Message> logs = this.facade.getLog();
-		CatanColor color = this.facade.getClientPlayer().getColor();
+		CatanColor color = this.facade.getClientPlayerColor();
 
 		List<LogEntry> logEntries = new ArrayList<>();
 

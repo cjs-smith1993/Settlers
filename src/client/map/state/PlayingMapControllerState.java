@@ -24,7 +24,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 		if (this.canPlaceRoad(edge)) {
 			try {
 				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, false, false);
-				this.view.placeRoad(edge, this.facade.getClientPlayer().getColor());
+				this.view.placeRoad(edge, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -42,7 +42,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 			try {
 				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, false,
 						false);
-				this.view.placeSettlement(vertex, this.facade.getClientPlayer().getColor());
+				this.view.placeSettlement(vertex, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -59,7 +59,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 		if (this.canPlaceCity(vertex)) {
 			try {
 				this.facade.buildCity(this.facade.getClientPlayerIndex(), vertex);
-				this.view.placeCity(vertex, this.facade.getClientPlayer().getColor());
+				this.view.placeCity(vertex, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -68,7 +68,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
 		System.out.println("start move of " + pieceType);
-		this.view.startDrop(pieceType, this.facade.getClientPlayer().getColor(), true);
+		this.view.startDrop(pieceType, this.facade.getClientPlayerColor(), true);
 	}
 
 	public void cancelMove() {

@@ -23,7 +23,7 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 		if (this.canPlaceRoad(edge)) {
 			try {
 				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, true, true);
-				this.view.placeRoad(edge, this.facade.getClientPlayer().getColor());
+				this.view.placeRoad(edge, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -41,7 +41,7 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 			try {
 				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, true,
 						true);
-				this.view.placeSettlement(vertex, this.facade.getClientPlayer().getColor());
+				this.view.placeSettlement(vertex, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
