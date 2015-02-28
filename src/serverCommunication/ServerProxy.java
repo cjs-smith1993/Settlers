@@ -14,6 +14,7 @@ import java.util.Collection;
 
 import com.google.gson.reflect.TypeToken;
 
+import serverTester.CLTester;
 import shared.definitions.*;
 import shared.locations.*;
 import clientBackend.CatanSerializer;
@@ -46,6 +47,10 @@ public class ServerProxy implements ServerInterface {
 	public static ServerProxy getInstance() {
 		if (proxy == null) {
 			proxy = new ServerProxy("localhost", 8081);
+			
+			CLTester tester = new CLTester(getInstance());
+			Thread thread = new Thread(tester);
+			thread.start();
 		}
 
 		return proxy;
@@ -55,7 +60,7 @@ public class ServerProxy implements ServerInterface {
 		return "http://" + this.hostname + ":" + this.port;
 	}
 
-	private String getCookies() {
+	public synchronized String getCookies() {
 		String cookieString = "";
 
 		if (this.userCookie != null) {
@@ -68,8 +73,9 @@ public class ServerProxy implements ServerInterface {
 		return cookieString;
 	}
 
-	private void parseCookie(HttpURLConnection connection) {
+	private synchronized void parseCookie(HttpURLConnection connection) {
 		String cookieText = connection.getHeaderField("Set-cookie");
+		
 		if (cookieText != null) {
 			int idx = cookieText.indexOf('=');
 			String type = cookieText.substring(0, idx);
@@ -680,6 +686,16 @@ public class ServerProxy implements ServerInterface {
 
 		return false;
 	}
+	
+	/*
+	 * CLTester Methods
+	 */
+	public String gameModel() throws ServerException, IOException {
+		DTOGameModel data = new DTOGameModel(0);
+
+		URL url = new URL(this.getUrlPrefix() + "/game/model");
+		return this.doPost(url, data);
+	}
 
 	/*
 	 * Getters and setters
@@ -700,5 +716,4 @@ public class ServerProxy implements ServerInterface {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
 }
