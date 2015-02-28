@@ -71,7 +71,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	}
 
 	public void setButton() {
-		if (this.facade.isClientTurn()) {
+		if (!this.facade.isClientTurn()) {
 			this.getView().updateGameState(this.WAITING_MESSAGE, false);
 		}
 		else {

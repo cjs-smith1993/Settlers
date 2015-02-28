@@ -387,7 +387,7 @@ public class Facade extends Observable {
 	 * @return
 	 */
 	public boolean canFinishTurn(PlayerNumber playerIndex) {
-		return this.isPlaying(playerIndex);
+		return this.isPlaying(playerIndex) || this.inSetup();
 	}
 
 	/**

@@ -17,6 +17,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private IRobView robView;
 	private Facade facade;
 	private DefaultMapControllerState state;
+	private boolean isModalShowing = false;
 
 	public MapController(IMapView view, IRobView robView) {
 		super(view);
@@ -97,6 +98,14 @@ public class MapController extends Controller implements IMapController, Observe
 		this.state.robPlayer(victim);
 	}
 
+	public boolean isModalShowing() {
+		return this.isModalShowing;
+	}
+
+	public void setModalShowing(boolean visible) {
+		this.isModalShowing = visible;
+	}
+
 	public void setState() {
 		IMapView view = this.getView();
 		IRobView robView = this.getRobView();
@@ -106,18 +115,18 @@ public class MapController extends Controller implements IMapController, Observe
 		switch (state) {
 		case FIRST_ROUND:
 		case SECOND_ROUND:
-			this.state = new SetupMapControllerState(this.facade, view, robView);
+			this.state = new SetupMapControllerState(this.facade, this, view, robView);
 			break;
 		case PLAYING:
-			this.state = new PlayingMapControllerState(this.facade, view, robView);
+			this.state = new PlayingMapControllerState(this.facade, this, view, robView);
 			break;
 		case ROBBING:
-			this.state = new RobbingMapControllerState(this.facade, view, robView);
+			this.state = new RobbingMapControllerState(this.facade, this, view, robView);
 			break;
 		case ROLLING:
 		case DISCARDING:
 		default:
-			this.state = new DefaultMapControllerState(this.facade, view, robView);
+			this.state = new DefaultMapControllerState(this.facade, this, view, robView);
 		}
 	}
 
