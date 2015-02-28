@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.definitions.CatanColor;
+import shared.definitions.PlayerNumber;
 import client.base.*;
 import clientBackend.model.Facade;
 import clientBackend.model.Message;
@@ -35,12 +36,12 @@ public class ChatController extends Controller implements IChatController, Obser
 	@Override
 	public void update(Observable o, Object arg) {
 		List<Message> messages = this.facade.getMessages();
-		CatanColor color = this.facade.getClientPlayerColor();
-
 		List<LogEntry> messageEntries = new ArrayList<>();
 
-		for (int i = 0; i < messages.size(); i++) {
-			LogEntry entry = new LogEntry(color, messages.get(i).getMessage());
+		for (Message message : messages) {
+			PlayerNumber player = this.facade.getPlayerNumberForName(message.getName());
+			CatanColor color = this.facade.getPlayerColor(player);
+			LogEntry entry = new LogEntry(color, message.getMessage());
 			messageEntries.add(entry);
 		}
 

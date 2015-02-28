@@ -28,11 +28,10 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 		List<Message> logs = this.facade.getLog();
 		List<LogEntry> logEntries = new ArrayList<>();
 
-		for (int i = 0; i < logs.size(); i++) {
-			PlayerNumber playerNumber = facade.getPlayerNumberForName(logs.get(i).getName().toLowerCase());
-			CatanColor color = facade.getPlayerColor(playerNumber);
-			
-			LogEntry entry = new LogEntry(color, logs.get(i).getMessage());
+		for (Message log : logs) {
+			PlayerNumber player = this.facade.getPlayerNumberForName(log.getName());
+			CatanColor color = this.facade.getPlayerColor(player);
+			LogEntry entry = new LogEntry(color, log.getMessage());
 			logEntries.add(entry);
 		}
 
