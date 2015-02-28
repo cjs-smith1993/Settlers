@@ -18,6 +18,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private Facade facade;
 	private DefaultMapControllerState state;
 	private boolean isModalShowing = false;
+	private HexLocation robberLocation;
 
 	public MapController(IMapView view, IRobView robView) {
 		super(view);
@@ -104,6 +105,14 @@ public class MapController extends Controller implements IMapController, Observe
 
 	public void setModalShowing(boolean visible) {
 		this.isModalShowing = visible;
+	}
+
+	public HexLocation getRobberLocation() {
+		return this.robberLocation;
+	}
+
+	public void setRobberLocation(HexLocation hex) {
+		this.robberLocation = hex;
 	}
 
 	public void setState() {

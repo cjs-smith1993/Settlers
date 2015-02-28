@@ -70,7 +70,7 @@ public class Board {
 		return adjacentRoads;
 	}
 
-	private Collection<Dwelling> getAdjacentDwellings(HexLocation hex) {
+	public Collection<Dwelling> getAdjacentDwellings(HexLocation hex) {
 		Collection<Dwelling> adjacentDwellings = new ArrayList<Dwelling>();
 
 		Collection<VertexLocation> adjacentVertices = Geometer.getAdjacentVertices(hex);
