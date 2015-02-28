@@ -1,7 +1,10 @@
 package client.maritime;
 
+import java.util.Vector;
+
 import shared.definitions.*;
 import client.base.*;
+import clientBackend.model.Facade;
 
 
 /**
@@ -10,12 +13,15 @@ import client.base.*;
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
 
 	private IMaritimeTradeOverlay tradeOverlay;
+	private Facade facade;
 	
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
 		super(tradeView);
 
 		setTradeOverlay(tradeOverlay);
+		
+		facade = Facade.getInstance();
 	}
 	
 	public IMaritimeTradeView getTradeView() {
@@ -33,6 +39,30 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void startTrade() {
+		
+		Vector<ResourceType> enabledResources = new Vector<ResourceType>(); 
+		ResourceType[] enabled = new ResourceType[5];
+		int bestRatio = 4;
+		PlayerNumber playerIndex = facade.getClientPlayerIndex();
+		
+		for(ResourceType type: ResourceType.values()) {
+			switch (type) {
+			case NONE:
+				break;
+			case ALL:
+				break;
+			default:
+				bestRatio = facade.getBestMaritimeTradeRatio(playerIndex, type);
+				if(facade.getResourceCount(type) >= bestRatio) 
+					enabledResources.add(type);
+				break;
+			}
+		}
+		
+		if(enabledResources.isEmpty())
+			getTradeOverlay().setTradeEnabled(false);
+		
+		getTradeOverlay().showGiveOptions(enabledResources.toArray(enabled) );
 		
 		getTradeOverlay().showModal();
 	}

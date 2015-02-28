@@ -44,6 +44,7 @@ public class PlayerHoldings implements Hand {
 	public PlayerHoldings(TransportPlayer player,
 							Collection<Harbor> myHarbors)
 	{
+		
 		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
 		for(ResourceType type: ResourceType.values()){
 			resourceCards.put(type, new ArrayList<ResourceCard>());
@@ -66,7 +67,10 @@ public class PlayerHoldings implements Hand {
 		makeResourceDeck(ResourceType.SHEEP, myResources.sheep);
 		makeResourceDeck(ResourceType.ORE, myResources.ore);
 		
-		this.setHarbors(myHarbors);
+		if(myHarbors != null)
+			this.setHarbors(myHarbors);
+		else
+			harbors = new ArrayList<Harbor>();
 		this.setPlayedKnights(makeDevTypePile(DevCardType.SOLDIER, playedSoldier, false));
 		this.setPlayedMonuments(makeDevTypePile(DevCardType.MONUMENT,monuments, false));
 		
