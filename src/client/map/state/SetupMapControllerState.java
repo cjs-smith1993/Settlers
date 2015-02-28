@@ -14,12 +14,10 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edge) {
-		System.out.println("can place road at " + edge + " for FREE");
 		return this.facade.canPlaceRoad(this.facade.getClientPlayerIndex(), edge, true);
 	}
 
 	public void placeRoad(EdgeLocation edge) {
-		System.out.println("place road at " + edge);
 		if (this.canPlaceRoad(edge)) {
 			try {
 				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, true, true);
@@ -31,12 +29,10 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertex) {
-		System.out.println("can place settlement at " + vertex + " for FREE");
 		return this.facade.canPlaceSettlement(this.facade.getClientPlayerIndex(), vertex, true);
 	}
 
 	public void placeSettlement(VertexLocation vertex) {
-		System.out.println("place settlement at " + vertex);
 		if (this.canPlaceSettlement(vertex)) {
 			try {
 				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, true,
