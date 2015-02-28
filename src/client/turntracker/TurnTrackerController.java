@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import client.base.*;
 import client.data.PlayerInfo;
+import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 
 /**
@@ -14,6 +16,11 @@ import clientBackend.model.Facade;
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
 	Facade facade = Facade.getInstance();
+
+	private final String ROLL_MESSAGE = "Roll the Dice";
+	private final String ROBBER_MESSAGE = "Place the Robber";
+	private final String FINISH_MESSAGE = "Finish Turn";
+	private final String WAITING_MESSAGE = "Waiting for Other Players";
 
 	public TurnTrackerController(ITurnTrackerView view) {
 		super(view);
@@ -27,15 +34,14 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 	@Override
 	public void endTurn() {
-
+		try {
+			this.facade.finishTurn(this.facade.getClientPlayerIndex());
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		if (!this.facade.isGameReady()) {
-			return;
-		}
-
+	public void updateView() {
 		ITurnTrackerView view = this.getView();
 		List<PlayerInfo> players = this.facade.getPlayers();
 
@@ -62,5 +68,34 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 						longestRoadPlayer == p.getPlayerIndex());
 			}
 		}
+	}
+
+	public void setButton() {
+		if (this.facade.isClientTurn()) {
+			this.getView().updateGameState(this.WAITING_MESSAGE, false);
+		}
+		else {
+			CatanState state = this.facade.getModelState();
+			String message = this.FINISH_MESSAGE;
+
+			if (state == CatanState.ROLLING) {
+				message = this.ROLL_MESSAGE;
+			}
+			else if (state == CatanState.ROBBING) {
+				message = this.ROBBER_MESSAGE;
+			}
+
+			this.getView().updateGameState(message, true);
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (!this.facade.isGameReady()) {
+			return;
+		}
+
+		this.updateView();
+		this.setButton();
 	}
 }
