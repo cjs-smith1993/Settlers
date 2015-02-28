@@ -53,10 +53,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		boolean success = this.facade.addAI(AIType.valueOf(type));
 		if (success) {
 			int numPlayers = this.facade.getPlayers().size();
-			if (numPlayers >= this.MAX_PLAYERS) {
-				this.getView().closeModal();
-			}
-			else {
+			if (numPlayers < this.MAX_PLAYERS) {
 				this.getView().showModal();
 			}
 		}
