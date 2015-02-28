@@ -14,6 +14,7 @@ import shared.definitions.CatanState;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
+import client.data.PlayerInfo;
 import clientBackend.transport.*;
 
 public class FacadeTest {
@@ -24,6 +25,10 @@ public class FacadeTest {
 	@Before
 	public void setUp() throws Exception {
 		this.facade = Facade.getInstance();
+
+		PlayerInfo clientPlayer = new PlayerInfo();
+		this.facade.setClientPlayer(clientPlayer);
+
 		this.model = new TransportModel();
 		this.player = new TransportPlayer();
 

@@ -36,8 +36,7 @@ public class Facade extends Observable {
 	private Game game;
 	private PostOffice postOffice;
 	private Scoreboard scoreboard;
-	private PlayerNumber clientPlayer;
-	private String clientName;
+	private PlayerInfo clientPlayer;
 	private int version = 1;
 	private int resourceCardLimit = 7;
 
@@ -73,7 +72,9 @@ public class Facade extends Observable {
 		this.version = model.version;
 		String someValue = "howdy";
 
-		this.setClientPlayer(this.clientName);
+		this.finishClientSetup();
+
+		this.game.setState(CatanState.PLAYING);
 
 		this.setChanged();
 		this.notifyObservers(someValue);
@@ -106,7 +107,16 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 */
 	public boolean login(String username, String password) {
-		return this.server.userLogin(username, password);
+		User newClient = this.server.userLogin(username, password);
+		if (newClient == null) {
+			return false;
+		}
+
+		this.clientPlayer = new PlayerInfo();
+		this.clientPlayer.setId(newClient.getUserId());
+		this.clientPlayer.setName(newClient.getName());
+
+		return true;
 	}
 
 	/**
@@ -146,9 +156,11 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 * @throws CatanException
 	 */
-	public DTOGame createGame(boolean randomTiles, boolean randomNumbers, boolean randomPorts,
-			String gameName)
-			throws CatanException {
+	public DTOGame createGame(
+			boolean randomTiles,
+			boolean randomNumbers,
+			boolean randomPorts,
+			String gameName) throws CatanException {
 		if (gameName != null && !gameName.isEmpty()) {
 			DTOGame newGame = this.server.gamesCreate(randomTiles, randomNumbers, randomPorts,
 					gameName);
@@ -471,7 +483,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesYear_of_Plenty() on the server
-	 * 
+	 *
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -512,7 +524,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesRoad_Building() on the server
-	 * 
+	 *
 	 * @param playerIndex
 	 * @param edge1
 	 * @param edge2
@@ -593,7 +605,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesMonopoly() on the server
-	 * 
+	 *
 	 * @param playerIndex
 	 * @param resource
 	 * @return
@@ -613,7 +625,7 @@ public class Facade extends Observable {
 	/**
 	 * Determines if the player is playing and if they have a playable Monument
 	 * card
-	 * 
+	 *
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -630,7 +642,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesMonument() on the server
-	 * 
+	 *
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -647,7 +659,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if a player has the resources to build a road
-	 * 
+	 *
 	 * @param playerIndex
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
@@ -665,13 +677,14 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesBuildRoad() on the server
+	 *
 	 * @param playerIndex
 	 * @param location
 	 * @param isFree
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree, 
+	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location, boolean isFree,
 			boolean isSetupPhase) throws CatanException {
 		if (this.canBuildRoad(playerIndex, isFree)
 				&& this.canPlaceRoad(playerIndex, location, isSetupPhase)) {
@@ -689,7 +702,8 @@ public class Facade extends Observable {
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
 	 */
-	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree) throws CatanException {
+	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree)
+			throws CatanException {
 
 		if (this.isPlaying(playerIndex)
 				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.SETTLEMENT))
@@ -702,6 +716,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesBuildSettlement() on the server
+	 *
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isFree
@@ -719,9 +734,10 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build settlement");
 		}
 	}
-	
+
 	/**
 	 * Determines if a player has the resources to build a city
+	 *
 	 * @param playerIndex
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
@@ -739,13 +755,14 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesBuildCity() on the server
+	 *
 	 * @param playerIndex
 	 * @param vertex
 	 * @return
 	 * @throws CatanException
 	 */
 	public boolean buildCity(PlayerNumber playerIndex, VertexLocation vertex) throws CatanException {
-		
+
 		if (this.canBuildCity(playerIndex)
 				&& this.canPlaceCity(playerIndex, vertex)) {
 			return this.server.movesBuildCity(playerIndex, vertex);
@@ -754,7 +771,7 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build city");
 		}
 	}
-	
+
 	/**
 	 * Determines if a player can place a road at the desired location
 	 *
@@ -828,20 +845,21 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesOfferTrade() on the server
+	 *
 	 * @param invoice
 	 * @return
 	 * @throws CatanException
 	 */
 	public boolean offerTrade(ResourceInvoice invoice) throws CatanException {
-		
+
 		if (this.canOfferTrade(invoice)) {
 			return this.server.movesOfferTrade(invoice);
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,"Cannot offer trade");
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot offer trade");
 		}
 	}
-	
+
 	/**
 	 * Determines if a player can accept a certain trade
 	 *
@@ -849,23 +867,24 @@ public class Facade extends Observable {
 	 * @return
 	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice) {
-	
+
 		if (this.broker.canAcceptTrade(invoice)) {
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	/**
 	 * Calls movesAcceptTrade() on the server
+	 *
 	 * @param invoice
 	 * @param willAccept
 	 * @return
 	 * @throws CatanException
 	 */
 	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) throws CatanException {
-		
+
 		if (this.canAcceptTrade(invoice)) {
 			return this.server.movesAcceptTrade(invoice.getDestinationPlayer(), willAccept);
 		}
@@ -883,7 +902,8 @@ public class Facade extends Observable {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving) throws CatanException {
+	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving)
+			throws CatanException {
 
 		if (this.isPlaying(playerIndex)
 				&& this.broker.canMaritimeTrade(playerIndex, giving)) {
@@ -895,6 +915,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesMaritimeTrade() on the server
+	 *
 	 * @param playerIndex
 	 * @param ratio
 	 * @param inputResource
@@ -902,19 +923,21 @@ public class Facade extends Observable {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean maritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource, 
+	public boolean maritimeTrade(PlayerNumber playerIndex, int ratio, ResourceType inputResource,
 			ResourceType outputResource) throws CatanException {
-		
+
 		if (this.canMaritimeTrade(playerIndex, inputResource)) {
-			return this.server.movesMaritimeTrade(playerIndex, ratio, inputResource, outputResource);
+			return this.server
+					.movesMaritimeTrade(playerIndex, ratio, inputResource, outputResource);
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot maritime trade");
 		}
 	}
-	
+
 	/**
 	 * Determines if the player needs to discard cards
+	 *
 	 * @param playerIndex
 	 * @return
 	 */
@@ -930,6 +953,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Calls movesDiscardCards() on the server
+	 *
 	 * @param playerIndex
 	 * @param brick
 	 * @param ore
@@ -939,9 +963,10 @@ public class Facade extends Observable {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean discardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood) 
+	public boolean discardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat,
+			int wood)
 			throws CatanException {
-		
+
 		if (this.needsToDiscardCards(playerIndex)) {
 			return this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
 		}
@@ -954,24 +979,26 @@ public class Facade extends Observable {
 	 * Facade Getters and Setters
 	 */
 
-	public PlayerNumber getClientPlayer() {
+	public PlayerInfo getClientPlayer() {
 		return this.clientPlayer;
 	}
 
-	public void setClientPlayer(String name) {
-		for (Player player : this.game.getPlayers().values()) {
-			if (player.getUser().getName().equals(name)) {
-				this.clientPlayer = player.getNumber();
+	public PlayerNumber getClientPlayerIndex() {
+		return this.clientPlayer.getPlayerIndex();
+	}
+
+	public void setClientPlayer(PlayerInfo clientPlayer) {
+		this.clientPlayer = clientPlayer;
+	}
+
+	public void finishClientSetup() {
+		Collection<Player> players = this.game.getPlayers().values();
+		for (Player player : players) {
+			if (player.getUser().getUserId() == this.clientPlayer.getId()) {
+				this.clientPlayer.setPlayerIndex(player.getNumber());
+				this.clientPlayer.setColor(player.getColor());
 			}
 		}
-	}
-
-	public String getClientName() {
-		return this.clientName;
-	}
-
-	public void setClientName(String name) {
-		this.clientName = name;
 	}
 
 	public Board getBoard() {
@@ -1035,17 +1062,18 @@ public class Facade extends Observable {
 	}
 
 	public int getResourceCount(ResourceType resource) {
-		return this.broker.getResourceCardCount(this.clientPlayer, resource);
+		return this.broker.getResourceCardCount(this.clientPlayer.getPlayerIndex(), resource);
 	}
 
 	public int getHoldingCount(PropertyType property) {
+		Player curPlayer = this.game.getPlayers().get(this.getClientPlayerIndex());
 		switch (property) {
 		case ROAD:
-			return this.game.getPlayers().get(this.clientPlayer).getNumRoads();
+			return curPlayer.getNumRoads();
 		case SETTLEMENT:
-			return this.game.getPlayers().get(this.clientPlayer).getNumSettlements();
+			return curPlayer.getNumSettlements();
 		case CITY:
-			return this.game.getPlayers().get(this.clientPlayer).getNumCities();
+			return curPlayer.getNumCities();
 		default:
 			return -1;
 		}
@@ -1056,17 +1084,20 @@ public class Facade extends Observable {
 	}
 
 	public CatanState getModelState() {
+		if (this.game == null) {
+			return CatanState.PLAYING;
+		}
 		return this.game.getState();
 	}
 
 	public boolean isClientTurn() {
-		return this.getClientPlayer() == this.game.getCurrentPlayer();
+		return this.getClientPlayer().getPlayerIndex() == this.game.getCurrentPlayer();
 	}
 
 	public List<PlayerInfo> getPlayers() {
 		Map<PlayerNumber, Player> fullPlayers = this.game.getPlayers();
 		List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
-		
+
 		for (Player eachPlayer : fullPlayers.values()) {
 			PlayerInfo info = new PlayerInfo(eachPlayer.getUser().getUserId(),
 					eachPlayer.getNumber(),
@@ -1074,15 +1105,10 @@ public class Facade extends Observable {
 					eachPlayer.getColor());
 			playerInfos.add(info);
 		}
-		
+
 		return playerInfos;
 	}
 
-	public PlayerInfo getClientPlayerInfo() {
-		Player client = this.game.getPlayers().get(this.clientPlayer);
-		return new PlayerInfo(client.getUser().getUserId(), client.getNumber(), client.getUser().getName(), client.getColor());
-	}
-	
 	public PlayerNumber getLongestRoadPlayer() {
 		return this.scoreboard.getLongestRoadPlayer();
 	}
@@ -1090,4 +1116,9 @@ public class Facade extends Observable {
 	public PlayerNumber getLargestArmyPlayer() {
 		return this.scoreboard.getLargestArmyPlayer();
 	}
+
+	public int getBestMaritimeTradeRatio(PlayerNumber playerIndex, ResourceType type) {
+		return this.broker.findBestRatio(playerIndex, type);
+	}
+	
 }

@@ -1,16 +1,21 @@
 package client.discard;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import clientBackend.model.Facade;
 
 
 /**
  * Discard controller implementation
  */
-public class DiscardController extends Controller implements IDiscardController {
+public class DiscardController extends Controller implements IDiscardController, Observer {
 
 	private IWaitView waitView;
+	private Facade facade;
 	
 	/**
 	 * DiscardController constructor
@@ -23,6 +28,10 @@ public class DiscardController extends Controller implements IDiscardController 
 		super(view);
 		
 		this.waitView = waitView;
+		
+		this.facade = Facade.getInstance();
+		this.facade.addObserver(this);
+		
 	}
 
 	public IDiscardView getDiscardView() {
@@ -47,6 +56,29 @@ public class DiscardController extends Controller implements IDiscardController 
 	public void discard() {
 		
 		getDiscardView().closeModal();
+	}
+	
+	public void initFromModel() {
+		if (facade.needsToDiscardCards(facade.getClientPlayer().getPlayerIndex())) {
+			int brick = facade.getResourceCount(ResourceType.BRICK);
+			System.out.println("brick: " + brick);
+			int ore = facade.getResourceCount(ResourceType.ORE);
+			System.out.println("ore: " + ore);
+			int wheat = facade.getResourceCount(ResourceType.WHEAT);
+			System.out.println("wheat: " + wheat);
+			int sheep = facade.getResourceCount(ResourceType.SHEEP);
+			System.out.println("sheep: " + sheep);
+			int wood = facade.getResourceCount(ResourceType.WOOD);
+			System.out.println("wood: " + wood);
+			
+			this.getDiscardView().showModal();
+			
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.initFromModel();
 	}
 
 }

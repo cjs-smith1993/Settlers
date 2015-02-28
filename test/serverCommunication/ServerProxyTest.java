@@ -7,7 +7,9 @@ import java.util.Collection;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import client.data.PlayerInfo;
 import clientBackend.dataTransportObjects.DTOGame;
+import clientBackend.model.Facade;
 import clientBackend.model.ResourceInvoice;
 import serverCommunication.ServerException;
 import serverCommunication.ServerProxy;
@@ -28,6 +30,9 @@ public class ServerProxyTest {
 	public static void setUpBeforeClass() throws Exception {
 		proxy.userLogin("Pete", "pete");
 		proxy.gamesJoin(0, CatanColor.RED);
+
+		PlayerInfo clientPlayer = new PlayerInfo();
+		Facade.getInstance().setClientPlayer(clientPlayer);
 	}
 
 	@Test
@@ -96,7 +101,8 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMovesYear_of_Plenty() {
-		assertTrue(proxy.movesYear_of_Plenty(PlayerNumber.FOUR, ResourceType.BRICK, ResourceType.WOOD));
+		assertTrue(proxy.movesYear_of_Plenty(PlayerNumber.FOUR, ResourceType.BRICK,
+				ResourceType.WOOD));
 	}
 
 	@Test
@@ -156,7 +162,7 @@ public class ServerProxyTest {
 		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.FOUR, PlayerNumber.ONE);
 		invoice.setWood(1);
 		assertTrue(proxy.movesOfferTrade(invoice));
-		
+
 	}
 
 	@Test
@@ -166,7 +172,8 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMovesMaritimeTrade() {
-		assertTrue(proxy.movesMaritimeTrade(PlayerNumber.FOUR, 3, ResourceType.BRICK, ResourceType.ORE));
+		assertTrue(proxy.movesMaritimeTrade(PlayerNumber.FOUR, 3, ResourceType.BRICK,
+				ResourceType.ORE));
 	}
 
 	@Test

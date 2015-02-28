@@ -2,10 +2,11 @@ package client.join;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import shared.definitions.CatanColor;
+import shared.definitions.PlayerNumber;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
@@ -17,18 +18,19 @@ import clientBackend.model.Facade;
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController, Observer {
+public class JoinGameController extends Controller implements IJoinGameController {
 
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+
 	private Facade facade;
-	
-	//these are variables I made
-	private int localPlayerId = -1;
-	private int gameId = -1;
-	private GameInfo gameInfo;
+	private GameInfo curGame;
+	boolean isPolling = false;
+	boolean showHub = true;
+
+	private Timer timer;
 
 	/**
 	 * JoinGameController constructor
@@ -49,10 +51,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		super(view);
 
 		this.facade = Facade.getInstance();
-		this.facade.addObserver(this);
 		this.setNewGameView(newGameView);
 		this.setSelectColorView(selectColorView);
 		this.setMessageView(messageView);
+
+		this.timer = new Timer();
+
 	}
 
 	public IJoinGameView getJoinGameView() {
@@ -104,47 +108,66 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
-		JoinGameView view = (JoinGameView) super.getView();
-		Collection<DTOGame> games = this.facade.getGamesList();
-		PlayerInfo playerInfo = new PlayerInfo();
-		//setlocalPlayerId as well
-		localPlayerId = 10;
-		playerInfo.setId(localPlayerId);
-		//need to find the serverID of the player 
-		//that is what is used for the check of re-join
-		Collection<GameInfo> gameInfo = new ArrayList<GameInfo>();
+		if (!this.isPolling) {
+			this.isPolling = true;
 
-		for (DTOGame game : games) {
-			GameInfo newGame = new GameInfo();
-
-			newGame.setId(game.id);
-			newGame.setTitle(game.title);
-			for (DTOPlayer player : game.players) {
-				PlayerInfo newPlayer = new PlayerInfo();
-
-				newPlayer.setId(player.id);
-				newPlayer.setName(player.name);
-				newPlayer.setColor(player.color);
-				if (newPlayer.getName() != null) {
-					newGame.addPlayer(newPlayer);
+			this.timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					JoinGameController.this.setGamesList();
 				}
-			}
-			gameInfo.add(newGame);
+			}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}
 
-		GameInfo[] information = gameInfo.toArray(new GameInfo[0]);
-		view.setGames(information, playerInfo);
+	}
 
+	public void setGamesList() {
+		if (this.showHub == false) {
+			return;
+		}
+
+		Collection<DTOGame> gamesList = this.facade.getGamesList();
+		Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
+
+		for (DTOGame game : gamesList) {
+			GameInfo curGame = new GameInfo();
+
+			curGame.setId(game.id);
+			curGame.setTitle(game.title);
+
+			for (DTOPlayer player : game.players) {
+				if (player.id == -1) {
+					continue;
+				}
+
+				int id = player.id;
+				String name = player.name;
+				CatanColor color = player.color;
+				PlayerNumber index = PlayerNumber.BANK;
+
+				PlayerInfo curPlayer = new PlayerInfo(id, index, name, color);
+				curGame.addPlayer(curPlayer);
+			}
+			gameInfoList.add(curGame);
+		}
+
+		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
+		if (this.getJoinGameView().isModalShowing()) {
+			this.getJoinGameView().closeModal();
+		}
+		this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
 		this.getJoinGameView().showModal();
 	}
 
 	@Override
 	public void startCreateNewGame() {
+		this.showHub = false;
 		this.getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() {
+		this.showHub = true;
 		this.getNewGameView().closeModal();
 	}
 
@@ -163,7 +186,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		try {
 			this.facade.createGame(randomTiles, randomNumbers, randomPorts, gameName);
 			this.getNewGameView().closeModal();
-			this.start();
+			this.showHub = true;
+			this.setGamesList();
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
@@ -171,11 +195,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		gameId = game.getId();
-		gameInfo = game;
-		for(PlayerInfo info:game.getPlayers()) {
-			CatanColor color = info.getColor();
-			if(info.getId() != localPlayerId) {
+		this.showHub = false;
+		this.curGame = game;
+		for (PlayerInfo player : game.getPlayers()) {
+			CatanColor color = player.getColor();
+			if (player.getId() != this.facade.getClientPlayer().getId()) {
 				this.getSelectColorView().setColorEnabled(color, false);
 			}
 		}
@@ -184,25 +208,18 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void cancelJoinGame() {
-		this.getJoinGameView().closeModal();
+		this.showHub = true;
+		this.getSelectColorView().closeModal();
 	}
 
 	@Override
 	public void joinGame(CatanColor color) {
-		// If join succeeded
-		if(gameId != -1)
-			facade.joinGame(gameId, color);
-		
-		//this is a place that we could start the poller.
-		this.getSelectColorView().closeModal();
-		this.getJoinGameView().closeModal();
-		this.joinAction.execute();
+		boolean success = this.facade.joinGame(this.curGame.getId(), color);
+		if (success) {
+			this.getSelectColorView().closeModal();
+			this.getJoinGameView().closeModal();
+			this.timer.cancel();
+			this.joinAction.execute();
+		}
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

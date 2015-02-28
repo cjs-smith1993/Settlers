@@ -77,6 +77,11 @@ public class PlayerInfo
 		this.color = color;
 	}
 
+	public String toString() {
+		return "player id: " + this.id + "\nplayer index: " + this.playerIndex + "\nplayer name: " + this.name + 
+				"\nplayer color: " + this.color;
+	}
+	
 	@Override
 	public int hashCode()
 	{

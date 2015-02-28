@@ -43,7 +43,7 @@ public class PointsController extends Controller implements IPointsController, O
 
 	@Override
 	public void update(Observable o, Object arg) {
-		int score = this.facade.getPlayerScore(this.facade.getClientPlayer());
+		int score = this.facade.getPlayerScore(this.facade.getClientPlayerIndex());
 		this.getPointsView().setPoints(score);
 	}
 }

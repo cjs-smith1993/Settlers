@@ -31,8 +31,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void start() {
-		this.getView().closeModal();
-
 		int numPlayers = this.facade.getPlayers().size();
 		if (numPlayers == this.MAX_PLAYERS) {
 			return;
@@ -55,10 +53,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		boolean success = this.facade.addAI(AIType.valueOf(type));
 		if (success) {
 			int numPlayers = this.facade.getPlayers().size();
-			if (numPlayers >= this.MAX_PLAYERS) {
-				this.getView().closeModal();
-			}
-			else {
+			if (numPlayers < this.MAX_PLAYERS) {
 				this.getView().showModal();
 			}
 		}
@@ -68,5 +63,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void update(Observable o, Object arg) {
 		Collection<PlayerInfo> players = this.facade.getPlayers();
 		this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
+		if (this.getView().isModalShowing() && players.size() >= this.MAX_PLAYERS) {
+			this.getView().closeModal();
+		}
 	}
 }
