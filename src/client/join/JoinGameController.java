@@ -148,7 +148,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
 		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
-		this.getJoinGameView().closeModal();
+		if (this.getJoinGameView().isModalShowing()) {
+			this.getJoinGameView().closeModal();
+		}
 		this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
 		this.getJoinGameView().showModal();
 	}
