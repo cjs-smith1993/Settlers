@@ -4,7 +4,9 @@ import java.util.Vector;
 
 import shared.definitions.*;
 import client.base.*;
+import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
+import clientBackend.model.ResourceInvoice;
 
 
 /**
@@ -14,6 +16,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	private IMaritimeTradeOverlay tradeOverlay;
 	private Facade facade;
+	private int giveAmount = 0;
+	private ResourceType giveResource;
+	private ResourceType getResource;
 	
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
@@ -59,9 +64,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			}
 		}
 		
-		if(enabledResources.isEmpty())
-			getTradeOverlay().setTradeEnabled(false);
-		
+		getTradeOverlay().setTradeEnabled(false);
+		this.getTradeOverlay().hideGetOptions();
 		getTradeOverlay().showGiveOptions(enabledResources.toArray(enabled) );
 		
 		getTradeOverlay().showModal();
@@ -69,7 +73,59 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void makeTrade() {
-
+		PlayerNumber playerIndex = facade.getClientPlayerIndex();
+		
+		ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
+		for(ResourceType type: ResourceType.values()) {
+			if(type == giveResource) {
+				switch(type) {
+				case BRICK:
+					invoice.setBrick(giveAmount);
+					break;
+				case WOOD:
+					invoice.setWood(giveAmount);
+					break;
+				case WHEAT:
+					invoice.setWheat(giveAmount);
+					break;
+				case ORE:
+					invoice.setOre(giveAmount);
+					break;
+				case SHEEP:
+					invoice.setSheep(giveAmount);
+					break;
+				default:
+					break;
+				}
+			}
+			if(type == getResource) {
+				switch(type) {
+				case BRICK:
+					invoice.setBrick(-1);
+					break;
+				case WOOD:
+					invoice.setWood(-1);
+					break;
+				case WHEAT:
+					invoice.setWheat(-1);
+					break;
+				case ORE:
+					invoice.setOre(-1);
+					break;
+				case SHEEP:
+					invoice.setSheep(-1);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		try {
+			facade.maritimeTrade(playerIndex, giveAmount, giveResource, getResource);
+		} catch (CatanException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		getTradeOverlay().closeModal();
 	}
 
@@ -81,21 +137,55 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void setGetResource(ResourceType resource) {
+		getResource = resource;
+		this.getTradeOverlay().selectGetOption(resource, 1);
+		this.getTradeOverlay().setTradeEnabled(true);
 		System.out.printf("set get resource");
 	}
 
 	@Override
 	public void setGiveResource(ResourceType resource) {
+		giveResource = resource;
+		PlayerNumber playerIndex = facade.getClientPlayerIndex();
+		int amount = facade.getBestMaritimeTradeRatio(playerIndex, resource);
+		giveAmount = amount;
+		Vector<ResourceType> enabledResources = new Vector<ResourceType>(); 
+		ResourceType[] enabled = new ResourceType[5];
+		
+		enabledResources.add(ResourceType.BRICK);
+		enabledResources.add(ResourceType.WOOD);
+		enabledResources.add(ResourceType.WHEAT);
+		enabledResources.add(ResourceType.ORE);
+		enabledResources.add(ResourceType.SHEEP);
+		this.getTradeOverlay().showGetOptions(enabledResources.toArray(enabled));
+		
+		this.getTradeOverlay().selectGiveOption(resource, amount);
+		
 		System.out.printf("set give resource");
 	}
 
 	@Override
 	public void unsetGetValue() {
+		this.getTradeOverlay().hideGetOptions();
+		Vector<ResourceType> enabledResources = new Vector<ResourceType>(); 
+		ResourceType[] enabled = new ResourceType[5];
+		
+		enabledResources.add(ResourceType.BRICK);
+		enabledResources.add(ResourceType.WOOD);
+		enabledResources.add(ResourceType.WHEAT);
+		enabledResources.add(ResourceType.ORE);
+		enabledResources.add(ResourceType.SHEEP);
+		this.getTradeOverlay().showGetOptions(enabledResources.toArray(enabled));
+		this.getTradeOverlay().setTradeEnabled(false);
 		System.out.printf("unset get resource");
 	}
 
 	@Override
 	public void unsetGiveValue() {
+		this.getTradeOverlay().hideGiveOptions();
+		this.unsetGetValue();
+		this.startTrade();
+		//this.getTradeOverlay().setTradeEnabled(false);
 		System.out.printf("unset give resource");
 	}
 
