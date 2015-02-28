@@ -32,6 +32,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if (!this.facade.isGameReady()) {
+			return;
+		}
+
 		ITurnTrackerView view = this.getView();
 		List<PlayerInfo> players = this.facade.getPlayers();
 
@@ -48,11 +52,14 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 				}
 			}
 
-			PlayerNumber longestRoadPlayer = facade.getLongestRoadPlayer();
-			PlayerNumber largestArmyPlayer = facade.getLargestArmyPlayer();
-			
+			PlayerNumber longestRoadPlayer = this.facade.getLongestRoadPlayer();
+			PlayerNumber largestArmyPlayer = this.facade.getLargestArmyPlayer();
+
 			for (PlayerInfo p : players) {
-				view.updatePlayer(p.getPlayerIndex().getInteger(), facade.getPlayerScore(p.getPlayerIndex()), facade.isClientTurn(), largestArmyPlayer == p.getPlayerIndex(), longestRoadPlayer == p.getPlayerIndex());
+				view.updatePlayer(p.getPlayerIndex().getInteger(),
+						this.facade.getPlayerScore(p.getPlayerIndex()), this.facade.isClientTurn(),
+						largestArmyPlayer == p.getPlayerIndex(),
+						longestRoadPlayer == p.getPlayerIndex());
 			}
 		}
 	}

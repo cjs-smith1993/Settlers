@@ -7,7 +7,6 @@ import client.map.IMapView;
 import client.map.IRobView;
 import client.map.TypeConverter;
 import clientBackend.model.Board;
-import clientBackend.model.CatanException;
 import clientBackend.model.Chit;
 import clientBackend.model.Dwelling;
 import clientBackend.model.Facade;
@@ -23,9 +22,9 @@ import shared.locations.*;
 
 public class DefaultMapControllerState {
 
-	private Facade facade;
-	private IMapView view;
-	private IRobView robView;
+	protected Facade facade;
+	protected IMapView view;
+	protected IRobView robView;
 
 	public DefaultMapControllerState(Facade facade, IMapView view, IRobView robView) {
 		this.facade = facade;
@@ -34,6 +33,9 @@ public class DefaultMapControllerState {
 	}
 
 	public void initFromModel() {
+		if (!this.facade.isGameReady()) {
+			return;
+		}
 
 		Board board = this.facade.getBoard();
 
@@ -81,89 +83,54 @@ public class DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edge) {
-		System.out.println("can place road at " + edge);
-		return this.facade.canPlaceRoad(this.facade.getClientPlayerIndex(), edge, false);
+		return false;
 	}
 
 	public void placeRoad(EdgeLocation edge) {
-		System.out.println("place road at " + edge);
-		if (this.canPlaceRoad(edge)) {
-			try {
-				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, false, false);
-				this.view.placeRoad(edge, CatanColor.ORANGE);
-			} catch (CatanException e) {
-				e.printStackTrace();
-			}
-		}
+
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertex) {
-		System.out.println("can place settlement at " + vertex);
-		return this.facade.canPlaceSettlement(this.facade.getClientPlayerIndex(), vertex, false);
+		return false;
 	}
 
 	public void placeSettlement(VertexLocation vertex) {
-		System.out.println("place settlement at " + vertex);
-		if (this.canPlaceSettlement(vertex)) {
-			try {
-				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, false,
-						false);
-				this.view.placeSettlement(vertex, CatanColor.ORANGE);
-			} catch (CatanException e) {
-				e.printStackTrace();
-			}
-		}
+
 	}
 
 	public boolean canPlaceCity(VertexLocation vertex) {
-		System.out.println("can place city at " + vertex);
-		return this.facade.canPlaceCity(this.facade.getClientPlayerIndex(), vertex);
+		return false;
 	}
 
 	public void placeCity(VertexLocation vertex) {
-		System.out.println("place city at " + vertex);
-		if (this.canPlaceCity(vertex)) {
-			try {
-				this.facade.buildCity(this.facade.getClientPlayerIndex(), vertex);
-				this.view.placeCity(vertex, CatanColor.ORANGE);
-			} catch (CatanException e) {
-				e.printStackTrace();
-			}
-		}
+
 	}
 
 	public boolean canPlaceRobber(HexLocation hex) {
-		System.out.println("can place robber at " + hex);
-		return this.facade.canPlaceRobber(this.facade.getClientPlayerIndex(), hex);
+		return false;
 	}
 
 	public void placeRobber(HexLocation hex) {
-		System.out.println("place robber at " + hex);
-		if (this.canPlaceRobber(hex)) {
-			this.view.placeRobber(hex);
-			this.robView.showModal();
-		}
+
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-		System.out.println("start move of " + pieceType);
-		this.view.startDrop(pieceType, this.facade.getClientPlayer().getColor(), true);
+
 	}
 
 	public void cancelMove() {
-		System.out.println("cancel move");
-		//		this.view.
+
 	}
 
 	public void playSoldierCard() {
-		System.out.println("play soldier");
+
 	}
 
 	public void playRoadBuildingCard() {
-		System.out.println("play road building");
+
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-		System.out.println("rob " + victim);
+
 	}
 }

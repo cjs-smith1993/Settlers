@@ -39,6 +39,7 @@ public class Facade extends Observable {
 	private PlayerInfo clientPlayer;
 	private int version = 1;
 	private int resourceCardLimit = 7;
+	private boolean gameReady = false;
 
 	private Facade() {
 	}
@@ -74,8 +75,6 @@ public class Facade extends Observable {
 
 		this.finishClientSetup();
 
-		this.game.setState(CatanState.PLAYING);
-
 		this.setChanged();
 		this.notifyObservers(someValue);
 	}
@@ -92,6 +91,11 @@ public class Facade extends Observable {
 		}
 
 		return false;
+	}
+
+	private boolean inSetup() {
+		CatanState state = this.game.getState();
+		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
 	}
 
 	/*
@@ -666,7 +670,7 @@ public class Facade extends Observable {
 	 */
 	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree) throws CatanException {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.ROAD))
 				&& this.game.hasRoad(playerIndex)) {
 			return true;
@@ -705,7 +709,7 @@ public class Facade extends Observable {
 	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree)
 			throws CatanException {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.SETTLEMENT))
 				&& this.game.hasSettlement(playerIndex)) {
 			return true;
@@ -782,7 +786,7 @@ public class Facade extends Observable {
 	 */
 	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge, boolean isSetupPhase) {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& this.board.canPlaceRoad(playerIndex, edge, isSetupPhase)) {
 			return true;
 		}
@@ -801,7 +805,7 @@ public class Facade extends Observable {
 	public boolean canPlaceSettlement(PlayerNumber playerIndex, VertexLocation vertex,
 			boolean isSetupPhase) {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& this.board.canPlaceSettlement(playerIndex, vertex, isSetupPhase)) {
 			return true;
 		}
@@ -987,6 +991,10 @@ public class Facade extends Observable {
 		return this.clientPlayer.getPlayerIndex();
 	}
 
+	public CatanColor getClientPlayerColor() {
+		return this.clientPlayer.getColor();
+	}
+
 	public void setClientPlayer(PlayerInfo clientPlayer) {
 		this.clientPlayer = clientPlayer;
 	}
@@ -999,6 +1007,14 @@ public class Facade extends Observable {
 				this.clientPlayer.setColor(player.getColor());
 			}
 		}
+	}
+
+	public boolean isGameReady() {
+		return this.gameReady;
+	}
+
+	public void setGameReady(boolean ready) {
+		this.gameReady = ready;
 	}
 
 	public Board getBoard() {
@@ -1061,8 +1077,8 @@ public class Facade extends Observable {
 		return this.game.getPlayers().get(player).getColor();
 	}
 
-	public int getResourceCount(ResourceType resource) {
-		return this.broker.getResourceCardCount(this.clientPlayer.getPlayerIndex(), resource);
+	public int getResourceCount(PlayerNumber playerIndex, ResourceType resource) {
+		return this.broker.getResourceCardCount(playerIndex, resource);
 	}
 
 	public int getHoldingCount(PropertyType property) {
@@ -1120,5 +1136,14 @@ public class Facade extends Observable {
 	public int getBestMaritimeTradeRatio(PlayerNumber playerIndex, ResourceType type) {
 		return this.broker.findBestRatio(playerIndex, type);
 	}
-	
+
+	public int getNumberToDiscard(PlayerNumber playerIndex) {
+		if (this.needsToDiscardCards(playerIndex)) {
+			return this.broker.getNumberToDiscard(playerIndex);
+		}
+		else {
+			return 0;
+		}
+	}
+
 }
