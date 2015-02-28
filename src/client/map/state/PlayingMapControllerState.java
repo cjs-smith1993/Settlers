@@ -1,5 +1,6 @@
 package client.map.state;
 
+import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 import client.map.IMapView;
@@ -63,6 +64,23 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
+		System.out.println("start move of " + pieceType);
+		this.view.startDrop(pieceType, this.facade.getClientPlayer().getColor(), true);
+	}
+
+	public void cancelMove() {
+		System.out.println("cancel move");
+	}
+
+	public void playSoldierCard() {
+		System.out.println("play soldier");
+	}
+
+	public void playRoadBuildingCard() {
+		System.out.println("play road building");
 	}
 
 }

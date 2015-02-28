@@ -112,21 +112,19 @@ public class DefaultMapControllerState {
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-		System.out.println("start move of " + pieceType);
-		this.view.startDrop(pieceType, this.facade.getClientPlayer().getColor(), true);
+
 	}
 
 	public void cancelMove() {
-		System.out.println("cancel move");
-		//		this.view.
+
 	}
 
 	public void playSoldierCard() {
-		System.out.println("play soldier");
+
 	}
 
 	public void playRoadBuildingCard() {
-		System.out.println("play road building");
+
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
