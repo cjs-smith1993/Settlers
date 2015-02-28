@@ -124,7 +124,6 @@ public class Board {
 		return withinX && withinY && withinZ;
 	}
 
-	@SuppressWarnings("incomplete-switch")
 	private boolean isLand(EdgeLocation edge) {
 		HexLocation hex = edge.getNormalizedLocation().getHexLoc();
 		int x = hex.getX();
@@ -138,24 +137,33 @@ public class Board {
 			return Math.abs(x) < this.RADIUS && y > -this.RADIUS && z > -this.RADIUS;
 		case NorthEast:
 			return x < this.RADIUS && y > -this.RADIUS && Math.abs(z) < this.RADIUS;
+		default:
+			return false;
 		}
-		return false;
 	}
 
-	@SuppressWarnings("incomplete-switch")
 	private boolean isLand(VertexLocation vertex) {
 		HexLocation hex = vertex.getNormalizedLocation().getHexLoc();
 		int x = hex.getX();
 		int y = hex.getY();
 		int z = x + y;
 
+		boolean withinX = Math.abs(x) <= this.RADIUS;
+		boolean withinY = Math.abs(y) <= this.RADIUS;
+		boolean withinZ = Math.abs(z) <= this.RADIUS;
+
+		if (!withinX || !withinY || !withinZ) {
+			return false;
+		}
+
 		switch (vertex.getNormalizedLocation().getDir()) {
 		case NorthWest:
 			return x > -this.RADIUS && y > -this.RADIUS && z > -this.RADIUS;
 		case NorthEast:
 			return x < this.RADIUS && y > -this.RADIUS && z > -this.RADIUS;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	public Map<Integer, Collection<Chit>> getChits() {
