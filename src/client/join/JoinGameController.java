@@ -27,6 +27,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	private Facade facade;
 	private GameInfo curGame;
+	private Collection<GameInfo> curGames;
 	boolean isPolling = false;
 	boolean showHub = true;
 
@@ -108,13 +109,15 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
+		this.getJoinGameView().showModal();
+
 		if (!this.isPolling) {
 			this.isPolling = true;
 
 			this.timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					JoinGameController.this.setGamesList();
+					JoinGameController.this.update();
 				}
 			}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}
@@ -122,10 +125,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 	public void setGamesList() {
-		if (this.showHub == false) {
-			return;
-		}
-
 		Collection<DTOGame> gamesList = this.facade.getGamesList();
 		Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
 
@@ -151,12 +150,18 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			gameInfoList.add(curGame);
 		}
 
+		this.setCurGames(gameInfoList);
+
+		if (!this.showHub) {
+			return;
+		}
+		
 		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
 		if (this.getJoinGameView().isModalShowing()) {
 			this.getJoinGameView().closeModal();
+			this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
+			this.getJoinGameView().showModal();
 		}
-		this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
-		this.getJoinGameView().showModal();
 	}
 
 	@Override
@@ -197,13 +202,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startJoinGame(GameInfo game) {
 		this.showHub = false;
 		this.curGame = game;
+		this.getSelectColorView().showModal();
+	}
+
+	public void disableTakenColors(GameInfo game) {
 		for (PlayerInfo player : game.getPlayers()) {
 			CatanColor color = player.getColor();
 			if (player.getId() != this.facade.getClientPlayer().getId()) {
 				this.getSelectColorView().setColorEnabled(color, false);
 			}
 		}
-		this.getSelectColorView().showModal();
 	}
 
 	@Override
@@ -220,6 +228,27 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			this.getJoinGameView().closeModal();
 			this.timer.cancel();
 			this.joinAction.execute();
+		}
+	}
+
+	public Collection<GameInfo> getCurGames() {
+		return this.curGames;
+	}
+
+	public void setCurGames(Collection<GameInfo> curGames) {
+		this.curGames = curGames;
+	}
+
+	public void update() {
+		this.setGamesList();
+		if (this.getSelectColorView().isModalShowing()) {
+			this.getSelectColorView().closeModal();
+			for (GameInfo game : this.curGames) {
+				if (game.getId() == this.curGame.getId()) {
+					this.disableTakenColors(game);
+				}
+			}
+			this.getSelectColorView().showModal();
 		}
 	}
 }
