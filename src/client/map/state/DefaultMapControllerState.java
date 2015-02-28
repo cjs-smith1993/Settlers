@@ -108,11 +108,7 @@ public class DefaultMapControllerState {
 	}
 
 	public void placeRobber(HexLocation hex) {
-		System.out.println("place robber at " + hex);
-		if (this.canPlaceRobber(hex)) {
-			this.view.placeRobber(hex);
-			this.robView.showModal();
-		}
+
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
@@ -134,6 +130,6 @@ public class DefaultMapControllerState {
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-		System.out.println("rob " + victim);
+
 	}
 }
