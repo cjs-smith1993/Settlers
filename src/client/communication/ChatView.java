@@ -62,6 +62,9 @@ public class ChatView extends PanelView implements IChatView {
         constraints.insets = new Insets(5, 0, 5, 0);
         inputPanel.add(chatTextInput, constraints);
         
+        // Set scroll speed of panel.
+        chatScrollPane.getVerticalScrollBar().setUnitIncrement(30);
+        
         setLayout(new BorderLayout());
         add(chatScrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.PAGE_END);
