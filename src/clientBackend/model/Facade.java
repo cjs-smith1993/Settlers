@@ -1116,4 +1116,9 @@ public class Facade extends Observable {
 	public PlayerNumber getLargestArmyPlayer() {
 		return this.scoreboard.getLargestArmyPlayer();
 	}
+
+	public int getBestMaritimeTradeRatio(PlayerNumber playerIndex, ResourceType type) {
+		return this.broker.findBestRatio(playerIndex, type);
+	}
+	
 }
