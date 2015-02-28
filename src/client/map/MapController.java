@@ -7,13 +7,7 @@ import shared.locations.*;
 import client.base.*;
 import client.data.*;
 import client.map.state.*;
-import clientBackend.model.Board;
-import clientBackend.model.Chit;
-import clientBackend.model.Dwelling;
 import clientBackend.model.Facade;
-import clientBackend.model.Harbor;
-import clientBackend.model.Road;
-import clientBackend.model.Tile;
 
 /**
  * Implementation for the map controller
@@ -32,7 +26,7 @@ public class MapController extends Controller implements IMapController, Observe
 		this.facade = Facade.getInstance();
 		this.facade.addObserver(this);
 
-		this.state = new DefaultMapControllerState();
+		this.setState();
 	}
 
 	public IMapView getView() {
@@ -49,116 +43,87 @@ public class MapController extends Controller implements IMapController, Observe
 
 	protected void initFromModel() {
 		this.state.initFromModel();
-
-		Board board = this.facade.getBoard();
-
-		// setup tiles
-		for (Tile tile : board.getTiles().values()) {
-			HexLocation location = tile.getLocation();
-			HexType type = TypeConverter.toHexType(tile.getResourceType());
-			this.getView().addHex(location, type);
-		}
-
-		// setup chits
-		for (Collection<Chit> collection : board.getChits().values()) {
-			for (Chit chit : collection) {
-				this.getView().addNumber(chit.getLocation(), chit.getNumber());
-			}
-		}
-
-		// setup harbors
-		for (Harbor harbor : board.getHarbors()) {
-			VertexLocation[] ports = harbor.getPorts().toArray(new VertexLocation[0]);
-			EdgeLocation edge = Geometer.getSharedEdge(ports[0], ports[1]);
-			PortType type = TypeConverter.toPortType(harbor.getResource());
-			this.getView().addPort(edge, type);
-		}
-
-		// setup roads
-		for (Road road : board.getRoads().values()) {
-			CatanColor color = this.facade.getPlayerColor(road.getOwner());
-			this.getView().placeRoad(road.getLocation(), color);
-		}
-
-		// setup dwellings
-		for (Dwelling dwelling : board.getDwellings().values()) {
-			CatanColor color = this.facade.getPlayerColor(dwelling.getOwner());
-			if (dwelling.getPropertyType() == PropertyType.SETTLEMENT) {
-				this.getView().placeSettlement(dwelling.getLocation(), color);
-			}
-			else {
-				this.getView().placeCity(dwelling.getLocation(), color);
-			}
-		}
-
-		// setup robber
-		this.getView().placeRobber(board.getRobberLocation());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		System.out.println("can place road at " + edgeLoc);
-		return true;
+		return this.state.canPlaceRoad(edgeLoc);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		System.out.println("can place settlement at " + vertLoc);
-		return true;
+		return this.state.canPlaceSettlement(vertLoc);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		System.out.println("can place city at " + vertLoc);
-		return true;
+		return this.state.canPlaceCity(vertLoc);
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		System.out.println("can place robber at " + hexLoc);
-		return true;
+		return this.state.canPlaceRobber(hexLoc);
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
-		System.out.println("place road at " + edgeLoc);
-		this.getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		this.state.placeRoad(edgeLoc);
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
-		System.out.println("place settlement at " + vertLoc);
-		this.getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		this.state.placeSettlement(vertLoc);
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
-		System.out.println("place city at " + vertLoc);
-		this.getView().placeCity(vertLoc, CatanColor.ORANGE);
+		this.state.placeCity(vertLoc);
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-		System.out.println("place robber at " + hexLoc);
-		this.getView().placeRobber(hexLoc);
-		this.getRobView().showModal();
+		this.state.placeRobber(hexLoc);
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-		System.out.println("start move of " + pieceType);
-		this.getView().startDrop(pieceType, CatanColor.ORANGE, true);
+		this.state.startMove(pieceType, isFree, allowDisconnected);
 	}
 
 	public void cancelMove() {
-		System.out.println("cancel move");
+		this.state.cancelMove();
 	}
 
 	public void playSoldierCard() {
-		System.out.println("play soldier");
+		this.state.playSoldierCard();
 	}
 
 	public void playRoadBuildingCard() {
-		System.out.println("play road building");
+		this.state.playRoadBuildingCard();
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-		System.out.println("rob " + victim);
+		this.state.robPlayer(victim);
+	}
+
+	public void setState() {
+		IMapView view = this.getView();
+		IRobView robView = this.getRobView();
+
+		CatanState state = this.facade.getModelState();
+
+		switch (state) {
+		case FIRST_ROUND:
+		case SECOND_ROUND:
+			this.state = new SetupMapControllerState(this.facade, view, robView);
+			break;
+		case PLAYING:
+			this.state = new PlayingMapControllerState(this.facade, view, robView);
+			break;
+		case ROBBING:
+			this.state = new RobbingMapControllerState(this.facade, view, robView);
+			break;
+		case ROLLING:
+		case DISCARDING:
+		default:
+			this.state = new DefaultMapControllerState(this.facade, view, robView);
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		this.setState();
 		this.initFromModel();
 	}
 }
