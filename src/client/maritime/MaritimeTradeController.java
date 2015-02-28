@@ -58,7 +58,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 				break;
 			default:
 				bestRatio = facade.getBestMaritimeTradeRatio(playerIndex, type);
-				if(facade.getResourceCount(type) >= bestRatio) 
+				if(facade.getResourceCount(playerIndex, type) >= bestRatio) 
 					enabledResources.add(type);
 				break;
 			}
