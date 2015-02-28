@@ -23,9 +23,9 @@ import shared.locations.*;
 
 public class DefaultMapControllerState {
 
-	private Facade facade;
-	private IMapView view;
-	private IRobView robView;
+	protected Facade facade;
+	protected IMapView view;
+	protected IRobView robView;
 
 	public DefaultMapControllerState(Facade facade, IMapView view, IRobView robView) {
 		this.facade = facade;
@@ -81,8 +81,7 @@ public class DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edge) {
-		System.out.println("can place road at " + edge);
-		return this.facade.canPlaceRoad(this.facade.getClientPlayerIndex(), edge, false);
+		return false;
 	}
 
 	public void placeRoad(EdgeLocation edge) {
@@ -98,8 +97,7 @@ public class DefaultMapControllerState {
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertex) {
-		System.out.println("can place settlement at " + vertex);
-		return this.facade.canPlaceSettlement(this.facade.getClientPlayerIndex(), vertex, false);
+		return false;
 	}
 
 	public void placeSettlement(VertexLocation vertex) {
@@ -116,8 +114,7 @@ public class DefaultMapControllerState {
 	}
 
 	public boolean canPlaceCity(VertexLocation vertex) {
-		System.out.println("can place city at " + vertex);
-		return this.facade.canPlaceCity(this.facade.getClientPlayerIndex(), vertex);
+		return false;
 	}
 
 	public void placeCity(VertexLocation vertex) {
@@ -133,8 +130,7 @@ public class DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRobber(HexLocation hex) {
-		System.out.println("can place robber at " + hex);
-		return this.facade.canPlaceRobber(this.facade.getClientPlayerIndex(), hex);
+		return false;
 	}
 
 	public void placeRobber(HexLocation hex) {
