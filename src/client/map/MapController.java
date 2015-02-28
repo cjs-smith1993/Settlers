@@ -26,7 +26,7 @@ public class MapController extends Controller implements IMapController, Observe
 		this.facade = Facade.getInstance();
 		this.facade.addObserver(this);
 
-		this.state = new DefaultMapControllerState(this.facade, this.getView(), this.getRobView());
+		this.setState();
 	}
 
 	public IMapView getView() {
@@ -97,8 +97,33 @@ public class MapController extends Controller implements IMapController, Observe
 		this.state.robPlayer(victim);
 	}
 
+	public void setState() {
+		IMapView view = this.getView();
+		IRobView robView = this.getRobView();
+
+		CatanState state = this.facade.getModelState();
+
+		switch (state) {
+		case FIRST_ROUND:
+		case SECOND_ROUND:
+			this.state = new SetupMapControllerState(this.facade, view, robView);
+			break;
+		case PLAYING:
+			this.state = new PlayingMapControllerState(this.facade, view, robView);
+			break;
+		case ROBBING:
+			this.state = new RobbingMapControllerState(this.facade, view, robView);
+			break;
+		case ROLLING:
+		case DISCARDING:
+		default:
+			this.state = new DefaultMapControllerState(this.facade, view, robView);
+		}
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
+		this.setState();
 		this.initFromModel();
 	}
 }

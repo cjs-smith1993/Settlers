@@ -74,6 +74,8 @@ public class Facade extends Observable {
 
 		this.finishClientSetup();
 
+		this.game.setState(CatanState.PLAYING);
+
 		this.setChanged();
 		this.notifyObservers(someValue);
 	}
@@ -1082,6 +1084,9 @@ public class Facade extends Observable {
 	}
 
 	public CatanState getModelState() {
+		if (this.game == null) {
+			return CatanState.PLAYING;
+		}
 		return this.game.getState();
 	}
 
