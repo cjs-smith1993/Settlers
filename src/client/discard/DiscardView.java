@@ -244,8 +244,11 @@ public class DiscardView extends OverlayView implements IDiscardView
 	@Override
 	public void setResourceDiscardAmount(ResourceType resource, int amount)
 	{
-		resources.get(resource).setDiscardAmount(amount);
-		this.update();
+		Resource res = resources.get(resource);
+		if (res != null) {
+			resources.get(resource).setDiscardAmount(amount);
+			this.update();
+		}
 	}
 	
 	/**
@@ -259,9 +262,11 @@ public class DiscardView extends OverlayView implements IDiscardView
 	@Override
 	public void setResourceMaxAmount(ResourceType resource, int maxAmount)
 	{   
-
-		resources.get(resource).setMaxAmount(maxAmount);
-		this.update();
+		Resource res = resources.get(resource);
+		if (res != null) {
+			res.setMaxAmount(maxAmount);
+			this.update();
+		}
 	}
 	
 	/**
@@ -285,9 +290,12 @@ public class DiscardView extends OverlayView implements IDiscardView
 											   boolean increase,
 											   boolean decrease)
 	{   
-		resources.get(resource).setIncrease(increase);
-		resources.get(resource).setDecrease(decrease);
-		this.update();
+		Resource res = resources.get(resource);
+		if (res != null) {
+			res.setIncrease(increase);
+			resources.get(resource).setDecrease(decrease);
+			this.update();
+		}
 	}
 	
 	/**

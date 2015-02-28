@@ -1,5 +1,7 @@
 package client.map.state;
 
+import shared.definitions.CatanState;
+import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 import client.map.IMapView;
@@ -11,6 +13,17 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 
 	public SetupMapControllerState(Facade facade, IMapView view, IRobView robView) {
 		super(facade, view, robView);
+	}
+
+	public void initFromModel() {
+		super.initFromModel();
+
+		if (this.facade.isGameReady()) {
+			CatanState state = this.facade.getModelState();
+			PieceType type = PieceType.SETTLEMENT;
+			this.view.startDrop(type, this.facade.getClientPlayerColor(), false);
+		}
+
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edge) {

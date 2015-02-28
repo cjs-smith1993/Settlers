@@ -39,6 +39,7 @@ public class Facade extends Observable {
 	private PlayerInfo clientPlayer;
 	private int version = 1;
 	private int resourceCardLimit = 7;
+	private boolean gameReady = false;
 
 	private Facade() {
 	}
@@ -1006,6 +1007,14 @@ public class Facade extends Observable {
 				this.clientPlayer.setColor(player.getColor());
 			}
 		}
+	}
+
+	public boolean isGameReady() {
+		return this.gameReady;
+	}
+
+	public void setGameReady(boolean ready) {
+		this.gameReady = ready;
 	}
 
 	public Board getBoard() {
