@@ -29,7 +29,8 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 	public void initFromModel() {
 		super.initFromModel();
 
-		if (!this.controller.isModalShowing() && this.facade.isGameReady()) {
+		if (!this.controller.isModalShowing() && this.facade.isGameReady()
+				&& this.facade.isClientTurn()) {
 			this.startMove(PieceType.ROBBER, false, false);
 		}
 	}

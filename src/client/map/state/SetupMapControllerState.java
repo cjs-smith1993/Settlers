@@ -24,7 +24,8 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 	public void initFromModel() {
 		super.initFromModel();
 
-		if (!this.controller.isModalShowing() && this.facade.isGameReady()) {
+		if (!this.controller.isModalShowing() && this.facade.isGameReady()
+				&& this.facade.isClientTurn()) {
 			int maxSettlements = 5;
 			int remainingSettlements = this.facade.getHoldingCount(PropertyType.SETTLEMENT);
 			int numSettlements = maxSettlements - remainingSettlements;
