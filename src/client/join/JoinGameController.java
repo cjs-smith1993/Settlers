@@ -29,6 +29,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private GameInfo curGame;
 	boolean isPolling = false;
 	boolean showHub = true;
+	
+	private Timer timer;
 
 	/**
 	 * JoinGameController constructor
@@ -52,6 +54,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.setNewGameView(newGameView);
 		this.setSelectColorView(selectColorView);
 		this.setMessageView(messageView);
+		
+		timer = new Timer();
 	}
 
 	public IJoinGameView getJoinGameView() {
@@ -106,7 +110,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if (!this.isPolling) {
 			this.isPolling = true;
 
-			new Timer().schedule(new TimerTask() {
+			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
 					JoinGameController.this.setGamesList();
@@ -214,6 +218,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if (success) {
 			this.getSelectColorView().closeModal();
 			this.getJoinGameView().closeModal();
+			timer.cancel();
 			this.joinAction.execute();
 		}
 	}
