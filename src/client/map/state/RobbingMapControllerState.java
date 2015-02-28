@@ -13,12 +13,10 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRobber(HexLocation hex) {
-		System.out.println("can place robber at " + hex);
 		return this.facade.canPlaceRobber(this.facade.getClientPlayerIndex(), hex);
 	}
 
 	public void placeRobber(HexLocation hex) {
-		System.out.println("place robber at " + hex);
 		if (this.canPlaceRobber(hex)) {
 			this.view.placeRobber(hex);
 			this.robView.showModal();
@@ -26,6 +24,6 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-		System.out.println("rob " + victim);
+
 	}
 }

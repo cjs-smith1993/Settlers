@@ -33,6 +33,9 @@ public class DefaultMapControllerState {
 	}
 
 	public void initFromModel() {
+		if (!this.facade.isGameReady()) {
+			return;
+		}
 
 		Board board = this.facade.getBoard();
 

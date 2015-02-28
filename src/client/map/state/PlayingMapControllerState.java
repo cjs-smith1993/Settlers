@@ -15,16 +15,14 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edge) {
-		System.out.println("can place road at " + edge);
 		return this.facade.canPlaceRoad(this.facade.getClientPlayerIndex(), edge, false);
 	}
 
 	public void placeRoad(EdgeLocation edge) {
-		System.out.println("place road at " + edge);
 		if (this.canPlaceRoad(edge)) {
 			try {
 				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, false, false);
-				this.view.placeRoad(edge, this.facade.getClientPlayer().getColor());
+				this.view.placeRoad(edge, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -32,17 +30,15 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertex) {
-		System.out.println("can place settlement at " + vertex);
 		return this.facade.canPlaceSettlement(this.facade.getClientPlayerIndex(), vertex, false);
 	}
 
 	public void placeSettlement(VertexLocation vertex) {
-		System.out.println("place settlement at " + vertex);
 		if (this.canPlaceSettlement(vertex)) {
 			try {
 				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, false,
 						false);
-				this.view.placeSettlement(vertex, this.facade.getClientPlayer().getColor());
+				this.view.placeSettlement(vertex, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -50,16 +46,14 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceCity(VertexLocation vertex) {
-		System.out.println("can place city at " + vertex);
 		return this.facade.canPlaceCity(this.facade.getClientPlayerIndex(), vertex);
 	}
 
 	public void placeCity(VertexLocation vertex) {
-		System.out.println("place city at " + vertex);
 		if (this.canPlaceCity(vertex)) {
 			try {
 				this.facade.buildCity(this.facade.getClientPlayerIndex(), vertex);
-				this.view.placeCity(vertex, this.facade.getClientPlayer().getColor());
+				this.view.placeCity(vertex, this.facade.getClientPlayerColor());
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -67,8 +61,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-		System.out.println("start move of " + pieceType);
-		this.view.startDrop(pieceType, this.facade.getClientPlayer().getColor(), true);
+		this.view.startDrop(pieceType, this.facade.getClientPlayerColor(), true);
 	}
 
 	public void cancelMove() {
