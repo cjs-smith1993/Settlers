@@ -48,8 +48,12 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 				}
 			}
 
-			//			PlayerNumber player = facade.getLongestRoadPlayer();
-			//			PlayerNumber largestArmyPlayer = facade.getLargestArmyPlayer();
+			PlayerNumber longestRoadPlayer = facade.getLongestRoadPlayer();
+			PlayerNumber largestArmyPlayer = facade.getLargestArmyPlayer();
+			
+			for (PlayerInfo p : players) {
+				view.updatePlayer(p.getPlayerIndex().getInteger(), facade.getPlayerScore(p.getPlayerIndex()), facade.isClientTurn(), largestArmyPlayer == p.getPlayerIndex(), longestRoadPlayer == p.getPlayerIndex());
+			}
 		}
 	}
 }

@@ -38,6 +38,7 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		this.setBorder(BorderFactory.createEmptyBorder(3,3,3,3)); 
 		
 		playerPanel = new JPanel[NUM_PLAYERS];
+		
 		for(int i = 0; i < NUM_PLAYERS; i++)
 		{
 			playerPanel[i] = new JPanel();
