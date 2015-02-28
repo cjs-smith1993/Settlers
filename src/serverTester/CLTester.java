@@ -30,7 +30,7 @@ public class CLTester implements Runnable {
 	private Scanner scanner = new Scanner(System.in);
 	private ServerProxy proxy = ServerProxy.getInstance();
 	private CatanSerializer serializer = CatanSerializer.getInstance();
-	private boolean isPrintOn = true;
+	private boolean isPrintOn = false;
 	
 	public CLTester(ServerProxy proxy) {
 		this.proxy = proxy;
