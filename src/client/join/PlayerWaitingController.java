@@ -73,6 +73,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
 		if (this.getView().isModalShowing() && players.size() >= this.MAX_PLAYERS) {
 			this.getView().closeModal();
+			this.finish();
 		}
 	}
 }
