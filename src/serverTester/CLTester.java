@@ -30,6 +30,7 @@ public class CLTester implements Runnable {
 	private Scanner scanner = new Scanner(System.in);
 	private ServerProxy proxy = ServerProxy.getInstance();
 	private CatanSerializer serializer = CatanSerializer.getInstance();
+	private boolean isPrintOn = true;
 	
 	public CLTester(ServerProxy proxy) {
 		this.proxy = proxy;
@@ -133,6 +134,12 @@ public class CLTester implements Runnable {
 					movesDiscardCards();
 					getModel();
 					break;
+				case "print.off":
+					printOff();
+					break;
+				case "print.on":
+					printOn();
+					break;
 				default:
 					println("Method code not recognized, please try again");
 				}
@@ -153,11 +160,15 @@ public class CLTester implements Runnable {
 	private void help() {
 		printDiv();
 		println("Welcome to Help. Here are the available methods:");
+		println("-----");
 		println("NOTES");
+		println("-----");
+		println("PRINT: To turn print off use: \"print.off\". Turn on is \"print.on\"");
 		println("PLAYERNUMBER: Enter as a number, -1 to 3.");
 		println("RESOURCES: Enter resources as \"wood\", \"sheep\", etc...");
 		println("DIRECTION: Enter directions as \"NE\", \"NW\"");
 		println("FORMAT: \"method.name\" (params) -- Description\n");
+		println("-----");
 		println("\t\"help\" (none) -- Shows method data and parameters.");
 		println("\t\"model\" (none) -- Gets the current model's JSON.");
 		println("\t\"games.list\" (none) -- List all games.");
@@ -581,6 +592,14 @@ public class CLTester implements Runnable {
 			}
 		}
 	}
+	
+	private void printOff() {
+		isPrintOn = false;
+	}
+	
+	private void printOn() {
+		isPrintOn = true;
+	}
 
 	/*
 	 * HELPER METHODS
@@ -588,7 +607,11 @@ public class CLTester implements Runnable {
 	private void ctcb(String message) {
 		printDiv();
 		println("Data saved to clipboard!");
-		println(message);
+		
+		if (isPrintOn) {
+			println(message);
+		}
+		
 		printDiv();
 		
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
