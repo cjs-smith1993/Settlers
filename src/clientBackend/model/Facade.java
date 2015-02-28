@@ -1061,8 +1061,8 @@ public class Facade extends Observable {
 		return this.game.getPlayers().get(player).getColor();
 	}
 
-	public int getResourceCount(ResourceType resource) {
-		return this.broker.getResourceCardCount(this.clientPlayer.getPlayerIndex(), resource);
+	public int getResourceCount(PlayerNumber playerIndex, ResourceType resource) {
+		return this.broker.getResourceCardCount(playerIndex, resource);
 	}
 
 	public int getHoldingCount(PropertyType property) {

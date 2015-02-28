@@ -2,6 +2,7 @@ package client.resources;
 
 import java.util.*;
 
+import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import client.base.*;
@@ -107,11 +108,12 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	}
 	
 	private void setResourceCount(IResourceBarView view) {
-		view.setElementAmount(ResourceBarElement.BRICK, facade.getResourceCount(ResourceType.BRICK));
-		view.setElementAmount(ResourceBarElement.ORE, facade.getResourceCount(ResourceType.ORE));
-		view.setElementAmount(ResourceBarElement.SHEEP, facade.getResourceCount(ResourceType.SHEEP));
-		view.setElementAmount(ResourceBarElement.WHEAT, facade.getResourceCount(ResourceType.WHEAT));
-		view.setElementAmount(ResourceBarElement.WOOD, facade.getResourceCount(ResourceType.WOOD));
+		PlayerNumber clientNumber = this.facade.getClientPlayerIndex();
+		view.setElementAmount(ResourceBarElement.BRICK, facade.getResourceCount(clientNumber, ResourceType.BRICK));
+		view.setElementAmount(ResourceBarElement.ORE, facade.getResourceCount(clientNumber, ResourceType.ORE));
+		view.setElementAmount(ResourceBarElement.SHEEP, facade.getResourceCount(clientNumber, ResourceType.SHEEP));
+		view.setElementAmount(ResourceBarElement.WHEAT, facade.getResourceCount(clientNumber, ResourceType.WHEAT));
+		view.setElementAmount(ResourceBarElement.WOOD, facade.getResourceCount(clientNumber, ResourceType.WOOD));
 	}
 	
 	private void setEnabledState(int roadCount, int settlementCount, int cityCount) {
