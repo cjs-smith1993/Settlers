@@ -514,4 +514,9 @@ public class Broker {
 	public int getResourceCardCount(PlayerNumber player, ResourceType resource) {
 		return this.getHoldings().get(player).getResourceCardCount(resource);
 	}
+
+	public int getNumberToDiscard(PlayerNumber playerIndex) {
+		int numberOfCards = this.holdings.get(playerIndex).getResourceCardCount(ResourceType.ALL); 
+		return ((numberOfCards > 7) ? (numberOfCards / 2) : 0);
+	}
 }

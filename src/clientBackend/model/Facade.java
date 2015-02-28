@@ -1121,4 +1121,12 @@ public class Facade extends Observable {
 		return this.broker.findBestRatio(playerIndex, type);
 	}
 	
+	public int getNumberToDiscard(PlayerNumber playerIndex) {
+		if (this.needsToDiscardCards(playerIndex)) {
+			return this.broker.getNumberToDiscard(playerIndex);
+		}
+		else {
+			return 0;
+		}
+	}
 }
