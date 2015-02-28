@@ -74,8 +74,6 @@ public class Facade extends Observable {
 
 		this.finishClientSetup();
 
-		this.game.setState(CatanState.PLAYING);
-
 		this.setChanged();
 		this.notifyObservers(someValue);
 	}
@@ -92,6 +90,11 @@ public class Facade extends Observable {
 		}
 
 		return false;
+	}
+
+	private boolean inSetup() {
+		CatanState state = this.game.getState();
+		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
 	}
 
 	/*
@@ -666,7 +669,7 @@ public class Facade extends Observable {
 	 */
 	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree) throws CatanException {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.ROAD))
 				&& this.game.hasRoad(playerIndex)) {
 			return true;
@@ -705,7 +708,7 @@ public class Facade extends Observable {
 	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree)
 			throws CatanException {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& (isFree || this.broker.canPurchase(playerIndex, PropertyType.SETTLEMENT))
 				&& this.game.hasSettlement(playerIndex)) {
 			return true;
@@ -782,7 +785,7 @@ public class Facade extends Observable {
 	 */
 	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge, boolean isSetupPhase) {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& this.board.canPlaceRoad(playerIndex, edge, isSetupPhase)) {
 			return true;
 		}
@@ -801,7 +804,7 @@ public class Facade extends Observable {
 	public boolean canPlaceSettlement(PlayerNumber playerIndex, VertexLocation vertex,
 			boolean isSetupPhase) {
 
-		if (this.isPlaying(playerIndex)
+		if ((this.isPlaying(playerIndex) || this.inSetup())
 				&& this.board.canPlaceSettlement(playerIndex, vertex, isSetupPhase)) {
 			return true;
 		}
@@ -1120,7 +1123,7 @@ public class Facade extends Observable {
 	public int getBestMaritimeTradeRatio(PlayerNumber playerIndex, ResourceType type) {
 		return this.broker.findBestRatio(playerIndex, type);
 	}
-	
+
 	public int getNumberToDiscard(PlayerNumber playerIndex) {
 		if (this.needsToDiscardCards(playerIndex)) {
 			return this.broker.getNumberToDiscard(playerIndex);
@@ -1129,4 +1132,5 @@ public class Facade extends Observable {
 			return 0;
 		}
 	}
+
 }

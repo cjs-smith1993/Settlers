@@ -101,7 +101,6 @@ public class MapController extends Controller implements IMapController, Observe
 		IMapView view = this.getView();
 		IRobView robView = this.getRobView();
 
-		System.out.println(this.facade.getModelState());
 		CatanState state = this.facade.getModelState();
 
 		switch (state) {

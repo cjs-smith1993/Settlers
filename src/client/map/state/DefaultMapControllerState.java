@@ -7,7 +7,6 @@ import client.map.IMapView;
 import client.map.IRobView;
 import client.map.TypeConverter;
 import clientBackend.model.Board;
-import clientBackend.model.CatanException;
 import clientBackend.model.Chit;
 import clientBackend.model.Dwelling;
 import clientBackend.model.Facade;
@@ -85,15 +84,7 @@ public class DefaultMapControllerState {
 	}
 
 	public void placeRoad(EdgeLocation edge) {
-		System.out.println("place road at " + edge);
-		if (this.canPlaceRoad(edge)) {
-			try {
-				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, false, false);
-				this.view.placeRoad(edge, CatanColor.ORANGE);
-			} catch (CatanException e) {
-				e.printStackTrace();
-			}
-		}
+
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertex) {
@@ -101,16 +92,7 @@ public class DefaultMapControllerState {
 	}
 
 	public void placeSettlement(VertexLocation vertex) {
-		System.out.println("place settlement at " + vertex);
-		if (this.canPlaceSettlement(vertex)) {
-			try {
-				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, false,
-						false);
-				this.view.placeSettlement(vertex, CatanColor.ORANGE);
-			} catch (CatanException e) {
-				e.printStackTrace();
-			}
-		}
+
 	}
 
 	public boolean canPlaceCity(VertexLocation vertex) {
@@ -118,15 +100,7 @@ public class DefaultMapControllerState {
 	}
 
 	public void placeCity(VertexLocation vertex) {
-		System.out.println("place city at " + vertex);
-		if (this.canPlaceCity(vertex)) {
-			try {
-				this.facade.buildCity(this.facade.getClientPlayerIndex(), vertex);
-				this.view.placeCity(vertex, CatanColor.ORANGE);
-			} catch (CatanException e) {
-				e.printStackTrace();
-			}
-		}
+
 	}
 
 	public boolean canPlaceRobber(HexLocation hex) {
@@ -134,32 +108,26 @@ public class DefaultMapControllerState {
 	}
 
 	public void placeRobber(HexLocation hex) {
-		System.out.println("place robber at " + hex);
-		if (this.canPlaceRobber(hex)) {
-			this.view.placeRobber(hex);
-			this.robView.showModal();
-		}
+
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-		System.out.println("start move of " + pieceType);
-		this.view.startDrop(pieceType, this.facade.getClientPlayer().getColor(), true);
+
 	}
 
 	public void cancelMove() {
-		System.out.println("cancel move");
-		//		this.view.
+
 	}
 
 	public void playSoldierCard() {
-		System.out.println("play soldier");
+
 	}
 
 	public void playRoadBuildingCard() {
-		System.out.println("play road building");
+
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-		System.out.println("rob " + victim);
+
 	}
 }
