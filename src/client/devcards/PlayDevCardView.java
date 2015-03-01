@@ -11,6 +11,8 @@ import javax.swing.event.ChangeListener;
 import shared.definitions.*;
 import client.base.*;
 import client.utils.*;
+import clientBackend.model.CatanException;
+import clientBackend.model.Facade;
 
 import java.util.*;
 
@@ -18,7 +20,7 @@ import java.util.*;
  * "Play dev card" view implementation
  */
 @SuppressWarnings("serial")
-public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
+public class PlayDevCardView extends OverlayView implements IPlayDevCardView, Observer {
 	
 	private final int LABEL_TEXT_SIZE = 40;
 	private final int BUTTON_TEXT_SIZE = 20;
@@ -30,10 +32,64 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 	private DevelopmentCardChooser devCards;
 	private ResourceCardChooser resCard1;
 	private ResourceCardChooser resCard2;
+	
+	private Facade facade = Facade.getInstance();
 
 	// Action buttons
 	private JButton useButton;
 	private JButton cancelButton;
+	
+	/*
+	 * Observer Update() method.
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		PlayerNumber player = facade.getClientPlayerIndex();
+		
+		int soldier = 0;
+		int yearOfPlenty = 0;
+		int monopoly = 0;
+		int road = 0;
+		int monument = 0;
+		
+		try {
+			soldier = facade.getDevelopmentCardCount(player, DevCardType.SOLDIER);
+			yearOfPlenty = facade.getDevelopmentCardCount(player, DevCardType.YEAR_OF_PLENTY);
+			monopoly = facade.getDevelopmentCardCount(player, DevCardType.MONOPOLY);
+			road = facade.getDevelopmentCardCount(player, DevCardType.ROAD_BUILD);
+			monument = facade.getDevelopmentCardCount(player, DevCardType.MONUMENT);
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
+		
+		setCardAmount(DevCardType.SOLDIER, soldier);
+		setCardAmount(DevCardType.YEAR_OF_PLENTY, yearOfPlenty);
+		setCardAmount(DevCardType.MONOPOLY, monopoly);
+		setCardAmount(DevCardType.ROAD_BUILD, road);
+		setCardAmount(DevCardType.MONUMENT, monument);
+		
+		boolean canPlaySoldier = false;
+		boolean canPlayYearOfPlenty = false;
+		boolean canPlayMonopoly = false;
+		boolean canPlayRoad = false;
+		boolean canPlayMonument = false;
+
+		try {
+			canPlaySoldier = facade.canPlayDevelopmentCard(player, DevCardType.SOLDIER);
+			canPlayYearOfPlenty = facade.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY);
+			canPlayMonopoly = facade.canPlayDevelopmentCard(player, DevCardType.MONOPOLY);
+			canPlayRoad = facade.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD);
+			canPlayMonument = facade.canPlayDevelopmentCard(player, DevCardType.MONUMENT);
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
+		
+		setCardEnabled(DevCardType.SOLDIER, canPlaySoldier);
+		setCardEnabled(DevCardType.YEAR_OF_PLENTY, canPlayYearOfPlenty);
+		setCardEnabled(DevCardType.MONOPOLY, canPlayMonopoly);
+		setCardEnabled(DevCardType.ROAD_BUILD, canPlayRoad);
+		setCardEnabled(DevCardType.MONUMENT, canPlayMonument);
+	}
 
 	public PlayDevCardView() {
 		this.setOpaque(true);
@@ -109,6 +165,8 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 		mainPanel.add(cancelPanel);
 		
 		this.add(mainPanel, BorderLayout.CENTER);
+		
+		facade.addObserver(this);
 	}
 
 	@Override
@@ -144,10 +202,8 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 	}
 
 	private ActionListener actionListener = new ActionListener() {
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			if (e.getSource() == cancelButton) {
 				getController().cancelPlayCard();
 			} 
@@ -166,10 +222,8 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 	};
 	
 	private ButtonGroupPanelListener btnGrpPnlListener = new ButtonGroupPanelListener() {
-
 		@Override
 		public void selectedButtonChanged(ButtonGroupPanel source) {
-			
 			DevCardType selectedDevCard = devCards.getSelectedDevCard();
 			
 			if (selectedDevCard == null) {
@@ -269,7 +323,6 @@ class ButtonGroupPanel extends JPanel implements IButtonGroup {
 	
 	@Override
 	public void setEnabled(boolean enabled) {
-				
 		Enumeration<AbstractButton> buttons = getElements();
 		while (buttons.hasMoreElements()) {	
 			buttons.nextElement().setEnabled(enabled);
@@ -325,7 +378,6 @@ class ButtonGroupPanel extends JPanel implements IButtonGroup {
 
 @SuppressWarnings("serial")
 class ResourceCardChooser extends ButtonGroupPanel {
-	
 	private final int BUTTON_TEXT_SIZE = 18;
 	
 	private JToggleButton none;
@@ -364,7 +416,6 @@ class ResourceCardChooser extends ButtonGroupPanel {
 	
 	@Override
 	public void setEnabled(boolean enabled) {
-		
 		if (isEnabled() != enabled) {
 			
 			super.setEnabled(enabled);
@@ -381,7 +432,6 @@ class ResourceCardChooser extends ButtonGroupPanel {
 
 
 	public ResourceType getSelectedResourceCard() {
-		
 		ButtonModel selection = getSelection();
 		
 		if (selection == wood.getModel())
@@ -494,7 +544,6 @@ class DevelopmentCardChooser extends ButtonGroupPanel {
 	}
 	
 	public DevCardType getSelectedDevCard() {
-		
 		ButtonModel selection = getSelection();
 		
 		if (selection == soldier.getModel())

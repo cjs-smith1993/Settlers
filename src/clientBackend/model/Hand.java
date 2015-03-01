@@ -17,5 +17,4 @@ public interface Hand {
 	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count);
 	public boolean addResourceCardCollection (ResourceType type, Collection<ResourceCard> newCards);
 	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards);
-
 }

@@ -2,6 +2,8 @@ package client.devcards;
 
 import shared.definitions.ResourceType;
 import client.base.*;
+import clientBackend.model.CatanException;
+import clientBackend.model.Facade;
 
 
 /**
@@ -12,6 +14,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
+	private Facade facade = Facade.getInstance();
 	
 	/**
 	 * DevCardController constructor
@@ -23,7 +26,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	 */
 	public DevCardController(IPlayDevCardView view, IBuyDevCardView buyCardView, 
 								IAction soldierAction, IAction roadAction) {
-
+		
 		super(view);
 		
 		this.buyCardView = buyCardView;
@@ -41,60 +44,89 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startBuyCard() {
-		
 		getBuyCardView().showModal();
 	}
 
 	@Override
 	public void cancelBuyCard() {
-		
 		getBuyCardView().closeModal();
 	}
 
 	@Override
 	public void buyCard() {
+		try {
+			facade.buyDevCard(facade.getClientPlayerIndex());
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 		
 		getBuyCardView().closeModal();
 	}
 
 	@Override
 	public void startPlayCard() {
-		
 		getPlayCardView().showModal();
 	}
 
 	@Override
 	public void cancelPlayCard() {
-
 		getPlayCardView().closeModal();
 	}
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		
+		try {
+			if (facade.canUseMonopoly(facade.getClientPlayerIndex())) {
+				facade.useMonopoly(facade.getClientPlayerIndex(), resource);
+			}
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void playMonumentCard() {
-		
+		try {
+			if (facade.canUseMonument(facade.getClientPlayerIndex())) {
+				facade.useMonument(facade.getClientPlayerIndex());
+			}
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void playRoadBuildCard() {
-		
-		roadAction.execute();
+		try {
+			if (facade.canUseRoadBuilding(facade.getClientPlayerIndex())) {
+				roadAction.execute();
+			}
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void playSoldierCard() {
-		
-		soldierAction.execute();
+		try {
+			if (facade.canUseSoldier(facade.getClientPlayerIndex())) {
+				soldierAction.execute();
+			}
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		
+		System.out.println("Played Year of Plenty. Selected resources: " + resource1.toString() + ", " + resource2.toString());
+		try {
+			if (facade.canUseYearOfPlenty(facade.getClientPlayerIndex())) {
+				facade.useYearOfPlenty(facade.getClientPlayerIndex(), resource1, resource2);
+			}
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 	}
-
 }
 

@@ -265,7 +265,7 @@ public class Broker {
 					"The bank cannot play development cards.");
 		}
 		PlayerHoldings local = (PlayerHoldings) this.holdings.get(player);
-		//check if the card is in the playabel collections
+		//check if the card is in the playable collections
 		//need to check the playable boolean
 		if (local.getDevelopmentCardCount(type) >= 1) {
 			for (DevelopmentCard card : local.getDevelopmentCards().get(type)) {
@@ -276,6 +276,19 @@ public class Broker {
 			}
 		}
 		return success;
+	}
+	
+	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
+		if (player == PlayerNumber.BANK) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
+					"The bank cannot play development cards.");
+		}
+		
+		PlayerHoldings holdings = (PlayerHoldings)this.holdings.get(player);
+		
+		int cardCount = holdings.getDevelopmentCardCount(type);
+		
+		return cardCount;
 	}
 
 	/**

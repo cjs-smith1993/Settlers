@@ -986,6 +986,14 @@ public class Facade extends Observable {
 	public boolean hasDevelopmentCard(PlayerNumber player) {
 		return broker.hasDevelopmentCard(player);
 	}
+	
+	public boolean canPlayDevelopmentCard(PlayerNumber player, DevCardType type) throws CatanException {
+		return broker.canPlayDevelopmentCard(player, type);
+	}
+	
+	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
+		return broker.getDevelopmentCardCount(player, type);
+	}
 
 	/*
 	 * Facade Getters and Setters

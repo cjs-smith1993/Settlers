@@ -32,7 +32,6 @@ public class BuyDevCardView extends OverlayView implements IBuyDevCardView {
 	private JPanel buttonPanel;
 
 	public BuyDevCardView() {
-
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout(10, 10));
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
@@ -78,16 +77,14 @@ public class BuyDevCardView extends OverlayView implements IBuyDevCardView {
 	private ActionListener actionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			if (e.getSource() == acceptButton) {
 				getController().buyCard();
 			}
 			else if (e.getSource() == rejectButton) {
 				getController().cancelBuyCard();
-			}			
-		}	
+			}
+		}
 	};
-
 }
 
 

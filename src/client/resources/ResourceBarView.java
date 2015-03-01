@@ -59,24 +59,7 @@ public class ResourceBarView extends PanelView implements IResourceBarView
 	private final String BUILDING_IMAGE_PATH = "images" + File.separator +
 											   "building" + File.separator;
 	
-//	private final String WOOD = ResourceBarElement.WOOD.toString();
-//	private final String BRICK = ResourceBarElement.BRICK.toString();
-//	private final String SHEEP = ResourceBarElement.SHEEP.toString();
-//	private final String WHEAT = ResourceBarElement.WHEAT.toString();
-//	private final String ORE = ResourceBarElement.ORE.toString();
-//	
-//	private final String ROAD = ResourceBarElement.ROAD.toString();
-//	private final String SETTLEMENT = ResourceBarElement.SETTLEMENT.toString();
-//	private final String CITY = ResourceBarElement.CITY.toString();
-//	private final String BUY_CARD = ResourceBarElement.BUY_CARD.toString();
-//	private final String PLAY_CARD = ResourceBarElement.PLAY_CARD.toString();
-//	private final String SOLDIERS = ResourceBarElement.SOLDIERS.toString();
-	
 	private JPanel resourcePanel;
-//	private JPanel buildingPanel;
-//	private JPanel devCardPanel;
-//	private JPanel armyPanel;
-	
 	private JLabel label;
 	private JButton testButton;
 	
