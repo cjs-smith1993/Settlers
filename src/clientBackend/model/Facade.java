@@ -41,8 +41,7 @@ public class Facade extends Observable {
 	private int resourceCardLimit = 7;
 	private boolean gameReady = false;
 
-	private Facade() {
-	}
+	private Facade() {}
 
 	public static Facade getInstance() {
 		if (facadeInstance == null) {
@@ -977,6 +976,15 @@ public class Facade extends Observable {
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot discard cards");
 		}
+	}
+	
+	/**
+	 * Determines whether a player has any remaining development cards.
+	 * @param player
+	 * @return
+	 */
+	public boolean hasDevelopmentCard(PlayerNumber player) {
+		return broker.hasDevelopmentCard(player);
 	}
 
 	/*

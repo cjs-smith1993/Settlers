@@ -148,6 +148,16 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		else {
 			view.setElementEnabled(ResourceBarElement.CITY, false);
 		}
+		
+		if (facade.hasDevelopmentCard(PlayerNumber.BANK)
+				&& facade.getResourceCount(client, ResourceType.ORE) >= 1
+				&& facade.getResourceCount(client, ResourceType.WHEAT) >= 1
+				&& facade.getResourceCount(client, ResourceType.SHEEP) >= 1) {
+			view.setElementEnabled(ResourceBarElement.BUY_CARD, true);
+		}
+		else {
+			view.setElementEnabled(ResourceBarElement.BUY_CARD, false);
+		}
 	}
 }
 
