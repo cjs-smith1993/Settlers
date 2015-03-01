@@ -88,8 +88,10 @@ public class RightPanel extends JPanel
 											});
 		resourceView.setController(resourceController);
 		
+		JScrollPane scrollPane = new JScrollPane(resourceView);
+		
 		this.add(pointsView);
-		this.add(resourceView);
+		this.add(scrollPane);
 	}
 	
 	private IAction createStartMoveAction(final IMapController mapController,
