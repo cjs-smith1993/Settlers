@@ -58,9 +58,7 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-		if (model.tradeOffer != null) {
-			this.openOffer = new ResourceInvoice(model.tradeOffer);
-		}
+		this.openOffer = new ResourceInvoice(model.tradeOffer);
 		
 		this.board = new Board(model.map);
 
