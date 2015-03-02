@@ -115,6 +115,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		for (ResourceType type : ResourceType.values()) {
 			this.resourcesToDiscard.put(type, 0);
 		}
+		this.determineDiscardButton();
 	}
 	
 	@Override
