@@ -292,7 +292,6 @@ public class ServerProxy implements ServerInterface {
 	@Override
 	public void gameModel(int version) throws IOException, ServerException {
 		URL url = new URL(this.getUrlPrefix() + "/game/model?version=" + version);
-		System.out.println(version);
 		String response = this.doGet(url, true);
 		this.deserializeResponse(response);
 	}
