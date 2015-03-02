@@ -1,5 +1,6 @@
 package clientBackend.model;
 
+import clientBackend.transport.TransportTradeOffer;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 
@@ -55,6 +56,16 @@ public class ResourceInvoice {
 		this.setSheep(0);
 		this.setWheat(0);
 		this.setWood(0);
+	}
+	
+	public ResourceInvoice(TransportTradeOffer offer) {
+		this.sourcePlayer = offer.sender;
+		this.destinationPlayer = offer.receiver;
+		this.setBrick(offer.offer.brick);
+		this.setOre(offer.offer.ore);
+		this.setSheep(offer.offer.sheep);
+		this.setWheat(offer.offer.wheat);
+		this.setWood(offer.offer.wood);
 	}
 
 	public int getBrick() {

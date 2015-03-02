@@ -59,14 +59,16 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-		int currentNumber = this.resourcesToDiscard.get(resource);
-		currentNumber++;
-		this.currentNumberToDiscard++;
-		this.resourcesToDiscard.put(resource, currentNumber);
-		this.getDiscardView().setResourceDiscardAmount(resource, currentNumber);
-		
-		this.determineDiscardButton();
-		this.determineUpDownArrows(resource);
+		if (this.currentNumberToDiscard < this.numberToDiscard) {
+			int currentNumber = this.resourcesToDiscard.get(resource);
+			currentNumber++;
+			this.currentNumberToDiscard++;
+			this.resourcesToDiscard.put(resource, currentNumber);
+			this.getDiscardView().setResourceDiscardAmount(resource, currentNumber);
+			
+			this.checkIfReadyToDiscard();
+			this.determineUpDownArrows();
+		}	
 	}
 
 	@Override
@@ -77,14 +79,15 @@ public class DiscardController extends Controller implements IDiscardController,
 		this.resourcesToDiscard.put(resource, currentNumber);
 		this.getDiscardView().setResourceDiscardAmount(resource, currentNumber);
 		
-		this.determineDiscardButton();
-		this.determineUpDownArrows(resource);
+		this.checkIfReadyToDiscard();
+		this.determineUpDownArrows();
+		
 	}
 	
 	/**
 	 * Determines the status of the "discard" button
 	 */
-	private void determineDiscardButton() {
+	private void checkIfReadyToDiscard() {
 		// If the player has selected the number of cards they need to discard, disable all up arrows
 		if (this.currentNumberToDiscard >= this.numberToDiscard) {
 			this.getDiscardView().setDiscardButtonEnabled(true);
@@ -107,6 +110,12 @@ public class DiscardController extends Controller implements IDiscardController,
 		int maxToDiscard = this.maxResources.get(type);
 		this.getDiscardView().setResourceAmountChangeEnabled(type, currentlyDiscarding < maxToDiscard, currentlyDiscarding > 0);
 	}
+	
+	private void determineUpDownArrows() {
+		for (ResourceType type : ResourceType.values()) {
+			this.determineUpDownArrows(type);
+		}
+	}
 
 	/**
 	 * Reset resourcesToDiscard to 0
@@ -115,7 +124,8 @@ public class DiscardController extends Controller implements IDiscardController,
 		for (ResourceType type : ResourceType.values()) {
 			this.resourcesToDiscard.put(type, 0);
 		}
-		this.determineDiscardButton();
+		this.currentNumberToDiscard = 0;
+		this.checkIfReadyToDiscard();
 	}
 	
 	@Override
@@ -152,10 +162,9 @@ public class DiscardController extends Controller implements IDiscardController,
 				this.determineUpDownArrows(type);
 			}
 			
-			this.determineDiscardButton();
+			this.checkIfReadyToDiscard();
 			
 			if (!this.getDiscardView().isModalShowing()) {// If the view is not already visible
-				System.out.println("DiscardView is showing now");
 				this.getDiscardView().showModal();
 			}
 			

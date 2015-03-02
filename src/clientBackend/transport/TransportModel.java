@@ -8,6 +8,7 @@ public class TransportModel {
 	public TransportChat chat;
 	public TransportBank bank;
 	public TransportTurnTracker turnTracker;
+	public TransportTradeOffer tradeOffer;
 	public int winner;
 	public int version;
 }

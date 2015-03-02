@@ -37,10 +37,11 @@ public class Facade extends Observable {
 	private PostOffice postOffice;
 	private Scoreboard scoreboard;
 	private PlayerInfo clientPlayer;
+	private ResourceInvoice openOffer;
 	private int version = 1;
 	private int resourceCardLimit = 7;
 	private boolean gameReady = false;
-	private boolean hasDiscarded;
+	private boolean hasDiscarded = false;
 
 	private Facade() {}
 
@@ -59,6 +60,10 @@ public class Facade extends Observable {
 	public void initializeModel(TransportModel model) throws CatanException {
 		if (this.hasChangedState(model.turnTracker.status, CatanState.DISCARDING)) {
 			this.hasDiscarded = false;
+		}
+		
+		if (model.tradeOffer == null) {
+			this.openOffer = new ResourceInvoice(model.tradeOffer);
 		}
 		
 		this.board = new Board(model.map);
@@ -987,9 +992,10 @@ public class Facade extends Observable {
 			throws CatanException {
 
 		if (this.needsToDiscardCards(playerIndex)) {
+			this.hasDiscarded = true;
 			boolean success = this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
-			if (success) {
-				this.hasDiscarded = true;
+			if (!success) {
+				this.hasDiscarded = false;
 			}
 			return success;
 		}
@@ -1080,6 +1086,10 @@ public class Facade extends Observable {
 		return this.version;
 	}
 
+	public ResourceInvoice getOpenOffer() {
+		return this.openOffer;
+	}
+	
 	/*
 	 * "Model" Getters and Setters
 	 */
