@@ -58,12 +58,11 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-		if (this.hasChangedState(model.turnTracker.status, CatanState.DISCARDING)) {
-			this.hasDiscarded = false;
-		}
-		
-		if (model.tradeOffer != null) {
+		if (model.turnTracker == null) {
 			this.openOffer = new ResourceInvoice(model.tradeOffer);
+		}
+		else {
+			this.openOffer = null;
 		}
 		
 		this.board = new Board(model.map);
@@ -80,12 +79,16 @@ public class Facade extends Observable {
 
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
-		String someValue = "howdy";
+//		String someValue = "howdy";
 
 		this.finishClientSetup();
+		
+		if (this.getModelState() != CatanState.DISCARDING) {
+			this.hasDiscarded = false;
+		}
 
 		this.setChanged();
-		this.notifyObservers(someValue);
+		this.notifyObservers();
 	}
 
 	@Override
@@ -1200,6 +1203,15 @@ public class Facade extends Observable {
 	
 	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
 		return broker.getDevelopmentCardCount(player, type);
+	}
+	
+	public boolean canPurchase(PlayerNumber playerIndex, PropertyType property) {
+		try {
+			return this.broker.canPurchase(playerIndex, property);
+		} catch (CatanException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

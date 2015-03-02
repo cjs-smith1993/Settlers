@@ -118,11 +118,9 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	
 	private void setEnabledState(int roadCount, int settlementCount, int cityCount) {
 		IResourceBarView view = getView();
-		PlayerNumber client = facade.getClientPlayerIndex();
 		
 		if (roadCount > 0
-				&& facade.getResourceCount(client, ResourceType.BRICK) >= 1
-				&& facade.getResourceCount(client, ResourceType.WOOD) >= 1) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.ROAD)) {
 			view.setElementEnabled(ResourceBarElement.ROAD, true);
 		}
 		else {
@@ -130,10 +128,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 	
 		if (settlementCount > 0
-				&& facade.getResourceCount(client, ResourceType.BRICK) >= 1
-				&& facade.getResourceCount(client, ResourceType.SHEEP) >= 1
-				&& facade.getResourceCount(client, ResourceType.WHEAT) >= 1
-				&& facade.getResourceCount(client, ResourceType.WOOD) >= 1) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.SETTLEMENT)) {
 			view.setElementEnabled(ResourceBarElement.SETTLEMENT, true);
 		}
 		else {
@@ -141,8 +136,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 		
 		if (cityCount > 0
-				&& facade.getResourceCount(client, ResourceType.ORE) >= 2
-				&& facade.getResourceCount(client, ResourceType.WHEAT) >= 3) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.CITY)) {
 			view.setElementEnabled(ResourceBarElement.CITY, true);
 		}
 		else {
@@ -150,9 +144,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 		
 		if (facade.hasDevelopmentCard(PlayerNumber.BANK)
-				&& facade.getResourceCount(client, ResourceType.ORE) >= 1
-				&& facade.getResourceCount(client, ResourceType.WHEAT) >= 1
-				&& facade.getResourceCount(client, ResourceType.SHEEP) >= 1) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.DEVELOPMENT_CARD)) {
 			view.setElementEnabled(ResourceBarElement.BUY_CARD, true);
 		}
 		else {
