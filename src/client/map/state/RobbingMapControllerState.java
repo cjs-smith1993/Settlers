@@ -59,7 +59,7 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 						int numCards = this.facade.getResourceCount(ownerIdx, ResourceType.ALL);
 						robInfo.setNumCards(numCards);
 
-						if (!robbablePlayers.contains(robInfo)) {
+						if (numCards > 0 && !robbablePlayers.contains(robInfo)) {
 							robbablePlayers.add(robInfo);
 						}
 					}
