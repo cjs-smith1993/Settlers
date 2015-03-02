@@ -1201,5 +1201,14 @@ public class Facade extends Observable {
 	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
 		return broker.getDevelopmentCardCount(player, type);
 	}
+	
+	public boolean canPurchase(PlayerNumber playerIndex, PropertyType property) {
+		try {
+			return this.broker.canPurchase(playerIndex, property);
+		} catch (CatanException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 }
