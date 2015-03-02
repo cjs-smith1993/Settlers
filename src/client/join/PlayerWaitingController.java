@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.definitions.AIType;
+import shared.definitions.PlayerNumber;
 import client.base.*;
 import client.data.PlayerInfo;
 import clientBackend.model.Facade;
@@ -44,6 +45,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		}
 		this.getView().setAIChoices(stringTypes);
 		this.getView().showModal();
+		this.refresh();
 	}
 
 	public void finish() {
@@ -52,13 +54,18 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void addAI() {
-		this.getView().closeModal();
-
 		String type = this.getView().getSelectedAI();
-		boolean success = this.facade.addAI(AIType.valueOf(type));
-		if (success) {
-			int numPlayers = this.facade.getPlayers().size();
-			if (numPlayers < this.MAX_PLAYERS) {
+		this.facade.addAI(AIType.valueOf(type));
+		this.facade.sendChat(PlayerNumber.valueOf("ONE"), "An AI has been added to the game");
+		this.refresh();
+	}
+
+	public void refresh() {
+		if (this.getView().isModalShowing()) {
+			this.getView().closeModal();
+			Collection<PlayerInfo> players = this.facade.getPlayers();
+			this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
+			if (players.size() < this.MAX_PLAYERS) {
 				this.getView().showModal();
 			}
 			else {
@@ -69,16 +76,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Collection<PlayerInfo> players = this.facade.getPlayers();
-		if (this.getView().isModalShowing()) {
-			this.getView().closeModal();
-			this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
-			if (players.size() < this.MAX_PLAYERS) {
-				this.getView().showModal();
-			}
-			else {
-				this.finish();
-			}
-		}
+		this.refresh();
 	}
 }

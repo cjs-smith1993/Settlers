@@ -155,7 +155,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if (!this.showHub) {
 			return;
 		}
-		
+
 		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
 		if (this.getJoinGameView().isModalShowing()) {
 			this.getJoinGameView().closeModal();
@@ -224,6 +224,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void joinGame(CatanColor color) {
 		boolean success = this.facade.joinGame(this.curGame.getId(), color);
 		if (success) {
+			PlayerNumber index = PlayerNumber.valueOf("ONE");
+			String name = this.facade.getClientPlayer().getName();
+			this.facade.sendChat(index, name + " has joined the chat.");
+
 			this.getSelectColorView().closeModal();
 			this.getJoinGameView().closeModal();
 			this.timer.cancel();
