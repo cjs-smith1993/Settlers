@@ -91,6 +91,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		else {
 			this.getDiscardView().setDiscardButtonEnabled(false);
 		}
+		this.getDiscardView().setStateMessage("Discard: " + this.currentNumberToDiscard + "/" + this.numberToDiscard);
 	}
 	
 	private void determineUpDownArrows(ResourceType type) {
