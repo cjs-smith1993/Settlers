@@ -59,7 +59,7 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 						int numCards = this.facade.getResourceCount(ownerIdx, ResourceType.ALL);
 						robInfo.setNumCards(numCards);
 
-						if (!robbablePlayers.contains(robInfo)) {
+						if (numCards > 0 && !robbablePlayers.contains(robInfo)) {
 							robbablePlayers.add(robInfo);
 						}
 					}
@@ -81,7 +81,6 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 			PlayerNumber victimIndex = victim.getPlayerIndex();
 			HexLocation hex = this.controller.getRobberLocation();
 			this.facade.robPlayer(clientIndex, victimIndex, hex);
-			this.facade.finishTurn(this.facade.getClientPlayerIndex());
 			this.controller.setModalShowing(false);
 		} catch (CatanException e) {
 			e.printStackTrace();

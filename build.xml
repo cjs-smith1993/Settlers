@@ -186,6 +186,8 @@
 	</target>
 	
 	<target name="client" depends="compile" description="run the client">
+		<property name="host" value="localhost"/>
+		<property name="port" value="8081"/>
 		<java classname="client.main.Catan" fork="yes">
 			<classpath>
 				<pathelement location="${java.lib}/junit-4.11.jar"/>
@@ -193,6 +195,8 @@
 				<pathelement location="${java.lib}/gson-2.2.4.jar"/>
 				<pathelement location="${java.build}"/>
 			</classpath>
+			<arg value="${host}"/>
+			<arg value="${port}"/>
 		</java>
 	</target>
 	 

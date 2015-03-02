@@ -23,645 +23,649 @@ import shared.locations.VertexLocation;
 
 /**
  * Command line tester.
+ * 
  * @author Kyle
  *
  */
 public class CLTester implements Runnable {
 	private Scanner scanner = new Scanner(System.in);
-	private ServerProxy proxy = ServerProxy.getInstance();
+	private ServerProxy proxy;
 	private CatanSerializer serializer = CatanSerializer.getInstance();
 	private boolean isPrintOn = false;
-	
+
 	public CLTester(ServerProxy proxy) {
 		this.proxy = proxy;
 	}
-	
+
 	@Override
 	public void run() {
-		startCL();
+		this.startCL();
 	}
-	
+
 	public void startCL() {
 		// Display help() on startup.
-		help();
-		while(true) {
-			printDiv();
-			println("Type Desired Method");
-			println("Format: \"method.name\"");
-			String data = scanner.nextLine();
-			
+		this.help();
+		while (true) {
+			this.printDiv();
+			this.println("Type Desired Method");
+			this.println("Format: \"method.name\"");
+			String data = this.scanner.nextLine();
+
 			data = data.toLowerCase();
-			
+
 			// Place all proxy calls in this block.
-			synchronized (proxy) {
+			synchronized (this.proxy) {
 				switch (data) {
 				case "clear":
-					clear();
+					this.clear();
 					break;
 				case "help":
-					help();
+					this.help();
 					break;
 				case "model":
-					getModel();
+					this.getModel();
 					break;
 				case "moves.chat":
-					chat();
+					this.chat();
 					break;
 				case "user.login":
-					login();
-					getModel();
+					this.login();
+					this.getModel();
 					break;
 				case "games.list":
-					gamesList();
+					this.gamesList();
 					break;
 				case "moves.roll":
-					movesRoll();
-					getModel();
+					this.movesRoll();
+					this.getModel();
 					break;
 				case "moves.rob":
-					movesRob();
-					getModel();
+					this.movesRob();
+					this.getModel();
 					break;
 				case "moves.finish":
-					movesFinish();
-					getModel();
+					this.movesFinish();
+					this.getModel();
 					break;
 				case "moves.buydev":
-					movesBuyDev();
-					getModel();
+					this.movesBuyDev();
+					this.getModel();
 					break;
 				case "moves.year":
-					movesYearOfPlenty();
-					getModel();
+					this.movesYearOfPlenty();
+					this.getModel();
 					break;
 				case "moves.roadbuilding":
-					movesRoadBuilding();
-					getModel();
+					this.movesRoadBuilding();
+					this.getModel();
 					break;
 				case "moves.soldier":
-					movesSoldier();
-					getModel();
+					this.movesSoldier();
+					this.getModel();
 					break;
 				case "moves.monopoly":
-					movesMonopoly();
-					getModel();
+					this.movesMonopoly();
+					this.getModel();
 					break;
 				case "moves.monument":
-					movesMonument();
-					getModel();
+					this.movesMonument();
+					this.getModel();
 					break;
 				case "moves.buildroad":
-					movesBuildRoad();
-					getModel();
+					this.movesBuildRoad();
+					this.getModel();
 					break;
 				case "moves.buildsettlement":
-					movesBuildSettlement();
-					getModel();
+					this.movesBuildSettlement();
+					this.getModel();
 					break;
 				case "moves.buildcity":
-					movesBuildCity();
-					getModel();
+					this.movesBuildCity();
+					this.getModel();
 					break;
 				case "moves.offertrade":
-					movesOfferTrade();
-					getModel();
+					this.movesOfferTrade();
+					this.getModel();
 					break;
 				case "moves.accepttrade":
-					movesAcceptTrade();
-					getModel();
+					this.movesAcceptTrade();
+					this.getModel();
 					break;
 				case "moves.maritimetrade":
-					movesMaritimeTrade();
-					getModel();
+					this.movesMaritimeTrade();
+					this.getModel();
 					break;
 				case "moves.discardcards":
-					movesDiscardCards();
-					getModel();
+					this.movesDiscardCards();
+					this.getModel();
 					break;
 				case "print.off":
-					printOff();
+					this.printOff();
 					break;
 				case "print.on":
-					printOn();
+					this.printOn();
 					break;
 				default:
-					println("Method code not recognized, please try again");
+					this.println("Method code not recognized, please try again");
 				}
 			}
 		}
 	}
 
 	private boolean isLoggedIn() {
-		boolean isLoggedIn = !proxy.getCookies().isEmpty();
-		
+		boolean isLoggedIn = !this.proxy.getCookies().isEmpty();
+
 		if (!isLoggedIn) {
-			println("WARNING: YOUR USER NOT LOGGED IN!");
+			this.println("WARNING: YOUR USER NOT LOGGED IN!");
 		}
-		
+
 		return isLoggedIn;
 	}
-	
+
 	private void clear() {
 		for (int i = 0; i < 40; i++) {
-			println("\n");
+			this.println("\n");
 		}
 	}
-	
+
 	private void help() {
-		printDiv();
-		println("Welcome to Help. Here are the available methods:");
-		println("-----");
-		println("NOTES");
-		println("-----");
-		println("PRINT: To turn print off use: \"print.off\". Turn on is \"print.on\"");
-		println("PLAYERNUMBER: Enter as a number, -1 to 3.");
-		println("RESOURCES: Enter resources as \"wood\", \"sheep\", etc...");
-		println("DIRECTION: Enter directions as \"NE\", \"NW\", etc...");
-		println("-----");
-		println("METHOD FORMAT: \"method.name\" (params)");
-		println("-----");
-		println("\t\"help\" (none)");
-		println("\t\"clear\" (none) --> Clears console space.");
-		println("\t\"model\" (none) --> Retrieves model. Pastes to your clipboard.");
-		println("\t\"games.list\" (none)");
-		println("\t\"user.login\" (username, password)");
-		println("\t\"moves.roll\" (rolledNumber)");
-		println("\t\"moves.rob\" (playerIndex, victimIndex, xLocation, yLocation)");
-		println("\t\"moves.finish\" (playerIndex)");
-		println("\t\"moves.buyDev\" (playerIndex)");
-		println("\t\"moves.year\" (playerIndex, resource1, resource2)");
-		println("\t\"moves.roadBuilding\" (playerIndex, x1, y1, direction1, x2, y2, direction2)");
-		println("\t\"moves.soldier\" (playerIndex, victimIndex, locationX, locationY)");
-		println("\t\"moves.monopoly\" (resource, playerIndex)");
-		println("\t\"moves.monument\" (playerIndex)");
-		println("\t\"moves.buildRoad\" (playerIndex, roadX, roadY, direction, isFree)");
-		println("\t\"moves.buildSettlement\" (playerIndex, settlmentX, settlementY, direction, isFree)");
-		println("\t\"moves.buildCity\" (playerIndex, x, y, direction)");
-		println("\t\"moves.offerTrade\" (qtyBrick, qtyWood, qtyWheat, qtyOre, qtySheep, sourcePlayerIndex, destinationPlayerIndex)");
-		println("\t\"moves.acceptTrade\" (playerIndex, willAcceptTrade)");
-		println("\t\"moves.maritimeTrade\" (playerIndex, ratio, inputResource, outputResource)");
-		println("\t\"moves.discardCards\" (playerIndex, qtyBrick, qtyOre, qtySheep, qtyWheat, qtyWood)");
-		printDiv();
+		this.printDiv();
+		this.println("Welcome to Help. Here are the available methods:");
+		this.println("-----");
+		this.println("NOTES");
+		this.println("-----");
+		this.println("PRINT: To turn print off use: \"print.off\". Turn on is \"print.on\"");
+		this.println("PLAYERNUMBER: Enter as a number, -1 to 3.");
+		this.println("RESOURCES: Enter resources as \"wood\", \"sheep\", etc...");
+		this.println("DIRECTION: Enter directions as \"NE\", \"NW\", etc...");
+		this.println("-----");
+		this.println("METHOD FORMAT: \"method.name\" (params)");
+		this.println("-----");
+		this.println("\t\"help\" (none)");
+		this.println("\t\"clear\" (none) --> Clears console space.");
+		this.println("\t\"model\" (none) --> Retrieves model. Pastes to your clipboard.");
+		this.println("\t\"games.list\" (none)");
+		this.println("\t\"user.login\" (username, password)");
+		this.println("\t\"moves.roll\" (rolledNumber)");
+		this.println("\t\"moves.rob\" (playerIndex, victimIndex, xLocation, yLocation)");
+		this.println("\t\"moves.finish\" (playerIndex)");
+		this.println("\t\"moves.buyDev\" (playerIndex)");
+		this.println("\t\"moves.year\" (playerIndex, resource1, resource2)");
+		this.println("\t\"moves.roadBuilding\" (playerIndex, x1, y1, direction1, x2, y2, direction2)");
+		this.println("\t\"moves.soldier\" (playerIndex, victimIndex, locationX, locationY)");
+		this.println("\t\"moves.monopoly\" (resource, playerIndex)");
+		this.println("\t\"moves.monument\" (playerIndex)");
+		this.println("\t\"moves.buildRoad\" (playerIndex, roadX, roadY, direction, isFree)");
+		this.println("\t\"moves.buildSettlement\" (playerIndex, settlmentX, settlementY, direction, isFree)");
+		this.println("\t\"moves.buildCity\" (playerIndex, x, y, direction)");
+		this.println("\t\"moves.offerTrade\" (qtyBrick, qtyWood, qtyWheat, qtyOre, qtySheep, sourcePlayerIndex, destinationPlayerIndex)");
+		this.println("\t\"moves.acceptTrade\" (playerIndex, willAcceptTrade)");
+		this.println("\t\"moves.maritimeTrade\" (playerIndex, ratio, inputResource, outputResource)");
+		this.println("\t\"moves.discardCards\" (playerIndex, qtyBrick, qtyOre, qtySheep, qtyWheat, qtyWood)");
+		this.printDiv();
 	}
-	
+
 	/*
 	 * PROXY METHODS
 	 */
 	private void getModel() {
-		if (isLoggedIn()) {
+		if (this.isLoggedIn()) {
 			String data = "";
-			
+
 			try {
-				data = proxy.gameModel();
+				data = this.proxy.gameModel();
 			} catch (ServerException | IOException e) {
 				e.printStackTrace();
 			}
-			
-			ctcb(data);
+
+			this.ctcb(data);
 		}
 		else {
-			println("USER NOT LOGGED IN. CANNOT FETCH MODEL.");
+			this.println("USER NOT LOGGED IN. CANNOT FETCH MODEL.");
 		}
 	}
-	
-	
+
 	private void chat() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex.");
-			PlayerNumber playerIndex = getPlayerNumber(scanner.nextInt());
-			
-			println("Please enter: message");
-			String message = scanner.nextLine();
-			
-			boolean isSuccess = proxy.movesSendChat(playerIndex, message);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex.");
+			PlayerNumber playerIndex = this.getPlayerNumber(this.scanner.nextInt());
+
+			this.println("Please enter: message");
+			String message = this.scanner.nextLine();
+
+			boolean isSuccess = this.proxy.movesSendChat(playerIndex, message);
+
 			if (isSuccess) {
-				println("SUCCESS: Chat away!");
+				this.println("SUCCESS: Chat away!");
 			}
 			else {
-				println("ERROR: Chat failed.");
+				this.println("ERROR: Chat failed.");
 			}
 		}
 	}
-	
+
 	private void login() {
-		if (!isLoggedIn()) {
-			println("Please enter: \"Username\" \"Password\"");
-			
-			String username = scanner.next();
-			String password = scanner.next();
-			
-			User user = proxy.userLogin(username, password);
-			
+		if (!this.isLoggedIn()) {
+			this.println("Please enter: \"Username\" \"Password\"");
+
+			String username = this.scanner.next();
+			String password = this.scanner.next();
+
+			User user = this.proxy.userLogin(username, password);
+
 			if (!user.getName().isEmpty()) {
-				println("User successfully logged in!");
-				println("Please enter: \"GameID\" \"DesiredColor\"");
-				
-				int gameID = scanner.nextInt();
-				CatanColor color = getCatanColor(scanner.next());
-				
+				this.println("User successfully logged in!");
+				this.println("Please enter: \"GameID\" \"DesiredColor\"");
+
+				int gameID = this.scanner.nextInt();
+				CatanColor color = this.getCatanColor(this.scanner.next());
+
 				if (gameID < 0 || color == null) {
-					println("ERROR: Bad gameID or color. Please try again.");
+					this.println("ERROR: Bad gameID or color. Please try again.");
 				}
 				else {
-					if (proxy.gamesJoin(gameID, color)) {
-						println("SUCCESS: \nJoined game " + gameID + "\nColor: " + color);
+					if (this.proxy.gamesJoin(gameID, color)) {
+						this.println("SUCCESS: \nJoined game " + gameID + "\nColor: " + color);
 					}
 				}
 			}
 			else {
-				println("ERROR: Failed to login. Please begin again.");
+				this.println("ERROR: Failed to login. Please begin again.");
 			}
 		}
 		else {
-			println("ERROR: User is already logged in.");
+			this.println("ERROR: User is already logged in.");
 		}
 	}
-	
+
 	private void gamesList() {
-		Object games = proxy.gamesList();
-		String json = serializer.serializeObject(games);
-		ctcb(json);
+		Object games = this.proxy.gamesList();
+		String json = this.serializer.serializeObject(games);
+		this.ctcb(json);
 	}
-	
+
 	private void movesRoll() {
-		if (isLoggedIn()) {
-			println("Please enter: PlayerNumber (as -1 to 3) and desired roll.");
-			
-			int playerIndex = scanner.nextInt();
-			int rollNumber = scanner.nextInt();
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: PlayerNumber (as -1 to 3) and desired roll.");
+
+			int playerIndex = this.scanner.nextInt();
+			int rollNumber = this.scanner.nextInt();
+
 			PlayerNumber playerNumber = PlayerNumber.BANK;
-			playerNumber = getPlayerNumber(playerIndex);
-			
-			boolean isSuccess = proxy.movesRollNumber(playerNumber, rollNumber);
-			
-			if (isSuccess) {
-				println("SUCCESS: Rolled submitted. Getting model...");
-			}
-			else {
-				println("ERROR: Roll was not successfull. Please check conditions.");
-			}
-		}
-	}
-	
-	private void movesRob() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex, victimIndex, locationX, locationY (without commas).");
-			
-			int playerIndex = scanner.nextInt();
-			int victimIndex = scanner.nextInt();
-			int x = scanner.nextInt();
-			int y = scanner.nextInt();
-			
-			HexLocation location = new HexLocation(x, y);
-			
-			boolean isSuccess = proxy.movesRobPlayer(getPlayerNumber(playerIndex), getPlayerNumber(victimIndex), location);
+			playerNumber = this.getPlayerNumber(playerIndex);
+
+			boolean isSuccess = this.proxy.movesRollNumber(playerNumber, rollNumber);
 
 			if (isSuccess) {
-				println("SUCCESS: Player looted as they rightly deserved.");
+				this.println("SUCCESS: Rolled submitted. Getting model...");
 			}
 			else {
-				println("ERROR: Crusade halted.");
+				this.println("ERROR: Roll was not successfull. Please check conditions.");
 			}
 		}
 	}
-	
+
+	private void movesRob() {
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex, victimIndex, locationX, locationY (without commas).");
+
+			int playerIndex = this.scanner.nextInt();
+			int victimIndex = this.scanner.nextInt();
+			int x = this.scanner.nextInt();
+			int y = this.scanner.nextInt();
+
+			HexLocation location = new HexLocation(x, y);
+
+			boolean isSuccess = this.proxy.movesRobPlayer(this.getPlayerNumber(playerIndex),
+					this.getPlayerNumber(victimIndex), location);
+
+			if (isSuccess) {
+				this.println("SUCCESS: Player looted as they rightly deserved.");
+			}
+			else {
+				this.println("ERROR: Crusade halted.");
+			}
+		}
+	}
+
 	private void movesFinish() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3).");
-			
-			int playerIndex = scanner.nextInt();
-			
-			boolean isSuccess = proxy.movesFinishTurn(getPlayerNumber(playerIndex));
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3).");
+
+			int playerIndex = this.scanner.nextInt();
+
+			boolean isSuccess = this.proxy.movesFinishTurn(this.getPlayerNumber(playerIndex));
+
 			if (isSuccess) {
-				println("SUCCESS: Turned ended successfully.");
+				this.println("SUCCESS: Turned ended successfully.");
 			}
 			else {
-				println("ERROR: Problem ending turn.");
+				this.println("ERROR: Problem ending turn.");
 			}
 		}
 	}
-	
+
 	private void movesBuyDev() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3).");
-			
-			int playerIndex = scanner.nextInt();
-			
-			boolean isSuccess = proxy.movesBuyDevCard(getPlayerNumber(playerIndex));
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3).");
+
+			int playerIndex = this.scanner.nextInt();
+
+			boolean isSuccess = this.proxy.movesBuyDevCard(this.getPlayerNumber(playerIndex));
+
 			if (isSuccess) {
-				println("SUCCESS: Purchase succeeded.");
+				this.println("SUCCESS: Purchase succeeded.");
 			}
 			else {
-				println("ERROR: Problem with dev card purchase.");
+				this.println("ERROR: Problem with dev card purchase.");
 			}
 		}
 	}
-	
+
 	private void movesYearOfPlenty() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), resource1, resource2.");
-			
-			int playerIndex = scanner.nextInt();
-			String resource1 = scanner.next();
-			String resource2 = scanner.next();
-			
-			boolean isSuccess = proxy.movesYear_of_Plenty(getPlayerNumber(playerIndex), getResourceType(resource1), getResourceType(resource2));
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), resource1, resource2.");
+
+			int playerIndex = this.scanner.nextInt();
+			String resource1 = this.scanner.next();
+			String resource2 = this.scanner.next();
+
+			boolean isSuccess = this.proxy.movesYear_of_Plenty(this.getPlayerNumber(playerIndex),
+					this.getResourceType(resource1), this.getResourceType(resource2));
+
 			if (isSuccess) {
-				println("SUCCESS: The year is plentous.");
+				this.println("SUCCESS: The year is plentous.");
 			}
 			else {
-				println("ERROR: A drought has occurred. Welcome to Utahr.");
+				this.println("ERROR: A drought has occurred. Welcome to Utahr.");
 			}
 		}
 	}
-	
+
 	private void movesRoadBuilding() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex, x1, y1, direction1, x2, y2, direction2");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			int x1 = scanner.nextInt();
-			int y1 = scanner.nextInt();
-			String direction1 = scanner.next();
-			
-			int x2 = scanner.nextInt();
-			int y2 = scanner.nextInt();
-			String direction2 = scanner.next();
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex, x1, y1, direction1, x2, y2, direction2");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			int x1 = this.scanner.nextInt();
+			int y1 = this.scanner.nextInt();
+			String direction1 = this.scanner.next();
+
+			int x2 = this.scanner.nextInt();
+			int y2 = this.scanner.nextInt();
+			String direction2 = this.scanner.next();
+
 			HexLocation hex1 = new HexLocation(x1, y1);
-			EdgeLocation loc1 = new EdgeLocation(hex1, getEdgeDirection(direction1));
-			
+			EdgeLocation loc1 = new EdgeLocation(hex1, this.getEdgeDirection(direction1));
+
 			HexLocation hex2 = new HexLocation(x2, y2);
-			EdgeLocation loc2 = new EdgeLocation(hex2, getEdgeDirection(direction2));
-			
-			boolean isSuccess = proxy.movesRoad_Building(playerNumber, loc1, loc2);
-			
+			EdgeLocation loc2 = new EdgeLocation(hex2, this.getEdgeDirection(direction2));
+
+			boolean isSuccess = this.proxy.movesRoad_Building(playerNumber, loc1, loc2);
+
 			if (isSuccess) {
-				println("SUCCESS: Road building succeeded.");
+				this.println("SUCCESS: Road building succeeded.");
 			}
 			else {
-				println("ERROR: Road building failed.");
+				this.println("ERROR: Road building failed.");
 			}
 		}
 	}
-	
+
 	private void movesSoldier() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), victimIndex (-1 to 3), x, y");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			PlayerNumber victimNumber = getPlayerNumber(scanner.nextInt());
-			HexLocation location = new HexLocation(scanner.nextInt(), scanner.nextInt());
-			
-			boolean isSuccess = proxy.movesSoldier(playerNumber, victimNumber, location);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), victimIndex (-1 to 3), x, y");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			PlayerNumber victimNumber = this.getPlayerNumber(this.scanner.nextInt());
+			HexLocation location = new HexLocation(this.scanner.nextInt(), this.scanner.nextInt());
+
+			boolean isSuccess = this.proxy.movesSoldier(playerNumber, victimNumber, location);
+
 			if (isSuccess) {
-				println("SUCCESS: Soldier moved! That lazy chum..");
+				this.println("SUCCESS: Soldier moved! That lazy chum..");
 			}
 			else {
-				println("ERROR: Soldier won't budge.");
+				this.println("ERROR: Soldier won't budge.");
 			}
 		}
 	}
 
 	private void movesMonopoly() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), resourceType");
-			
-			ResourceType resource = getResourceType(scanner.next());
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			
-			boolean isSuccess = proxy.movesMonopoly(resource, playerNumber);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), resourceType");
+
+			ResourceType resource = this.getResourceType(this.scanner.next());
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+
+			boolean isSuccess = this.proxy.movesMonopoly(resource, playerNumber);
+
 			if (isSuccess) {
-				println("SUCCESS: Your friends have been pillaged.");
+				this.println("SUCCESS: Your friends have been pillaged.");
 			}
 			else {
-				println("ERROR: They escaped!");
+				this.println("ERROR: They escaped!");
 			}
 		}
 	}
-	
+
 	private void movesMonument() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3)");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			
-			boolean isSuccess = proxy.movesMonument(playerNumber);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3)");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+
+			boolean isSuccess = this.proxy.movesMonument(playerNumber);
+
 			if (isSuccess) {
-				println("SUCCESS: You got brownie points...and victory points.");
+				this.println("SUCCESS: You got brownie points...and victory points.");
 			}
 			else {
-				println("ERROR: Apparently monuments are heavy...and can't be moved.");
+				this.println("ERROR: Apparently monuments are heavy...and can't be moved.");
 			}
 		}
 	}
-	
+
 	private void movesBuildRoad() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex, x, y, direction, isFree");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			int x = scanner.nextInt();
-			int y = scanner.nextInt();
-			EdgeDirection direction = getEdgeDirection(scanner.next());
-			boolean isFree = scanner.nextBoolean();
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex, x, y, direction, isFree");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			int x = this.scanner.nextInt();
+			int y = this.scanner.nextInt();
+			EdgeDirection direction = this.getEdgeDirection(this.scanner.next());
+			boolean isFree = this.scanner.nextBoolean();
+
 			HexLocation hexLoc = new HexLocation(x, y);
 			EdgeLocation location = new EdgeLocation(hexLoc, direction);
-			
-			boolean isSuccess = proxy.movesBuildRoad(playerNumber, location, isFree);
-			
+
+			boolean isSuccess = this.proxy.movesBuildRoad(playerNumber, location, isFree);
+
 			if (isSuccess) {
-				println("SUCCESS: Built a road.");
+				this.println("SUCCESS: Built a road.");
 			}
 			else {
-				println("ERROR: Failed to build a road.");
+				this.println("ERROR: Failed to build a road.");
 			}
 		}
 	}
-	
+
 	private void movesBuildSettlement() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), x, y, vertexDirection, isFree");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			int x = scanner.nextInt();
-			int y = scanner.nextInt();
-			VertexDirection direction = getVertexDirection(scanner.next());
-			boolean isFree = scanner.nextBoolean();
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), x, y, vertexDirection, isFree");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			int x = this.scanner.nextInt();
+			int y = this.scanner.nextInt();
+			VertexDirection direction = this.getVertexDirection(this.scanner.next());
+			boolean isFree = this.scanner.nextBoolean();
+
 			HexLocation hexLoc = new HexLocation(x, y);
 			VertexLocation location = new VertexLocation(hexLoc, direction);
-			
-			boolean isSuccess = proxy.movesBuildSettlement(playerNumber, location, isFree);
-			
+
+			boolean isSuccess = this.proxy.movesBuildSettlement(playerNumber, location, isFree);
+
 			if (isSuccess) {
-				println("SUCCESS: Built a settlement.");
+				this.println("SUCCESS: Built a settlement.");
 			}
 			else {
-				println("ERROR: Failed to build a settlement.");
+				this.println("ERROR: Failed to build a settlement.");
 			}
 		}
 	}
-	
+
 	private void movesBuildCity() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), x, y, vertexDirection.");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			int x = scanner.nextInt();
-			int y = scanner.nextInt();
-			VertexDirection direction = getVertexDirection(scanner.next());
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), x, y, vertexDirection.");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			int x = this.scanner.nextInt();
+			int y = this.scanner.nextInt();
+			VertexDirection direction = this.getVertexDirection(this.scanner.next());
+
 			HexLocation hexLoc = new HexLocation(x, y);
 			VertexLocation location = new VertexLocation(hexLoc, direction);
-			
-			boolean isSuccess = proxy.movesBuildCity(playerNumber, location);
-			
+
+			boolean isSuccess = this.proxy.movesBuildCity(playerNumber, location);
+
 			if (isSuccess) {
-				println("SUCCESS: Built a city.");
+				this.println("SUCCESS: Built a city.");
 			}
 			else {
-				println("ERROR: Failed to build a city.");
+				this.println("ERROR: Failed to build a city.");
 			}
 		}
 	}
-	
+
 	private void movesOfferTrade() {
-		if (isLoggedIn()) {
-			println("Please enter: qtyBrick, qtyWood, qtyWheat, qtyOre, qtySheep, sourcePlayerNumber (-1 to 3), destinationPlayerNumber (-1 to 3).");
-			
-			int brick = scanner.nextInt();
-			int wood = scanner.nextInt();
-			int wheat = scanner.nextInt();
-			int ore = scanner.nextInt();
-			int sheep = scanner.nextInt();
-			PlayerNumber sourcePlayer = getPlayerNumber(scanner.nextInt());
-			PlayerNumber destinationPlayer = getPlayerNumber(scanner.nextInt());
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: qtyBrick, qtyWood, qtyWheat, qtyOre, qtySheep, sourcePlayerNumber (-1 to 3), destinationPlayerNumber (-1 to 3).");
+
+			int brick = this.scanner.nextInt();
+			int wood = this.scanner.nextInt();
+			int wheat = this.scanner.nextInt();
+			int ore = this.scanner.nextInt();
+			int sheep = this.scanner.nextInt();
+			PlayerNumber sourcePlayer = this.getPlayerNumber(this.scanner.nextInt());
+			PlayerNumber destinationPlayer = this.getPlayerNumber(this.scanner.nextInt());
+
 			ResourceInvoice invoice = new ResourceInvoice(sourcePlayer, destinationPlayer);
 			invoice.setBrick(brick);
 			invoice.setWood(wood);
 			invoice.setWheat(wheat);
 			invoice.setOre(ore);
 			invoice.setSheep(sheep);
-			
-			boolean isSuccess = proxy.movesOfferTrade(invoice);
-			
+
+			boolean isSuccess = this.proxy.movesOfferTrade(invoice);
+
 			if (isSuccess) {
-				println("SUCCESS: Trade offered successfully.");
+				this.println("SUCCESS: Trade offered successfully.");
 			}
 			else {
-				println("ERROR: Trade failed.");
+				this.println("ERROR: Trade failed.");
 			}
 		}
 	}
 
 	private void movesAcceptTrade() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), willAcceptTrade");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			boolean willAccept = scanner.nextBoolean();
-			
-			boolean isSuccess = proxy.movesAcceptTrade(playerNumber, willAccept);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), willAcceptTrade");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			boolean willAccept = this.scanner.nextBoolean();
+
+			boolean isSuccess = this.proxy.movesAcceptTrade(playerNumber, willAccept);
+
 			if (isSuccess) {
-				println("SUCCESS: Trade accepted successfully.");
+				this.println("SUCCESS: Trade accepted successfully.");
 			}
 			else {
-				println("ERROR: Trade acception failed. Check conditions.");
+				this.println("ERROR: Trade acception failed. Check conditions.");
 			}
 		}
 	}
 
 	private void movesMaritimeTrade() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), ratio (integer), inputResource, outputResource.");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			int ratio = scanner.nextInt();
-			ResourceType inputResource = getResourceType(scanner.next());
-			ResourceType outputResource = getResourceType(scanner.next());
-			
-			boolean isSuccess = proxy.movesMaritimeTrade(playerNumber, ratio, inputResource, outputResource);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), ratio (integer), inputResource, outputResource.");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			int ratio = this.scanner.nextInt();
+			ResourceType inputResource = this.getResourceType(this.scanner.next());
+			ResourceType outputResource = this.getResourceType(this.scanner.next());
+
+			boolean isSuccess = this.proxy.movesMaritimeTrade(playerNumber, ratio, inputResource,
+					outputResource);
+
 			if (isSuccess) {
-				println("SUCCESS: Trade accepted successfully.");
+				this.println("SUCCESS: Trade accepted successfully.");
 			}
 			else {
-				println("ERROR: Trade execution failed. Check conditions.");
+				this.println("ERROR: Trade execution failed. Check conditions.");
 			}
 		}
 	}
-	
+
 	private void movesDiscardCards() {
-		if (isLoggedIn()) {
-			println("Please enter: playerIndex (-1 to 3), qtyBrick, qtyOre, qtySheep, qtyWheat,  qtyWood.");
-			
-			PlayerNumber playerNumber = getPlayerNumber(scanner.nextInt());
-			int qtyBrick = scanner.nextInt();
-			int qtyOre = scanner.nextInt();
-			int qtySheep = scanner.nextInt();
-			int qtyWheat = scanner.nextInt();
-			int qtyWood = scanner.nextInt();
-			
-			boolean isSuccess = proxy.movesDiscardCards(playerNumber, qtyBrick, qtyOre, qtySheep, qtyWheat, qtyWood);
-			
+		if (this.isLoggedIn()) {
+			this.println("Please enter: playerIndex (-1 to 3), qtyBrick, qtyOre, qtySheep, qtyWheat,  qtyWood.");
+
+			PlayerNumber playerNumber = this.getPlayerNumber(this.scanner.nextInt());
+			int qtyBrick = this.scanner.nextInt();
+			int qtyOre = this.scanner.nextInt();
+			int qtySheep = this.scanner.nextInt();
+			int qtyWheat = this.scanner.nextInt();
+			int qtyWood = this.scanner.nextInt();
+
+			boolean isSuccess = this.proxy.movesDiscardCards(playerNumber, qtyBrick, qtyOre,
+					qtySheep, qtyWheat, qtyWood);
+
 			if (isSuccess) {
-				println("SUCCESS: Discarded successfully.");
+				this.println("SUCCESS: Discarded successfully.");
 			}
 			else {
-				println("ERROR: Discard failed. Check conditions.");
+				this.println("ERROR: Discard failed. Check conditions.");
 			}
 		}
 	}
-	
+
 	private void printOff() {
-		isPrintOn = false;
+		this.isPrintOn = false;
 	}
-	
+
 	private void printOn() {
-		isPrintOn = true;
+		this.isPrintOn = true;
 	}
 
 	/*
 	 * HELPER METHODS
 	 */
 	private void ctcb(String message) {
-		printDiv();
-		println("Model saved to your clipboard.");
-		
-		if (isPrintOn) {
-			println(message);
+		this.printDiv();
+		this.println("Model saved to your clipboard.");
+
+		if (this.isPrintOn) {
+			this.println(message);
 		}
-		
-		printDiv();
-		
+
+		this.printDiv();
+
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable transferable = new StringSelection(message);
 		clipboard.setContents(transferable, null);
 	}
-	
+
 	private void println(String message) {
 		System.out.println(message);
 	}
-	
+
 	private void printDiv() {
-		println("-------------------------------");
+		this.println("-------------------------------");
 	}
-	
+
 	private PlayerNumber getPlayerNumber(int playerIndex) {
 		PlayerNumber playerNumber = PlayerNumber.BANK;
-		
+
 		switch (playerIndex) {
 		case -1:
 			playerNumber = PlayerNumber.BANK;
@@ -679,12 +683,12 @@ public class CLTester implements Runnable {
 			playerNumber = PlayerNumber.FOUR;
 			break;
 		default:
-			println("ERROR: Unrecognized player number. Did you enter -1 to 3?");
+			this.println("ERROR: Unrecognized player number. Did you enter -1 to 3?");
 		}
-		
+
 		return playerNumber;
 	}
-	
+
 	private ResourceType getResourceType(String resource) {
 		switch (resource) {
 		case "wood":
@@ -701,7 +705,7 @@ public class CLTester implements Runnable {
 			return null;
 		}
 	}
-	
+
 	private EdgeDirection getEdgeDirection(String direction) {
 		switch (direction) {
 		case "NW":
@@ -720,7 +724,7 @@ public class CLTester implements Runnable {
 			return null;
 		}
 	}
-	
+
 	private VertexDirection getVertexDirection(String direction) {
 		switch (direction) {
 		case "W":
@@ -739,7 +743,7 @@ public class CLTester implements Runnable {
 			return null;
 		}
 	}
-	
+
 	private CatanColor getCatanColor(String color) {
 		switch (color) {
 		case "red":
