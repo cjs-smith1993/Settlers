@@ -40,7 +40,7 @@ public class Facade extends Observable {
 	private int version = 1;
 	private int resourceCardLimit = 7;
 	private boolean gameReady = false;
-	private boolean hasDiscarded;
+	private boolean hasDiscarded = false;
 
 	private Facade() {}
 
@@ -987,9 +987,10 @@ public class Facade extends Observable {
 			throws CatanException {
 
 		if (this.needsToDiscardCards(playerIndex)) {
+			this.hasDiscarded = true;
 			boolean success = this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
-			if (success) {
-				this.hasDiscarded = true;
+			if (!success) {
+				this.hasDiscarded = false;
 			}
 			return success;
 		}
