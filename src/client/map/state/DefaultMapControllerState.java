@@ -1,5 +1,6 @@
 package client.map.state;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import client.data.RobPlayerInfo;
@@ -8,6 +9,7 @@ import client.map.IRobView;
 import client.map.MapController;
 import client.map.TypeConverter;
 import clientBackend.model.Board;
+import clientBackend.model.BoardFactory;
 import clientBackend.model.Chit;
 import clientBackend.model.Dwelling;
 import clientBackend.model.Facade;
@@ -64,6 +66,15 @@ public class DefaultMapControllerState {
 		for (Harbor harbor : board.getHarbors()) {
 			VertexLocation[] ports = harbor.getPorts().toArray(new VertexLocation[0]);
 			EdgeLocation edge = Geometer.getSharedEdge(ports[0], ports[1]);
+
+			ArrayList<EdgeLocation> portLocations = BoardFactory.getPortLocations();
+			for (EdgeLocation port : portLocations) {
+				if (port.getNormalizedLocation().equals(edge.getNormalizedLocation())) {
+					edge = port;
+					break;
+				}
+			}
+
 			PortType type = TypeConverter.toPortType(harbor.getResource());
 			this.view.addPort(edge, type);
 		}
