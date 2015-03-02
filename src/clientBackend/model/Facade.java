@@ -58,10 +58,6 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-		if (this.hasChangedState(model.turnTracker.status, CatanState.DISCARDING)) {
-			this.hasDiscarded = false;
-		}
-		
 		if (model.tradeOffer != null) {
 			this.openOffer = new ResourceInvoice(model.tradeOffer);
 		}
@@ -83,6 +79,10 @@ public class Facade extends Observable {
 		String someValue = "howdy";
 
 		this.finishClientSetup();
+		
+		if (this.getModelState() != CatanState.DISCARDING) {
+			this.hasDiscarded = false;
+		}
 
 		this.setChanged();
 		this.notifyObservers(someValue);
