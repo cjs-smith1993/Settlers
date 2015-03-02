@@ -28,7 +28,7 @@ import shared.locations.VertexLocation;
  */
 public class CLTester implements Runnable {
 	private Scanner scanner = new Scanner(System.in);
-	private ServerProxy proxy = ServerProxy.getInstance();
+	private ServerProxy proxy;
 	private CatanSerializer serializer = CatanSerializer.getInstance();
 	private boolean isPrintOn = false;
 	

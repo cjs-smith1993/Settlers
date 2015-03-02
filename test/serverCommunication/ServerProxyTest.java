@@ -24,7 +24,7 @@ import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 public class ServerProxyTest {
-	private static ServerProxy proxy = ServerProxy.getInstance();
+	private static ServerProxy proxy = ServerProxy.getInstance("localhost", 8081);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

@@ -44,11 +44,11 @@ public class ServerProxy implements ServerInterface {
 		this.serializer = CatanSerializer.getInstance();
 	}
 
-	public static ServerProxy getInstance() {
+	public static ServerProxy getInstance(String hostname, int port) {
 		if (proxy == null) {
-			proxy = new ServerProxy("localhost", 8081);
-			
-			CLTester tester = new CLTester(getInstance());
+			proxy = new ServerProxy(hostname, port);
+
+			CLTester tester = new CLTester(proxy);
 			Thread thread = new Thread(tester);
 			thread.start();
 		}
@@ -75,7 +75,7 @@ public class ServerProxy implements ServerInterface {
 
 	private synchronized void parseCookie(HttpURLConnection connection) {
 		String cookieText = connection.getHeaderField("Set-cookie");
-		
+
 		if (cookieText != null) {
 			int idx = cookieText.indexOf('=');
 			String type = cookieText.substring(0, idx);
@@ -686,7 +686,7 @@ public class ServerProxy implements ServerInterface {
 
 		return false;
 	}
-	
+
 	/*
 	 * CLTester Methods
 	 */
