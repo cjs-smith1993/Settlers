@@ -58,7 +58,12 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-		this.openOffer = new ResourceInvoice(model.tradeOffer);
+		if (model.turnTracker == null) {
+			this.openOffer = new ResourceInvoice(model.tradeOffer);
+		}
+		else {
+			this.openOffer = null;
+		}
 		
 		this.board = new Board(model.map);
 
@@ -74,7 +79,7 @@ public class Facade extends Observable {
 
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
-		String someValue = "howdy";
+//		String someValue = "howdy";
 
 		this.finishClientSetup();
 		
@@ -83,7 +88,7 @@ public class Facade extends Observable {
 		}
 
 		this.setChanged();
-		this.notifyObservers(someValue);
+		this.notifyObservers();
 	}
 
 	@Override
