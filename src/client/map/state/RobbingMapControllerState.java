@@ -49,6 +49,10 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 				PlayerNumber ownerIdx = dwelling.getOwner();
 
 				for (PlayerInfo info : players) {
+					if (info.getPlayerIndex() == this.facade.getClientPlayerIndex()) {
+						continue;
+					}
+
 					if (ownerIdx == info.getPlayerIndex()) {
 						RobPlayerInfo robInfo = new RobPlayerInfo();
 
