@@ -2,6 +2,8 @@ package client.domestic;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 import shared.definitions.*;
@@ -16,7 +18,7 @@ import clientBackend.model.ResourceInvoice;
 /**
  * Domestic trade controller implementation
  */
-public class DomesticTradeController extends Controller implements IDomesticTradeController {
+public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
 
 	private static final boolean tradeReceiver = false;
 	private IDomesticTradeOverlay tradeOverlay;
@@ -53,6 +55,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		super(tradeView);
 		
 		facade = Facade.getInstance();
+		facade.addObserver(this);
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
@@ -222,7 +225,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			e.printStackTrace();
 		}
 		getTradeOverlay().closeModal();
-//		getWaitOverlay().showModal();
+		getWaitOverlay().showModal();
 	}
 
 	private ResourceInvoice makeTradeInvoice() {
@@ -301,6 +304,36 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		if(!sendingMap.containsKey(resource)) {
 			sendingMap.put(resource, 0);
 			this.getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
+			switch(resource) {
+			case BRICK:
+				if(brick == 0) {
+					this.getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
+				}
+				break;
+			case WOOD:
+				if(wood == 0) {
+					this.getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
+				}
+				break;
+			case WHEAT:
+				if(brick == 0) {
+					this.getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
+				}
+				break;
+			case ORE:
+				if(ore == 0) {
+					this.getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
+				}
+				break;
+			case SHEEP:
+				if(sheep == 0) {
+					this.getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
+				}
+				break;
+				default:
+					break;
+			}
+			
 			if(receivingMap.containsKey(resource)) {
 				receivingMap.remove(resource);
 				this.getTradeOverlay().setResourceAmount(resource, "0");
@@ -360,6 +393,17 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			this.getTradeOverlay().setTradeEnabled(false);
 		}
 			
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		DomesticTradeView view = (DomesticTradeView) super.getView();
+		if(facade.isClientTurn()) {
+			view.enableDomesticTrade(true);
+		}
+		else {
+			view.enableDomesticTrade(false);
+		}
 	}
 }
 

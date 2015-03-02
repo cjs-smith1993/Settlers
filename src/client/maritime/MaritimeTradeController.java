@@ -1,5 +1,7 @@
 package client.maritime;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 import shared.definitions.*;
@@ -12,7 +14,7 @@ import clientBackend.model.ResourceInvoice;
 /**
  * Implementation for the maritime trade controller
  */
-public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
+public class MaritimeTradeController extends Controller implements IMaritimeTradeController, Observer {
 
 	private IMaritimeTradeOverlay tradeOverlay;
 	private Facade facade;
@@ -27,6 +29,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		setTradeOverlay(tradeOverlay);
 		
 		facade = Facade.getInstance();
+		facade.addObserver(this);
 	}
 	
 	public IMaritimeTradeView getTradeView() {
@@ -187,6 +190,18 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		this.startTrade();
 		//this.getTradeOverlay().setTradeEnabled(false);
 		System.out.printf("unset give resource");
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		MaritimeTradeView view = (MaritimeTradeView) super.getView();
+		if(facade.isClientTurn()) {
+			view.enableMaritimeTrade(true);
+		}
+		else {
+			view.enableMaritimeTrade(false);
+		}
+		
 	}
 
 }
