@@ -62,7 +62,7 @@ public class Facade extends Observable {
 			this.hasDiscarded = false;
 		}
 		
-		if (model.tradeOffer == null) {
+		if (model.tradeOffer != null) {
 			this.openOffer = new ResourceInvoice(model.tradeOffer);
 		}
 		
