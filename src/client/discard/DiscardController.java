@@ -59,14 +59,16 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-		int currentNumber = this.resourcesToDiscard.get(resource);
-		currentNumber++;
-		this.currentNumberToDiscard++;
-		this.resourcesToDiscard.put(resource, currentNumber);
-		this.getDiscardView().setResourceDiscardAmount(resource, currentNumber);
-		
-		this.determineDiscardButton();
-		this.determineUpDownArrows(resource);
+		if (this.currentNumberToDiscard < this.numberToDiscard) {
+			int currentNumber = this.resourcesToDiscard.get(resource);
+			currentNumber++;
+			this.currentNumberToDiscard++;
+			this.resourcesToDiscard.put(resource, currentNumber);
+			this.getDiscardView().setResourceDiscardAmount(resource, currentNumber);
+			
+			this.checkIfReadyToDiscard();
+			this.determineUpDownArrows();
+		}	
 	}
 
 	@Override
@@ -77,11 +79,16 @@ public class DiscardController extends Controller implements IDiscardController,
 		this.resourcesToDiscard.put(resource, currentNumber);
 		this.getDiscardView().setResourceDiscardAmount(resource, currentNumber);
 		
-		this.determineDiscardButton();
-		this.determineUpDownArrows(resource);
+		this.checkIfReadyToDiscard();
+		this.determineUpDownArrows();
+		
 	}
 	
-	private void determineDiscardButton() {
+	/**
+	 * Determines the status of the "discard" button
+	 */
+	private void checkIfReadyToDiscard() {
+		// If the player has selected the number of cards they need to discard, disable all up arrows
 		if (this.currentNumberToDiscard >= this.numberToDiscard) {
 			this.getDiscardView().setDiscardButtonEnabled(true);
 			for (ResourceType type : ResourceType.values()) {
@@ -91,14 +98,36 @@ public class DiscardController extends Controller implements IDiscardController,
 		else {
 			this.getDiscardView().setDiscardButtonEnabled(false);
 		}
+		this.getDiscardView().setStateMessage("Discard: " + this.currentNumberToDiscard + "/" + this.numberToDiscard);
 	}
 	
+	/**
+	 * Determines whether the up/down arrows should be visible
+	 * @param type
+	 */
 	private void determineUpDownArrows(ResourceType type) {
 		int currentlyDiscarding = this.resourcesToDiscard.get(type);
 		int maxToDiscard = this.maxResources.get(type);
 		this.getDiscardView().setResourceAmountChangeEnabled(type, currentlyDiscarding < maxToDiscard, currentlyDiscarding > 0);
 	}
+	
+	private void determineUpDownArrows() {
+		for (ResourceType type : ResourceType.values()) {
+			this.determineUpDownArrows(type);
+		}
+	}
 
+	/**
+	 * Reset resourcesToDiscard to 0
+	 */
+	private void resetDiscardCards() {
+		for (ResourceType type : ResourceType.values()) {
+			this.resourcesToDiscard.put(type, 0);
+		}
+		this.currentNumberToDiscard = 0;
+		this.checkIfReadyToDiscard();
+	}
+	
 	@Override
 	public void discard() {
 		
@@ -111,6 +140,7 @@ public class DiscardController extends Controller implements IDiscardController,
 					this.resourcesToDiscard.get(ResourceType.SHEEP),
 					this.resourcesToDiscard.get(ResourceType.WHEAT),
 					this.resourcesToDiscard.get(ResourceType.WOOD));
+			this.resetDiscardCards();
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
@@ -132,9 +162,9 @@ public class DiscardController extends Controller implements IDiscardController,
 				this.determineUpDownArrows(type);
 			}
 			
-			this.determineDiscardButton();
+			this.checkIfReadyToDiscard();
 			
-			if (!this.getDiscardView().isModalShowing()) {
+			if (!this.getDiscardView().isModalShowing()) {// If the view is not already visible
 				this.getDiscardView().showModal();
 			}
 			

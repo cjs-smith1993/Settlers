@@ -40,6 +40,7 @@ public class Facade extends Observable {
 	private int version = 1;
 	private int resourceCardLimit = 7;
 	private boolean gameReady = false;
+	private boolean hasDiscarded = false;
 
 	private Facade() {}
 
@@ -56,6 +57,10 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
+		if (this.hasChangedState(model.turnTracker.status, CatanState.DISCARDING)) {
+			this.hasDiscarded = false;
+		}
+		
 		this.board = new Board(model.map);
 
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
@@ -83,6 +88,17 @@ public class Facade extends Observable {
 		super.addObserver(o);
 	}
 
+	/**
+	 * Determines if the model is changing state
+	 * @param newState
+	 * @param queryState
+	 * @return
+	 */
+	private boolean hasChangedState(CatanState newState, CatanState queryState) {
+		CatanState oldState = this.getModelState();
+		return (oldState == queryState && newState != queryState);
+	}
+	
 	private boolean isPlaying(PlayerNumber player) {
 		if (this.game.getState() == CatanState.PLAYING
 				&& this.game.getCurrentPlayer() == player) {
@@ -940,14 +956,14 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player needs to discard cards
-	 *
 	 * @param playerIndex
 	 * @return
 	 */
 	public boolean needsToDiscardCards(PlayerNumber playerIndex) {
 
 		if (this.game.getState() == CatanState.DISCARDING
-				&& (this.broker.getResourceCardCount(playerIndex, ResourceType.ALL) > this.resourceCardLimit)) {
+				&& (this.broker.getResourceCardCount(playerIndex, ResourceType.ALL) > this.resourceCardLimit)
+				&& !this.hasDiscarded) {
 			return true;
 		}
 
@@ -971,30 +987,18 @@ public class Facade extends Observable {
 			throws CatanException {
 
 		if (this.needsToDiscardCards(playerIndex)) {
-			return this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
+			this.hasDiscarded = true;
+			boolean success = this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
+			if (!success) {
+				this.hasDiscarded = false;
+			}
+			return success;
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot discard cards");
 		}
 	}
 	
-	/**
-	 * Determines whether a player has any remaining development cards.
-	 * @param player
-	 * @return
-	 */
-	public boolean hasDevelopmentCard(PlayerNumber player) {
-		return broker.hasDevelopmentCard(player);
-	}
-	
-	public boolean canPlayDevelopmentCard(PlayerNumber player, DevCardType type) throws CatanException {
-		return broker.canPlayDevelopmentCard(player, type);
-	}
-	
-	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
-		return broker.getDevelopmentCardCount(player, type);
-	}
-
 	/*
 	 * Facade Getters and Setters
 	 */
@@ -1170,6 +1174,23 @@ public class Facade extends Observable {
 		else {
 			return 0;
 		}
+	}
+
+	/**
+	 * Determines whether a player has any remaining development cards.
+	 * @param player
+	 * @return
+	 */
+	public boolean hasDevelopmentCard(PlayerNumber player) {
+		return broker.hasDevelopmentCard(player);
+	}
+	
+	public boolean canPlayDevelopmentCard(PlayerNumber player, DevCardType type) throws CatanException {
+		return broker.canPlayDevelopmentCard(player, type);
+	}
+	
+	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
+		return broker.getDevelopmentCardCount(player, type);
 	}
 
 }
