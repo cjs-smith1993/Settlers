@@ -122,9 +122,12 @@ public class ServerProxy implements ServerInterface {
 		bw.close();
 	}
 
-	private String doGet(URL url) throws IOException, ServerException {
+	private String doGet(URL url, boolean sendCookies) throws IOException, ServerException {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod(this.HTTP_GET);
+		if (sendCookies) {
+			connection.setRequestProperty("Cookie", this.getCookies());
+		}
 		connection.connect();
 
 		String response = this.readFrom(connection);
@@ -210,7 +213,7 @@ public class ServerProxy implements ServerInterface {
 	public Collection<DTOGame> gamesList() {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/games/list");
-			String response = this.doGet(url);
+			String response = this.doGet(url, false);
 			Type objectType = new TypeToken<Collection<DTOGame>>() {
 			}.getType();
 			return (Collection<DTOGame>) this.serializer.deserializeObject(response, objectType);
@@ -288,10 +291,9 @@ public class ServerProxy implements ServerInterface {
 
 	@Override
 	public void gameModel(int version) throws IOException, ServerException {
-		DTOGameModel data = new DTOGameModel(version);
-
-		URL url = new URL(this.getUrlPrefix() + "/game/model");
-		String response = this.doPost(url, data);
+		URL url = new URL(this.getUrlPrefix() + "/game/model?version=" + version);
+		System.out.println(version);
+		String response = this.doGet(url, true);
 		this.deserializeResponse(response);
 	}
 
@@ -299,7 +301,7 @@ public class ServerProxy implements ServerInterface {
 	public void gameReset() {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/reset");
-			String response = this.doGet(url);
+			String response = this.doGet(url, true);
 			this.deserializeResponse(response);
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
@@ -321,7 +323,7 @@ public class ServerProxy implements ServerInterface {
 	public String gameCommands() {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/commands");
-			String response = this.doGet(url);
+			String response = this.doGet(url, true);
 			return response;
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
@@ -348,7 +350,7 @@ public class ServerProxy implements ServerInterface {
 	public Collection<AIType> gameListAI() {
 		try {
 			URL url = new URL(this.getUrlPrefix() + "/game/listAI");
-			String response = this.doGet(url);
+			String response = this.doGet(url, true);
 			Type objectType = new TypeToken<Collection<AIType>>() {
 			}.getType();
 			return (Collection<AIType>) this.serializer.deserializeObject(response, objectType);

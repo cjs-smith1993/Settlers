@@ -20,12 +20,12 @@ public class CatanSerializer {
 		if (serializer == null) {
 			serializer = new CatanSerializer();
 		}
-		
+
 		return serializer;
 	}
 
 	private CatanSerializer() {
-		facade = Facade.getInstance();
+		this.facade = Facade.getInstance();
 	}
 
 	/**
@@ -37,6 +37,10 @@ public class CatanSerializer {
 	 * @throws CatanException
 	 */
 	public void deserializeModel(String gsonString) throws CatanException {
+		if (gsonString.startsWith("\"true")) {
+			return;
+		}
+
 		TransportModel transportModel = this.gson.fromJson(gsonString, TransportModel.class);
 
 		this.facade.initializeModel(transportModel);
