@@ -20,8 +20,7 @@ public class ServerPoller {
 	/**
 	 * A Server Interface is passed in to provide dependency injection
 	 */
-	public ServerPoller(ServerInterface server) {
-		this.server = server;
+	public ServerPoller() {
 		this.facade = Facade.getInstance();
 	}
 
@@ -49,15 +48,6 @@ public class ServerPoller {
 
 		final int versionNumber = this.facade.getVersion();
 
-		try {
-			this.server.gameModel(versionNumber);
-		} catch (IOException | ServerException e) {
-			String error = "\n------------\nERROR: Server Poller is having issues.\n------------\n";
-			System.out.println(error);
-			if (e instanceof ServerException) {
-				System.out.println(e.toString());
-			}
-			e.printStackTrace();
-		}
+		this.facade.getModel(true);
 	}
 }
