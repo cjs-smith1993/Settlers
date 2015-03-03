@@ -23,7 +23,7 @@ public class ServerPollerTest {
 	public void setUp() throws Exception {
 		this.facade = Facade.getInstance();
 		this.mock5 = new ServerMock5();
-		this.poller = new ServerPoller(this.mock5);
+		this.poller = new ServerPoller();
 
 		this.facade.setProxy(this.mock5);
 		this.facade.login("Pete", "pete");
