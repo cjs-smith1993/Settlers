@@ -16,6 +16,8 @@ import clientBackend.model.Facade;
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
 	Facade facade = Facade.getInstance();
+	
+	private boolean isStartup = true;
 
 	private final String ROLL_MESSAGE = "Roll the Dice";
 	private final String ROBBER_MESSAGE = "Place the Robber";
@@ -46,16 +48,20 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		List<PlayerInfo> players = this.facade.getPlayers();
 
 		if (players != null) {
-			for (PlayerInfo playerInfo : players) {
-				if (playerInfo != null) {
-					view.initializePlayer(playerInfo.getPlayerIndex().getInteger(),
-							playerInfo.getName(), playerInfo.getColor());
+			if (isStartup) {
+				for (PlayerInfo playerInfo : players) {
+					if (playerInfo != null) {
+						view.initializePlayer(playerInfo.getPlayerIndex().getInteger(),
+								playerInfo.getName(), playerInfo.getColor());
 
-					PlayerNumber clientIndex = this.facade.getClientPlayerIndex();
-					if (playerInfo.getPlayerIndex() == clientIndex) {
-						view.setLocalPlayerColor(playerInfo.getColor());
+						PlayerNumber clientIndex = this.facade.getClientPlayerIndex();
+						if (playerInfo.getPlayerIndex() == clientIndex) {
+							view.setLocalPlayerColor(playerInfo.getColor());
+						}
 					}
 				}
+				
+				isStartup = false;
 			}
 
 			PlayerNumber longestRoadPlayer = this.facade.getLongestRoadPlayer();
