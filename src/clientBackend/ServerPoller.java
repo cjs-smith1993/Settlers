@@ -19,15 +19,15 @@ public class ServerPoller {
 	 */
 	public ServerPoller() {
 		this.facade = Facade.getInstance();
-		timer = new Timer();
+		this.timer = new Timer();
 	}
 
 	public void initializeTimer() {
 		if (!this.hasStartedPolling) {
-			facade.setPoller(this);
+			this.facade.setPoller(this);
 			this.hasStartedPolling = true;
 
-			timer.schedule(
+			this.timer.schedule(
 					new TimerTask() {
 						@Override
 						public void run() {
@@ -47,7 +47,7 @@ public class ServerPoller {
 
 		this.facade.getModel(true);
 	}
-	
+
 	public void killPoller() {
 		this.hasStartedPolling = false;
 		this.timer.cancel();
