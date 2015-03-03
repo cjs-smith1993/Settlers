@@ -3,6 +3,7 @@ package client.map.state;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import shared.definitions.CatanState;
 import shared.definitions.PieceType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -36,7 +37,8 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 	}
 
 	public boolean canPlaceRobber(HexLocation hex) {
-		return this.facade.canPlaceRobber(this.facade.getClientPlayerIndex(), hex);
+		return this.facade.canPlaceRobber(this.facade.getClientPlayerIndex(), hex,
+				CatanState.ROBBING);
 	}
 
 	public void placeRobber(HexLocation hex) {

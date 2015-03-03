@@ -407,7 +407,8 @@ public class Facade extends Observable {
 	public boolean robPlayer(PlayerNumber playerIndex, PlayerNumber victim, HexLocation newLocation)
 			throws CatanException {
 
-		if (this.canPlaceRobber(playerIndex, newLocation) && this.canRobPlayer(playerIndex, victim)) {
+		if (this.canPlaceRobber(playerIndex, newLocation, CatanState.ROBBING)
+				&& this.canRobPlayer(playerIndex, victim)) {
 			return this.server.movesRobPlayer(playerIndex, victim, newLocation);
 		}
 		else {
@@ -1232,34 +1233,34 @@ public class Facade extends Observable {
 
 	public String getWinner() {
 		String winnerName = null;
-		
-		List<PlayerInfo> players = getPlayers();
-		
+
+		List<PlayerInfo> players = this.getPlayers();
+
 		if (players != null) {
-			PlayerNumber winner = scoreboard.getWinner(); 
-			
+			PlayerNumber winner = this.scoreboard.getWinner();
+
 			if (winner != PlayerNumber.BANK) {
-				winnerName = getNameForPlayerNumber(winner);
-			}	
+				winnerName = this.getNameForPlayerNumber(winner);
+			}
 		}
-		
+
 		return winnerName;
 	}
-	
+
 	public String getNameForPlayerNumber(PlayerNumber player) {
 		String playerName = null;
-		List<PlayerInfo> players = getPlayers();
-		
+		List<PlayerInfo> players = this.getPlayers();
+
 		if (player == PlayerNumber.BANK) {
 			return null;
 		}
-		
+
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).getPlayerIndex() == player) {
 				playerName = players.get(i).getName();
 			}
 		}
-		
+
 		return playerName;
 	}
 }
