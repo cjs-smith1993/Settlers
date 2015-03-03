@@ -24,7 +24,7 @@ public class ServerPoller {
 
 	public void initializeTimer() {
 		if (!this.hasStartedPolling) {
-			this.facade.setPoller(this);
+			//			this.facade.setPoller(this);
 			this.hasStartedPolling = true;
 
 			this.timer.schedule(
