@@ -398,7 +398,8 @@ public class Broker {
 			if (harbor.getResource() == type) {
 				return harbor.getRatio();
 			}
-			else if (harbor.getResource() == ResourceType.ALL) {
+			else if (harbor.getResource() == null) {
+				//TODO the hosrbors get resource for this is null but should be all
 				min = 3;
 			}
 		}
