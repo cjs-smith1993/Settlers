@@ -296,6 +296,13 @@ public class ServerProxy implements ServerInterface {
 		this.deserializeResponse(response);
 	}
 	
+	public String gameModel() throws ServerException, IOException {
+		URL url = new URL(this.getUrlPrefix() + "/game/model");
+		String result = this.doGet(url, true);
+		this.deserializeResponse(result);
+		return result;
+	}
+	
 	@Override
 	public void gameReset() {
 		try {
@@ -686,15 +693,6 @@ public class ServerProxy implements ServerInterface {
 		}
 
 		return false;
-	}
-
-	/*
-	 * CLTester Methods
-	 */
-	public String gameModel() throws ServerException, IOException {
-
-		URL url = new URL(this.getUrlPrefix() + "/game/model");
-		return this.doGet(url, true);
 	}
 
 	/*

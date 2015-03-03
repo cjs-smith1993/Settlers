@@ -211,7 +211,7 @@ public class Facade extends Observable {
 	public boolean joinGame(int gameId, CatanColor desiredColor) {
 		boolean success = this.server.gamesJoin(gameId, desiredColor);
 		if (success) {
-			this.getModel(true);
+			this.getModel(false);
 		}
 		return success;
 	}

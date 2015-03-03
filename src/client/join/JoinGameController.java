@@ -27,10 +27,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	private Facade facade;
 	private GameInfo curGame;
-	private Collection<GameInfo> curGames;
 	boolean isPolling = false;
-	boolean showHub = true;
-
 	private Timer timer;
 
 	/**
@@ -124,56 +121,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	}
 
-	public void setGamesList() {
-		Collection<DTOGame> gamesList = this.facade.getGamesList();
-		Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
-
-		for (DTOGame game : gamesList) {
-			GameInfo curGame = new GameInfo();
-
-			curGame.setId(game.id);
-			curGame.setTitle(game.title);
-
-			for (DTOPlayer player : game.players) {
-				if (player.id == -1) {
-					continue;
-				}
-
-				int id = player.id;
-				String name = player.name;
-				CatanColor color = player.color;
-				PlayerNumber index = PlayerNumber.BANK;
-
-				PlayerInfo curPlayer = new PlayerInfo(id, index, name, color);
-				curGame.addPlayer(curPlayer);
-			}
-			gameInfoList.add(curGame);
-		}
-
-		this.setCurGames(gameInfoList);
-
-		if (!this.showHub) {
-			return;
-		}
-
-		GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
-		if (this.getJoinGameView().isModalShowing()) {
-			this.getJoinGameView().closeModal();
-			this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
-			this.getJoinGameView().showModal();
-		}
-	}
-
 	@Override
 	public void startCreateNewGame() {
-		this.showHub = false;
+		this.getJoinGameView().closeModal();
 		this.getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() {
-		this.showHub = true;
 		this.getNewGameView().closeModal();
+		this.getJoinGameView().showModal();
 	}
 
 	@Override
@@ -191,8 +148,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		try {
 			this.facade.createGame(randomTiles, randomNumbers, randomPorts, gameName);
 			this.getNewGameView().closeModal();
-			this.showHub = true;
-			this.setGamesList();
+			this.getJoinGameView().showModal();
+			this.refreshGamesList();
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
@@ -200,24 +157,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		this.showHub = false;
 		this.curGame = game;
+		this.getJoinGameView().closeModal();
 		this.getSelectColorView().showModal();
-	}
-
-	public void disableTakenColors(GameInfo game) {
-		for (PlayerInfo player : game.getPlayers()) {
-			CatanColor color = player.getColor();
-			if (player.getId() != this.facade.getClientPlayer().getId()) {
-				this.getSelectColorView().setColorEnabled(color, false);
-			}
-		}
+		this.refreshColorPicker();
 	}
 
 	@Override
 	public void cancelJoinGame() {
-		this.showHub = true;
 		this.getSelectColorView().closeModal();
+		this.getJoinGameView().showModal();
 	}
 
 	@Override
@@ -229,30 +178,88 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			this.facade.sendChat(index, name + " has joined the chat.");
 
 			this.getSelectColorView().closeModal();
-			this.getJoinGameView().closeModal();
 			this.timer.cancel();
 			this.joinAction.execute();
 		}
 	}
 
-	public Collection<GameInfo> getCurGames() {
-		return this.curGames;
+	public void refreshGamesList() {
+		if (this.getJoinGameView().isModalShowing()) {
+
+			Collection<DTOGame> gamesList = this.facade.getGamesList();
+			Collection<GameInfo> gameInfoList = new ArrayList<GameInfo>();
+
+			for (DTOGame game : gamesList) {
+				GameInfo curGame = new GameInfo();
+
+				curGame.setId(game.id);
+				curGame.setTitle(game.title);
+
+				for (DTOPlayer player : game.players) {
+					if (player.id == -1) {
+						continue;
+					}
+
+					int id = player.id;
+					String name = player.name;
+					CatanColor color = player.color;
+					PlayerNumber index = PlayerNumber.BANK;
+
+					PlayerInfo curPlayer = new PlayerInfo(id, index, name, color);
+					curGame.addPlayer(curPlayer);
+				}
+				gameInfoList.add(curGame);
+			}
+
+			GameInfo[] gameInfoArray = gameInfoList.toArray(new GameInfo[0]);
+			this.getJoinGameView().closeModal();
+			this.getJoinGameView().setGames(gameInfoArray, this.facade.getClientPlayer());
+			this.getJoinGameView().showModal();
+		}
 	}
 
-	public void setCurGames(Collection<GameInfo> curGames) {
-		this.curGames = curGames;
+	public void refreshColorPicker() {
+		if (this.getSelectColorView().isModalShowing()) {
+			for (DTOGame game : this.facade.getGamesList()) {
+				if (game.id == this.curGame.getId()) {
+					this.curGame = new GameInfo();
+					this.curGame.setId(game.id);
+					this.curGame.setTitle(game.title);
+
+					for (DTOPlayer player : game.players) {
+						if (player.id == -1) {
+							continue;
+						}
+
+						int id = player.id;
+						PlayerNumber index = PlayerNumber.BANK;
+						String name = player.name;
+						CatanColor color = player.color;
+
+						PlayerInfo curPlayer = new PlayerInfo(id, index, name, color);
+						this.curGame.addPlayer(curPlayer);
+					}
+				}
+
+			}
+
+			this.getSelectColorView().closeModal();
+			this.disableTakenColors();
+			this.getSelectColorView().showModal();
+		}
+	}
+
+	public void disableTakenColors() {
+		for (PlayerInfo player : this.curGame.getPlayers()) {
+			CatanColor color = player.getColor();
+			if (player.getId() != this.facade.getClientPlayer().getId()) {
+				this.getSelectColorView().setColorEnabled(color, false);
+			}
+		}
 	}
 
 	public void update() {
-		this.setGamesList();
-		if (this.getSelectColorView().isModalShowing()) {
-			this.getSelectColorView().closeModal();
-			for (GameInfo game : this.curGames) {
-				if (game.getId() == this.curGame.getId()) {
-					this.disableTakenColors(game);
-				}
-			}
-			this.getSelectColorView().showModal();
-		}
+		this.refreshGamesList();
+		this.refreshColorPicker();
 	}
 }
