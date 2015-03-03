@@ -48,9 +48,9 @@ public class ServerProxy implements ServerInterface {
 		if (proxy == null) {
 			proxy = new ServerProxy(hostname, port);
 
-			CLTester tester = new CLTester(proxy);
-			Thread thread = new Thread(tester);
-			thread.start();
+//			CLTester tester = new CLTester(proxy);
+//			Thread thread = new Thread(tester);
+//			thread.start();
 		}
 
 		return proxy;
