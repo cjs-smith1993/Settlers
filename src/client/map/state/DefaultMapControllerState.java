@@ -169,6 +169,15 @@ public class DefaultMapControllerState {
 			this.controller.setRobberLocation(hex);
 
 			RobPlayerInfo[] candidateVictims = robbablePlayers.toArray(new RobPlayerInfo[0]);
+			if (candidateVictims.length == 0) {
+				candidateVictims = new RobPlayerInfo[1];
+				RobPlayerInfo nonePlayer = new RobPlayerInfo();
+				nonePlayer.setId(-1);
+				nonePlayer.setPlayerIndex(PlayerNumber.BANK);
+				nonePlayer.setName("None");
+				nonePlayer.setColor(CatanColor.WHITE);
+				candidateVictims[0] = nonePlayer;
+			}
 			this.robView.setPlayers(candidateVictims);
 			this.robView.showModal();
 		}
