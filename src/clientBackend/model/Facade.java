@@ -69,7 +69,7 @@ public class Facade extends Observable {
 		else {
 			this.openOffer = null;
 		}
-		System.out.print("\nOld state: " + this.getModelState() + "    New state: " + model.turnTracker.status + "\n");
+//		System.out.print("\nOld state: " + this.getModelState() + "    New state: " + model.turnTracker.status + "\n");
 		this.board = new Board(model.map);
 
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
