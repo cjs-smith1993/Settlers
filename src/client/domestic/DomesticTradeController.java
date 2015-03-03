@@ -20,6 +20,7 @@ import clientBackend.model.ResourceInvoice;
  */
 public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
 
+	@SuppressWarnings("unused")
 	private static final boolean tradeReceiver = false;
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
@@ -36,10 +37,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private Map<ResourceType, Integer> sendingMap = new HashMap<ResourceType, Integer>();
 	private Map<ResourceType, Integer> receivingMap = new HashMap<ResourceType, Integer>();
 	
-	private ResourceType sendingResource = ResourceType.NONE;
-	private ResourceType recievingResource = ResourceType.NONE;
-	private int sendingNumber = 0;
-	private int recievingNumber = 0;
+	private Vector<PlayerInfo> otherPlayers = new Vector<PlayerInfo>();
+	private PlayerInfo[] info = new PlayerInfo[3];
+	private ResourceInvoice tradingInvoice;
+	private boolean setup;
 
 	/**
 	 * DomesticTradeController constructor
@@ -59,6 +60,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
+		setup = true;
 	}
 	
 	public IDomesticTradeView getTradeView() {
@@ -90,12 +92,12 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		this.acceptOverlay = acceptOverlay;
 	}
 
-	@Override
-	public void startTrade() {
+	private void init() {
 		clientNumber = facade.getClientPlayerIndex();
+		otherPlayers.clear();
 		Vector<PlayerInfo> playerInfo = new Vector<PlayerInfo>();
-		PlayerInfo[] info = new PlayerInfo[3];
-		Vector<PlayerInfo> otherPlayers = new Vector<PlayerInfo>();
+
+
 		playerInfo.addAll(facade.getPlayers());
 		for(PlayerInfo Info: playerInfo) {
 			if(Info.getId() != facade.getClientPlayer().getId()) {
@@ -124,10 +126,17 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				break;
 			}
 		}
+	}
+	
+	@Override
+	public void startTrade() {
 		
-		this.getTradeOverlay().setPlayers(otherPlayers.toArray(info));
+		this.init();
+		if(setup) {
+			this.getTradeOverlay().setPlayers(otherPlayers.toArray(info));
+			setup = false;
+		}
 		this.getTradeOverlay().setPlayerSelectionEnabled(true);
-		
 		getTradeOverlay().showModal();
 	}
 
@@ -221,11 +230,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		try {
 			facade.offerTrade(invoice);
 		} catch (CatanException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getTradeOverlay().closeModal();
-		getWaitOverlay().showModal();
+		this.getTradeOverlay().closeModal();
+		this.getWaitOverlay().showModal();
 	}
 
 	private ResourceInvoice makeTradeInvoice() {
@@ -273,6 +281,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 					break;
 			}
 		}
+		tradingInvoice = invoice;
 		return invoice;
 	}
 
@@ -316,7 +325,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 				break;
 			case WHEAT:
-				if(brick == 0) {
+				if(wheat == 0) {
 					this.getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
 				}
 				break;
@@ -352,7 +361,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		if(receivingMap.containsKey(resource)) {
 			receivingMap.remove(resource);
 		}
-		System.out.printf("unset resource");
 		enableTradeButton();
 	}
 
@@ -362,9 +370,126 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getTradeOverlay().closeModal();
 	}
 
+	private void displayAcceptTrade(ResourceInvoice invoice) {
+		
+		tradingInvoice = invoice;
+		this.init();
+		int tradeBrick = Math.abs(invoice.getBrick());
+		int tradeWood = Math.abs(invoice.getWood());
+		int tradeWheat = Math.abs(invoice.getWheat());
+		int tradeOre = Math.abs(invoice.getOre());
+		int tradeSheep = Math.abs(invoice.getSheep());
+		boolean enoughBrick = false;
+		boolean enoughWood = false;
+		boolean enoughWheat = false;
+		boolean enoughOre = false;
+		boolean enoughSheep = false;
+		PlayerNumber srcPlayer = invoice.getSourcePlayer();
+		
+		for(PlayerInfo info :facade.getPlayers()) {
+			if(info.getPlayerIndex() == srcPlayer) {
+				this.getAcceptOverlay().setPlayerName(info.getName());
+				break;
+			}
+		}
+		
+		for(ResourceType type: ResourceType.values()) {
+			switch(type) {
+			case BRICK:
+				if(invoice.getBrick() > 0) {
+					this.getAcceptOverlay().addGetResource(type, tradeBrick);
+					enoughBrick = true;
+				}
+				else if(invoice.getBrick() < 0) {
+					this.getAcceptOverlay().addGiveResource(type, tradeBrick);
+					if(brick >= tradeBrick) {
+						enoughBrick = true;
+					}
+				}
+				else {
+					enoughBrick = true;
+				}
+				break;
+			case WOOD:
+				if(invoice.getWood() > 0) {
+					this.getAcceptOverlay().addGetResource(type, tradeWood);
+					enoughWood = true;
+				}
+				else if(invoice.getWood() < 0) {
+					this.getAcceptOverlay().addGiveResource(type, tradeWood);
+					if(wood >= tradeWood) {
+						enoughWood = true;
+					}
+				}
+				else {
+					enoughWood = true;
+				}
+				break;
+			case WHEAT:
+				if(invoice.getWheat() > 0) {
+					this.getAcceptOverlay().addGetResource(type, tradeWheat);
+					enoughWheat = true;
+				}
+				else if(invoice.getWheat() < 0) {
+					this.getAcceptOverlay().addGiveResource(type, tradeWheat);
+					if(wheat >= tradeWheat) {
+						enoughWheat = true;
+					}
+				}
+				else {
+					enoughWheat = true;
+				}
+				break;
+			case ORE:
+				if(invoice.getOre() > 0) {
+					this.getAcceptOverlay().addGetResource(type, tradeOre);
+					enoughOre = true;
+				}
+				else if(invoice.getOre() < 0) {
+					this.getAcceptOverlay().addGiveResource(type, tradeOre);
+					if(ore >= tradeOre) {
+						enoughOre = true;
+					}
+				}
+				else {
+					enoughOre = true;
+				}
+				break;
+			case SHEEP:
+				if(invoice.getSheep() > 0) {
+					this.getAcceptOverlay().addGetResource(type, tradeSheep);
+					enoughSheep = true;
+				}
+				else if(invoice.getSheep() < 0) {
+					this.getAcceptOverlay().addGiveResource(type, tradeSheep);
+					if(sheep >= tradeSheep) {
+						enoughSheep = true;
+					}
+				}
+				else {
+					enoughSheep = true;
+				}
+				break;
+				default:
+					break;
+			}
+		}
+		if(enoughBrick && enoughWood && enoughWheat && enoughOre && enoughSheep) {
+			this.getAcceptOverlay().setAcceptEnabled(true);
+		}
+		else {
+			this.getAcceptOverlay().setAcceptEnabled(false);
+		}
+		this.getAcceptOverlay().showModal();
+	}
+	
 	@Override
 	public void acceptTrade(boolean willAccept) {
-
+		try {
+			facade.acceptTrade(tradingInvoice, willAccept);
+		} catch (CatanException e) {
+			e.printStackTrace();
+		}
 		getAcceptOverlay().closeModal();
 	}
 	private void enableTradeButton() {
@@ -403,6 +528,27 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		else {
 			view.enableDomesticTrade(false);
+		}
+		ResourceInvoice invoice = facade.getOpenOffer();
+		PlayerNumber clientNumb = facade.getClientPlayerIndex();
+		if(invoice != null && clientNumb == invoice.getDestinationPlayer()) {
+			if(!this.getAcceptOverlay().isModalShowing())
+				displayAcceptTrade(invoice);
+		}
+		else if(invoice != null && clientNumb == invoice.getSourcePlayer()) {
+			if(!this.getWaitOverlay().isModalShowing())
+				this.getWaitOverlay().showModal();
+		}
+		else {
+			if(this.getWaitOverlay().isModalShowing()) {
+				this.getWaitOverlay().closeModal();
+				if(this.getTradeOverlay().isModalShowing()) {
+					this.getTradeOverlay().closeModal();
+				}
+			}
+			/*if(this.getAcceptOverlay().isModalShowing()) {
+				this.getAcceptOverlay().closeModal();
+			}*/
 		}
 	}
 }
