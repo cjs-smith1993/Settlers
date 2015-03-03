@@ -523,7 +523,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		DomesticTradeView view = (DomesticTradeView) super.getView();
-		if(facade.isClientTurn()) {
+		if (facade.isClientTurn() && (this.facade.getModelState() != CatanState.ROBBING)) {
 			view.enableDomesticTrade(true);
 		}
 		else {
