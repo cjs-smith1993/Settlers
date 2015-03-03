@@ -31,9 +31,9 @@ public class SetupMapControllerState extends DefaultMapControllerState {
 			int numSettlements = maxSettlements - remainingSettlements;
 
 			CatanState state = this.facade.getModelState();
-			int expectedSettlements = state == CatanState.FIRST_ROUND ? 0 : 1;
-			PieceType type = numSettlements == expectedSettlements ? PieceType.SETTLEMENT
-					: PieceType.ROAD;
+			int expectedSettlements = (state == CatanState.FIRST_ROUND ? 0 : 1);
+			PieceType type = (numSettlements == expectedSettlements ? PieceType.SETTLEMENT
+					: PieceType.ROAD);
 
 			this.startMove(type, true, true);
 		}
