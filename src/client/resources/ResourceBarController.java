@@ -7,6 +7,7 @@ import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import client.base.*;
+import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 
 /**
@@ -106,6 +107,12 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		view.setElementAmount(ResourceBarElement.ROAD, roadCount);
 		view.setElementAmount(ResourceBarElement.SETTLEMENT, settlementCount);
 		view.setElementAmount(ResourceBarElement.CITY, cityCount);
+		try {
+			view.setElementAmount(ResourceBarElement.SOLDIERS, facade.getClientsPlayedSoldiers());
+		} catch (CatanException e) {
+			view.setElementAmount(ResourceBarElement.SOLDIERS, 0);
+			e.printStackTrace();
+		}
 	}
 	
 	private void setResourceCount(IResourceBarView view) {
