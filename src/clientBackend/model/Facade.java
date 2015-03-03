@@ -131,8 +131,8 @@ public class Facade extends Observable {
 	 * Reset the game! Return to the Game Hub. Begin war again.
 	 */
 	public void initializeArmageddon() {
-		this.poller.killPoller();
-		this.isGameFinished = true;
+//		poller.killPoller();
+		isGameFinished = true;
 	}
 
 	/*
@@ -1129,6 +1129,10 @@ public class Facade extends Observable {
 
 	public boolean checkGameFinished() {
 		return this.isGameFinished;
+	}
+	
+	public void setGameFinished(boolean isGameFinished) {
+		this.isGameFinished = isGameFinished;
 	}
 
 	public boolean roadBuildingPlayed() {
