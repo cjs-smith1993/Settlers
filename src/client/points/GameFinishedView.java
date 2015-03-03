@@ -78,7 +78,16 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 			
 			if (e.getSource() == okButton) {
 				closeModal();
-				getController().endGame();
+				IPointsController controller = getController();
+				
+				if (controller != null) {
+					System.out.println("END OF GAME: NULL CONTROLLER");
+					
+					controller.endGame();
+				}
+				else {
+					System.out.println("END OF GAME: NULL CONTROLLER");
+				}
 			}
 		}	
 	};

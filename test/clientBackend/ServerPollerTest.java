@@ -24,6 +24,7 @@ public class ServerPollerTest {
 		this.facade = Facade.getInstance();
 		this.mock5 = new ServerMock5();
 		this.facade.setProxy(mock5);
+
 		this.poller = new ServerPoller();
 
 		this.facade.setProxy(this.mock5);

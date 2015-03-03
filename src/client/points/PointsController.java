@@ -54,6 +54,7 @@ public class PointsController extends Controller implements IPointsController, O
 				isLocalPlayer = true;
 			}
 			
+			getFinishedView().setController(this);
 			getFinishedView().setWinner(winner, isLocalPlayer);
 			getFinishedView().showModal();
 		}
@@ -61,6 +62,6 @@ public class PointsController extends Controller implements IPointsController, O
 
 	@Override
 	public void endGame() {
-		System.out.println("Game Ended!");
+		
 	}
 }
