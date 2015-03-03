@@ -58,4 +58,9 @@ public class PointsController extends Controller implements IPointsController, O
 			getFinishedView().showModal();
 		}
 	}
+
+	@Override
+	public void endGame() {
+		System.out.println("Game Ended!");
+	}
 }
