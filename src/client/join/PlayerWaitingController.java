@@ -3,6 +3,8 @@ package client.join;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import shared.definitions.AIType;
 import client.base.*;
@@ -17,11 +19,15 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	private Facade facade;
 	private final int MAX_PLAYERS = 4;
+	boolean isPolling = false;
+	private Timer timer;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 		super(view);
 		this.facade = Facade.getInstance();
 		this.facade.addObserver(this);
+
+		this.timer = new Timer();
 	}
 
 	@Override
@@ -37,19 +43,19 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			return;
 		}
 
-		AIType[] AITypes = this.facade.getAITypes().toArray(new AIType[0]);
-		String[] stringTypes = new String[AITypes.length];
-		for (int i = 0; i < AITypes.length; i++) {
-			stringTypes[i] = AITypes[i].name();
-		}
-		this.getView().setAIChoices(stringTypes);
 		this.getView().showModal();
-		this.refresh();
-	}
+		this.setAIChoices();
 
-	public void finish() {
-		this.facade.setGameReady(true);
-		this.facade.getModel(false);
+		if (!this.isPolling) {
+			this.isPolling = true;
+
+			this.timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					PlayerWaitingController.this.facade.getModel(false);
+				}
+			}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
+		}
 	}
 
 	@Override
@@ -61,17 +67,40 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 	public void refresh() {
+		System.out.println("refreshing");
 		if (this.getView().isModalShowing()) {
-			this.getView().closeModal();
 			Collection<PlayerInfo> players = this.facade.getPlayers();
-			this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
 			if (players.size() < this.MAX_PLAYERS) {
+				this.getView().closeModal();
+				this.getView().setPlayers(players.toArray(new PlayerInfo[0]));
 				this.getView().showModal();
 			}
 			else {
 				this.finish();
 			}
 		}
+	}
+
+	public void setAIChoices() {
+		if (this.getView().isModalShowing()) {
+			AIType[] AITypes = this.facade.getAITypes().toArray(new AIType[0]);
+			String[] stringTypes = new String[AITypes.length];
+			for (int i = 0; i < AITypes.length; i++) {
+				stringTypes[i] = AITypes[i].name();
+			}
+			this.getView().closeModal();
+			this.getView().setAIChoices(stringTypes);
+			this.getView().showModal();
+		}
+	}
+
+	public void finish() {
+		this.timer.cancel();
+		if (this.getView().isModalShowing()) {
+			this.getView().closeModal();
+		}
+		this.facade.setGameReady(true);
+		this.facade.getModel(false);
 	}
 
 	@Override

@@ -43,7 +43,8 @@ public class Facade extends Observable {
 	private boolean gameReady = false;
 	private boolean hasDiscarded = false;
 
-	private Facade() {}
+	private Facade() {
+	}
 
 	public static Facade getInstance() {
 		if (facadeInstance == null) {
@@ -64,7 +65,7 @@ public class Facade extends Observable {
 		else {
 			this.openOffer = null;
 		}
-		
+
 		this.board = new Board(model.map);
 
 		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
@@ -79,10 +80,10 @@ public class Facade extends Observable {
 
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
-//		String someValue = "howdy";
+		//		String someValue = "howdy";
 
 		this.finishClientSetup();
-		
+
 		if (this.getModelState() != CatanState.DISCARDING) {
 			this.hasDiscarded = false;
 		}
@@ -98,6 +99,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the model is changing state
+	 * 
 	 * @param newState
 	 * @param queryState
 	 * @return
@@ -106,7 +108,7 @@ public class Facade extends Observable {
 		CatanState oldState = this.getModelState();
 		return (oldState == queryState && newState != queryState);
 	}
-	
+
 	private boolean isPlaying(PlayerNumber player) {
 		if (this.game.getState() == CatanState.PLAYING
 				&& this.game.getCurrentPlayer() == player) {
@@ -155,7 +157,11 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 */
 	public boolean register(String username, String password) {
-		return this.server.userRegister(username, password);
+		boolean success = this.server.userRegister(username, password);
+		if (success) {
+			this.login(username, password);
+		}
+		return success;
 	}
 
 	/*
@@ -969,6 +975,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player needs to discard cards
+	 * 
 	 * @param playerIndex
 	 * @return
 	 */
@@ -1001,7 +1008,8 @@ public class Facade extends Observable {
 
 		if (this.needsToDiscardCards(playerIndex)) {
 			this.hasDiscarded = true;
-			boolean success = this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat, wood);
+			boolean success = this.server.movesDiscardCards(playerIndex, brick, ore, sheep, wheat,
+					wood);
 			if (!success) {
 				this.hasDiscarded = false;
 			}
@@ -1011,7 +1019,7 @@ public class Facade extends Observable {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot discard cards");
 		}
 	}
-	
+
 	/*
 	 * Facade Getters and Setters
 	 */
@@ -1097,7 +1105,7 @@ public class Facade extends Observable {
 	public ResourceInvoice getOpenOffer() {
 		return this.openOffer;
 	}
-	
+
 	/*
 	 * "Model" Getters and Setters
 	 */
@@ -1195,21 +1203,23 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines whether a player has any remaining development cards.
+	 * 
 	 * @param player
 	 * @return
 	 */
 	public boolean hasDevelopmentCard(PlayerNumber player) {
-		return broker.hasDevelopmentCard(player);
+		return this.broker.hasDevelopmentCard(player);
 	}
-	
-	public boolean canPlayDevelopmentCard(PlayerNumber player, DevCardType type) throws CatanException {
-		return broker.canPlayDevelopmentCard(player, type);
+
+	public boolean canPlayDevelopmentCard(PlayerNumber player, DevCardType type)
+			throws CatanException {
+		return this.broker.canPlayDevelopmentCard(player, type);
 	}
-	
+
 	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
-		return broker.getDevelopmentCardCount(player, type);
+		return this.broker.getDevelopmentCardCount(player, type);
 	}
-	
+
 	public boolean canPurchase(PlayerNumber playerIndex, PropertyType property) {
 		try {
 			return this.broker.canPurchase(playerIndex, property);
