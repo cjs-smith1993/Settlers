@@ -48,6 +48,8 @@ public interface ServerInterface {
 
 	public void gameModel(int version) throws IOException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
+	public String gameModel() throws IOException, ServerException;
+	
 	public void gameReset();//also returns the whole game json thing
 
 	public String gameCommands();//this will return a list of commands that we could just write to a file

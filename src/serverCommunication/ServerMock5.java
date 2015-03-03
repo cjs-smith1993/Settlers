@@ -82,6 +82,11 @@ public class ServerMock5 implements ServerInterface {
 		this.sendDummyData(false);
 	}
 
+	public String gameModel() {
+		this.sendDummyData(true);
+		return null;
+	}
+	
 	@Override
 	public void gameReset() {
 		this.sendDummyData(true);

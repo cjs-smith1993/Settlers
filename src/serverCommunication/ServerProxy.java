@@ -295,7 +295,7 @@ public class ServerProxy implements ServerInterface {
 		String response = this.doGet(url, true);
 		this.deserializeResponse(response);
 	}
-
+	
 	@Override
 	public void gameReset() {
 		try {
@@ -692,10 +692,9 @@ public class ServerProxy implements ServerInterface {
 	 * CLTester Methods
 	 */
 	public String gameModel() throws ServerException, IOException {
-		DTOGameModel data = new DTOGameModel(0);
 
 		URL url = new URL(this.getUrlPrefix() + "/game/model");
-		return this.doPost(url, data);
+		return this.doGet(url, true);
 	}
 
 	/*

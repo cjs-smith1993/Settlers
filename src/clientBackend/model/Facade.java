@@ -58,7 +58,7 @@ public class Facade extends Observable {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
-		if (model.turnTracker == null) {
+		if (model.tradeOffer != null) {
 			this.openOffer = new ResourceInvoice(model.tradeOffer);
 		}
 		else {
@@ -211,7 +211,7 @@ public class Facade extends Observable {
 	public boolean joinGame(int gameId, CatanColor desiredColor) {
 		boolean success = this.server.gamesJoin(gameId, desiredColor);
 		if (success) {
-			this.getModel();
+			this.getModel(true);
 		}
 		return success;
 	}
@@ -259,9 +259,14 @@ public class Facade extends Observable {
 	/**
 	 * Calls gameModel() on the server
 	 */
-	public void getModel() {
+	public void getModel(boolean sendVersion) {
 		try {
-			this.server.gameModel(this.version);
+			if (sendVersion) {
+				this.server.gameModel(this.version);
+			}
+			else {
+				this.server.gameModel();
+			}
 		} catch (IOException | ServerException e) {
 			e.printStackTrace();
 		}
@@ -284,7 +289,7 @@ public class Facade extends Observable {
 	public boolean addAI(AIType AItype) {
 		boolean success = this.server.gameAddAI(AItype);
 		if (success) {
-			this.getModel();
+			this.getModel(true);
 		}
 		return success;
 	}
