@@ -80,15 +80,18 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		else {
 			CatanState state = this.facade.getModelState();
 			String message = this.FINISH_MESSAGE;
+			boolean enableButton = true;
 
 			if (state == CatanState.ROLLING) {
 				message = this.ROLL_MESSAGE;
+				enableButton = false;
 			}
 			else if (state == CatanState.ROBBING) {
 				message = this.ROBBER_MESSAGE;
+				enableButton = false;
 			}
 
-			this.getView().updateGameState(message, true);
+			this.getView().updateGameState(message, enableButton);
 		}
 	}
 
