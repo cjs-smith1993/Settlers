@@ -44,6 +44,7 @@ public class Facade extends Observable {
 	private int resourceCardLimit = 7;
 	private boolean gameReady = false;
 	private boolean hasDiscarded = false;
+	private boolean roadBuildingPlayed = false;
 	private boolean isGameFinished = false;
 
 	private Facade() {
@@ -130,8 +131,8 @@ public class Facade extends Observable {
 	 * Reset the game! Return to the Game Hub. Begin war again.
 	 */
 	public void initializeArmageddon() {
-		this.poller.killPoller();
-		this.isGameFinished = true;
+//		poller.killPoller();
+		isGameFinished = true;
 	}
 
 	/*
@@ -586,9 +587,8 @@ public class Facade extends Observable {
 	public boolean useRoadBuilding(PlayerNumber playerIndex, EdgeLocation edge1, EdgeLocation edge2)
 			throws CatanException {
 
-		if (this.canUseRoadBuilding(playerIndex)
-				&& this.canPlaceRoad(playerIndex, edge1, false)
-				&& this.canPlaceRoad(playerIndex, edge2, false)) {
+		if (this.canUseRoadBuilding(playerIndex)) {
+			this.roadBuildingPlayed = false;
 			return this.server.movesRoad_Building(playerIndex, edge1, edge2);
 		}
 		else {
@@ -1130,6 +1130,18 @@ public class Facade extends Observable {
 	public boolean checkGameFinished() {
 		return this.isGameFinished;
 	}
+	
+	public void setGameFinished(boolean isGameFinished) {
+		this.isGameFinished = isGameFinished;
+	}
+
+	public boolean roadBuildingPlayed() {
+		return this.roadBuildingPlayed;
+	}
+
+	public void setRoadBuildingPlayed() {
+		this.roadBuildingPlayed = true;
+	}
 
 	/*
 	 * "Model" Getters and Setters
@@ -1286,7 +1298,7 @@ public class Facade extends Observable {
 
 		return playerName;
 	}
-	
+
 	public int getClientsPlayedSoldiers() throws CatanException {
 		return this.broker.getNumberOfPlayedSoldiers(this.getClientPlayerIndex());
 	}

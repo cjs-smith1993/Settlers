@@ -127,7 +127,12 @@ public class MapController extends Controller implements IMapController, Observe
 			this.state = new SetupMapControllerState(this.facade, this, view, robView);
 			break;
 		case PLAYING:
-			this.state = new PlayingMapControllerState(this.facade, this, view, robView);
+			if (this.facade.roadBuildingPlayed()) {
+				this.state = new RoadBuildingMapControllerState(this.facade, this, view, robView);
+			}
+			else {
+				this.state = new PlayingMapControllerState(this.facade, this, view, robView);
+			}
 			break;
 		case ROBBING:
 			this.state = new RobbingMapControllerState(this.facade, this, view, robView);

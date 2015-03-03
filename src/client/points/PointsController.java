@@ -54,9 +54,9 @@ public class PointsController extends Controller implements IPointsController, O
 				isLocalPlayer = true;
 			}
 			
-			getFinishedView().setController(this);
 			getFinishedView().setWinner(winner, isLocalPlayer);
 			getFinishedView().showModal();
+			getFinishedView().setController(this);
 		}
 	}
 

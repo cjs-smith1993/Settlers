@@ -28,6 +28,8 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 	private JLabel image;
 	private JButton okButton;
 	private JPanel buttonPanel;
+	
+	private IPointsController pointsController;
 
 	public GameFinishedView() {
 		
@@ -81,8 +83,7 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 				IPointsController controller = getController();
 				
 				if (controller != null) {
-					System.out.println("END OF GAME: NULL CONTROLLER");
-					
+					System.out.println("END OF GAME: CONTROLLER CALLED");
 					controller.endGame();
 				}
 				else {
@@ -116,6 +117,15 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		BufferedImage b = ImageUtils.loadImage(imagePath);
 		int newWidth = b.getWidth() * IMAGE_HEIGHT / b.getHeight();
 		image.setIcon(new ImageIcon(b.getScaledInstance(newWidth, IMAGE_HEIGHT, BufferedImage.SCALE_FAST)));
+	}
+	
+	private IPointsController getGameController() {
+		return pointsController;
+	}
+	
+	@Override
+	public void setGameController(IPointsController controller) {
+		pointsController = controller;
 	}
 }
 

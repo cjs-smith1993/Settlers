@@ -295,14 +295,14 @@ public class ServerProxy implements ServerInterface {
 		String response = this.doGet(url, true);
 		this.deserializeResponse(response);
 	}
-	
+
 	public String gameModel() throws ServerException, IOException {
 		URL url = new URL(this.getUrlPrefix() + "/game/model");
 		String result = this.doGet(url, true);
 		this.deserializeResponse(result);
 		return result;
 	}
-	
+
 	@Override
 	public void gameReset() {
 		try {
@@ -476,7 +476,7 @@ public class ServerProxy implements ServerInterface {
 		int x1 = hex1.getX();
 		int y1 = hex1.getY();
 		EdgeDirection dir1 = edge1.getDir();
-		HexLocation hex2 = edge1.getHexLoc();
+		HexLocation hex2 = edge2.getHexLoc();
 		int x2 = hex2.getX();
 		int y2 = hex2.getY();
 		EdgeDirection dir2 = edge2.getDir();
