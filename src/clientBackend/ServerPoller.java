@@ -64,6 +64,7 @@ public class ServerPoller {
 	}
 	
 	public void killPoller() {
-		timer.cancel();
+		this.hasStartedPolling = false;
+		this.timer.cancel();
 	}
 }
