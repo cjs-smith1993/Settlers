@@ -177,8 +177,8 @@ public class DefaultMapControllerState {
 				nonePlayer.setName("None");
 				nonePlayer.setColor(CatanColor.WHITE);
 				candidateVictims[0] = nonePlayer;
-				this.robView.setPlayers(candidateVictims);
 			}
+			this.robView.setPlayers(candidateVictims);
 			this.robView.showModal();
 		}
 	}
