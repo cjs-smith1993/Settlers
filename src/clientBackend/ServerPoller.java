@@ -1,11 +1,8 @@
 package clientBackend;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import serverCommunication.ServerException;
-import serverCommunication.ServerInterface;
 import clientBackend.model.Facade;
 
 /**
@@ -13,7 +10,6 @@ import clientBackend.model.Facade;
  * there is new information
  */
 public class ServerPoller {
-	private ServerInterface server;
 	private Facade facade;
 	private boolean hasStartedPolling = false;
 	private Timer timer;
@@ -28,6 +24,7 @@ public class ServerPoller {
 
 	public void initializeTimer() {
 		if (!this.hasStartedPolling) {
+			facade.setPoller(this);
 			this.hasStartedPolling = true;
 
 			timer.schedule(
@@ -47,8 +44,6 @@ public class ServerPoller {
 		if (this.facade.getGame() == null) {
 			return;
 		}
-
-		final int versionNumber = this.facade.getVersion();
 
 		this.facade.getModel(true);
 	}
