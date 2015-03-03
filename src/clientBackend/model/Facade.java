@@ -366,10 +366,10 @@ public class Facade extends Observable {
 	 * @param location
 	 * @return
 	 */
-	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location) {
+	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location, CatanState state) {
 
 		if (this.game.getCurrentPlayer() == playerNumber
-				&& this.game.getState() == CatanState.ROBBING
+				&& this.game.getState() == state
 				&& this.board.canMoveRobber(location)) {
 			return true;
 		}
