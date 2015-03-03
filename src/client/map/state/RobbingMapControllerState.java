@@ -23,7 +23,7 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 
 	public void initFromModel() {
 		super.initFromModel();
-
+		System.out.println("\nIs robber modal showing? " + this.controller.isModalShowing() + "    Is facade game ready? " + this.facade.isGameReady() + "    Is client turn? " + this.facade.isClientTurn() + "\n");
 		if (!this.controller.isModalShowing() && this.facade.isGameReady()
 				&& this.facade.isClientTurn()) {
 			this.startMove(PieceType.ROBBER, false, false);

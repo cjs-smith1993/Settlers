@@ -33,7 +33,7 @@ public class ServerPoller {
 						public void run() {
 							ServerPoller.this.poll();
 						}
-					}, 0, 3000); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
+					}, 0, 500); // Period delayed is in milliseconds. (e.g. 3000 ms = 3 sec)
 		}
 	}
 
