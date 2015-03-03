@@ -74,10 +74,6 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 		System.out.println("cancel move");
 	}
 
-	public void playSoldierCard() {
-		System.out.println("play soldier");
-	}
-
 	public void playRoadBuildingCard() {
 		System.out.println("play road building");
 	}
