@@ -99,11 +99,12 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the model is changing state
-	 * 
+	 *
 	 * @param newState
 	 * @param queryState
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private boolean hasChangedState(CatanState newState, CatanState queryState) {
 		CatanState oldState = this.getModelState();
 		return (oldState == queryState && newState != queryState);
@@ -975,7 +976,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player needs to discard cards
-	 * 
+	 *
 	 * @param playerIndex
 	 * @return
 	 */
@@ -1203,7 +1204,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines whether a player has any remaining development cards.
-	 * 
+	 *
 	 * @param player
 	 * @return
 	 */
@@ -1229,4 +1230,36 @@ public class Facade extends Observable {
 		}
 	}
 
+	public String getWinner() {
+		String winnerName = null;
+		
+		List<PlayerInfo> players = getPlayers();
+		
+		if (players != null) {
+			PlayerNumber winner = scoreboard.getWinner(); 
+			
+			if (winner != PlayerNumber.BANK) {
+				winnerName = getNameForPlayerNumber(winner);
+			}	
+		}
+		
+		return winnerName;
+	}
+	
+	public String getNameForPlayerNumber(PlayerNumber player) {
+		String playerName = null;
+		List<PlayerInfo> players = getPlayers();
+		
+		if (player == PlayerNumber.BANK) {
+			return null;
+		}
+		
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getPlayerIndex() == player) {
+				playerName = players.get(i).getName();
+			}
+		}
+		
+		return playerName;
+	}
 }
