@@ -67,7 +67,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 	public void refresh() {
-		System.out.println("refreshing");
 		if (this.getView().isModalShowing()) {
 			Collection<PlayerInfo> players = this.facade.getPlayers();
 			if (players.size() < this.MAX_PLAYERS) {
