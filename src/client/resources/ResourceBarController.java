@@ -120,7 +120,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		IResourceBarView view = getView();
 		
 		if (roadCount > 0
-				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.ROAD)) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.ROAD) 
+				&& facade.isClientTurn()) {
 			view.setElementEnabled(ResourceBarElement.ROAD, true);
 		}
 		else {
@@ -128,7 +129,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 	
 		if (settlementCount > 0
-				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.SETTLEMENT)) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.SETTLEMENT) 
+				&& facade.isClientTurn()) {
 			view.setElementEnabled(ResourceBarElement.SETTLEMENT, true);
 		}
 		else {
@@ -136,7 +138,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 		
 		if (cityCount > 0
-				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.CITY)) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.CITY)
+				&& facade.isClientTurn()) {
 			view.setElementEnabled(ResourceBarElement.CITY, true);
 		}
 		else {
@@ -144,7 +147,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 		
 		if (facade.hasDevelopmentCard(PlayerNumber.BANK)
-				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.DEVELOPMENT_CARD)) {
+				&& facade.canPurchase(facade.getClientPlayerIndex(), PropertyType.DEVELOPMENT_CARD)
+				&& facade.isClientTurn()) {
 			view.setElementEnabled(ResourceBarElement.BUY_CARD, true);
 		}
 		else {
