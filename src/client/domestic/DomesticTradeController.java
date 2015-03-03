@@ -234,6 +234,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		this.getTradeOverlay().closeModal();
 		this.getWaitOverlay().showModal();
+		this.getTradeOverlay().reset();
+		tradeReciever = PlayerNumber.BANK;
 	}
 
 	private ResourceInvoice makeTradeInvoice() {
@@ -487,6 +489,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void acceptTrade(boolean willAccept) {
 		try {
 			facade.acceptTrade(tradingInvoice, willAccept);
+			this.getAcceptOverlay().reset();
 			System.out.printf("hello");
 		} catch (CatanException e) {
 			e.printStackTrace();
