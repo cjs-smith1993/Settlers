@@ -29,7 +29,6 @@ public class PointsController extends Controller implements IPointsController, O
 	}
 
 	public IPointsView getPointsView() {
-
 		return (IPointsView) super.getView();
 	}
 
@@ -45,5 +44,18 @@ public class PointsController extends Controller implements IPointsController, O
 	public void update(Observable o, Object arg) {
 		int score = this.facade.getPlayerScore(this.facade.getClientPlayerIndex());
 		this.getPointsView().setPoints(score);
+		
+		String winner = facade.getWinner();
+		
+		if (winner != null) {
+			boolean isLocalPlayer = false;
+			
+			if (facade.getNameForPlayerNumber(facade.getClientPlayerIndex()).equals(winner)) {
+				isLocalPlayer = true;
+			}
+			
+			getFinishedView().setWinner(winner, isLocalPlayer);
+			getFinishedView().showModal();
+		}
 	}
 }

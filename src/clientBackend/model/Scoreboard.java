@@ -175,6 +175,18 @@ public class Scoreboard {
 		return this.points.get(player);
 	}
 	
+	public PlayerNumber getWinner() {
+		PlayerNumber winner = PlayerNumber.BANK;
+		
+		for (Map.Entry<PlayerNumber, Integer> player : points.entrySet()) {
+			if (player.getValue() >= 10) {
+				winner = player.getKey();
+			}
+		}
+		
+		return winner;
+	}
+	
 	public PlayerNumber getLargestArmyPlayer() {
 		return this.largestArmy;
 	}
