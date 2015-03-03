@@ -10,7 +10,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.data.PlayerInfo;
-import clientBackend.ServerPoller;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
@@ -32,7 +31,6 @@ import shared.locations.VertexLocation;
 public class Facade extends Observable {
 	private static Facade facadeInstance;
 	private ServerInterface server;
-	private ServerPoller poller;
 	private Board board;
 	private Broker broker;
 	private Game game;
@@ -131,8 +129,8 @@ public class Facade extends Observable {
 	 * Reset the game! Return to the Game Hub. Begin war again.
 	 */
 	public void initializeArmageddon() {
-//		poller.killPoller();
-		isGameFinished = true;
+		//		poller.killPoller();
+		this.isGameFinished = true;
 	}
 
 	/*
@@ -1123,14 +1121,10 @@ public class Facade extends Observable {
 		return this.openOffer;
 	}
 
-	public void setPoller(ServerPoller poller) {
-		this.poller = poller;
-	}
-
 	public boolean checkGameFinished() {
 		return this.isGameFinished;
 	}
-	
+
 	public void setGameFinished(boolean isGameFinished) {
 		this.isGameFinished = isGameFinished;
 	}
@@ -1139,8 +1133,8 @@ public class Facade extends Observable {
 		return this.roadBuildingPlayed;
 	}
 
-	public void setRoadBuildingPlayed() {
-		this.roadBuildingPlayed = true;
+	public void setRoadBuildingPlayed(boolean played) {
+		this.roadBuildingPlayed = played;
 	}
 
 	/*

@@ -104,7 +104,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	public void playRoadBuildCard() {
 		try {
 			if (this.facade.canUseRoadBuilding(this.facade.getClientPlayerIndex())) {
-				this.facade.setRoadBuildingPlayed();
+				this.facade.setRoadBuildingPlayed(true);
 				this.facade.getModel(false);
 				this.roadAction.execute();
 			}
