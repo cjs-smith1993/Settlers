@@ -18,6 +18,5 @@ public interface IGameFinishedView extends IOverlayView
 	 *            Indicates whether or not the winner is the local player
 	 */
 	void setWinner(String name, boolean isLocalPlayer);
-	
 }
 

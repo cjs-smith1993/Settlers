@@ -62,6 +62,6 @@ public class PointsController extends Controller implements IPointsController, O
 
 	@Override
 	public void endGame() {
-		
+		facade.initializeArmageddon();
 	}
 }
