@@ -131,7 +131,7 @@ public class Facade extends Observable {
 	 * Begin war again.
 	 */
 	public void initializeArmageddon() {
-		poller.killPoller();
+//		poller.killPoller();
 		isGameFinished = true;
 	}
 
@@ -1130,6 +1130,10 @@ public class Facade extends Observable {
 	
 	public boolean checkGameFinished() {
 		return isGameFinished;
+	}
+	
+	public void setGameFinished(boolean isGameFinished) {
+		this.isGameFinished = isGameFinished;
 	}
 
 	/*

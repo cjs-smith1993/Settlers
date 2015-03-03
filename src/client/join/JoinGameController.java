@@ -273,6 +273,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		
 		if (isGameFinished) {
 			getJoinGameView().showModal();
+			facade.setGameFinished(false);
 		}
 	}
 }
