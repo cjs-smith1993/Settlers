@@ -251,9 +251,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 	public void disableTakenColors() {
+		for (CatanColor color : CatanColor.values()) {
+			this.getSelectColorView().setColorEnabled(color, true);
+		}
 		for (PlayerInfo player : this.curGame.getPlayers()) {
 			CatanColor color = player.getColor();
-			if (player.getId() != this.facade.getClientPlayer().getId()) {
+			boolean taken = player.getId() != this.facade.getClientPlayer().getId();
+			if (taken) {
 				this.getSelectColorView().setColorEnabled(color, false);
 			}
 		}
