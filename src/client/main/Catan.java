@@ -115,7 +115,7 @@ public class Catan extends JFrame
 		Facade facade = Facade.getInstance();
 		facade.setProxy(proxy);
 
-		ServerPoller poller = new ServerPoller(proxy);
+		ServerPoller poller = new ServerPoller();
 		poller.initializeTimer();
 	}
 }

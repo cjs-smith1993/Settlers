@@ -366,10 +366,10 @@ public class Facade extends Observable {
 	 * @param location
 	 * @return
 	 */
-	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location) {
+	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location, CatanState state) {
 
 		if (this.game.getCurrentPlayer() == playerNumber
-				&& this.game.getState() == CatanState.ROBBING
+				&& this.game.getState() == state
 				&& this.board.canMoveRobber(location)) {
 			return true;
 		}
@@ -1230,4 +1230,36 @@ public class Facade extends Observable {
 		}
 	}
 
+	public String getWinner() {
+		String winnerName = null;
+		
+		List<PlayerInfo> players = getPlayers();
+		
+		if (players != null) {
+			PlayerNumber winner = scoreboard.getWinner(); 
+			
+			if (winner != PlayerNumber.BANK) {
+				winnerName = getNameForPlayerNumber(winner);
+			}	
+		}
+		
+		return winnerName;
+	}
+	
+	public String getNameForPlayerNumber(PlayerNumber player) {
+		String playerName = null;
+		List<PlayerInfo> players = getPlayers();
+		
+		if (player == PlayerNumber.BANK) {
+			return null;
+		}
+		
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getPlayerIndex() == player) {
+				playerName = players.get(i).getName();
+			}
+		}
+		
+		return playerName;
+	}
 }

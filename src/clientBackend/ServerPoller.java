@@ -16,20 +16,21 @@ public class ServerPoller {
 	private ServerInterface server;
 	private Facade facade;
 	private boolean hasStartedPolling = false;
+	private Timer timer;
 
 	/**
 	 * A Server Interface is passed in to provide dependency injection
 	 */
-	public ServerPoller(ServerInterface server) {
-		this.server = server;
+	public ServerPoller() {
 		this.facade = Facade.getInstance();
+		timer = new Timer();
 	}
 
 	public void initializeTimer() {
 		if (!this.hasStartedPolling) {
 			this.hasStartedPolling = true;
 
-			new Timer().schedule(
+			timer.schedule(
 					new TimerTask() {
 						@Override
 						public void run() {
@@ -49,15 +50,10 @@ public class ServerPoller {
 
 		final int versionNumber = this.facade.getVersion();
 
-		try {
-			this.server.gameModel(versionNumber);
-		} catch (IOException | ServerException e) {
-			String error = "\n------------\nERROR: Server Poller is having issues.\n------------\n";
-			System.out.println(error);
-			if (e instanceof ServerException) {
-				System.out.println(e.toString());
-			}
-			e.printStackTrace();
-		}
+		this.facade.getModel(true);
+	}
+	
+	public void killPoller() {
+		timer.cancel();
 	}
 }
