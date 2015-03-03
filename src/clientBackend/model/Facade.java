@@ -99,11 +99,12 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the model is changing state
-	 * 
+	 *
 	 * @param newState
 	 * @param queryState
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private boolean hasChangedState(CatanState newState, CatanState queryState) {
 		CatanState oldState = this.getModelState();
 		return (oldState == queryState && newState != queryState);
@@ -975,7 +976,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines if the player needs to discard cards
-	 * 
+	 *
 	 * @param playerIndex
 	 * @return
 	 */
@@ -1203,7 +1204,7 @@ public class Facade extends Observable {
 
 	/**
 	 * Determines whether a player has any remaining development cards.
-	 * 
+	 *
 	 * @param player
 	 * @return
 	 */
