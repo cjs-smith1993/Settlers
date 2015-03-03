@@ -83,7 +83,7 @@ public class Facade extends Observable {
 
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
-		
+
 		this.finishClientSetup();
 
 		if (this.getModelState() != CatanState.DISCARDING) {
@@ -125,14 +125,18 @@ public class Facade extends Observable {
 		CatanState state = this.game.getState();
 		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
 	}
-	
+
 	/**
-	 * Reset the game! Return to the Game Hub.
-	 * Begin war again.
+	 * Reset the game! Return to the Game Hub. Begin war again.
 	 */
 	public void initializeArmageddon() {
+<<<<<<< HEAD
 //		poller.killPoller();
 		isGameFinished = true;
+=======
+		this.poller.killPoller();
+		this.isGameFinished = true;
+>>>>>>> 4ec20ad6115b2ffaa1cf8fd2aa7c0d9737018275
 	}
 
 	/*
@@ -937,11 +941,11 @@ public class Facade extends Observable {
 	 * @throws CatanException
 	 */
 	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) throws CatanException {
-		
+
 		if (willAccept && this.canAcceptTrade(invoice)) {
 			return this.server.movesAcceptTrade(invoice.getDestinationPlayer(), willAccept);
 		}
-		else if(!willAccept) {
+		else if (!willAccept) {
 			return this.server.movesAcceptTrade(invoice.getDestinationPlayer(), willAccept);
 		}
 		else {
@@ -1123,13 +1127,13 @@ public class Facade extends Observable {
 	public ResourceInvoice getOpenOffer() {
 		return this.openOffer;
 	}
-	
+
 	public void setPoller(ServerPoller poller) {
 		this.poller = poller;
 	}
-	
+
 	public boolean checkGameFinished() {
-		return isGameFinished;
+		return this.isGameFinished;
 	}
 	
 	public void setGameFinished(boolean isGameFinished) {
