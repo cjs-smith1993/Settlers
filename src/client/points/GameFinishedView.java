@@ -78,13 +78,13 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 			
 			if (e.getSource() == okButton) {
 				closeModal();
+				getController().endGame();
 			}
 		}	
 	};
 	
 	@Override
 	public IPointsController getController() {
-		
 		return (IPointsController)super.getController();
 	}
 
@@ -108,7 +108,6 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		int newWidth = b.getWidth() * IMAGE_HEIGHT / b.getHeight();
 		image.setIcon(new ImageIcon(b.getScaledInstance(newWidth, IMAGE_HEIGHT, BufferedImage.SCALE_FAST)));
 	}
-
 }
 
 
