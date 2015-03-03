@@ -439,11 +439,11 @@ public class FacadeTest {
 		this.model.map.robber.y = 0;
 		this.facade.initializeModel(this.model);
 		// 1. Test place Robber on same location; should fail
-		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 0)));
+		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 0), CatanState.ROBBING));
 		// 2. Test place Rober on new location; should pass
-		assertTrue(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 1)));
+		assertTrue(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 1), CatanState.ROBBING));
 		// 3. Test place Robber on water; should fail
-		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(-3, 0)));
+		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(-3, 0), CatanState.ROBBING));
 
 	}
 
