@@ -16,19 +16,21 @@ public class ServerPoller {
 	private ServerInterface server;
 	private Facade facade;
 	private boolean hasStartedPolling = false;
+	private Timer timer;
 
 	/**
 	 * A Server Interface is passed in to provide dependency injection
 	 */
 	public ServerPoller() {
 		this.facade = Facade.getInstance();
+		timer = new Timer();
 	}
 
 	public void initializeTimer() {
 		if (!this.hasStartedPolling) {
 			this.hasStartedPolling = true;
 
-			new Timer().schedule(
+			timer.schedule(
 					new TimerTask() {
 						@Override
 						public void run() {
@@ -49,5 +51,9 @@ public class ServerPoller {
 		final int versionNumber = this.facade.getVersion();
 
 		this.facade.getModel(true);
+	}
+	
+	public void killPoller() {
+		timer.cancel();
 	}
 }
