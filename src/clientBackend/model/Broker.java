@@ -533,4 +533,13 @@ public class Broker {
 		int numberOfCards = this.holdings.get(playerIndex).getResourceCardCount(ResourceType.ALL); 
 		return ((numberOfCards > 7) ? (numberOfCards / 2) : 0);
 	}
+	
+	public int getNumberOfPlayedSoldiers(PlayerNumber player) throws CatanException {
+		if (player == PlayerNumber.BANK) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"Cannot call getNumberOfPlayedSoldiers on BANK");
+		}
+		PlayerHoldings playerHoldings = (PlayerHoldings) this.holdings.get(player);
+		return playerHoldings.getPlayedKnights().size();
+	}
 }
