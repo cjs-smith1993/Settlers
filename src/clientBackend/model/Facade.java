@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.data.PlayerInfo;
+import clientBackend.ServerPoller;
 import clientBackend.dataTransportObjects.DTOGame;
 import clientBackend.transport.TransportLine;
 import clientBackend.transport.TransportModel;
@@ -31,6 +32,7 @@ import shared.locations.VertexLocation;
 public class Facade extends Observable {
 	private static Facade facadeInstance;
 	private ServerInterface server;
+	private ServerPoller poller;
 	private Board board;
 	private Broker broker;
 	private Game game;
@@ -42,6 +44,7 @@ public class Facade extends Observable {
 	private int resourceCardLimit = 7;
 	private boolean gameReady = false;
 	private boolean hasDiscarded = false;
+	private boolean isGameFinished = false;
 
 	private Facade() {
 	}
@@ -80,8 +83,7 @@ public class Facade extends Observable {
 
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
-		//		String someValue = "howdy";
-
+		
 		this.finishClientSetup();
 
 		if (this.getModelState() != CatanState.DISCARDING) {
@@ -122,6 +124,15 @@ public class Facade extends Observable {
 	private boolean inSetup() {
 		CatanState state = this.game.getState();
 		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
+	}
+	
+	/**
+	 * Reset the game! Return to the Game Hub.
+	 * Begin war again.
+	 */
+	public void initializeArmageddon() {
+		poller.killPoller();
+		isGameFinished = true;
 	}
 
 	/*
@@ -1111,6 +1122,14 @@ public class Facade extends Observable {
 
 	public ResourceInvoice getOpenOffer() {
 		return this.openOffer;
+	}
+	
+	public void setPoller(ServerPoller poller) {
+		this.poller = poller;
+	}
+	
+	public boolean checkGameFinished() {
+		return isGameFinished;
 	}
 
 	/*
