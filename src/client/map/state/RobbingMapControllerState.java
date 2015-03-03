@@ -40,7 +40,7 @@ public class RobbingMapControllerState extends DefaultMapControllerState {
 			PlayerNumber clientIndex = this.facade.getClientPlayerIndex();
 			PlayerNumber victimIndex = victim.getPlayerIndex();
 			HexLocation hex = this.controller.getRobberLocation();
-			this.facade.robPlayer(clientIndex, victimIndex, hex, CatanState.PLAYING);
+			this.facade.robPlayer(clientIndex, victimIndex, hex, CatanState.ROBBING);
 			this.controller.setModalShowing(false);
 		} catch (CatanException e) {
 			e.printStackTrace();
