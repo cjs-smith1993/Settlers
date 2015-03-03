@@ -15,298 +15,301 @@ import shared.locations.*;
 @SuppressWarnings("serial")
 public class MapView extends PanelView implements IMapView
 {
-	
+
 	private MapComponent map;
 	private MapOverlay overlay;
-	
+
 	public MapView()
 	{
-		
+
 		this.setLayout(new BorderLayout());
-		
-		map = new MapComponent();
-		
-		this.add(map, BorderLayout.CENTER);
+
+		this.map = new MapComponent();
+
+		this.add(this.map, BorderLayout.CENTER);
 	}
-	
+
 	@Override
 	public IMapController getController()
 	{
-		return (IMapController)super.getController();
+		return (IMapController) super.getController();
 	}
-	
+
 	@Override
 	public void setController(IController controller)
 	{
-		
+
 		super.setController(controller);
-		
-		map.setController(controller);
+
+		this.map.setController(controller);
 	}
-	
+
 	@Override
 	public void addHex(HexLocation hexLoc, HexType hexType)
 	{
-		map.addHex(hexLoc, hexType);
+		this.map.addHex(hexLoc, hexType);
 	}
-	
+
 	@Override
 	public void addNumber(HexLocation hexLoc, int num)
 	{
-		map.addNumber(hexLoc, num);
+		this.map.addNumber(hexLoc, num);
 	}
-	
+
 	@Override
 	public void addPort(EdgeLocation edgeLoc, PortType portType)
 	{
-		map.placePort(edgeLoc, portType);
+		this.map.placePort(edgeLoc, portType);
 	}
-	
+
 	@Override
 	public void placeRoad(EdgeLocation edgeLoc, CatanColor color)
 	{
-		map.placeRoad(edgeLoc, color);
+		this.map.placeRoad(edgeLoc, color);
 	}
-	
+
 	@Override
 	public void placeSettlement(VertexLocation vertLoc, CatanColor color)
 	{
-		map.placeSettlement(vertLoc, color);
+		this.map.placeSettlement(vertLoc, color);
 	}
-	
+
 	@Override
 	public void placeCity(VertexLocation vertLoc, CatanColor color)
 	{
-		map.placeCity(vertLoc, color);
+		this.map.placeCity(vertLoc, color);
 	}
-	
+
 	@Override
 	public void placeRobber(HexLocation hexLoc)
 	{
-		map.placeRobber(hexLoc);
+		this.map.placeRobber(hexLoc);
 	}
-	
+
 	@Override
 	public void startDrop(PieceType pieceType, CatanColor pieceColor,
-						  boolean isCancelAllowed)
+			boolean isCancelAllowed)
 	{
-		
-		overlay = new MapOverlay(map);
-		overlay.setController(overlayController);
-		overlay.startDrop(pieceType, pieceColor, isCancelAllowed);
-		overlay.showModal();
+
+		this.overlay = new MapOverlay(this.map);
+		this.overlay.setController(this.overlayController);
+		this.overlay.startDrop(pieceType, pieceColor, isCancelAllowed);
+		this.overlay.showModal();
 	}
-	
+
+	public void removeRoad(EdgeLocation edge) {
+		this.map.removeRoad(edge);
+	}
+
 	private IMapController overlayController = new IMapController() {
-		
+
 		@Override
 		public IView getView()
 		{
 			assert false;
 			return null;
 		}
-		
+
 		@Override
 		public boolean canPlaceRoad(EdgeLocation edgeLoc)
 		{
-			return getController().canPlaceRoad(edgeLoc);
+			return MapView.this.getController().canPlaceRoad(edgeLoc);
 		}
-		
+
 		@Override
 		public boolean canPlaceSettlement(VertexLocation vertLoc)
 		{
-			return getController().canPlaceSettlement(vertLoc);
+			return MapView.this.getController().canPlaceSettlement(vertLoc);
 		}
-		
+
 		@Override
 		public boolean canPlaceCity(VertexLocation vertLoc)
 		{
-			return getController().canPlaceCity(vertLoc);
+			return MapView.this.getController().canPlaceCity(vertLoc);
 		}
-		
+
 		@Override
 		public boolean canPlaceRobber(HexLocation hexLoc)
 		{
-			return getController().canPlaceRobber(hexLoc);
+			return MapView.this.getController().canPlaceRobber(hexLoc);
 		}
-		
+
 		@Override
 		public void placeRoad(EdgeLocation edgeLoc)
 		{
-			
-			closeModal();
-			getController().placeRoad(edgeLoc);
+
+			this.closeModal();
+			MapView.this.getController().placeRoad(edgeLoc);
 		}
-		
+
 		@Override
 		public void placeSettlement(VertexLocation vertLoc)
 		{
-			
-			closeModal();
-			getController().placeSettlement(vertLoc);
+
+			this.closeModal();
+			MapView.this.getController().placeSettlement(vertLoc);
 		}
-		
+
 		@Override
 		public void placeCity(VertexLocation vertLoc)
 		{
-			
-			closeModal();
-			getController().placeCity(vertLoc);
+
+			this.closeModal();
+			MapView.this.getController().placeCity(vertLoc);
 		}
-		
+
 		@Override
 		public void placeRobber(HexLocation hexLoc)
 		{
-			
-			closeModal();
-			getController().placeRobber(hexLoc);
+
+			this.closeModal();
+			MapView.this.getController().placeRobber(hexLoc);
 		}
-		
+
 		@Override
 		public void startMove(PieceType pieceType, boolean isFree,
-							  boolean allowDisconnected)
+				boolean allowDisconnected)
 		{
 			assert false;
 		}
-		
+
 		@Override
 		public void cancelMove()
 		{
-			
-			closeModal();
-			getController().cancelMove();
+
+			this.closeModal();
+			MapView.this.getController().cancelMove();
 		}
-		
+
 		@Override
 		public void playSoldierCard()
 		{
 			assert false;
 		}
-		
+
 		@Override
 		public void playRoadBuildingCard()
 		{
 			assert false;
 		}
-		
+
 		@Override
 		public void robPlayer(RobPlayerInfo victim)
 		{
 			assert false;
 		}
-		
+
 		private void closeModal()
 		{
-			overlay.cancelDrop();
-			overlay.closeModal();
+			MapView.this.overlay.cancelDrop();
+			MapView.this.overlay.closeModal();
 		}
 	};
-	
+
 	private static class MapOverlay extends OverlayView
 	{
-		
+
 		private final int LABEL_TEXT_SIZE = 40;
 		private final int BUTTON_TEXT_SIZE = 28;
 		private final int BORDER_WIDTH = 10;
-		
+
 		private MapComponent mainMap;
 		private JLabel label;
 		private MapComponent map;
 		private JButton cancelButton;
-		
+
 		public MapOverlay(MapComponent mainMap)
 		{
-			
+
 			super();
-			
+
 			this.mainMap = mainMap;
 		}
-		
+
 		@Override
 		public IMapController getController()
 		{
-			return (IMapController)super.getController();
+			return (IMapController) super.getController();
 		}
-		
+
 		public void startDrop(PieceType pieceType, CatanColor pieceColor,
-							  boolean isCancelAllowed)
+				boolean isCancelAllowed)
 		{
-			
+
 			this.setOpaque(false);
 			this.setLayout(new BorderLayout());
 			this.setBorder(BorderFactory.createLineBorder(Color.black,
-														  BORDER_WIDTH));
-			
-			label = new JLabel(getLabelText(pieceType), JLabel.CENTER);
-			label.setOpaque(true);
-			label.setBackground(Color.white);
-			Font labelFont = label.getFont();
+					this.BORDER_WIDTH));
+
+			this.label = new JLabel(this.getLabelText(pieceType), JLabel.CENTER);
+			this.label.setOpaque(true);
+			this.label.setBackground(Color.white);
+			Font labelFont = this.label.getFont();
 			labelFont = labelFont.deriveFont(labelFont.getStyle(),
-											 LABEL_TEXT_SIZE);
-			label.setFont(labelFont);
-			
-			map = mainMap.copy();
-			map.setController(getController());
-			
-			int prefWidth = (int)(mainMap.getScale() * mainMap.getPreferredSize()
-															  .getWidth());
-			int prefHeight = (int)(mainMap.getScale() * mainMap.getPreferredSize()
-															   .getHeight());
+					this.LABEL_TEXT_SIZE);
+			this.label.setFont(labelFont);
+
+			this.map = this.mainMap.copy();
+			this.map.setController(this.getController());
+
+			int prefWidth = (int) (this.mainMap.getScale() * this.mainMap.getPreferredSize()
+					.getWidth());
+			int prefHeight = (int) (this.mainMap.getScale() * this.mainMap.getPreferredSize()
+					.getHeight());
 			Dimension prefSize = new Dimension(prefWidth, prefHeight);
-			map.setPreferredSize(prefSize);
-			
-			this.add(label, BorderLayout.NORTH);
-			this.add(map, BorderLayout.CENTER);
-			
-			if(isCancelAllowed)
+			this.map.setPreferredSize(prefSize);
+
+			this.add(this.label, BorderLayout.NORTH);
+			this.add(this.map, BorderLayout.CENTER);
+
+			if (isCancelAllowed)
 			{
-				
-				cancelButton = new JButton("Cancel");
-				Font buttonFont = cancelButton.getFont();
+
+				this.cancelButton = new JButton("Cancel");
+				Font buttonFont = this.cancelButton.getFont();
 				buttonFont = buttonFont.deriveFont(buttonFont.getStyle(),
-												   BUTTON_TEXT_SIZE);
-				cancelButton.setFont(buttonFont);
-				cancelButton.addActionListener(cancelButtonListener);
-				this.add(cancelButton, BorderLayout.SOUTH);
+						this.BUTTON_TEXT_SIZE);
+				this.cancelButton.setFont(buttonFont);
+				this.cancelButton.addActionListener(this.cancelButtonListener);
+				this.add(this.cancelButton, BorderLayout.SOUTH);
 			}
-			
-			map.startDrop(pieceType, pieceColor);
+
+			this.map.startDrop(pieceType, pieceColor);
 		}
-		
+
 		private ActionListener cancelButtonListener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				getController().cancelMove();
+				MapOverlay.this.getController().cancelMove();
 			}
 		};
-		
+
 		public void cancelDrop()
 		{
-			
-			map.cancelDrop();
+
+			this.map.cancelDrop();
 		}
-		
+
 		private String getLabelText(PieceType pieceType)
 		{
-			
+
 			switch (pieceType)
 			{
-				case ROAD:
-					return "Place a Road!";
-				case SETTLEMENT:
-					return "Place a Settlement!";
-				case CITY:
-					return "Place a City!";
-				case ROBBER:
-					return "Move the Robber!";
-				default:
-					assert false;
-					return "";
+			case ROAD:
+				return "Place a Road!";
+			case SETTLEMENT:
+				return "Place a Settlement!";
+			case CITY:
+				return "Place a City!";
+			case ROBBER:
+				return "Move the Robber!";
+			default:
+				assert false;
+				return "";
 			}
 		}
 	}
-	
-}
 
+}

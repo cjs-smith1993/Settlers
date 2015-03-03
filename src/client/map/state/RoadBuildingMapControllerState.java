@@ -6,6 +6,7 @@ import shared.locations.EdgeLocation;
 import client.map.IMapView;
 import client.map.IRobView;
 import client.map.MapController;
+import client.map.MapView;
 import clientBackend.model.CatanException;
 import clientBackend.model.Facade;
 import clientBackend.model.Road;
@@ -60,6 +61,13 @@ public class RoadBuildingMapControllerState extends PlayingMapControllerState {
 
 	public void playRoadBuildingCard() {
 		this.startMove(PieceType.ROAD, true, false);
+	}
+
+	public void cancelMove() {
+		this.facade.setRoadBuildingPlayed(false);
+		MapView realView = (MapView) this.view;
+		realView.removeRoad(this.firstRoadLocation);
+		//		this.facade.getModel(false);
 	}
 
 }
