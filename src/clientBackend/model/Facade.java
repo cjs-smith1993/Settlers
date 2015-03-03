@@ -384,10 +384,10 @@ public class Facade extends Observable {
 	 * @param victim
 	 * @return
 	 */
-	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex) {
+	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state) {
 
 		if (this.game.getCurrentPlayer() == playerIndex
-				&& this.game.getState() == CatanState.ROBBING
+				&& this.game.getState() == state
 				&& (this.broker.getResourceCardCount(victimIndex, ResourceType.ALL) > 0)) {
 			return true;
 		}
@@ -404,11 +404,13 @@ public class Facade extends Observable {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean robPlayer(PlayerNumber playerIndex, PlayerNumber victim, HexLocation newLocation)
-			throws CatanException {
+	public boolean robPlayer(PlayerNumber playerIndex,
+			PlayerNumber victim,
+			HexLocation newLocation,
+			CatanState state) throws CatanException {
 
-		if (this.canPlaceRobber(playerIndex, newLocation, CatanState.ROBBING)
-				&& this.canRobPlayer(playerIndex, victim)) {
+		if (this.canPlaceRobber(playerIndex, newLocation, state)
+				&& this.canRobPlayer(playerIndex, victim, state)) {
 			return this.server.movesRobPlayer(playerIndex, victim, newLocation);
 		}
 		else {
@@ -616,7 +618,7 @@ public class Facade extends Observable {
 			HexLocation newLocation) throws CatanException {
 
 		if (this.canUseSoldier(playerIndex)
-				&& this.canRobPlayer(playerIndex, victimIndex)) {
+				&& this.canRobPlayer(playerIndex, victimIndex, CatanState.PLAYING)) {
 			return this.server.movesSoldier(playerIndex, victimIndex, newLocation);
 		}
 		else {

@@ -423,12 +423,13 @@ public class FacadeTest {
 		this.model.players[0] = this.player;
 		this.model.players[1] = otherPlayer;
 		this.facade.initializeModel(this.model);
-		assertFalse(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
+		assertFalse(this.facade
+				.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO, CatanState.PLAYING));
 
 		// 2. Test rob player with one card, should succeed
 		otherPlayer.resources.brick = 1;
 		this.facade.initializeModel(this.model);
-		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
+		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO, CatanState.ROBBING));
 	}
 
 	@Test
