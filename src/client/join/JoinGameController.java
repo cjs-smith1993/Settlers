@@ -107,6 +107,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void start() {
 		this.getJoinGameView().showModal();
+		this.refreshGamesList();
 
 		if (!this.isPolling) {
 			this.isPolling = true;
