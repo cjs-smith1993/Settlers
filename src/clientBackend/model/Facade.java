@@ -130,13 +130,8 @@ public class Facade extends Observable {
 	 * Reset the game! Return to the Game Hub. Begin war again.
 	 */
 	public void initializeArmageddon() {
-<<<<<<< HEAD
 //		poller.killPoller();
 		isGameFinished = true;
-=======
-		this.poller.killPoller();
-		this.isGameFinished = true;
->>>>>>> 4ec20ad6115b2ffaa1cf8fd2aa7c0d9737018275
 	}
 
 	/*
