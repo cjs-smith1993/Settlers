@@ -11,7 +11,7 @@ public class DTOMovesBuildRoad {
 
 	public DTOMovesBuildRoad(PlayerNumber playerIndex, int x, int y, EdgeDirection direction, Boolean free) {
 		this.playerIndex = playerIndex.getInteger();
-
+		this.free = free;
 		this.roadLocation = new DTOEdgeLocation(x, y, direction);
 	}
 }
