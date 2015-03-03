@@ -487,6 +487,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void acceptTrade(boolean willAccept) {
 		try {
 			facade.acceptTrade(tradingInvoice, willAccept);
+			System.out.printf("hello");
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}

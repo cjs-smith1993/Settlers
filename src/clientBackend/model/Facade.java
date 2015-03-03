@@ -926,8 +926,11 @@ public class Facade extends Observable {
 	 * @throws CatanException
 	 */
 	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) throws CatanException {
-
-		if (this.canAcceptTrade(invoice)) {
+		
+		if (willAccept && this.canAcceptTrade(invoice)) {
+			return this.server.movesAcceptTrade(invoice.getDestinationPlayer(), willAccept);
+		}
+		else if(!willAccept) {
 			return this.server.movesAcceptTrade(invoice.getDestinationPlayer(), willAccept);
 		}
 		else {
