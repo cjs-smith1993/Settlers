@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.definitions.AIType;
-import shared.definitions.PlayerNumber;
 import client.base.*;
 import client.data.PlayerInfo;
 import clientBackend.model.Facade;
@@ -50,13 +49,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	public void finish() {
 		this.facade.setGameReady(true);
+		this.facade.getModel(false);
 	}
 
 	@Override
 	public void addAI() {
 		String type = this.getView().getSelectedAI();
 		this.facade.addAI(AIType.valueOf(type));
-		this.facade.sendChat(PlayerNumber.valueOf("ONE"), "An AI has been added to the game");
+		this.facade.getModel(false);
 		this.refresh();
 	}
 
