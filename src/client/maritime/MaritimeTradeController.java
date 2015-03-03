@@ -195,7 +195,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		MaritimeTradeView view = (MaritimeTradeView) super.getView();
-		if(facade.isClientTurn()) {
+		if (facade.isClientTurn() && (this.facade.getModelState() != CatanState.ROBBING)) {
 			view.enableMaritimeTrade(true);
 		}
 		else {
