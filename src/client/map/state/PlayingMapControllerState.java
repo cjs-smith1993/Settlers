@@ -28,6 +28,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 			try {
 				this.facade.buildRoad(this.facade.getClientPlayerIndex(), edge, false, false);
 				this.view.placeRoad(edge, this.facade.getClientPlayerColor());
+				this.controller.setModalShowing(false);
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -44,6 +45,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 				this.facade.buildSettlement(this.facade.getClientPlayerIndex(), vertex, false,
 						false);
 				this.view.placeSettlement(vertex, this.facade.getClientPlayerColor());
+				this.controller.setModalShowing(false);
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
@@ -59,6 +61,7 @@ public class PlayingMapControllerState extends DefaultMapControllerState {
 			try {
 				this.facade.buildCity(this.facade.getClientPlayerIndex(), vertex);
 				this.view.placeCity(vertex, this.facade.getClientPlayerColor());
+				this.controller.setModalShowing(false);
 			} catch (CatanException e) {
 				e.printStackTrace();
 			}
