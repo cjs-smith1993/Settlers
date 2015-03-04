@@ -192,6 +192,7 @@
 	<target name="client" depends="compile" description="run the client">
 		<property name="host" value="localhost"/>
 		<property name="port" value="8081"/>
+		<property name="tester" value="false"/>
 		<java classname="client.main.Catan" fork="yes">
 			<classpath>
 				<pathelement location="${java.lib}/junit-4.11.jar"/>
@@ -201,6 +202,7 @@
 			</classpath>
 			<arg value="${host}"/>
 			<arg value="${port}"/>
+			<arg value="${tester}"/>
 		</java>
 	</target>
 	 

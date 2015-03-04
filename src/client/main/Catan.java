@@ -1,8 +1,12 @@
 package client.main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 import serverCommunication.ServerProxy;
+import serverTester.CLTester;
 import client.catan.*;
 import client.login.*;
 import client.join.*;
@@ -111,9 +115,18 @@ public class Catan extends JFrame
 		String hostname = args.length > 0 ? args[0] : "localhost";
 		int port = args.length > 1 ? Integer.parseInt(args[1]) : 8081;
 
+		ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(args));
+		boolean testerOn = argsList.contains("true");
+
 		ServerProxy proxy = ServerProxy.getInstance(hostname, port);
 		Facade facade = Facade.getInstance();
 		facade.setProxy(proxy);
+
+		if (testerOn) {
+			CLTester tester = new CLTester(proxy);
+			Thread thread = new Thread(tester);
+			thread.start();
+		}
 
 		ServerPoller poller = new ServerPoller();
 		poller.initializeTimer();

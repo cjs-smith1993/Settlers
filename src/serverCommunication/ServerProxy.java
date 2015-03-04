@@ -14,7 +14,6 @@ import java.util.Collection;
 
 import com.google.gson.reflect.TypeToken;
 
-import serverTester.CLTester;
 import shared.definitions.*;
 import shared.locations.*;
 import clientBackend.CatanSerializer;
@@ -47,10 +46,6 @@ public class ServerProxy implements ServerInterface {
 	public static ServerProxy getInstance(String hostname, int port) {
 		if (proxy == null) {
 			proxy = new ServerProxy(hostname, port);
-
-//			CLTester tester = new CLTester(proxy);
-//			Thread thread = new Thread(tester);
-//			thread.start();
 		}
 
 		return proxy;
