@@ -151,6 +151,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		try {
 			this.facade.createGame(randomTiles, randomNumbers, randomPorts, gameName);
+			this.createGameReset();
 			this.getNewGameView().closeModal();
 			this.getJoinGameView().showModal();
 			this.refreshGamesList();
@@ -158,7 +159,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			e.printStackTrace();
 		}
 	}
-
+	
+	private void createGameReset() {
+		this.getNewGameView().setRandomlyPlaceHexes(false);
+		this.getNewGameView().setRandomlyPlaceNumbers(false);
+		this.getNewGameView().setUseRandomPorts(false);
+		this.getNewGameView().setTitle("");
+	}
+	
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.curGame = game;
