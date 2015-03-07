@@ -44,6 +44,8 @@ public class Facade extends Observable {
 	private boolean hasDiscarded = false;
 	private boolean roadBuildingPlayed = false;
 	private boolean isGameFinished = false;
+	private boolean hasFinishedFirstRound = false;
+	private boolean hasFinishedSecondRound = false;
 
 	private Facade() {
 	}
@@ -1140,6 +1142,22 @@ public class Facade extends Observable {
 	/*
 	 * "Model" Getters and Setters
 	 */
+
+	public boolean hasFinishedFirstRound() {
+		return hasFinishedFirstRound;
+	}
+
+	public void setHasFinishedFirstRound(boolean hasFinishedFirstRound) {
+		this.hasFinishedFirstRound = hasFinishedFirstRound;
+	}
+
+	public boolean hasFinishedSecondRound() {
+		return hasFinishedSecondRound;
+	}
+
+	public void setHasFinishedSecondRound(boolean hasFinishedSecondRound) {
+		this.hasFinishedSecondRound = hasFinishedSecondRound;
+	}
 
 	public List<Message> getMessages() {
 		return this.postOffice.getMessages();
