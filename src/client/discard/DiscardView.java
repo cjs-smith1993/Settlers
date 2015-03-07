@@ -293,7 +293,7 @@ public class DiscardView extends OverlayView implements IDiscardView
 		Resource res = resources.get(resource);
 		if (res != null) {
 			res.setIncrease(increase);
-			resources.get(resource).setDecrease(decrease);
+			res.setDecrease(decrease);
 			this.update();
 		}
 	}
