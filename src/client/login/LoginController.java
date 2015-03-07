@@ -84,29 +84,30 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void register() {
-
-		// TODO: register new user (which, if successful, also logs them in)
 		LoginView myView = (LoginView) this.getView();
 		String username = myView.getRegisterUsername();
 		String password = myView.getRegisterPassword();
 		String rePassword = myView.getRegisterPasswordRepeat();
 
-		if (!password.equals(rePassword)) {
-			JOptionPane.showMessageDialog(null,
-					"The passwords you entered do not match.",
-					"Register Error",
-					JOptionPane.INFORMATION_MESSAGE);
+		String errorMessage = null;
+		if (username.length() < 3) {
+			errorMessage = "Username must be at least 3 characters";
+		}
+		else if (password.length() < 5) {
+			errorMessage = "Password must be at least 5 characters";
+		}
+		else if (!password.equals(rePassword)) {
+			errorMessage = "The passwords you entered do not match.";
 		}
 		else if (!(this.facade.register(username, password))) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Could not register not sure if you are already registered or if the info just failed.",
-							"Register Error",
-							JOptionPane.INFORMATION_MESSAGE);
+			errorMessage = "Could not register user";
+		}
+
+		if (errorMessage != null) {
+			JOptionPane.showMessageDialog(null, errorMessage, "Register Error",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		else {
-			// If register succeeded
 			this.getLoginView().closeModal();
 			this.loginAction.execute();
 		}
