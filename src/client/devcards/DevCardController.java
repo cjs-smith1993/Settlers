@@ -1,5 +1,6 @@
 package client.devcards;
 
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import client.base.*;
 import clientBackend.model.CatanException;
@@ -71,6 +72,12 @@ public class DevCardController extends Controller implements IDevCardController 
 	@Override
 	public void startPlayCard() {
 		this.getPlayCardView().showModal();
+		if (facade.hasPlayedDevCard(facade.getClientPlayerIndex())) {
+			for(DevCardType cardType: DevCardType.values()) {
+				if(cardType != DevCardType.MONUMENT)
+					this.getPlayCardView().setCardEnabled(cardType, false);
+			}
+		}
 	}
 
 	@Override
