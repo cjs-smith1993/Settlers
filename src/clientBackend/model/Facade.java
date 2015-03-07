@@ -1296,4 +1296,8 @@ public class Facade extends Observable {
 	public int getClientsPlayedSoldiers() throws CatanException {
 		return this.broker.getNumberOfPlayedSoldiers(this.getClientPlayerIndex());
 	}
+	
+	public boolean hasPlayedDevCard(PlayerNumber playerIndex) {
+		return this.game.hasPlayedDevCard(playerIndex);
+	}
 }
