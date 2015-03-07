@@ -108,7 +108,9 @@ public class DiscardController extends Controller implements IDiscardController,
 	private void determineUpDownArrows(ResourceType type) {
 		int currentlyDiscarding = this.resourcesToDiscard.get(type);
 		int maxToDiscard = this.maxResources.get(type);
-		this.getDiscardView().setResourceAmountChangeEnabled(type, currentlyDiscarding < maxToDiscard, currentlyDiscarding > 0);
+		boolean displayUpArrow = (this.currentNumberToDiscard < this.numberToDiscard) && (currentlyDiscarding < maxToDiscard);
+		boolean displayDownArrow = (currentlyDiscarding > 0);
+		this.getDiscardView().setResourceAmountChangeEnabled(type, displayUpArrow, displayDownArrow);
 	}
 	
 	private void determineUpDownArrows() {

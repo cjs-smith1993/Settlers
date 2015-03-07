@@ -44,6 +44,8 @@ public class Facade extends Observable {
 	private boolean hasDiscarded = false;
 	private boolean roadBuildingPlayed = false;
 	private boolean isGameFinished = false;
+	private boolean hasFinishedFirstRound = false;
+	private boolean hasFinishedSecondRound = false;
 
 	private Facade() {
 	}
@@ -738,7 +740,17 @@ public class Facade extends Observable {
 			boolean isSetupPhase) throws CatanException {
 		if (this.canBuildRoad(playerIndex, isFree)
 				&& this.canPlaceRoad(playerIndex, location, isSetupPhase)) {
-			return this.server.movesBuildRoad(playerIndex, location, isFree);
+			
+			boolean success = this.server.movesBuildRoad(playerIndex, location, isFree); 
+			
+			if (success && this.getModelState() == CatanState.FIRST_ROUND) {
+				this.setHasFinishedFirstRound(true);
+			}
+			else if (success && this.getModelState() == CatanState.SECOND_ROUND) {
+				this.setHasFinishedSecondRound(true);
+			}
+			
+			return success;
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build road");
@@ -1140,6 +1152,22 @@ public class Facade extends Observable {
 	/*
 	 * "Model" Getters and Setters
 	 */
+
+	public boolean hasFinishedFirstRound() {
+		return hasFinishedFirstRound;
+	}
+
+	public void setHasFinishedFirstRound(boolean hasFinishedFirstRound) {
+		this.hasFinishedFirstRound = hasFinishedFirstRound;
+	}
+
+	public boolean hasFinishedSecondRound() {
+		return hasFinishedSecondRound;
+	}
+
+	public void setHasFinishedSecondRound(boolean hasFinishedSecondRound) {
+		this.hasFinishedSecondRound = hasFinishedSecondRound;
+	}
 
 	public List<Message> getMessages() {
 		return this.postOffice.getMessages();
