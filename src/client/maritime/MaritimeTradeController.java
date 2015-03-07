@@ -70,6 +70,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		getTradeOverlay().setTradeEnabled(false);
 		this.getTradeOverlay().hideGetOptions();
 		getTradeOverlay().showGiveOptions(enabledResources.toArray(enabled) );
+		if(this.getTradeOverlay().isModalShowing()) {
+			this.getTradeOverlay().closeModal();
+		}
 		
 		getTradeOverlay().showModal();
 	}
@@ -143,7 +146,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		getResource = resource;
 		this.getTradeOverlay().selectGetOption(resource, 1);
 		this.getTradeOverlay().setTradeEnabled(true);
-		System.out.printf("set get resource");
+		//System.out.printf("set get resource");
 	}
 
 	@Override
@@ -164,7 +167,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		
 		this.getTradeOverlay().selectGiveOption(resource, amount);
 		
-		System.out.printf("set give resource");
+		//System.out.printf("set give resource");
 	}
 
 	@Override
@@ -180,7 +183,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		enabledResources.add(ResourceType.SHEEP);
 		this.getTradeOverlay().showGetOptions(enabledResources.toArray(enabled));
 		this.getTradeOverlay().setTradeEnabled(false);
-		System.out.printf("unset get resource");
+		//System.out.printf("unset get resource");
 	}
 
 	@Override
@@ -189,13 +192,13 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		this.unsetGetValue();
 		this.startTrade();
 		//this.getTradeOverlay().setTradeEnabled(false);
-		System.out.printf("unset give resource");
+		//System.out.printf("unset give resource");
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		MaritimeTradeView view = (MaritimeTradeView) super.getView();
-		if (facade.isClientTurn() && (this.facade.getModelState() != CatanState.ROBBING)) {
+		if (facade.isClientTurn() && (this.facade.getModelState() == CatanState.PLAYING)) {
 			view.enableMaritimeTrade(true);
 		}
 		else {
