@@ -96,7 +96,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		clientNumber = facade.getClientPlayerIndex();
 		otherPlayers.clear();
 		Vector<PlayerInfo> playerInfo = new Vector<PlayerInfo>();
-
+		sendingMap = new HashMap<ResourceType, Integer>();
+		receivingMap = new HashMap<ResourceType, Integer>();
+		tradeReciever = PlayerNumber.BANK;
 
 		playerInfo.addAll(facade.getPlayers());
 		for(PlayerInfo Info: playerInfo) {
@@ -161,7 +163,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				this.getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 			}
 		}
-		System.out.printf("decreaseing a resource number");
+		//System.out.printf("decreaseing a resource number");
 		enableTradeButton();
 
 	}
@@ -219,7 +221,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			receivingMap.remove(resource);
 			receivingMap.put(resource, curCount);
 		}
-		System.out.printf("increaseing a resource number");
+		//System.out.printf("increaseing a resource number");
 		enableTradeButton();
 	}
 
@@ -290,7 +292,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void setPlayerToTradeWith(PlayerNumber playerIndex) {
 		tradeReciever = playerIndex;
-		System.out.printf("setting the player to trade with");
+		//System.out.printf("setting the player to trade with");
 		enableTradeButton();
 	}
 
@@ -351,7 +353,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			}
 		}
 		
-		System.out.printf("set resource to send");
+		//System.out.printf("set resource to send");
 		enableTradeButton();
 	}
 
@@ -490,7 +492,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		try {
 			facade.acceptTrade(tradingInvoice, willAccept);
 			this.getAcceptOverlay().reset();
-			System.out.printf("hello");
+			//System.out.printf("hello");
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
@@ -527,7 +529,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		DomesticTradeView view = (DomesticTradeView) super.getView();
-		if (facade.isClientTurn() && (this.facade.getModelState() != CatanState.ROBBING)) {
+		if (facade.isClientTurn() && (this.facade.getModelState() == CatanState.PLAYING)) {
 			view.enableDomesticTrade(true);
 		}
 		else {
