@@ -740,7 +740,17 @@ public class Facade extends Observable {
 			boolean isSetupPhase) throws CatanException {
 		if (this.canBuildRoad(playerIndex, isFree)
 				&& this.canPlaceRoad(playerIndex, location, isSetupPhase)) {
-			return this.server.movesBuildRoad(playerIndex, location, isFree);
+			
+			boolean success = this.server.movesBuildRoad(playerIndex, location, isFree); 
+			
+			if (success && this.getModelState() == CatanState.FIRST_ROUND) {
+				this.setHasFinishedFirstRound(true);
+			}
+			else if (success && this.getModelState() == CatanState.SECOND_ROUND) {
+				this.setHasFinishedSecondRound(true);
+			}
+			
+			return success;
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Cannot build road");
