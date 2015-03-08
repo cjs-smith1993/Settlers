@@ -193,7 +193,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			this.joinAction.execute();
 		}
 		else {
-			this.getSelectColorView().closeModal();
+			this.getSelectColorView().showModal();
 		}
 	}
 
