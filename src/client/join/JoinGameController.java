@@ -283,7 +283,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void update(Observable o, Object arg) {
-		boolean isGameFinished = this.facade.checkGameFinished();
+		boolean isGameFinished = this.facade.hasGameFinished();
 
 		if (isGameFinished) {
 			this.getJoinGameView().showModal();

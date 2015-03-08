@@ -162,7 +162,7 @@ public class Facade extends Observable {
 	 */
 	public void initializeArmageddon() {
 		//		poller.killPoller();
-		this.isGameFinished = true;
+		this.setGameFinished(true);
 	}
 
 	/*
@@ -1163,7 +1163,7 @@ public class Facade extends Observable {
 		return this.openOffer;
 	}
 
-	public boolean checkGameFinished() {
+	public boolean hasGameFinished() {
 		return this.isGameFinished;
 	}
 
