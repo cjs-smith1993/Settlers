@@ -25,7 +25,7 @@ public class PointsController extends Controller implements IPointsController, O
 		super(view);
 
 		this.setFinishedView(finishedView);
-		facade.addObserver(this);
+		this.facade.addObserver(this);
 	}
 
 	public IPointsView getPointsView() {
@@ -44,24 +44,25 @@ public class PointsController extends Controller implements IPointsController, O
 	public void update(Observable o, Object arg) {
 		int score = this.facade.getPlayerScore(this.facade.getClientPlayerIndex());
 		this.getPointsView().setPoints(score);
-		
-		String winner = facade.getWinner();
-		
+
+		String winner = this.facade.getWinner();
+
 		if (winner != null) {
 			boolean isLocalPlayer = false;
-			
-			if (facade.getNameForPlayerNumber(facade.getClientPlayerIndex()).equals(winner)) {
+
+			if (this.facade.getNameForPlayerNumber(this.facade.getClientPlayerIndex()).equals(
+					winner)) {
 				isLocalPlayer = true;
 			}
-			
-			getFinishedView().setWinner(winner, isLocalPlayer);
-			getFinishedView().showModal();
-			getFinishedView().setController(this);
+
+			this.getFinishedView().setWinner(winner, isLocalPlayer);
+			this.getFinishedView().showModal();
+			this.getFinishedView().setController(this);
 		}
 	}
 
 	@Override
 	public void endGame() {
-		facade.initializeArmageddon();
+		this.facade.initializeArmageddon();
 	}
 }
