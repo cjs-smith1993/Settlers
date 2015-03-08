@@ -2,6 +2,8 @@ package client.roll;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import shared.definitions.CatanState;
 import client.base.*;
@@ -15,6 +17,11 @@ public class RollController extends Controller implements IRollController, Obser
 
 	private IRollResultView resultView;
 	private Facade facade;
+	private Timer timer;
+	private final boolean TIMER_ENABLED = true;
+	private final int TIMER_LENGTH = 30 + 1;
+	private boolean timerStarted = false;
+	private int timeLeft;
 
 	/**
 	 * RollController constructor
@@ -30,6 +37,7 @@ public class RollController extends Controller implements IRollController, Obser
 
 		this.facade = Facade.getInstance();
 		this.facade.addObserver(this);
+		this.timer = new Timer();
 	}
 
 	public IRollResultView getResultView() {
@@ -46,6 +54,40 @@ public class RollController extends Controller implements IRollController, Obser
 
 	@Override
 	public void rollDice() {
+		this.stopTimerAndRoll();
+	}
+
+	public void startTimer() {
+		if (!this.TIMER_ENABLED || this.timerStarted) {
+			return;
+		}
+
+		this.timer = new Timer();
+		this.timerStarted = true;
+		this.timeLeft = this.TIMER_LENGTH;
+		this.timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				if (--RollController.this.timeLeft == 0) {
+					RollController.this.stopTimerAndRoll();
+				}
+				else {
+					String message = "Rolling automatically in " + RollController.this.timeLeft;
+					RollController.this.getRollView().setMessage(message);
+				}
+
+			}
+		}, 0, 1000);
+	}
+
+	public void stopTimerAndRoll() {
+		this.timer.cancel();
+		this.timerStarted = false;
+
+		if (this.getRollView().isModalShowing()) {
+			this.getRollView().closeModal();
+		}
+
 		int value;
 		try {
 			value = this.facade.rollNumber(this.facade.getClientPlayerIndex());
@@ -64,6 +106,7 @@ public class RollController extends Controller implements IRollController, Obser
 		boolean myTurn = this.facade.isClientTurn();
 		if (myTurn && isRolling && !this.getRollView().isModalShowing()) {
 			this.getRollView().showModal();
+			this.startTimer();
 		}
 	}
 

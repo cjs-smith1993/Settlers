@@ -57,7 +57,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		this.timer = new Timer();
 
-		facade.addObserver(this);
+		this.facade.addObserver(this);
 	}
 
 	public IJoinGameView getJoinGameView() {
@@ -159,14 +159,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void createGameReset() {
 		this.getNewGameView().setRandomlyPlaceHexes(false);
 		this.getNewGameView().setRandomlyPlaceNumbers(false);
 		this.getNewGameView().setUseRandomPorts(false);
 		this.getNewGameView().setTitle("");
 	}
-	
+
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.curGame = game;
@@ -183,11 +183,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void joinGame(CatanColor color) {
+		if (this.getSelectColorView().isModalShowing()) {
+			this.getSelectColorView().closeModal();
+		}
+
 		boolean success = this.facade.joinGame(this.curGame.getId(), color);
 		if (success) {
-			this.getSelectColorView().closeModal();
 			this.timer.cancel();
 			this.joinAction.execute();
+		}
+		else {
+			this.getSelectColorView().closeModal();
 		}
 	}
 
@@ -277,11 +283,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void update(Observable o, Object arg) {
-		boolean isGameFinished = facade.checkGameFinished();
-		
+		boolean isGameFinished = this.facade.checkGameFinished();
+
 		if (isGameFinished) {
-			getJoinGameView().showModal();
-			facade.setGameFinished(false);
+			this.getJoinGameView().showModal();
+			this.facade.setGameFinished(false);
 		}
 	}
 }

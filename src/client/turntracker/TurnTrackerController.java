@@ -16,10 +16,11 @@ import clientBackend.model.Facade;
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
 	Facade facade = Facade.getInstance();
-	
+
 	private boolean isStartup = true;
 
 	private final String ROLL_MESSAGE = "Roll the Dice";
+	private final String DISCARD_MESSAGE = "Wait for Other Players to Discard";
 	private final String ROBBER_MESSAGE = "Place the Robber";
 	private final String FINISH_MESSAGE = "Finish Turn";
 	private final String WAITING_MESSAGE = "Waiting for Other Players";
@@ -48,7 +49,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		List<PlayerInfo> players = this.facade.getPlayers();
 
 		if (players != null) {
-			if (isStartup) {
+			if (this.isStartup) {
 				for (PlayerInfo playerInfo : players) {
 					if (playerInfo != null) {
 						view.initializePlayer(playerInfo.getPlayerIndex().getInteger(),
@@ -60,8 +61,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 						}
 					}
 				}
-				
-				isStartup = false;
+
+				this.isStartup = false;
 			}
 
 			PlayerNumber longestRoadPlayer = this.facade.getLongestRoadPlayer();
@@ -90,6 +91,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 			if (state == CatanState.ROLLING) {
 				message = this.ROLL_MESSAGE;
+				enableButton = false;
+			}
+			else if (state == CatanState.DISCARDING) {
+				message = this.DISCARD_MESSAGE;
 				enableButton = false;
 			}
 			else if (state == CatanState.ROBBING) {
