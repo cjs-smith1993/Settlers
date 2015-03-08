@@ -307,7 +307,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				this.getTradeOverlay().setResourceAmount(resource, "0");
 			}
 		}
-		System.out.printf("set resource to receive");
+		//System.out.printf("set resource to receive");
 		enableTradeButton();
 	}
 
