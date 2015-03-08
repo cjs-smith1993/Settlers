@@ -229,15 +229,15 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void sendTradeOffer() {
 		ResourceInvoice invoice = makeTradeInvoice();
 		
+		this.getTradeOverlay().closeModal();
+		this.getWaitOverlay().showModal();
+		this.getTradeOverlay().reset();
+		tradeReciever = PlayerNumber.BANK;
 		try {
 			facade.offerTrade(invoice);
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
-		this.getTradeOverlay().closeModal();
-		this.getWaitOverlay().showModal();
-		this.getTradeOverlay().reset();
-		tradeReciever = PlayerNumber.BANK;
 	}
 
 	private ResourceInvoice makeTradeInvoice() {
