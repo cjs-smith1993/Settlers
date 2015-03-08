@@ -84,21 +84,51 @@ public class Facade extends Observable {
 
 		this.postOffice = new PostOffice(chat, log);
 		this.version = model.version;
-
+		
 		this.finishClientSetup();
 
 		if (this.getModelState() != CatanState.DISCARDING) {
 			this.hasDiscarded = false;
 		}
-
+		
 		this.setChanged();
 		this.notifyObservers();
+		/* Order of Observers to Notify:
+		 * 1) Join Game
+		 * 2) Player Waiting
+		 * 3) Roll
+		 * 4) Discard
+		 * 5) Resource Bar
+		 * 6) Points
+		 * 7) Play Dev Card
+		 * 8) Turn Tracker
+		 * 9) Chat
+		 * 10) Game History
+		 * 11) Map
+		 * 12) Maritime Trade
+		 * 13) Domestic Trade
+		 */
 	}
 
 	@Override
 	public void addObserver(Observer o) {
 		super.addObserver(o);
 	}
+	/* Order of Observers added:
+	 * 1) Domestic Trade
+	 * 2) Maritime Trade
+	 * 3) Map
+	 * 4) Game History
+	 * 5) Chat
+	 * 6) Turn Tracker
+	 * 7) Play Dev Card
+	 * 8) Points
+	 * 9) Resource Bar
+	 * 10) Discard
+	 * 11) Roll
+	 * 12) Player Waiting
+	 * 13) Join Game
+	 */
 
 	/**
 	 * Determines if the model is changing state
