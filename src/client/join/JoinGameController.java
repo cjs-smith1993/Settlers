@@ -284,7 +284,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void update(Observable o, Object arg) {
 		if (this.facade.hasGameFinished() && this.facade.getWinnerID() != -1) {
-			System.out.println("Initiated Join Game Modal!");
 			this.facade.setWinnerID(-1);
 			this.facade.setGameFinished(false);
 			this.isPolling = false;

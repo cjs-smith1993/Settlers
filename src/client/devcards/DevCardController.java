@@ -133,8 +133,6 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		System.out.println("Played Year of Plenty. Selected resources: " + resource1.toString()
-				+ ", " + resource2.toString());
 		try {
 			if (this.facade.canUseYearOfPlenty(this.facade.getClientPlayerIndex())) {
 				this.facade.useYearOfPlenty(this.facade.getClientPlayerIndex(), resource1,

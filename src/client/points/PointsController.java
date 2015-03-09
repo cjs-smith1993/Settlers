@@ -72,6 +72,5 @@ public class PointsController extends Controller implements IPointsController, O
 		this.facade.setHasFinishedFirstRound(false);
 		this.facade.setHasFinishedSecondRound(false);
 		this.facade.forceNotifyOberservers();
-		System.out.println("END OF GAME: Forced notifyObservers()");
 	}
 }

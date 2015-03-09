@@ -83,11 +83,7 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 				IPointsController controller = getController();
 				
 				if (controller != null) {
-					System.out.println("END OF GAME: CONTROLLER CALLED");
 					controller.endGame();
-				}
-				else {
-					System.out.println("END OF GAME: NULL CONTROLLER. FAILURE.");
 				}
 			}
 		}	
