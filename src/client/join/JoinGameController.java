@@ -188,7 +188,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
 		boolean success = this.facade.joinGame(this.curGame.getId(), color);
+		
 		if (success) {
+			facade.setGameFinished(false);
 			this.timer.cancel();
 			this.joinAction.execute();
 		}
@@ -283,11 +285,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void update(Observable o, Object arg) {
-		boolean isGameFinished = this.facade.hasGameFinished();
-
-		if (isGameFinished) {
-			this.getJoinGameView().showModal();
-			this.facade.setGameFinished(false);
+		if (facade.hasGameFinished() && facade.getWinnerID() != -1) {
+			System.out.println("Initiated Join Game Modal!");
+			getJoinGameView().showModal();
+			facade.setWinnerID(-1);
+			facade.setGameFinished(false);
 		}
 	}
 }

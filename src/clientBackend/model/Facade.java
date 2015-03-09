@@ -40,6 +40,7 @@ public class Facade extends Observable {
 	private ResourceInvoice openOffer;
 	private int version = 1;
 	private int resourceCardLimit = 7;
+	private int winnerServerID = -1;
 	private boolean gameReady = false;
 	private boolean hasDiscarded = false;
 	private boolean roadBuildingPlayed = false;
@@ -61,6 +62,11 @@ public class Facade extends Observable {
 	public void setProxy(ServerInterface server) {
 		this.server = server;
 	}
+	
+	public void forceNotifyOberservers() {
+		this.setChanged();
+		this.notifyObservers();
+	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
 		if (model.tradeOffer != null) {
@@ -69,6 +75,7 @@ public class Facade extends Observable {
 		else {
 			this.openOffer = null;
 		}
+		
 //		System.out.print("\nOld state: " + this.getModelState() + "    New state: " + model.turnTracker.status + "\n");
 		this.board = new Board(model.map);
 
@@ -89,6 +96,10 @@ public class Facade extends Observable {
 
 		if (this.getModelState() != CatanState.DISCARDING) {
 			this.hasDiscarded = false;
+		}
+		
+		if (model.winner != -1) {
+			winnerServerID = model.winner;
 		}
 		
 		this.setChanged();
@@ -155,14 +166,6 @@ public class Facade extends Observable {
 	private boolean inSetup() {
 		CatanState state = this.game.getState();
 		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
-	}
-
-	/**
-	 * Reset the game! Return to the Game Hub. Begin war again.
-	 */
-	public void initializeArmageddon() {
-		//		poller.killPoller();
-		this.setGameFinished(true);
 	}
 
 	/*
@@ -1177,6 +1180,14 @@ public class Facade extends Observable {
 
 	public void setRoadBuildingPlayed(boolean played) {
 		this.roadBuildingPlayed = played;
+	}
+	
+	public int getWinnerID() {
+		return winnerServerID;
+	}
+	
+	public void setWinnerID(int winnerServerID) {
+		this.winnerServerID = winnerServerID;
 	}
 
 	/*
