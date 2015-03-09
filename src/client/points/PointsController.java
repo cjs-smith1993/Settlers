@@ -67,7 +67,6 @@ public class PointsController extends Controller implements IPointsController, O
 
 	@Override
 	public void endGame() {
-		this.getFinishedView().closeModal();
 		this.facade.setGameFinished(true);
 		this.facade.forceNotifyOberservers();
 		System.out.println("END OF GAME: Forced notifyObservers()");
