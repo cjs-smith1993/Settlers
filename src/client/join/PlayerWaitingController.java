@@ -26,8 +26,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		super(view);
 		this.facade = Facade.getInstance();
 		this.facade.addObserver(this);
-
-		this.timer = new Timer();
 	}
 
 	@Override
@@ -37,6 +35,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void start() {
+		this.timer = new Timer();
+
 		int numPlayers = this.facade.getPlayers().size();
 		if (numPlayers == this.MAX_PLAYERS) {
 			this.finish();
@@ -48,7 +48,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		if (!this.isPolling) {
 			this.isPolling = true;
-
 			this.timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
@@ -95,6 +94,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	public void finish() {
 		this.timer.cancel();
+		this.isPolling = false;
 		if (this.getView().isModalShowing()) {
 			this.getView().closeModal();
 		}

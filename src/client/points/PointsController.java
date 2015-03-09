@@ -56,19 +56,21 @@ public class PointsController extends Controller implements IPointsController, O
 			}
 
 			this.getFinishedView().setWinner(winner, isLocalPlayer);
-			
-			if (!this.getFinishedView().isModalShowing() && facade.getWinnerID() != -1) {
+
+			if (!this.getFinishedView().isModalShowing() && this.facade.getWinnerID() != -1) {
 				this.getFinishedView().showModal();
 			}
-			
+
 			this.getFinishedView().setController(this);
 		}
 	}
 
 	@Override
 	public void endGame() {
-		this.getFinishedView().closeModal();
 		this.facade.setGameFinished(true);
+		this.facade.setGameReady(false);
+		this.facade.setHasFinishedFirstRound(false);
+		this.facade.setHasFinishedSecondRound(false);
 		this.facade.forceNotifyOberservers();
 		System.out.println("END OF GAME: Forced notifyObservers()");
 	}
