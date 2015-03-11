@@ -2,9 +2,9 @@ package server.core;
 
 import java.util.Collection;
 
-import clientBackend.model.CatanException;
-import clientBackend.model.User;
 import shared.definitions.CatanExceptionType;
+import shared.model.CatanException;
+import shared.model.User;
 
 /**
  * Manages the collection of all users
@@ -15,7 +15,7 @@ public class UserManager {
 
 	/**
 	 * Returns whether a new user with the desired properties can be created
-	 * 
+	 *
 	 * @param username
 	 *            the desired username
 	 * @param password
@@ -28,7 +28,7 @@ public class UserManager {
 
 	/**
 	 * Registers a user with the desired username and password
-	 * 
+	 *
 	 * @param username
 	 * @param password
 	 * @throws CatanException
@@ -46,7 +46,7 @@ public class UserManager {
 
 	/**
 	 * Authenticates the user with the given username and password
-	 * 
+	 *
 	 * @param username
 	 * @param password
 	 */

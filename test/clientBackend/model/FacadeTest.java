@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import client.backend.transport.*;
+import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -14,8 +16,8 @@ import shared.definitions.CatanState;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
-import client.data.PlayerInfo;
-import clientBackend.transport.*;
+import shared.model.CatanException;
+import shared.model.Facade;
 
 public class FacadeTest {
 	private Facade facade;

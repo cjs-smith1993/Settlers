@@ -2,9 +2,9 @@ package server.core;
 
 import java.util.Collection;
 
-import clientBackend.model.CatanException;
-import clientBackend.model.Game;
 import shared.definitions.CatanExceptionType;
+import shared.model.CatanException;
+import shared.model.Game;
 
 /**
  * Manages the collection of all games
@@ -15,7 +15,7 @@ public class GameManager {
 
 	/**
 	 * Returns a collection of all games
-	 * 
+	 *
 	 * @return a collection of all games
 	 */
 	public Collection<Game> getGames() {
@@ -24,7 +24,7 @@ public class GameManager {
 
 	/**
 	 * Returns whether a game can be created with the desired properties
-	 * 
+	 *
 	 * @param randomTiles
 	 * @param randomNumbers
 	 * @param randomPorts
@@ -42,7 +42,7 @@ public class GameManager {
 
 	/**
 	 * Creates a new game with the desired features
-	 * 
+	 *
 	 * @param randomTiles
 	 *            whether the tiles should be randomly placed
 	 * @param randomNumbers

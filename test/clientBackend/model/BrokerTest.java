@@ -11,6 +11,10 @@ import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
+import shared.model.Broker;
+import shared.model.CatanException;
+import shared.model.PlayerHoldings;
+import shared.model.ResourceInvoice;
 
 public class BrokerTest {
 	public Broker myBroker;

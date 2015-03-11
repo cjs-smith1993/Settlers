@@ -7,11 +7,9 @@ import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.util.Scanner;
 
-import clientBackend.CatanSerializer;
-import clientBackend.model.ResourceInvoice;
-import clientBackend.model.User;
-import serverCommunication.ServerException;
-import serverCommunication.ServerProxy;
+import client.backend.CatanSerializer;
+import client.serverCommunication.ServerException;
+import client.serverCommunication.ServerProxy;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -20,6 +18,8 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.ResourceInvoice;
+import shared.model.User;
 
 /**
  * Command line tester.

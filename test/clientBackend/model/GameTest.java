@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-import clientBackend.transport.*;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,8 +13,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import client.backend.transport.*;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
+import shared.model.CatanException;
+import shared.model.Game;
+import shared.model.Player;
+import shared.model.Settlement;
+import shared.model.User;
 
 public class GameTest {
 	

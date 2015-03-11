@@ -7,10 +7,12 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import clientBackend.transport.TransportBank;
-import clientBackend.transport.TransportDeck;
+import client.backend.transport.TransportBank;
+import client.backend.transport.TransportDeck;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.model.Bank;
+import shared.model.DevelopmentCard;
 
 public class BankTest {
 

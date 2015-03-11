@@ -13,13 +13,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clientBackend.transport.TransportNewDevCards;
-import clientBackend.transport.TransportOldDevCards;
-import clientBackend.transport.TransportPlayer;
-import clientBackend.transport.TransportResources;
+import client.backend.transport.TransportNewDevCards;
+import client.backend.transport.TransportOldDevCards;
+import client.backend.transport.TransportPlayer;
+import client.backend.transport.TransportResources;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
+import shared.model.DevelopmentCard;
+import shared.model.Harbor;
+import shared.model.PlayerHoldings;
+import shared.model.ResourceCard;
 
 /**
  * @author alexthomas
@@ -95,7 +99,7 @@ public class PlayerHoldingsTest {
 
 	/**
 	 * Test method for
-	 * {@link clientBackend.model.PlayerHoldings#removeResourceCard(shared.definitions.ResourceType, int)}
+	 * {@link shared.model.PlayerHoldings#removeResourceCard(shared.definitions.ResourceType, int)}
 	 * .
 	 */
 	@Test
@@ -112,7 +116,7 @@ public class PlayerHoldingsTest {
 
 	/**
 	 * Test method for
-	 * {@link clientBackend.model.PlayerHoldings#addResourceCardCollection(shared.definitions.ResourceType, java.util.Collection)}
+	 * {@link shared.model.PlayerHoldings#addResourceCardCollection(shared.definitions.ResourceType, java.util.Collection)}
 	 * .
 	 */
 	@Test
@@ -131,7 +135,7 @@ public class PlayerHoldingsTest {
 
 	/**
 	 * Test method for
-	 * {@link clientBackend.model.PlayerHoldings#removeDevelopmentCard(shared.definitions.DevCardType, int)}
+	 * {@link shared.model.PlayerHoldings#removeDevelopmentCard(shared.definitions.DevCardType, int)}
 	 * .
 	 */
 	@Test
@@ -158,7 +162,7 @@ public class PlayerHoldingsTest {
 
 	/**
 	 * Test method for
-	 * {@link clientBackend.model.PlayerHoldings#addDevelopmentCardCollection(shared.definitions.DevCardType, java.util.Collection)}
+	 * {@link shared.model.PlayerHoldings#addDevelopmentCardCollection(shared.definitions.DevCardType, java.util.Collection)}
 	 * .
 	 */
 	@Test

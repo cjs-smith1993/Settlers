@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import serverCommunication.ServerException;
-import serverCommunication.ServerInterface;
-import serverCommunication.ServerMock5;
+import client.backend.ServerPoller;
+import client.serverCommunication.ServerException;
+import client.serverCommunication.ServerInterface;
+import client.serverCommunication.ServerMock5;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
-import clientBackend.ServerPoller;
-import clientBackend.model.Facade;
+import shared.model.Facade;
 
 public class ServerPollerTest {
 

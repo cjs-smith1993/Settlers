@@ -7,12 +7,10 @@ import java.util.Collection;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import client.data.PlayerInfo;
-import clientBackend.dataTransportObjects.DTOGame;
-import clientBackend.model.Facade;
-import clientBackend.model.ResourceInvoice;
-import serverCommunication.ServerException;
-import serverCommunication.ServerProxy;
+import client.backend.dataTransportObjects.DTOGame;
+import client.frontend.data.PlayerInfo;
+import client.serverCommunication.ServerException;
+import client.serverCommunication.ServerProxy;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
@@ -22,6 +20,8 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.Facade;
+import shared.model.ResourceInvoice;
 
 public class ServerProxyTest {
 	private static ServerProxy proxy = ServerProxy.getInstance("localhost", 8081);

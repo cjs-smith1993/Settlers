@@ -16,6 +16,13 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.Board;
+import shared.model.CatanException;
+import shared.model.City;
+import shared.model.Harbor;
+import shared.model.ResourceInvoice;
+import shared.model.Road;
+import shared.model.Settlement;
 
 public class BoardTest {
 
