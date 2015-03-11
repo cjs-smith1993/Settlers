@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import omegaTester.OmegaTester;
 import client.backend.ServerPoller;
 import client.frontend.base.*;
 import client.frontend.catan.*;
@@ -12,7 +13,6 @@ import client.frontend.join.*;
 import client.frontend.login.*;
 import client.frontend.misc.*;
 import client.serverCommunication.ServerProxy;
-import serverTester.CLTester;
 import shared.model.Facade;
 
 /**
@@ -123,7 +123,7 @@ public class Catan extends JFrame
 		facade.setProxy(proxy);
 
 		if (testerOn) {
-			CLTester tester = new CLTester(proxy);
+			OmegaTester tester = new OmegaTester(proxy);
 			Thread thread = new Thread(tester);
 			thread.start();
 		}

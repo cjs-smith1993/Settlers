@@ -1,4 +1,4 @@
-package serverTester;
+package omegaTester;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -27,13 +27,13 @@ import shared.model.User;
  * @author Kyle
  *
  */
-public class CLTester implements Runnable {
+public class OmegaTester implements Runnable {
 	private Scanner scanner = new Scanner(System.in);
 	private ServerProxy proxy;
 	private CatanSerializer serializer = CatanSerializer.getInstance();
 	private boolean isPrintOn = false;
 
-	public CLTester(ServerProxy proxy) {
+	public OmegaTester(ServerProxy proxy) {
 		this.proxy = proxy;
 	}
 
