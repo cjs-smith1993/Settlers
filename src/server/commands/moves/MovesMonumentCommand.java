@@ -1,5 +1,5 @@
 package server.commands.moves;
 
-public class MovesMonumentCommand implements MovesCommand {
+public class MovesMonumentCommand implements IMovesCommand {
 
 }

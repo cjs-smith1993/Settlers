@@ -1,5 +1,5 @@
 package server.commands.game;
 
-public interface GameCommand {
+public interface IGameCommand {
 
 }

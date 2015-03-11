@@ -1,5 +1,5 @@
 package server.commands.moves;
 
-public class MovesDiscardCardsCommand implements MovesCommand {
+public class MovesDiscardCardsCommand implements IMovesCommand {
 
 }

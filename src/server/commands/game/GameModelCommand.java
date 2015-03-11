@@ -1,5 +1,5 @@
 package server.commands.game;
 
-public class GameModelCommand implements GameCommand {
+public class GameModelCommand implements IGameCommand {
 
 }

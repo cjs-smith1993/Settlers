@@ -1,5 +1,5 @@
 package server.commands.moves;
 
-public class MovesAcceptTradeCommand implements MovesCommand {
+public class MovesAcceptTradeCommand implements IMovesCommand {
 
 }

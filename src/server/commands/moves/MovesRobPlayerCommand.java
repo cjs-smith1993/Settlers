@@ -1,5 +1,5 @@
 package server.commands.moves;
 
-public class MovesRobPlayerCommand implements MovesCommand {
+public class MovesRobPlayerCommand implements IMovesCommand {
 
 }

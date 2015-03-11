@@ -1,5 +1,5 @@
 package server.commands.games;
 
-public class GamesJoinCommand implements GamesCommand {
+public class GamesJoinCommand implements IGamesCommand {
 
 }

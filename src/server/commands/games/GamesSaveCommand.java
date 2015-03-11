@@ -1,5 +1,5 @@
 package server.commands.games;
 
-public class GamesSaveCommand implements GamesCommand {
+public class GamesSaveCommand implements IGamesCommand {
 
 }
