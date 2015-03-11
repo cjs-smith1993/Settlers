@@ -1,7 +1,9 @@
-package clientBackend.model;
+package server.core;
 
 import java.util.Collection;
 
+import clientBackend.model.CatanException;
+import clientBackend.model.Game;
 import shared.definitions.CatanExceptionType;
 
 /**
