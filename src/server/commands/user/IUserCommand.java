@@ -1,5 +1,5 @@
 package server.commands.user;
 
-public interface UserCommand {
+public interface IUserCommand {
 
 }

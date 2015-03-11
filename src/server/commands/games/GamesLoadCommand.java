@@ -1,5 +1,5 @@
 package server.commands.games;
 
-public interface GamesCommand {
+public class GamesLoadCommand {
 
 }
