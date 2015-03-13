@@ -2,20 +2,20 @@ package client.frontend.communication;
 
 import java.util.*;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import shared.definitions.*;
-import shared.model.Facade;
 import shared.model.Message;
 
 /**
  * Game history controller implementation
  */
 public class GameHistoryController extends Controller implements IGameHistoryController, Observer {
-	Facade facade = Facade.getInstance();
+	ClientFacade facade = ClientFacade.getInstance();
 
 	public GameHistoryController(IGameHistoryView view) {
 		super(view);
-		Facade.getInstance().addObserver(this);
+		ClientFacade.getInstance().addObserver(this);
 	}
 
 	@Override

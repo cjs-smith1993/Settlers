@@ -7,6 +7,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import client.backend.ClientFacade;
 import client.backend.dataTransportObjects.DTOGame;
 import client.backend.dataTransportObjects.DTOPlayer;
 import client.frontend.base.*;
@@ -15,7 +16,6 @@ import client.frontend.misc.*;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 /**
  * Implementation for the join game controller
@@ -27,7 +27,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 
-	private Facade facade;
+	private ClientFacade facade;
 	private GameInfo curGame;
 	boolean isPolling = false;
 	private Timer timer;
@@ -50,7 +50,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		super(view);
 
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.setNewGameView(newGameView);
 		this.setSelectColorView(selectColorView);
 		this.setMessageView(messageView);

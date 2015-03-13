@@ -5,23 +5,23 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import client.backend.ClientFacade;
 import client.backend.ServerPoller;
 import client.serverCommunication.ServerException;
 import client.serverCommunication.ServerInterface;
 import client.serverCommunication.ServerMock5;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
-import shared.model.Facade;
 
 public class ServerPollerTest {
 
 	ServerPoller poller;
 	ServerInterface mock5;
-	Facade facade = Facade.getInstance();
+	ClientFacade facade = ClientFacade.getInstance();
 
 	@Before
 	public void setUp() throws Exception {
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.mock5 = new ServerMock5();
 		this.facade.setProxy(mock5);
 

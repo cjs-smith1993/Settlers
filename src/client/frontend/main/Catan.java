@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import omegaTester.OmegaTester;
+import client.backend.ClientFacade;
 import client.backend.ServerPoller;
 import client.frontend.base.*;
 import client.frontend.catan.*;
@@ -13,7 +14,6 @@ import client.frontend.join.*;
 import client.frontend.login.*;
 import client.frontend.misc.*;
 import client.serverCommunication.ServerProxy;
-import shared.model.Facade;
 
 /**
  * Main entry point for the Catan program
@@ -119,7 +119,7 @@ public class Catan extends JFrame
 		boolean testerOn = argsList.contains("true");
 
 		ServerProxy proxy = ServerProxy.getInstance(hostname, port);
-		Facade facade = Facade.getInstance();
+		ClientFacade facade = ClientFacade.getInstance();
 		facade.setProxy(proxy);
 
 		if (testerOn) {

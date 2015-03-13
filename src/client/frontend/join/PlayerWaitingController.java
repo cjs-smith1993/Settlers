@@ -6,10 +6,10 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import client.frontend.data.PlayerInfo;
 import shared.definitions.AIType;
-import shared.model.Facade;
 
 /**
  * Implementation for the player waiting controller
@@ -17,14 +17,14 @@ import shared.model.Facade;
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController,
 		Observer {
 
-	private Facade facade;
+	private ClientFacade facade;
 	private final int MAX_PLAYERS = 4;
 	boolean isPolling = false;
 	private Timer timer;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 		super(view);
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.facade.addObserver(this);
 	}
 

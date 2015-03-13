@@ -1,5 +1,6 @@
 package client.frontend.map.state;
 
+import client.backend.ClientFacade;
 import client.frontend.map.IMapView;
 import client.frontend.map.IRobView;
 import client.frontend.map.MapController;
@@ -9,12 +10,11 @@ import shared.definitions.PropertyType;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 public class SetupMapControllerState extends DefaultMapControllerState {
 
 	public SetupMapControllerState(
-			Facade facade,
+			ClientFacade facade,
 			MapController controller,
 			IMapView view,
 			IRobView robView) {
