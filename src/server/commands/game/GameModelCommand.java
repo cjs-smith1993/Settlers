@@ -1,12 +1,18 @@
 package server.commands.game;
 
+import shared.model.User;
+
+/**
+ *	This is the Command that will be used to retrieve the given
+ *		given games model.
+ */
 public class GameModelCommand implements IGameCommand {
 
 	/**
-	 * This will be where the exection for the get Game Model command.
-	 */
+     * {@inheritDoc}
+     */
 	@Override
-	public void execute() {
+	public void execute(User user, int gameId, String json) {
 		// TODO Auto-generated method stub
 		
 	}
