@@ -1,13 +1,19 @@
 package server.commands.game;
 
+import shared.model.User;
+
+/**
+ *	This is the command to reset a given game.
+ *		This is to test as well as to restart a game.
+ */
+
 public class GameResetCommand implements IGameCommand {
 
 	/**
-	 * This will be the actual exectuion of the Reset game command.
-	 */
+     * {@inheritDoc}
+     */
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
+	public void execute(User user, int gameId, String json) {
 		
 	}
 

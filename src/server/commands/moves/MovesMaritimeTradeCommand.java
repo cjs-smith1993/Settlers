@@ -1,5 +1,18 @@
 package server.commands.moves;
 
-public class MovesMaritimeTradeCommand implements IMovesCommand {
+import shared.model.User;
 
+/**
+ *	Moves command created when a user attempts to use Maritime Trade. 
+ *
+ */
+public class MovesMaritimeTradeCommand implements IMovesCommand {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void execute(User user, int gameId, String json) {
+		// TODO Auto-generated method stub
+		
+	}
 }
