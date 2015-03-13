@@ -1,19 +1,17 @@
 package server.commands.user;
 
-import shared.model.User;
-
 /**
  * This is the command in user to validate a previous user
  */
 public class UserLoginCommand implements IUserCommand {
 
 	/**
-     * {@inheritDoc}
-     */
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void execute(User user) {
+	public void execute(String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

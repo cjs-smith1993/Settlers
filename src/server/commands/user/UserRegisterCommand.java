@@ -1,19 +1,18 @@
 package server.commands.user;
 
-import shared.model.User;
-
 /**
- * This is the command class that will register a new user as well as validate and log them in.
+ * This is the command class that will register a new user as well as validate
+ * and log them in.
  */
 public class UserRegisterCommand implements IUserCommand {
 
 	/**
-     * {@inheritDoc}
-     */
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void execute(User user) {
+	public void execute(String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
