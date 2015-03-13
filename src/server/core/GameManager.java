@@ -14,6 +14,18 @@ import shared.model.ModelUser;
 public class GameManager {
 	@SuppressWarnings("unused")
 	private Collection<Game> games;
+	private GameManager instance;
+
+	private GameManager() {
+
+	}
+
+	public GameManager getInstance() {
+		if (this.instance == null) {
+			this.instance = new GameManager();
+		}
+		return this.instance;
+	}
 
 	/**
 	 * Returns a collection of all games

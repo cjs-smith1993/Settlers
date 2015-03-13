@@ -11,6 +11,18 @@ import shared.model.CatanException;
 public class UserManager {
 	@SuppressWarnings("unused")
 	private Collection<ServerUser> users;
+	private UserManager instance;
+
+	private UserManager() {
+
+	}
+
+	public UserManager getInstance() {
+		if (this.instance == null) {
+			this.instance = new UserManager();
+		}
+		return this.instance;
+	}
 
 	/**
 	 * Returns whether a new user with the desired properties can be created
