@@ -1,5 +1,6 @@
 package server.commands.games;
 
+import server.CommandResponse;
 import server.cookies.UserCookie;
 
 /**
@@ -12,9 +13,8 @@ public class GamesJoinCommand implements IGamesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void execute(UserCookie user, String json) {
-		// TODO Auto-generated method stub
-
+	public CommandResponse execute(UserCookie user, String json) {
+		return null;
 	}
 
 }

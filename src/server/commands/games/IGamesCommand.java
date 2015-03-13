@@ -1,5 +1,6 @@
 package server.commands.games;
 
+import server.CommandResponse;
 import server.cookies.UserCookie;
 
 /**
@@ -16,7 +17,8 @@ public interface IGamesCommand {
      * @param json
      *            A JSON blob containing the required information for the
      *            desired command
+	 * @return TODO
      */
-	public void execute(UserCookie user, String json);
+	public CommandResponse execute(UserCookie user, String json);
 	
 }
