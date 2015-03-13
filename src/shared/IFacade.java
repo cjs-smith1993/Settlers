@@ -16,8 +16,8 @@ import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 /**
- * This is the general interface for the absrtact facade.
- * Then the client facade and the server facade will extend that.
+ * This is the general interface for the abstract facade. Then the client facade
+ * and the server facade will extend that.
  *
  */
 public interface IFacade {
@@ -27,6 +27,7 @@ public interface IFacade {
 
 	/**
 	 * Calls userLogin() on the server
+	 * 
 	 * @param username
 	 * @param password
 	 * @return
@@ -36,19 +37,21 @@ public interface IFacade {
 
 	/**
 	 * Calls userRegister() on the server
+	 * 
 	 * @param username
 	 * @param password
 	 * @return
 	 * @throws ServerException
 	 */
 	public boolean register(String username, String password);
-	
+
 	/*
 	 * Games server methods
 	 */
 
 	/**
 	 * Calls gamesList() on the server
+	 * 
 	 * @return
 	 * @throws ServerException
 	 */
@@ -56,6 +59,7 @@ public interface IFacade {
 
 	/**
 	 * Calls gamesCreate() on the server
+	 * 
 	 * @param randomTiles
 	 * @param randomNumbers
 	 * @param randomPorts
@@ -72,6 +76,7 @@ public interface IFacade {
 
 	/**
 	 * Calls gamesJoin() on the server
+	 * 
 	 * @param gameId
 	 * @param desiredColor
 	 * @return
@@ -81,6 +86,7 @@ public interface IFacade {
 
 	/**
 	 * Calls gamesSave() on the server
+	 * 
 	 * @param gameId
 	 * @param fileName
 	 * @return
@@ -90,6 +96,7 @@ public interface IFacade {
 
 	/**
 	 * Calls gamesLoad() on the server
+	 * 
 	 * @param fileName
 	 * @return
 	 * @throws ServerException
@@ -108,18 +115,21 @@ public interface IFacade {
 
 	/**
 	 * Calls gameReset() on the server
+	 * 
 	 * @throws ServerException
 	 */
 	public void resetGame();
 
 	/**
 	 * Calls gameAddAI() on the server
+	 * 
 	 * @param AItype
 	 */
 	public boolean addAI(AIType AItype);
 
 	/**
 	 * Calls gameListAI() on the server
+	 * 
 	 * @return
 	 */
 	public Collection<AIType> getAITypes();
@@ -130,6 +140,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesSendChat() on the server
+	 * 
 	 * @param playerIndex
 	 * @param content
 	 * @return
@@ -138,6 +149,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if the player can roll the dice for their turn
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -145,6 +157,7 @@ public interface IFacade {
 
 	/**
 	 * Rolls the dice if the player can roll
+	 * 
 	 * @param player
 	 *            the player attempting to roll the dice
 	 * @return the result of the dice roll, or -1 if the roll was not allowed
@@ -162,6 +175,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if the player can rob the victim
+	 * 
 	 * @param player
 	 * @param victim
 	 * @return
@@ -170,6 +184,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesRobPlayer() on the server
+	 * 
 	 * @param playerIndex
 	 * @param victim
 	 * @param newLocation
@@ -183,6 +198,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if the player can finish their turn
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -190,6 +206,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesFinishTurn() on the server
+	 * 
 	 * @return
 	 * @throws CatanException
 	 */
@@ -197,6 +214,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if the player can buy a development card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -205,6 +223,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesBuyDevCard() on the server
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -215,6 +234,7 @@ public interface IFacade {
 	 * Determines if the player is playing, if they have a playable Year of
 	 * Plenty card, and if they have not played another non-Monument development
 	 * card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -224,6 +244,7 @@ public interface IFacade {
 	/**
 	 * Determines if the player is playing, if they can use a Year of Plenty
 	 * card, and if the bank has one of each of the two resource types
+	 * 
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -235,6 +256,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesYear_of_Plenty() on the server
+	 * 
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -248,6 +270,7 @@ public interface IFacade {
 	 * Determines if the player is playing, if they have a playable RoadBuilding
 	 * card, if they have not played another non-Monument development card, and
 	 * if they have at least 2 available roads
+	 * 
 	 * @param player
 	 * @return
 	 * @throws CatanException
@@ -256,6 +279,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesRoad_Building() on the server
+	 * 
 	 * @param playerIndex
 	 * @param edge1
 	 * @param edge2
@@ -267,6 +291,7 @@ public interface IFacade {
 	/**
 	 * Determines if the player is playing, if they have a playable Soldier
 	 * card, and if they have not played another non-Monument development card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -275,6 +300,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesSoldier() on the server
+	 * 
 	 * @param playerIndex
 	 * @param victimIndex
 	 * @param newLocation
@@ -287,6 +313,7 @@ public interface IFacade {
 	/**
 	 * Determines if the player is playing, if they have a playable Monopoly
 	 * card, and if they have not played another non-Monument development card
+	 * 
 	 * @param player
 	 * @return
 	 * @throws CatanException
@@ -295,6 +322,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesMonopoly() on the server
+	 * 
 	 * @param playerIndex
 	 * @param resource
 	 * @return
@@ -305,6 +333,7 @@ public interface IFacade {
 	/**
 	 * Determines if the player is playing and if they have a playable Monument
 	 * card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -313,6 +342,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesMonument() on the server
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -321,6 +351,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player has the resources to build a road
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
@@ -329,6 +360,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesBuildRoad() on the server
+	 * 
 	 * @param playerIndex
 	 * @param location
 	 * @param isFree
@@ -340,6 +372,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player has the resources to build a settlement
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
@@ -348,6 +381,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesBuildSettlement() on the server
+	 * 
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isFree
@@ -360,6 +394,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player has the resources to build a city
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
@@ -368,6 +403,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesBuildCity() on the server
+	 * 
 	 * @param playerIndex
 	 * @param vertex
 	 * @return
@@ -377,6 +413,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player can place a road at the desired location
+	 * 
 	 * @param playerIndex
 	 * @param edge
 	 * @param isSetupPhase
@@ -386,6 +423,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player can place a settlement at the desired location
+	 * 
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
@@ -396,6 +434,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player can place a city at the desired location
+	 * 
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
@@ -405,6 +444,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player can offer a certain trade
+	 * 
 	 * @param invoice
 	 * @return
 	 */
@@ -412,6 +452,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesOfferTrade() on the server
+	 * 
 	 * @param invoice
 	 * @return
 	 * @throws CatanException
@@ -420,6 +461,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if a player can accept a certain trade
+	 * 
 	 * @param invoice
 	 * @return
 	 */
@@ -427,6 +469,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesAcceptTrade() on the server
+	 * 
 	 * @param invoice
 	 * @param willAccept
 	 * @return
@@ -437,6 +480,7 @@ public interface IFacade {
 	/**
 	 * Determines if a player has enough of a certain resource to perform a
 	 * maritime trade
+	 * 
 	 * @param playerIndex
 	 * @param giving
 	 * @return
@@ -446,6 +490,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesMaritimeTrade() on the server
+	 * 
 	 * @param playerIndex
 	 * @param ratio
 	 * @param inputResource
@@ -458,6 +503,7 @@ public interface IFacade {
 
 	/**
 	 * Determines if the player needs to discard cards
+	 * 
 	 * @param playerIndex
 	 * @return
 	 */
@@ -465,6 +511,7 @@ public interface IFacade {
 
 	/**
 	 * Calls movesDiscardCards() on the server
+	 * 
 	 * @param playerIndex
 	 * @param brick
 	 * @param ore
