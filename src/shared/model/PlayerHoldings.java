@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import client.backend.transport.TransportNewDevCards;
-import client.backend.transport.TransportOldDevCards;
-import client.backend.transport.TransportPlayer;
-import client.backend.transport.TransportResources;
 import shared.definitions.*;
+import shared.transport.TransportNewDevCards;
+import shared.transport.TransportOldDevCards;
+import shared.transport.TransportPlayer;
+import shared.transport.TransportResources;
 
 /**
  * An encapsulation of the cards that a player holds, the knights and monuments

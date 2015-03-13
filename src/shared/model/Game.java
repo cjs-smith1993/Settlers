@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import client.backend.transport.TransportPlayer;
-import client.backend.transport.TransportTurnTracker;
 import shared.definitions.*;
+import shared.transport.TransportPlayer;
+import shared.transport.TransportTurnTracker;
 
 /**
  * Manages the game itself, e.g. initializing setup, rolling dice, advancing

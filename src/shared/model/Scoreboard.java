@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import client.backend.transport.TransportPlayer;
-import client.backend.transport.TransportTurnTracker;
 import shared.definitions.*;
+import shared.transport.TransportPlayer;
+import shared.transport.TransportTurnTracker;
 
 /**
  * The scoreboard manages the victory points of all players in the game. Each

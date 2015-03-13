@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import client.backend.transport.TransportBank;
-import client.backend.transport.TransportDeck;
-import client.backend.transport.TransportPlayer;
 import shared.definitions.*;
+import shared.transport.TransportBank;
+import shared.transport.TransportDeck;
+import shared.transport.TransportPlayer;
 
 /**
  * Responsible for the transfer of cards between and among the bank and players'

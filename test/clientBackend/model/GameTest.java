@@ -13,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import client.backend.transport.*;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.model.CatanException;
@@ -21,6 +20,7 @@ import shared.model.Game;
 import shared.model.Player;
 import shared.model.Settlement;
 import shared.model.User;
+import shared.transport.*;
 
 public class GameTest {
 	

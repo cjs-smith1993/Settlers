@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import client.backend.transport.TransportLine;
+import shared.transport.TransportLine;
 
 /**
  * Holding class for the message and the log

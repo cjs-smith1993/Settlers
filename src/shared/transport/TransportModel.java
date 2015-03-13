@@ -1,4 +1,4 @@
-package client.backend.transport;
+package shared.transport;
 
 public class TransportModel {
 	public TransportDeck deck;

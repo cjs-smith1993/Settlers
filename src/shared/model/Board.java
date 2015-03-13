@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import client.backend.transport.*;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.transport.*;
 
 /**
  * Represents the physical board, including all tiles, chits, harbors, roads,

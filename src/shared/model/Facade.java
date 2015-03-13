@@ -10,9 +10,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.backend.dataTransportObjects.DTOGame;
-import client.backend.transport.TransportLine;
-import client.backend.transport.TransportModel;
-import client.backend.transport.TransportPlayer;
 import client.frontend.data.PlayerInfo;
 import client.serverCommunication.ServerException;
 import client.serverCommunication.ServerInterface;
@@ -27,6 +24,9 @@ import shared.definitions.CatanState;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.transport.TransportLine;
+import shared.transport.TransportModel;
+import shared.transport.TransportPlayer;
 
 public class Facade extends Observable {
 	private static Facade facadeInstance;

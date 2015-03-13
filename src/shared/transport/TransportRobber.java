@@ -1,4 +1,4 @@
-package client.backend.transport;
+package shared.transport;
 
 public class TransportRobber {
 	public int x;

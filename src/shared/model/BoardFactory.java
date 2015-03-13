@@ -2,9 +2,9 @@ package shared.model;
 
 import java.util.*;
 
-import client.backend.transport.*;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.transport.*;
 
 public class BoardFactory {
 	private static HexLocation desertLocation;

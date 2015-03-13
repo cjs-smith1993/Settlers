@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import client.backend.transport.TransportBank;
-import client.backend.transport.TransportDeck;
 import shared.definitions.*;
+import shared.transport.TransportBank;
+import shared.transport.TransportDeck;
 
 /**
  * Represents the bank, which manages the collections of available resource and

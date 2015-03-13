@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import client.backend.transport.TransportPlayer;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.model.CatanException;
 import shared.model.Player;
+import shared.transport.TransportPlayer;
 
 public class PlayerTest {
 	TransportPlayer player;

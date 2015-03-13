@@ -1,8 +1,8 @@
 package shared.model;
 
-import client.backend.transport.TransportTradeOffer;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
+import shared.transport.TransportTradeOffer;
 
 /**
  * Data transfer object that encapsulates a one-sided transaction consisting of

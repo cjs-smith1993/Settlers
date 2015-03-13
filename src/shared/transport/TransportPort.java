@@ -1,4 +1,4 @@
-package client.backend.transport;
+package shared.transport;
 
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;

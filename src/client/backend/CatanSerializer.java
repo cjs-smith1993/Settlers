@@ -1,13 +1,12 @@
 package client.backend;
 
-import client.backend.transport.TransportModel;
-
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 
 import shared.model.CatanException;
 import shared.model.Facade;
+import shared.transport.TransportModel;
 
 /**
  * Serializes and deserializes between the model's internal representation and

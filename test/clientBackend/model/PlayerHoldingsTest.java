@@ -13,10 +13,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import client.backend.transport.TransportNewDevCards;
-import client.backend.transport.TransportOldDevCards;
-import client.backend.transport.TransportPlayer;
-import client.backend.transport.TransportResources;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -24,6 +20,10 @@ import shared.model.DevelopmentCard;
 import shared.model.Harbor;
 import shared.model.PlayerHoldings;
 import shared.model.ResourceCard;
+import shared.transport.TransportNewDevCards;
+import shared.transport.TransportOldDevCards;
+import shared.transport.TransportPlayer;
+import shared.transport.TransportResources;
 
 /**
  * @author alexthomas

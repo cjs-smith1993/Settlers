@@ -2,8 +2,8 @@ package shared.model;
 
 import java.util.ArrayList;
 
-import client.backend.transport.TransportPlayer;
 import shared.definitions.*;
+import shared.transport.TransportPlayer;
 
 /**
  * Represents a player in the game. A player has a number and color, which
