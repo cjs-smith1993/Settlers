@@ -1,6 +1,7 @@
 package server.commands.moves;
 
-import shared.model.User;
+import server.cookies.GameCookie;
+import server.cookies.UserCookie;
 
 /**
  * Moves commend created when a user attempts to purchase a development card.
@@ -11,7 +12,7 @@ public class MovesBuyDevCardController implements IMovesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void execute(User user, int gameId, String json) {
+	public void execute(UserCookie user, GameCookie game, String json) {
 		// TODO Auto-generated method stub
 
 	}

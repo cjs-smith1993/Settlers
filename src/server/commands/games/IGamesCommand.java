@@ -1,6 +1,6 @@
 package server.commands.games;
 
-import shared.model.User;
+import server.cookies.UserCookie;
 
 /**
 * Represents the notion of executing the appropriate action for a given server
@@ -17,6 +17,6 @@ public interface IGamesCommand {
      *            A JSON blob containing the required information for the
      *            desired command
      */
-	public void execute(User user, String json);
+	public void execute(UserCookie user, String json);
 	
 }
