@@ -6,7 +6,7 @@ public class GameModelCommand implements IGameCommand {
 	 * This will be where the exection for the get Game Model command.
 	 */
 	@Override
-	public void execute(String userCookie) {
+	public void execute(String userCookie, String gameCookie) {
 		// TODO Auto-generated method stub
 		
 	}

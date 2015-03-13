@@ -10,6 +10,6 @@ public interface IGameCommand {
 	/**
 	 * This is the modal for the execution of the game command.
 	 */
-	public void execute(String userCookie);
+	public void execute(String userCookie, String gameCookie);
 
 }
