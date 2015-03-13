@@ -19,7 +19,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.ResourceInvoice;
-import shared.model.User;
+import shared.model.ModelUser;
 
 /**
  * Command line tester.
@@ -251,7 +251,7 @@ public class OmegaTester implements Runnable {
 			String username = this.scanner.next();
 			String password = this.scanner.next();
 
-			User user = this.proxy.userLogin(username, password);
+			ModelUser user = this.proxy.userLogin(username, password);
 
 			if (!user.getName().isEmpty()) {
 				this.println("User successfully logged in!");

@@ -12,7 +12,7 @@ import shared.transport.TransportPlayer;
  * limitations on the number of properties that can be built by each player 
  */
 public class Player {
-	private User user;
+	private ModelUser user;
 	private CatanColor color;
 	private PlayerNumber number;
 	private ArrayList<Road> availableRoads;
@@ -54,7 +54,7 @@ public class Player {
 		return cities;
 	}
 	
-	public Player(User user, CatanColor color, PlayerNumber number) {
+	public Player(ModelUser user, CatanColor color, PlayerNumber number) {
 		this.user = user;
 		this.color = color;
 		this.number = number;
@@ -65,7 +65,7 @@ public class Player {
 	}
 	
 	public Player(TransportPlayer player) {
-		this.user = new User(player.name, player.playerID);
+		this.user = new ModelUser(player.name, player.playerID);
 		this.color = player.color;
 		this.number = player.playerIndex;
 
@@ -117,7 +117,7 @@ public class Player {
 		return availableCities.remove(0);
 	}
 	
-	public User getUser() {
+	public ModelUser getUser() {
 		return this.user;
 	}
 	

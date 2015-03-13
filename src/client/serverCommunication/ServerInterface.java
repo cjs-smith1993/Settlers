@@ -7,7 +7,7 @@ import client.backend.dataTransportObjects.DTOGame;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.model.ResourceInvoice;
-import shared.model.User;
+import shared.model.ModelUser;
 
 /*the majority of these things change the server model
  * so in response the server returns with the new updated model
@@ -21,7 +21,7 @@ public interface ServerInterface {
 	 * User methods
 	 */
 
-	public User userLogin(String username, String password);
+	public ModelUser userLogin(String username, String password);
 
 	public boolean userRegister(String username, String password);
 

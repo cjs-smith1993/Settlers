@@ -87,7 +87,7 @@ public class Game {
 	 *            the desired color of the user
 	 * @return true if a player can be added to the game
 	 */
-	public boolean canAddPlayer(User user, CatanColor color) {
+	public boolean canAddPlayer(ModelUser user, CatanColor color) {
 		if (this.players.size() == MAX_PLAYERS) {// Make sure there is room for another player
 			return false;
 		}
@@ -112,7 +112,7 @@ public class Game {
 	 * @throws CatanException
 	 *             if the desired color is taken or if the game is full
 	 */
-	public void addPlayer(User user, CatanColor color) throws CatanException {
+	public void addPlayer(ModelUser user, CatanColor color) throws CatanException {
 		if (this.canAddPlayer(user, color)) {
 			PlayerNumber number = this.getNextPlayerNumber();
 

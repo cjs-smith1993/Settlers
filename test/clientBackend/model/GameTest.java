@@ -19,8 +19,8 @@ import shared.model.CatanException;
 import shared.model.Game;
 import shared.model.Player;
 import shared.model.Settlement;
-import shared.model.User;
 import shared.transport.*;
+import shared.model.ModelUser;
 
 public class GameTest {
 	
@@ -49,11 +49,11 @@ public class GameTest {
 
 	@Test
 	public void testGame() throws CatanException {
-		User U1 = new User("U1",1);
-		User U2 = new User("U2",2);
-		User U3 = new User("U3",3);
-		User U4 = new User("U4",4);
-		User U5 = new User("U5",5);
+		ModelUser U1 = new ModelUser("U1",1);
+		ModelUser U2 = new ModelUser("U2",2);
+		ModelUser U3 = new ModelUser("U3",3);
+		ModelUser U4 = new ModelUser("U4",4);
+		ModelUser U5 = new ModelUser("U5",5);
 		
 		/* Add user */
 		assertTrue(game.canAddPlayer(U1, CatanColor.BLUE));
@@ -255,7 +255,7 @@ public class GameTest {
 
 	@Test
 	public void testGetRoad() throws CatanException {
-		User U1 = new User("U1",1);
+		ModelUser U1 = new ModelUser("U1",1);
 		assertTrue(game.canAddPlayer(U1, CatanColor.BLUE));
 		game.addPlayer(U1, CatanColor.BLUE);
 		
@@ -280,7 +280,7 @@ public class GameTest {
 
 	@Test
 	public void testGetSettlement() throws CatanException {
-		User U1 = new User("U1",1);
+		ModelUser U1 = new ModelUser("U1",1);
 		assertTrue(game.canAddPlayer(U1, CatanColor.BLUE));
 		game.addPlayer(U1, CatanColor.BLUE);
 		assertEquals(game.getNumSettlements(PlayerNumber.ONE), Player.MAX_SETTLEMENTS);
@@ -318,7 +318,7 @@ public class GameTest {
 
 	@Test
 	public void testGetCity() throws CatanException {
-		User U1 = new User("U1",1);
+		ModelUser U1 = new ModelUser("U1",1);
 		assertTrue(game.canAddPlayer(U1, CatanColor.BLUE));
 		game.addPlayer(U1, CatanColor.BLUE);
 		

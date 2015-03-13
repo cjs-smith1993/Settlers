@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 
 import server.cookies.GameCookie;
 import server.cookies.UserCookie;
-import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -15,7 +14,6 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.ResourceInvoice;
-import shared.model.User;
 import shared.transport.TransportModel;
 import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
