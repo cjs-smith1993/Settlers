@@ -2,9 +2,11 @@ package server.core;
 
 import java.util.Collection;
 
+import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.model.Game;
+import shared.model.ModelUser;
 
 /**
  * Manages the collection of all games
@@ -64,6 +66,20 @@ public class GameManager {
 		}
 		else {
 			String message = "A game with the desired name already exists";
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
+		}
+	}
+
+	public boolean canAddUser(ModelUser user, int gameId, CatanColor color) {
+		return false;
+	}
+
+	public void addUser(ModelUser user, int gameId, CatanColor color) throws CatanException {
+		if (this.canAddUser(user, gameId, color)) {
+
+		}
+		else {
+			String message = "Cannot add the desired user with the desired color to the desired game";
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
 		}
 	}
