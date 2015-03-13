@@ -14,7 +14,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.CatanException;
 import shared.model.ResourceInvoice;
-import shared.model.User;
+import shared.model.ModelUser;
 
 public class ServerMock5 implements ServerInterface {
 	private int version;
@@ -40,8 +40,8 @@ public class ServerMock5 implements ServerInterface {
 	}
 
 	@Override
-	public User userLogin(String username, String password) {
-		return new User("name", -1);
+	public ModelUser userLogin(String username, String password) {
+		return new ModelUser("name", -1);
 	}
 
 	@Override

@@ -4,14 +4,14 @@ import java.util.Collection;
 
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
-import shared.model.User;
+import shared.model.ModelUser;
 
 /**
  * Manages the collection of all users
  */
 public class UserManager {
 	@SuppressWarnings("unused")
-	private Collection<User> users;
+	private Collection<ModelUser> users;
 
 	/**
 	 * Returns whether a new user with the desired properties can be created

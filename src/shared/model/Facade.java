@@ -181,7 +181,7 @@ public class Facade extends Observable {
 	 * @throws ServerException
 	 */
 	public boolean login(String username, String password) {
-		User newClient = this.server.userLogin(username, password);
+		ModelUser newClient = this.server.userLogin(username, password);
 		if (newClient == null) {
 			return false;
 		}

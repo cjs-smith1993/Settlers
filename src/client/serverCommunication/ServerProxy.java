@@ -21,7 +21,7 @@ import shared.definitions.*;
 import shared.locations.*;
 import shared.model.CatanException;
 import shared.model.ResourceInvoice;
-import shared.model.User;
+import shared.model.ModelUser;
 
 /**
  * Implements the server interface and acts as a proxy server so the client does
@@ -166,7 +166,7 @@ public class ServerProxy implements ServerInterface {
 	 */
 
 	@Override
-	public User userLogin(String username, String password) {
+	public ModelUser userLogin(String username, String password) {
 		DTOUserLogin data = new DTOUserLogin(username, password);
 
 		try {
@@ -179,8 +179,8 @@ public class ServerProxy implements ServerInterface {
 
 		@SuppressWarnings("deprecation")
 		String cookieJson = URLDecoder.decode(this.userCookie);
-		User client = (User) CatanSerializer.getInstance()
-				.deserializeObject(cookieJson, User.class);
+		ModelUser client = (ModelUser) CatanSerializer.getInstance()
+				.deserializeObject(cookieJson, ModelUser.class);
 
 		return client;
 	}
