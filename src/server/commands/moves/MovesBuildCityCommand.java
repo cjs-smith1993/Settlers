@@ -3,7 +3,7 @@ package server.commands.moves;
 import shared.model.User;
 
 /**
- *	Moves command created when a user builds a city. 
+ * Moves command created when a user attempts to build a city.
  *
  */
 public class MovesBuildCityCommand implements IMovesCommand {
@@ -13,6 +13,6 @@ public class MovesBuildCityCommand implements IMovesCommand {
 	@Override
 	public void execute(User user, int gameId, String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

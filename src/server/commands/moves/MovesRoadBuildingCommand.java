@@ -3,7 +3,7 @@ package server.commands.moves;
 import shared.model.User;
 
 /**
- * Moves command created when a user attempts to use a Road Building card. 
+ * Moves command created when a user attempts to use a Road Building card.
  *
  */
 public class MovesRoadBuildingCommand implements IMovesCommand {
@@ -13,7 +13,7 @@ public class MovesRoadBuildingCommand implements IMovesCommand {
 	@Override
 	public void execute(User user, int gameId, String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

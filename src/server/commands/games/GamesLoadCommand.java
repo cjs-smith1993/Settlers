@@ -3,18 +3,18 @@ package server.commands.games;
 import shared.model.User;
 
 /**
- * This is the how the game will load the game from the save state.
+ * Games command created when the user attempts to load a game
  *
  */
 public class GamesLoadCommand implements IGamesCommand {
 
 	/**
-     * {@inheritDoc}
-     */
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void execute(User user, String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

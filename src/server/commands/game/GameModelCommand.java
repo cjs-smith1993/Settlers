@@ -3,17 +3,18 @@ package server.commands.game;
 import shared.model.User;
 
 /**
- *	This is the Command that will be used to retrieve the given
- *		given games model.
+ * Game command created when the user attempts to get the model of the current
+ * game
+ *
  */
 public class GameModelCommand implements IGameCommand {
 
 	/**
-     * {@inheritDoc}
-     */
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void execute(User user, int gameId, String json) {
-		
+
 	}
 
 }

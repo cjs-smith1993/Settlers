@@ -3,7 +3,7 @@ package server.commands.moves;
 import shared.model.User;
 
 /**
- * Moves command created when a user attempts to place a Monument card.
+ * Moves command created when a user attempts to play a Monument card.
  *
  */
 public class MovesMonumentCommand implements IMovesCommand {
@@ -13,7 +13,7 @@ public class MovesMonumentCommand implements IMovesCommand {
 	@Override
 	public void execute(User user, int gameId, String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

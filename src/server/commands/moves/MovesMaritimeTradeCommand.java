@@ -3,7 +3,7 @@ package server.commands.moves;
 import shared.model.User;
 
 /**
- *	Moves command created when a user attempts to use Maritime Trade. 
+ * Moves command created when a user attempts to use Maritime Trade.
  *
  */
 public class MovesMaritimeTradeCommand implements IMovesCommand {
@@ -13,6 +13,6 @@ public class MovesMaritimeTradeCommand implements IMovesCommand {
 	@Override
 	public void execute(User user, int gameId, String json) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
