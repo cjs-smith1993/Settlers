@@ -1,10 +1,10 @@
 package client.frontend.devcards;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 /**
  * "Dev card" controller implementation
@@ -14,7 +14,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
-	private Facade facade = Facade.getInstance();
+	private ClientFacade facade = ClientFacade.getInstance();
 
 	/**
 	 * DevCardController constructor

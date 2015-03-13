@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import client.frontend.misc.*;
 import shared.definitions.*;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 
 /**
@@ -18,7 +18,7 @@ import shared.model.Facade;
 public class DiscardController extends Controller implements IDiscardController, Observer {
 
 	private IWaitView waitView;
-	private Facade facade;
+	private ClientFacade facade;
 	
 	private int numberToDiscard;
 	private int currentNumberToDiscard;
@@ -37,7 +37,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		
 		this.waitView = waitView;
 		
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.facade.addObserver(this);
 		this.currentNumberToDiscard = 0;
 		

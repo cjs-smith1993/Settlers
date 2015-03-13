@@ -8,11 +8,11 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import client.frontend.utils.*;
 import shared.definitions.*;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 import java.util.*;
 
@@ -33,7 +33,7 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView, Ob
 	private ResourceCardChooser resCard1;
 	private ResourceCardChooser resCard2;
 	
-	private Facade facade = Facade.getInstance();
+	private ClientFacade facade = ClientFacade.getInstance();
 
 	// Action buttons
 	private JButton useButton;

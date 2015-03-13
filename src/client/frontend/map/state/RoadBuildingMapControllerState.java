@@ -1,5 +1,6 @@
 package client.frontend.map.state;
 
+import client.backend.ClientFacade;
 import client.frontend.map.IMapView;
 import client.frontend.map.IRobView;
 import client.frontend.map.MapController;
@@ -8,7 +9,6 @@ import shared.definitions.PieceType;
 import shared.definitions.PlayerNumber;
 import shared.locations.EdgeLocation;
 import shared.model.CatanException;
-import shared.model.Facade;
 import shared.model.Road;
 
 public class RoadBuildingMapControllerState extends PlayingMapControllerState {
@@ -16,7 +16,7 @@ public class RoadBuildingMapControllerState extends PlayingMapControllerState {
 	private EdgeLocation firstRoadLocation;
 
 	public RoadBuildingMapControllerState(
-			Facade facade,
+			ClientFacade facade,
 			MapController controller,
 			IMapView view,
 			IRobView robView) {

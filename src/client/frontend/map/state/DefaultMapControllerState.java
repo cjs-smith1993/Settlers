@@ -3,6 +3,7 @@ package client.frontend.map.state;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import client.backend.ClientFacade;
 import client.frontend.data.PlayerInfo;
 import client.frontend.data.RobPlayerInfo;
 import client.frontend.map.IMapView;
@@ -23,20 +24,19 @@ import shared.model.BoardFactory;
 import shared.model.CatanException;
 import shared.model.Chit;
 import shared.model.Dwelling;
-import shared.model.Facade;
 import shared.model.Harbor;
 import shared.model.Road;
 import shared.model.Tile;
 
 public class DefaultMapControllerState {
 
-	protected Facade facade;
+	protected ClientFacade facade;
 	protected MapController controller;
 	protected IMapView view;
 	protected IRobView robView;
 
 	public DefaultMapControllerState(
-			Facade facade,
+			ClientFacade facade,
 			MapController controller,
 			IMapView view,
 			IRobView robView) {

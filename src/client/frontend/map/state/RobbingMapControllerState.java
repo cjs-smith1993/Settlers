@@ -1,5 +1,6 @@
 package client.frontend.map.state;
 
+import client.backend.ClientFacade;
 import client.frontend.data.RobPlayerInfo;
 import client.frontend.map.IMapView;
 import client.frontend.map.IRobView;
@@ -9,12 +10,11 @@ import shared.definitions.PieceType;
 import shared.definitions.PlayerNumber;
 import shared.locations.HexLocation;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 public class RobbingMapControllerState extends DefaultMapControllerState {
 
 	public RobbingMapControllerState(
-			Facade facade,
+			ClientFacade facade,
 			MapController controller,
 			IMapView view,
 			IRobView robView) {

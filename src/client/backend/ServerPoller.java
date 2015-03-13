@@ -3,14 +3,12 @@ package client.backend;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import shared.model.Facade;
-
 /**
  * Uses a timer to poll the server on a fixed interval and update the model when
  * there is new information
  */
 public class ServerPoller {
-	private Facade facade;
+	private ClientFacade facade;
 	private boolean hasStartedPolling = false;
 	private Timer timer;
 
@@ -18,7 +16,7 @@ public class ServerPoller {
 	 * A Server Interface is passed in to provide dependency injection
 	 */
 	public ServerPoller() {
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.timer = new Timer();
 	}
 

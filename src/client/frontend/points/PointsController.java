@@ -3,15 +3,15 @@ package client.frontend.points;
 import java.util.Observable;
 import java.util.Observer;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
-import shared.model.Facade;
 
 /**
  * Implementation for the points controller
  */
 public class PointsController extends Controller implements IPointsController, Observer {
 	private IGameFinishedView finishedView;
-	private Facade facade = Facade.getInstance();
+	private ClientFacade facade = ClientFacade.getInstance();
 
 	/**
 	 * PointsController constructor

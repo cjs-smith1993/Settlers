@@ -2,9 +2,9 @@ package client.frontend.login;
 
 import javax.swing.JOptionPane;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import client.frontend.misc.*;
-import shared.model.Facade;
 
 /**
  * Implementation for the login controller
@@ -13,7 +13,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
-	private Facade facade;
+	private ClientFacade facade;
 
 	/**
 	 * LoginController constructor
@@ -26,7 +26,7 @@ public class LoginController extends Controller implements ILoginController {
 	 */
 	public LoginController(ILoginView view, IMessageView messageView) {
 		super(view);
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.messageView = messageView;
 	}
 

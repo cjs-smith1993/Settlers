@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import java.lang.reflect.Type;
 
 import shared.model.CatanException;
-import shared.model.Facade;
 import shared.transport.TransportModel;
 
 /**
@@ -15,7 +14,7 @@ import shared.transport.TransportModel;
 public class CatanSerializer {
 	final Gson gson = new Gson();
 	private static CatanSerializer serializer;
-	private Facade facade;
+	private ClientFacade facade;
 
 	public static CatanSerializer getInstance() {
 		if (serializer == null) {
@@ -26,7 +25,7 @@ public class CatanSerializer {
 	}
 
 	private CatanSerializer() {
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 	}
 
 	/**

@@ -5,10 +5,10 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import shared.definitions.CatanState;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 /**
  * Implementation for the roll controller
@@ -16,7 +16,7 @@ import shared.model.Facade;
 public class RollController extends Controller implements IRollController, Observer {
 
 	private IRollResultView resultView;
-	private Facade facade;
+	private ClientFacade facade;
 	private Timer timer;
 	private final boolean TIMER_ENABLED = true;
 	private final int TIMER_LENGTH = 30 + 1;
@@ -35,7 +35,7 @@ public class RollController extends Controller implements IRollController, Obser
 		super(view);
 		this.setResultView(resultView);
 
-		this.facade = Facade.getInstance();
+		this.facade = ClientFacade.getInstance();
 		this.facade.addObserver(this);
 		this.timer = new Timer();
 	}
