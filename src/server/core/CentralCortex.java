@@ -23,7 +23,6 @@ import com.google.gson.JsonObject;
  * This will be our server facade so that we can test our connections with a proxy. 
  *
  */
-
 public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
