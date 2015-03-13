@@ -1,5 +1,7 @@
 package server.commands.user;
 
+import server.CommandResponse;
+
 /**
  * Represents the notion of executing the appropriate action for a given server
  * endpoint that begins with /user/
@@ -12,7 +14,8 @@ public interface IUserCommand {
 	 * @param json
 	 *            A JSON blob containing the required information for the
 	 *            desired command
+	 * @return TODO
 	 */
-	public void execute(String json);
+	public CommandResponse execute(String json);
 
 }

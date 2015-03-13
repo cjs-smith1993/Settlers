@@ -1,5 +1,6 @@
 package server.commands.game;
 
+import server.CommandResponse;
 import server.cookies.GameCookie;
 import server.cookies.UserCookie;
 
@@ -14,8 +15,8 @@ public class GameResetCommand implements IGameCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void execute(UserCookie user, GameCookie game, String json) {
-
+	public CommandResponse execute(UserCookie user, GameCookie game, String json) {
+		return null;
 	}
 
 }

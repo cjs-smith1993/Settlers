@@ -1,5 +1,6 @@
 package server.commands.moves;
 
+import server.CommandResponse;
 import server.cookies.GameCookie;
 import server.cookies.UserCookie;
 
@@ -12,9 +13,8 @@ public class MovesMonumentCommand implements IMovesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void execute(UserCookie user, GameCookie game, String json) {
-		// TODO Auto-generated method stub
-
+	public CommandResponse execute(UserCookie user, GameCookie game, String json) {
+		return null;
 	}
 
 }
