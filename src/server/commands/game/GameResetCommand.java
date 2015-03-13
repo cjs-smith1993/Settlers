@@ -14,7 +14,6 @@ public class GameResetCommand implements IGameCommand {
      */
 	@Override
 	public void execute(User user, int gameId, String json) {
-		// TODO Auto-generated method stub
 		
 	}
 
