@@ -20,13 +20,13 @@ import client.serverCommunication.ServerException;
  * Then the client facade and the server facade will extend that.
  *
  */
-public interface IFacade {
+public interface IModelFacade {
 	/*
 	 * User server methods
 	 */
 
 	/**
-	 * Calls userLogin() on the server
+	 * Logs a player into the server
 	 * @param username
 	 * @param password
 	 * @return
@@ -35,7 +35,7 @@ public interface IFacade {
 	public boolean login(String username, String password);
 
 	/**
-	 * Calls userRegister() on the server
+	 * Registers a new player with the server and logs them in
 	 * @param username
 	 * @param password
 	 * @return
@@ -48,14 +48,14 @@ public interface IFacade {
 	 */
 
 	/**
-	 * Calls gamesList() on the server
+	 * Gets a list of current games on the server
 	 * @return
 	 * @throws ServerException
 	 */
 	public Collection<DTOGame> getGamesList();
 
 	/**
-	 * Calls gamesCreate() on the server
+	 * Creates a new game on the server
 	 * @param randomTiles
 	 * @param randomNumbers
 	 * @param randomPorts
@@ -71,7 +71,7 @@ public interface IFacade {
 			String gameName);
 
 	/**
-	 * Calls gamesJoin() on the server
+	 * Adds a user to a game
 	 * @param gameId
 	 * @param desiredColor
 	 * @return
@@ -80,7 +80,7 @@ public interface IFacade {
 	public boolean joinGame(int gameId, CatanColor desiredColor);
 
 	/**
-	 * Calls gamesSave() on the server
+	 * Saves the current game on the server
 	 * @param gameId
 	 * @param fileName
 	 * @return
@@ -89,7 +89,7 @@ public interface IFacade {
 	public boolean saveGame(int gameId, String fileName);
 
 	/**
-	 * Calls gamesLoad() on the server
+	 * Loads the specified file into the server
 	 * @param fileName
 	 * @return
 	 * @throws ServerException
@@ -102,24 +102,24 @@ public interface IFacade {
 	 */
 
 	/**
-	 * Calls gameModel() on the server
+	 * Gets the updated model from the server
 	 */
 	public void getModel(boolean sendVersion);
 
 	/**
-	 * Calls gameReset() on the server
+	 * Returns the game to its state after the setup phase
 	 * @throws ServerException
 	 */
 	public void resetGame();
 
 	/**
-	 * Calls gameAddAI() on the server
+	 * Adds an AI to the current game
 	 * @param AItype
 	 */
 	public boolean addAI(AIType AItype);
 
 	/**
-	 * Calls gameListAI() on the server
+	 * Gets a list of the possible AIs to add to a game
 	 * @return
 	 */
 	public Collection<AIType> getAITypes();
@@ -129,7 +129,7 @@ public interface IFacade {
 	 */
 
 	/**
-	 * Calls movesSendChat() on the server
+	 * Sends a chat for the player
 	 * @param playerIndex
 	 * @param content
 	 * @return
@@ -137,14 +137,14 @@ public interface IFacade {
 	public boolean sendChat(PlayerNumber playerIndex, String content);
 
 	/**
-	 * Determines if the player can roll the dice for their turn
+	 * Determines if the player is ready to roll
 	 * @param player
 	 * @return
 	 */
 	public boolean canRollNumber(PlayerNumber playerIndex);
 
 	/**
-	 * Rolls the dice if the player can roll
+	 * Rolls the dice for the player
 	 * @param player
 	 *            the player attempting to roll the dice
 	 * @return the result of the dice roll, or -1 if the roll was not allowed
@@ -153,7 +153,6 @@ public interface IFacade {
 
 	/**
 	 * Determines if the Robber can be placed on a location
-	 *
 	 * @param player
 	 * @param location
 	 * @return
@@ -169,7 +168,7 @@ public interface IFacade {
 	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state);
 
 	/**
-	 * Calls movesRobPlayer() on the server
+	 * Robs the victim for the player
 	 * @param playerIndex
 	 * @param victim
 	 * @param newLocation
@@ -189,7 +188,7 @@ public interface IFacade {
 	public boolean canFinishTurn(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesFinishTurn() on the server
+	 * Finishes the player's turn
 	 * @return
 	 * @throws CatanException
 	 */
@@ -204,7 +203,7 @@ public interface IFacade {
 	public boolean canBuyDevCard(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesBuyDevCard() on the server
+	 * Buys a development card for the player
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -234,7 +233,7 @@ public interface IFacade {
 			ResourceType resource2);
 
 	/**
-	 * Calls movesYear_of_Plenty() on the server
+	 * Uses a player's year of plenty development card
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -255,7 +254,7 @@ public interface IFacade {
 	public boolean canUseRoadBuilding(PlayerNumber player);
 
 	/**
-	 * Calls movesRoad_Building() on the server
+	 * Uses a player's road building development card
 	 * @param playerIndex
 	 * @param edge1
 	 * @param edge2
@@ -274,7 +273,7 @@ public interface IFacade {
 	public boolean canUseSoldier(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesSoldier() on the server
+	 * Uses a player's soldier development card
 	 * @param playerIndex
 	 * @param victimIndex
 	 * @param newLocation
@@ -294,7 +293,7 @@ public interface IFacade {
 	public boolean canUseMonopoly(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesMonopoly() on the server
+	 * Uses a player's monopoly development card
 	 * @param playerIndex
 	 * @param resource
 	 * @return
@@ -312,7 +311,7 @@ public interface IFacade {
 	public boolean canUseMonument(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesMonument() on the server
+	 * Uses a player's monument development card
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -328,7 +327,7 @@ public interface IFacade {
 	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree);
 
 	/**
-	 * Calls movesBuildRoad() on the server
+	 * Builds a road for the player
 	 * @param playerIndex
 	 * @param location
 	 * @param isFree
@@ -339,7 +338,7 @@ public interface IFacade {
 			boolean isSetupPhase);
 
 	/**
-	 * Determines if a player has the resources to build a settlement
+	 * Determines if the player has the resources to build a settlement
 	 * @param playerIndex
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
@@ -347,7 +346,7 @@ public interface IFacade {
 	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree);
 
 	/**
-	 * Calls movesBuildSettlement() on the server
+	 * Builds a settlement for the player
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isFree
@@ -359,7 +358,7 @@ public interface IFacade {
 			boolean isSetupPhase);
 
 	/**
-	 * Determines if a player has the resources to build a city
+	 * Determines if the player has the resources to build a city
 	 * @param playerIndex
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
@@ -367,7 +366,7 @@ public interface IFacade {
 	public boolean canBuildCity(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesBuildCity() on the server
+	 * Builds a city for the player
 	 * @param playerIndex
 	 * @param vertex
 	 * @return
@@ -376,7 +375,7 @@ public interface IFacade {
 	public boolean buildCity(PlayerNumber playerIndex, VertexLocation vertex);
 
 	/**
-	 * Determines if a player can place a road at the desired location
+	 * Determines if the player can place a road at the desired location
 	 * @param playerIndex
 	 * @param edge
 	 * @param isSetupPhase
@@ -385,7 +384,7 @@ public interface IFacade {
 	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge, boolean isSetupPhase);
 
 	/**
-	 * Determines if a player can place a settlement at the desired location
+	 * Determines if the player can place a settlement at the desired location
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
@@ -395,7 +394,7 @@ public interface IFacade {
 			boolean isSetupPhase);
 
 	/**
-	 * Determines if a player can place a city at the desired location
+	 * Determines if the player can place a city at the desired location
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
@@ -404,14 +403,14 @@ public interface IFacade {
 	public boolean canPlaceCity(PlayerNumber playerIndex, VertexLocation vertex);
 
 	/**
-	 * Determines if a player can offer a certain trade
+	 * Determines if the player can offer a certain trade
 	 * @param invoice
 	 * @return
 	 */
 	public boolean canOfferTrade(ResourceInvoice invoice);
 
 	/**
-	 * Calls movesOfferTrade() on the server
+	 * Offers a trade for the player
 	 * @param invoice
 	 * @return
 	 * @throws CatanException
@@ -419,14 +418,14 @@ public interface IFacade {
 	public boolean offerTrade(ResourceInvoice invoice);
 
 	/**
-	 * Determines if a player can accept a certain trade
+	 * Determines if the player can accept a certain trade
 	 * @param invoice
 	 * @return
 	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice);
 
 	/**
-	 * Calls movesAcceptTrade() on the server
+	 * Accepts a trade for the player
 	 * @param invoice
 	 * @param willAccept
 	 * @return
@@ -445,7 +444,7 @@ public interface IFacade {
 	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving);
 
 	/**
-	 * Calls movesMaritimeTrade() on the server
+	 * Performs a maritime trade for the player
 	 * @param playerIndex
 	 * @param ratio
 	 * @param inputResource
@@ -464,7 +463,7 @@ public interface IFacade {
 	public boolean needsToDiscardCards(PlayerNumber playerIndex);
 
 	/**
-	 * Calls movesDiscardCards() on the server
+	 * Discards cards for a player
 	 * @param playerIndex
 	 * @param brick
 	 * @param ore
