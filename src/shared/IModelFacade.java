@@ -16,8 +16,8 @@ import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 /**
- * This is the general interface for the absrtact facade.
- * Then the client facade and the server facade will extend that.
+ * This is the general interface for the abstract facade. Then the client facade
+ * and the server facade will extend that.
  *
  */
 public interface IModelFacade {
@@ -42,7 +42,7 @@ public interface IModelFacade {
 	 * @throws ServerException
 	 */
 	public boolean register(String username, String password);
-	
+
 	/*
 	 * Games server methods
 	 */
@@ -115,6 +115,7 @@ public interface IModelFacade {
 	/**
 	 * Adds an AI to the current game
 	 * @param AItype
+	 * @return
 	 */
 	public boolean addAI(AIType AItype);
 
@@ -161,6 +162,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can rob the victim
+	 * 
 	 * @param player
 	 * @param victim
 	 * @return
