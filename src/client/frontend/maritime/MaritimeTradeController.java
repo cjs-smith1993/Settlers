@@ -4,10 +4,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import shared.definitions.*;
 import shared.model.CatanException;
-import shared.model.Facade;
 import shared.model.ResourceInvoice;
 
 
@@ -17,7 +17,7 @@ import shared.model.ResourceInvoice;
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController, Observer {
 
 	private IMaritimeTradeOverlay tradeOverlay;
-	private Facade facade;
+	private ClientFacade facade;
 	private int giveAmount = 0;
 	private ResourceType giveResource;
 	private ResourceType getResource;
@@ -28,7 +28,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 		setTradeOverlay(tradeOverlay);
 		
-		facade = Facade.getInstance();
+		facade = ClientFacade.getInstance();
 		facade.addObserver(this);
 	}
 	

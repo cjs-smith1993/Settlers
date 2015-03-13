@@ -1,4 +1,4 @@
-package shared.model;
+package client.backend;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,12 +24,22 @@ import shared.definitions.CatanState;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.Board;
+import shared.model.Broker;
+import shared.model.CatanException;
+import shared.model.Game;
+import shared.model.Message;
+import shared.model.ModelUser;
+import shared.model.Player;
+import shared.model.PostOffice;
+import shared.model.ResourceInvoice;
+import shared.model.Scoreboard;
 import shared.transport.TransportLine;
 import shared.transport.TransportModel;
 import shared.transport.TransportPlayer;
 
-public class Facade extends Observable {
-	private static Facade facadeInstance;
+public class ClientFacade extends Observable {
+	private static ClientFacade facadeInstance;
 	private ServerInterface server;
 	private Board board;
 	private Broker broker;
@@ -48,12 +58,12 @@ public class Facade extends Observable {
 	private boolean hasFinishedFirstRound = false;
 	private boolean hasFinishedSecondRound = false;
 
-	private Facade() {
+	private ClientFacade() {
 	}
 
-	public static Facade getInstance() {
+	public static ClientFacade getInstance() {
 		if (facadeInstance == null) {
-			facadeInstance = new Facade();
+			facadeInstance = new ClientFacade();
 		}
 
 		return facadeInstance;

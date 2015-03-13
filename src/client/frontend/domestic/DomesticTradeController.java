@@ -6,12 +6,12 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import client.frontend.data.PlayerInfo;
 import client.frontend.misc.*;
 import shared.definitions.*;
 import shared.model.CatanException;
-import shared.model.Facade;
 import shared.model.ResourceInvoice;
 
 
@@ -25,7 +25,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
-	private Facade facade;
+	private ClientFacade facade;
 	private int brick = 0;
 	private int wood = 0;
 	private int wheat = 0;
@@ -55,7 +55,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 		super(tradeView);
 		
-		facade = Facade.getInstance();
+		facade = ClientFacade.getInstance();
 		facade.addObserver(this);
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);

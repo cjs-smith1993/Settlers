@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import client.backend.ClientFacade;
 import client.backend.dataTransportObjects.DTOGame;
 import client.frontend.data.PlayerInfo;
 import client.serverCommunication.ServerException;
@@ -20,7 +21,6 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
-import shared.model.Facade;
 import shared.model.ResourceInvoice;
 
 public class ServerProxyTest {
@@ -32,7 +32,7 @@ public class ServerProxyTest {
 		proxy.gamesJoin(0, CatanColor.RED);
 
 		PlayerInfo clientPlayer = new PlayerInfo();
-		Facade.getInstance().setClientPlayer(clientPlayer);
+		ClientFacade.getInstance().setClientPlayer(clientPlayer);
 	}
 
 	@Test

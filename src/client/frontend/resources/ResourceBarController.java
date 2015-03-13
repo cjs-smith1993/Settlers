@@ -2,13 +2,13 @@ package client.frontend.resources;
 
 import java.util.*;
 
+import client.backend.ClientFacade;
 import client.frontend.base.*;
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import shared.model.CatanException;
-import shared.model.Facade;
 
 /**
  * Implementation for the resource bar controller
@@ -16,7 +16,7 @@ import shared.model.Facade;
 public class ResourceBarController extends Controller implements IResourceBarController, Observer {
 
 	private Map<ResourceBarElement, IAction> elementActions;
-	private Facade facade = Facade.getInstance();
+	private ClientFacade facade = ClientFacade.getInstance();
 	
 	public ResourceBarController(IResourceBarView view) {
 
@@ -33,7 +33,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			}
 		});
 		
-		Facade.getInstance().addObserver(this);
+		ClientFacade.getInstance().addObserver(this);
 	}
 
 	@Override
