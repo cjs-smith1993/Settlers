@@ -9,13 +9,13 @@ import server.cookies.UserCookie;
  * game
  *
  */
-public class GameModelCommand implements IGameCommand {
+public class GameModelCommand extends GameCommand {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute(UserCookie user, GameCookie game, String json) {
+	public CommandResponse execute() {
 		return null;
 	}
 

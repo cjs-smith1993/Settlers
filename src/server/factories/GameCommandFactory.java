@@ -1,6 +1,6 @@
 package server.factories;
 
-import server.commands.game.IGameCommand;
+import server.commands.game.GameCommand;
 
 /**
  * A factory for creating instances of IGameCommand corresponding to a given
