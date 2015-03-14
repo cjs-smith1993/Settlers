@@ -2,7 +2,7 @@ package client.frontend.login;
 
 import javax.swing.JOptionPane;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.base.*;
 import client.frontend.misc.*;
 
@@ -13,7 +13,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
-	private ClientFacade facade;
+	private ClientModelFacade facade;
 
 	/**
 	 * LoginController constructor
@@ -26,7 +26,7 @@ public class LoginController extends Controller implements ILoginController {
 	 */
 	public LoginController(ILoginView view, IMessageView messageView) {
 		super(view);
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 		this.messageView = messageView;
 	}
 

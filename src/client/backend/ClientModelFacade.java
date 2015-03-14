@@ -38,8 +38,8 @@ import shared.transport.TransportLine;
 import shared.transport.TransportModel;
 import shared.transport.TransportPlayer;
 
-public class ClientFacade extends Observable {
-	private static ClientFacade facadeInstance;
+public class ClientModelFacade extends Observable {
+	private static ClientModelFacade facadeInstance;
 	private ServerInterface server;
 	private Board board;
 	private Broker broker;
@@ -58,12 +58,12 @@ public class ClientFacade extends Observable {
 	private boolean hasFinishedFirstRound = false;
 	private boolean hasFinishedSecondRound = false;
 
-	private ClientFacade() {
+	private ClientModelFacade() {
 	}
 
-	public static ClientFacade getInstance() {
+	public static ClientModelFacade getInstance() {
 		if (facadeInstance == null) {
-			facadeInstance = new ClientFacade();
+			facadeInstance = new ClientModelFacade();
 		}
 
 		return facadeInstance;

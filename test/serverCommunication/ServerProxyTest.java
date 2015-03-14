@@ -7,7 +7,7 @@ import java.util.Collection;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.backend.dataTransportObjects.DTOGame;
 import client.frontend.data.PlayerInfo;
 import client.serverCommunication.ServerException;
@@ -32,7 +32,7 @@ public class ServerProxyTest {
 		proxy.gamesJoin(0, CatanColor.RED);
 
 		PlayerInfo clientPlayer = new PlayerInfo();
-		ClientFacade.getInstance().setClientPlayer(clientPlayer);
+		ClientModelFacade.getInstance().setClientPlayer(clientPlayer);
 	}
 
 	@Test

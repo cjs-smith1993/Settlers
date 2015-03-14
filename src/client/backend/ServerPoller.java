@@ -8,7 +8,7 @@ import java.util.TimerTask;
  * there is new information
  */
 public class ServerPoller {
-	private ClientFacade facade;
+	private ClientModelFacade facade;
 	private boolean hasStartedPolling = false;
 	private Timer timer;
 
@@ -16,7 +16,7 @@ public class ServerPoller {
 	 * A Server Interface is passed in to provide dependency injection
 	 */
 	public ServerPoller() {
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 		this.timer = new Timer();
 	}
 

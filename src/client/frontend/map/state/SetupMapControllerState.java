@@ -1,6 +1,6 @@
 package client.frontend.map.state;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.map.IMapView;
 import client.frontend.map.IRobView;
 import client.frontend.map.MapController;
@@ -14,7 +14,7 @@ import shared.model.CatanException;
 public class SetupMapControllerState extends DefaultMapControllerState {
 
 	public SetupMapControllerState(
-			ClientFacade facade,
+			ClientModelFacade facade,
 			MapController controller,
 			IMapView view,
 			IRobView robView) {

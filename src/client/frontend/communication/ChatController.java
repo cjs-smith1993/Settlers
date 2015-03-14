@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.base.*;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
@@ -15,12 +15,12 @@ import shared.model.Message;
  * Chat controller implementation
  */
 public class ChatController extends Controller implements IChatController, Observer {
-	ClientFacade facade = ClientFacade.getInstance();
+	ClientModelFacade facade = ClientModelFacade.getInstance();
 
 	public ChatController(IChatView view) {
 		super(view);
 
-		ClientFacade.getInstance().addObserver(this);
+		ClientModelFacade.getInstance().addObserver(this);
 	}
 
 	@Override

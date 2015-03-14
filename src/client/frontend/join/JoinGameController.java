@@ -7,7 +7,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.backend.dataTransportObjects.DTOGame;
 import client.backend.dataTransportObjects.DTOPlayer;
 import client.frontend.base.*;
@@ -27,7 +27,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 
-	private ClientFacade facade;
+	private ClientModelFacade facade;
 	private GameInfo curGame;
 	boolean isPolling = false;
 	private Timer timer;
@@ -50,7 +50,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		super(view);
 
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 		this.setNewGameView(newGameView);
 		this.setSelectColorView(selectColorView);
 		this.setMessageView(messageView);

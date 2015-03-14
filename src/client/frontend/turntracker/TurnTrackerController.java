@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.base.*;
 import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanState;
@@ -15,7 +15,7 @@ import shared.model.CatanException;
  * Implementation for the turn tracker controller
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
-	ClientFacade facade = ClientFacade.getInstance();
+	ClientModelFacade facade = ClientModelFacade.getInstance();
 
 	private boolean isStartup = true;
 

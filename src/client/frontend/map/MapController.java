@@ -2,7 +2,7 @@ package client.frontend.map;
 
 import java.util.*;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.base.*;
 import client.frontend.data.*;
 import client.frontend.map.state.*;
@@ -15,7 +15,7 @@ import shared.locations.*;
 public class MapController extends Controller implements IMapController, Observer {
 
 	private IRobView robView;
-	private ClientFacade facade;
+	private ClientModelFacade facade;
 	private DefaultMapControllerState state;
 	private boolean isModalShowing = false;
 	private HexLocation robberLocation;
@@ -25,7 +25,7 @@ public class MapController extends Controller implements IMapController, Observe
 
 		this.setRobView(robView);
 
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 		this.facade.addObserver(this);
 
 		this.setState();

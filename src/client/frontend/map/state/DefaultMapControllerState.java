@@ -3,7 +3,7 @@ package client.frontend.map.state;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.data.PlayerInfo;
 import client.frontend.data.RobPlayerInfo;
 import client.frontend.map.IMapView;
@@ -30,13 +30,13 @@ import shared.model.Tile;
 
 public class DefaultMapControllerState {
 
-	protected ClientFacade facade;
+	protected ClientModelFacade facade;
 	protected MapController controller;
 	protected IMapView view;
 	protected IRobView robView;
 
 	public DefaultMapControllerState(
-			ClientFacade facade,
+			ClientModelFacade facade,
 			MapController controller,
 			IMapView view,
 			IRobView robView) {

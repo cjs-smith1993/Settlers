@@ -1,6 +1,6 @@
 package client.frontend.devcards;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.base.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -14,7 +14,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
-	private ClientFacade facade = ClientFacade.getInstance();
+	private ClientModelFacade facade = ClientModelFacade.getInstance();
 
 	/**
 	 * DevCardController constructor

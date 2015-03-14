@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.backend.ServerPoller;
 import client.serverCommunication.ServerException;
 import client.serverCommunication.ServerInterface;
@@ -17,11 +17,11 @@ public class ServerPollerTest {
 
 	ServerPoller poller;
 	ServerInterface mock5;
-	ClientFacade facade = ClientFacade.getInstance();
+	ClientModelFacade facade = ClientModelFacade.getInstance();
 
 	@Before
 	public void setUp() throws Exception {
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 		this.mock5 = new ServerMock5();
 		this.facade.setProxy(mock5);
 

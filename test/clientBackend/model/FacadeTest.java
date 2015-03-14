@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
@@ -20,13 +20,13 @@ import shared.model.CatanException;
 import shared.transport.*;
 
 public class FacadeTest {
-	private ClientFacade facade;
+	private ClientModelFacade facade;
 	TransportModel model;
 	TransportPlayer player;
 
 	@Before
 	public void setUp() throws Exception {
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 
 		PlayerInfo clientPlayer = new PlayerInfo();
 		this.facade.setClientPlayer(clientPlayer);

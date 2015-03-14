@@ -3,7 +3,7 @@ package client.frontend.points;
 import java.util.Observable;
 import java.util.Observer;
 
-import client.backend.ClientFacade;
+import client.backend.ClientModelFacade;
 import client.frontend.base.*;
 
 /**
@@ -11,7 +11,7 @@ import client.frontend.base.*;
  */
 public class PointsController extends Controller implements IPointsController, Observer {
 	private IGameFinishedView finishedView;
-	private ClientFacade facade = ClientFacade.getInstance();
+	private ClientModelFacade facade = ClientModelFacade.getInstance();
 
 	/**
 	 * PointsController constructor

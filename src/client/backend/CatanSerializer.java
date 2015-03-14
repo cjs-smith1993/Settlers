@@ -14,7 +14,7 @@ import shared.transport.TransportModel;
 public class CatanSerializer {
 	final Gson gson = new Gson();
 	private static CatanSerializer serializer;
-	private ClientFacade facade;
+	private ClientModelFacade facade;
 
 	public static CatanSerializer getInstance() {
 		if (serializer == null) {
@@ -25,7 +25,7 @@ public class CatanSerializer {
 	}
 
 	private CatanSerializer() {
-		this.facade = ClientFacade.getInstance();
+		this.facade = ClientModelFacade.getInstance();
 	}
 
 	/**

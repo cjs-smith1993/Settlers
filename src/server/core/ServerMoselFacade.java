@@ -3,7 +3,7 @@ package server.core;
 import java.util.Collection;
 
 import client.backend.dataTransportObjects.DTOGame;
-import shared.ModelFacade;
+import server.ServerModelFacade;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
@@ -18,7 +18,7 @@ import shared.model.ResourceInvoice;
  * The facade that the Game Manager will be useig to update and interact with different games.
  *
  */
-public class ServerMoselFacade extends ModelFacade {
+public class ServerMoselFacade extends ServerModelFacade {
 
 	/**
 	 * {@inheritDoc}
