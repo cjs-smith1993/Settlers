@@ -10,6 +10,10 @@ import server.cookies.UserCookie;
  *
  */
 public class GameModelCommand extends GameCommand {
+	
+	public GameModelCommand(UserCookie user, GameCookie game) {
+		super(user,game);
+	}
 
 	/**
 	 * {@inheritDoc}

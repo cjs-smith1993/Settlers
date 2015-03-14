@@ -16,7 +16,7 @@ public class GameCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static IGameCommand getCommand(String type) {
+	public static GameCommand getCommand(String url) {
 		return null;
 	}
 }

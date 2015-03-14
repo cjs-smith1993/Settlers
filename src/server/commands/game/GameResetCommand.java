@@ -11,6 +11,10 @@ import server.cookies.UserCookie;
 
 public class GameResetCommand extends GameCommand {
 
+	public GameResetCommand(UserCookie user, GameCookie game) {
+		super(user,game);
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
