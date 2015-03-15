@@ -1,8 +1,8 @@
 package server.commands.game;
 
 import server.CommandResponse;
-import server.cookies.GameCookie;
-import server.cookies.UserCookie;
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
 
 /**
  * Game command created when the user attempts to reset the current game
@@ -11,7 +11,7 @@ import server.cookies.UserCookie;
 
 public class GameResetCommand extends GameCommand {
 
-	public GameResetCommand(UserCookie user, GameCookie game) {
+	public GameResetCommand(UserCertificate user, GameCertificate game) {
 		super(user,game);
 	}
 	

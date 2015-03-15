@@ -1,7 +1,7 @@
 package server.commands.games;
 
 import server.CommandResponse;
-import server.cookies.UserCookie;
+import server.certificates.UserCertificate;
 
 /**
 * Represents the notion of executing the appropriate action for a given server
@@ -19,6 +19,6 @@ public interface IGamesCommand {
      *            desired command
 	 * @return TODO
      */
-	public CommandResponse execute(UserCookie user, String json);
+	public CommandResponse execute(UserCertificate user, String json);
 	
 }

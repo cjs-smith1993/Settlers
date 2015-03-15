@@ -1,8 +1,8 @@
 package server.commands.game;
 
 import server.CommandResponse;
-import server.cookies.GameCookie;
-import server.cookies.UserCookie;
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
 
 /**
  * Game command created when the user attempts to get the model of the current
@@ -11,7 +11,7 @@ import server.cookies.UserCookie;
  */
 public class GameModelCommand extends GameCommand {
 	
-	public GameModelCommand(UserCookie user, GameCookie game) {
+	public GameModelCommand(UserCertificate user, GameCertificate game) {
 		super(user,game);
 	}
 

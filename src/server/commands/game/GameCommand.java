@@ -1,9 +1,9 @@
 package server.commands.game;
 
 import server.CommandResponse;
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
 import server.commands.ICommand;
-import server.cookies.GameCookie;
-import server.cookies.UserCookie;
 
 /**
 * Represents the notion of executing the appropriate action for a given server
@@ -11,10 +11,10 @@ import server.cookies.UserCookie;
 */
 
 public abstract class GameCommand implements ICommand {
-	private UserCookie user;
-	private GameCookie game;
+	private UserCertificate user;
+	private GameCertificate game;
 	
-	public GameCommand(UserCookie user, GameCookie game) {
+	public GameCommand(UserCertificate user, GameCertificate game) {
 		this.setUser(user);
 		this.setGame(game);
 	}
@@ -29,19 +29,19 @@ public abstract class GameCommand implements ICommand {
 	 * -kevinjreece
 	 */
 	
-	private UserCookie getUser() {
+	private UserCertificate getUser() {
 		return user;
 	}
 
-	private void setUser(UserCookie user) {
+	private void setUser(UserCertificate user) {
 		this.user = user;
 	}
 
-	private GameCookie getGame() {
+	private GameCertificate getGame() {
 		return game;
 	}
 
-	private void setGame(GameCookie game) {
+	private void setGame(GameCertificate game) {
 		this.game = game;
 	}
 

@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import com.google.gson.JsonObject;
 
-import server.cookies.GameCookie;
-import server.cookies.UserCookie;
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -34,7 +34,7 @@ public interface ICortex {
 	 * @param password
 	 * @return
 	 */
-	public UserCookie userLogin(String username, String password);
+	public UserCertificate userLogin(String username, String password);
 
 	/**
 	 * Registers a new player with the server and logs them in
@@ -42,7 +42,7 @@ public interface ICortex {
 	 * @param password
 	 * @return
 	 */
-	public UserCookie userRegister(String username, String password);
+	public UserCertificate userRegister(String username, String password);
 
 	/*
 	 * Games methods
@@ -53,7 +53,7 @@ public interface ICortex {
 	 * @param user
 	 * @return
 	 */
-	public Collection<DTOGame> gamesList(UserCookie user);
+	public Collection<DTOGame> gamesList(UserCertificate user);
 
 	/**
 	 * If user is authentic, creates a new game on the server
@@ -64,7 +64,7 @@ public interface ICortex {
 	 * @param name
 	 * @return
 	 */
-	public DTOGame gamesCreate(UserCookie user, boolean randomTiles, boolean randomNumbers, boolean randomPorts,
+	public DTOGame gamesCreate(UserCertificate user, boolean randomTiles, boolean randomNumbers, boolean randomPorts,
 			String name);
 
 	/**
@@ -74,7 +74,7 @@ public interface ICortex {
 	 * @param color
 	 * @return
 	 */
-	public GameCookie gamesJoin(UserCookie user, int gameId, CatanColor color);
+	public GameCertificate gamesJoin(UserCertificate user, int gameId, CatanColor color);
 
 	/**
 	 * If user is authentic, saves the appropriate game to the given file
@@ -83,7 +83,7 @@ public interface ICortex {
 	 * @param name
 	 * @return
 	 */
-	public boolean gamesSave(UserCookie user, int gameId, String name);
+	public boolean gamesSave(UserCertificate user, int gameId, String name);
 
 	/**
 	 * If user is authentic, loads a previous game from the given file
@@ -91,7 +91,7 @@ public interface ICortex {
 	 * @param name
 	 * @return
 	 */
-	public boolean gamesLoad(UserCookie user, String name);
+	public boolean gamesLoad(UserCertificate user, String name);
 
 	/*
 	 * Game methods
@@ -107,7 +107,7 @@ public interface ICortex {
 	 * @throws IOException
 	 * @throws ServerException
 	 */
-	public TransportModel gameModel(UserCookie user, GameCookie game, int version) throws IOException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
+	public TransportModel gameModel(UserCertificate user, GameCertificate game, int version) throws IOException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	/**
 	 * If user and game are authentic, returns the updated model for the appropriate game
@@ -117,7 +117,7 @@ public interface ICortex {
 	 * @throws IOException
 	 * @throws ServerException
 	 */
-	public TransportModel gameModel(UserCookie user, GameCookie game) throws IOException, ServerException;
+	public TransportModel gameModel(UserCertificate user, GameCertificate game) throws IOException, ServerException;
 	
 	/**
 	 * If user and game are authentic, returns the appropriate game to its state right after the Setup Phase
@@ -125,7 +125,7 @@ public interface ICortex {
 	 * @param game
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameReset(UserCookie user, GameCookie game);
+	public TransportModel gameReset(UserCertificate user, GameCertificate game);
 
 	/**
 	 * If user and game are authentic, returns a list of every command that has been executed since the game began
@@ -133,7 +133,7 @@ public interface ICortex {
 	 * @param game
 	 * @return
 	 */
-	public Collection<JsonObject> gameCommands(UserCookie user, GameCookie game);
+	public Collection<JsonObject> gameCommands(UserCertificate user, GameCertificate game);
 
 	/**
 	 * If user and game are authentic, applies the provided list of commands to the appropriate game
@@ -142,7 +142,7 @@ public interface ICortex {
 	 * @param commandList
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameCommands(UserCookie user, GameCookie game, Collection<JsonObject> commandList);
+	public TransportModel gameCommands(UserCertificate user, GameCertificate game, Collection<JsonObject> commandList);
 
 	/*
 	 * Moves methods
@@ -157,8 +157,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesSendChat(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex, 
 			String content);
 
@@ -171,8 +171,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesRollNumber(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex,
 			int number);
 
@@ -186,8 +186,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesRobPlayer(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location);
@@ -200,8 +200,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesFinishTurn(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex);
 
 	/**
@@ -212,8 +212,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuyDevCard(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex);
 
 	/**
@@ -226,8 +226,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesYear_of_Plenty(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2);
@@ -242,8 +242,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesRoad_Building(
-			UserCookie user, 
-			GameCookie game, 
+			UserCertificate user, 
+			GameCertificate game, 
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2);
@@ -258,8 +258,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesSoldier(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location);
@@ -273,8 +273,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesMonopoly(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			ResourceType resource,
 			PlayerNumber playerIndex);
 
@@ -286,8 +286,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesMonument(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex);
 
 	/**
@@ -300,8 +300,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildRoad(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex,
 			EdgeLocation location,
 			boolean free);
@@ -316,8 +316,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildSettlement(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex,
 			VertexLocation location,
 			boolean free);
@@ -331,8 +331,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildCity(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex,
 			VertexLocation location);
 
@@ -344,8 +344,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesOfferTrade(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			ResourceInvoice invoice);
 
 	/**
@@ -357,8 +357,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesAcceptTrade(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex,
 			boolean willAccept);
 
@@ -373,8 +373,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesMaritimeTrade(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
@@ -393,8 +393,8 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesDiscardCards(
-			UserCookie user, 
-			GameCookie game,
+			UserCertificate user, 
+			GameCertificate game,
 			PlayerNumber playerIndex, 
 			int brick, 
 			int ore, 

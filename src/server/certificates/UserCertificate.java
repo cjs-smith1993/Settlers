@@ -1,10 +1,10 @@
-package server.cookies;
+package server.certificates;
 
 /**
  * An encapsulation of a user cookie
  *
  */
-public class UserCookie {
+public class UserCertificate {
 
 	private int userId;
 	private String name;

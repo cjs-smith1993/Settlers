@@ -1,10 +1,10 @@
-package server.cookies;
+package server.certificates;
 
 /**
  * An encapsulation of a game cookie
  *
  */
-public class GameCookie {
+public class GameCertificate {
 
 	private int gameId;
 

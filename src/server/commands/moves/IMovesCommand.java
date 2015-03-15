@@ -1,8 +1,8 @@
 package server.commands.moves;
 
 import server.CommandResponse;
-import server.cookies.GameCookie;
-import server.cookies.UserCookie;
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
 
 /**
  * Represents the notion of executing the appropriate action for a given server
@@ -22,5 +22,5 @@ public interface IMovesCommand {
      *            desired command
      * @return TODO
      */
-    public CommandResponse execute(UserCookie user, GameCookie game, String json);
+    public CommandResponse execute(UserCertificate user, GameCertificate game, String json);
 }
