@@ -1,5 +1,6 @@
 package server.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import shared.definitions.CatanExceptionType;
@@ -9,18 +10,18 @@ import shared.model.CatanException;
  * Manages the collection of all users
  */
 public class UserManager {
-	@SuppressWarnings("unused")
 	private Collection<ServerUser> users;
 	private UserManager instance;
 
 	private UserManager() {
-
+		users = new ArrayList<ServerUser>();
 	}
 
 	public UserManager getInstance() {
 		if (this.instance == null) {
 			this.instance = new UserManager();
 		}
+		
 		return this.instance;
 	}
 
@@ -34,7 +35,21 @@ public class UserManager {
 	 * @return true if a new user with the desired properties can be created
 	 */
 	public boolean canRegisterUser(String username, String password) {
-		return false;
+		if (username.equals("") || password.equals("")) {
+			return false;
+		}
+
+		if (username.length() < 3 || password.length() < 5) {
+			return false;
+		}
+		
+		for (ServerUser user : users) {
+			if (user.getModelUser().getName().equals(username)) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	/**
