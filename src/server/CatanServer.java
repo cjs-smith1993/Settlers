@@ -16,7 +16,7 @@ import server.handlers.UserHandler;
  *
  */
 public class CatanServer {
-	private CatanServer instance;
+	private static CatanServer instance;
 	private HttpServer server;
 	private UserHandler userHandler;
 	private GamesHandler gamesHandler;
@@ -27,19 +27,27 @@ public class CatanServer {
 
 	private CatanServer(int portNum) {
 		try {
-			this.server = HttpServer
-					.create(new InetSocketAddress(portNum), MAX_WAITING_CONNECTIONS);
+			InetSocketAddress addr = new InetSocketAddress(portNum);
+			this.server = HttpServer.create(addr, MAX_WAITING_CONNECTIONS);
 			this.server.setExecutor(null);
+			this.userHandler = new UserHandler();
+			this.gamesHandler = new GamesHandler();
+			this.gameHandler = new GameHandler();
+			this.movesHandler = new MovesHandler();
+			this.server.createContext("/user", this.userHandler);
+			this.server.createContext("/games", this.gamesHandler);
+			this.server.createContext("/game", this.gameHandler);
+			this.server.createContext("/moves", this.movesHandler);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public CatanServer getInstance(int portNum) {
-		if (this.instance == null) {
-			this.instance = new CatanServer(portNum);
+	public static CatanServer getInstance(int portNum) {
+		if (instance == null) {
+			instance = new CatanServer(portNum);
 		}
-		return this.instance;
+		return instance;
 	}
 
 	public UserHandler getUserHandler() {
@@ -74,4 +82,17 @@ public class CatanServer {
 		this.movesHandler = movesHandler;
 	}
 
+	/**
+	 * Start the server
+	 */
+	public void start() {
+		this.server.start();
+	}
+
+	public static void main(String args[]) {
+		int portNum = args.length > 1 ? Integer.parseInt(args[1]) : 8081;
+		CatanServer server = CatanServer.getInstance(portNum);
+		server.setUserHandler(new UserHandler());
+		server.start();
+	}
 }
