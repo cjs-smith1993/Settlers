@@ -13,6 +13,7 @@ public class UserCertificate {
 	public UserCertificate(int playerID, String name, String password) {
 		this.playerID = playerID;
 		this.name = name;
+		this.password = password;
 	}
 
 	public int getUserId() {
