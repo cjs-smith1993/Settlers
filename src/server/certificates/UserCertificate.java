@@ -6,21 +6,21 @@ package server.certificates;
  */
 public class UserCertificate {
 
-	private int userID;
+	private int playerID;
 	private String name;
 	private String password;
 
-	public UserCertificate(int userId, String name, String password) {
-		this.userID = userId;
+	public UserCertificate(int playerID, String name, String password) {
+		this.playerID = playerID;
 		this.name = name;
 	}
 
 	public int getUserId() {
-		return this.userID;
+		return this.playerID;
 	}
 
-	public void setUserId(int userId) {
-		this.userID = userId;
+	public void setUserId(int playerID) {
+		this.playerID = playerID;
 	}
 
 	public String getName() {
