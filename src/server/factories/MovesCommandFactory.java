@@ -1,6 +1,6 @@
 package server.factories;
 
-import server.commands.moves.IMovesCommand;
+import server.commands.moves.AbstractMovesCommand;
 
 /**
  * A factory for creating instances of IMovesCommand corresponding to a given
@@ -16,7 +16,7 @@ public class MovesCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static IMovesCommand getCommand(String type) {
+	public static AbstractMovesCommand getCommand(String type) {
 		return null;
 	}
 }

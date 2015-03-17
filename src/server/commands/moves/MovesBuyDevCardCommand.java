@@ -6,11 +6,12 @@ import server.certificates.UserCertificate;
 import server.core.ICortex;
 
 /**
- * Moves command created when a user attempts to roll the dice.
+ * Moves commend created when a user attempts to purchase a development card.
+ *
  */
-public class MovesRollNumberCommand extends AbstractMovesCommand {
+public class MovesBuyDevCardCommand extends AbstractMovesCommand {
 
-	public MovesRollNumberCommand(String json, ICortex cortex) {
+	public MovesBuyDevCardCommand(String json, ICortex cortex) {
 		super(cortex);
 	}
 

@@ -6,11 +6,12 @@ import server.certificates.UserCertificate;
 import server.core.ICortex;
 
 /**
- * Moves command created when a user attempts to roll the dice.
+ * Moves command created when a user attempts to build a settlement.
+ *
  */
-public class MovesRollNumberCommand extends AbstractMovesCommand {
+public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 
-	public MovesRollNumberCommand(String json, ICortex cortex) {
+	public MovesBuildSettlementCommand(String json, ICortex cortex) {
 		super(cortex);
 	}
 
