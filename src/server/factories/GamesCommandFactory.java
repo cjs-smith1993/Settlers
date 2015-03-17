@@ -29,7 +29,7 @@ public class GamesCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static AbstractGamesCommand getCommand(String type) {
+	public AbstractGamesCommand getCommand(String type) {
 		return null;
 	}
 }

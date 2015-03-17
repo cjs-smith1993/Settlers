@@ -29,7 +29,7 @@ public class UserCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static AbstractUserCommand getCommand(String type) {
+	public AbstractUserCommand getCommand(String type) {
 		return null;
 	}
 }

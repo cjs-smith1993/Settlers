@@ -29,7 +29,7 @@ public class MovesCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static AbstractMovesCommand getCommand(String type) {
+	public AbstractMovesCommand getCommand(String type) {
 		return null;
 	}
 }
