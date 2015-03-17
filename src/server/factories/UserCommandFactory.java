@@ -9,6 +9,19 @@ import server.commands.user.AbstractUserCommand;
  */
 public class UserCommandFactory {
 
+	private static UserCommandFactory instance;
+
+	private UserCommandFactory() {
+
+	}
+
+	public static UserCommandFactory getInstance() {
+		if (instance == null) {
+			instance = new UserCommandFactory();
+		}
+		return instance;
+	}
+
 	/**
 	 * Parses the given type and returns an instance of a corresponding command
 	 *

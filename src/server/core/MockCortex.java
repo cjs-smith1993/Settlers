@@ -19,6 +19,20 @@ import client.serverCommunication.ServerException;
 import com.google.gson.JsonObject;
 
 public class MockCortex implements ICortex {
+
+	private static MockCortex instance;
+
+	private MockCortex() {
+
+	}
+
+	public static MockCortex getInstance() {
+		if (instance == null) {
+			instance = new MockCortex();
+		}
+		return instance;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

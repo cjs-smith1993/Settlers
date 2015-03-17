@@ -19,11 +19,26 @@ import client.serverCommunication.ServerException;
 import com.google.gson.JsonObject;
 
 /**
- * This is our HAL9000.  It will be responsible for interfacing with our Game and User managers.  
- * This will be our server facade so that we can test our connections with a proxy. 
+ * This is our HAL9000. It will be responsible for interfacing with our Game and
+ * User managers. This will be our server facade so that we can test our
+ * connections with a proxy.
  *
  */
 public class CentralCortex implements ICortex {
+
+	private static CentralCortex instance;
+
+	private CentralCortex() {
+
+	}
+
+	public static CentralCortex getInstance() {
+		if (instance == null) {
+			instance = new CentralCortex();
+		}
+		return instance;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

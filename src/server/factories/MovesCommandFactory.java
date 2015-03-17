@@ -9,6 +9,19 @@ import server.commands.moves.AbstractMovesCommand;
  */
 public class MovesCommandFactory {
 
+	private static MovesCommandFactory instance;
+
+	private MovesCommandFactory() {
+
+	}
+
+	public static MovesCommandFactory getInstance() {
+		if (instance == null) {
+			instance = new MovesCommandFactory();
+		}
+		return instance;
+	}
+
 	/**
 	 * Parses the given type and returns an instance of a corresponding command
 	 *

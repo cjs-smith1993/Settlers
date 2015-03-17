@@ -9,6 +9,19 @@ import server.commands.games.AbstractGamesCommand;
  */
 public class GamesCommandFactory {
 
+	private static GamesCommandFactory instance;
+
+	private GamesCommandFactory() {
+
+	}
+
+	public static GamesCommandFactory getInstance() {
+		if (instance == null) {
+			instance = new GamesCommandFactory();
+		}
+		return instance;
+	}
+
 	/**
 	 * Parses the given type and returns an instance of a corresponding command
 	 *
