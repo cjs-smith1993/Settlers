@@ -1,6 +1,6 @@
 package server.factories;
 
-import server.commands.user.IUserCommand;
+import server.commands.user.AbstractUserCommand;
 
 /**
  * A factory for creating instances of IGamesCommand corresponding to a given
@@ -16,7 +16,7 @@ public class UserCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static IUserCommand getCommand(String type) {
+	public static AbstractUserCommand getCommand(String type) {
 		return null;
 	}
 }
