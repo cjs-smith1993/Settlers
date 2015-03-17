@@ -2,18 +2,31 @@ package server.commands.games;
 
 import server.CommandResponse;
 import server.certificates.UserCertificate;
+import server.core.ICortex;
 
 /**
  * Games command created when the user attempts to load a game
  *
  */
-public class GamesLoadCommand implements IGamesCommand {
+public class GamesLoadCommand extends AbstractGamesCommand {
+
+	public GamesLoadCommand(String json, ICortex cortex) {
+		super(cortex);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute(UserCertificate user, String json) {
+	public boolean authenticate(UserCertificate userCert) {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CommandResponse execute() {
 		return null;
 	}
 
