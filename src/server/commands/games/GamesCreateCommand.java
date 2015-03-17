@@ -1,9 +1,7 @@
 package server.commands.games;
 
 import server.CommandResponse;
-import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
-import server.commands.moves.AbstractMovesCommand;
 import server.core.ICortex;
 
 /**

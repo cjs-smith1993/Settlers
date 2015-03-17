@@ -1,7 +1,6 @@
 package server.commands.games;
 
 import server.CommandResponse;
-import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.ICommand;
 import server.core.ICortex;
