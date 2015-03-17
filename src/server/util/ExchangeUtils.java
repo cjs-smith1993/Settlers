@@ -33,6 +33,10 @@ public class ExchangeUtils {
 		this.exchange.getResponseHeaders().add("Content-Type", type);
 	}
 
+	public void setCookie(String cookieText) {
+		this.exchange.getResponseHeaders().add("Set-cookie", cookieText);
+	}
+
 	public void writeResponseBody(String responseBody)
 			throws IOException {
 		OutputStream os = this.exchange.getResponseBody();
