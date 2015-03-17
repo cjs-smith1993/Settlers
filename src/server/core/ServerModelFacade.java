@@ -12,14 +12,14 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.ResourceInvoice;
-import shared.model.facade.ModelFacade;
+import shared.model.facade.AbstractModelFacade;
 
 /**
  * The facade that the Game Manager will be useig to update and interact with
  * different games.
  *
  */
-public class ServerModelFacade extends ModelFacade {
+public class ServerModelFacade extends AbstractModelFacade {
 
 	/**
 	 * {@inheritDoc}
