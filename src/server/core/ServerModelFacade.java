@@ -3,7 +3,6 @@ package server.core;
 import java.util.Collection;
 
 import client.backend.dataTransportObjects.DTOGame;
-import server.ServerModelFacade;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
@@ -13,12 +12,14 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.ResourceInvoice;
+import shared.model.facade.ModelFacade;
 
 /**
- * The facade that the Game Manager will be useig to update and interact with different games.
+ * The facade that the Game Manager will be useig to update and interact with
+ * different games.
  *
  */
-public class ServerMoselFacade extends ServerModelFacade {
+public class ServerModelFacade extends ModelFacade {
 
 	/**
 	 * {@inheritDoc}
@@ -28,7 +29,7 @@ public class ServerMoselFacade extends ServerModelFacade {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -418,7 +419,7 @@ public class ServerMoselFacade extends ServerModelFacade {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

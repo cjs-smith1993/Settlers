@@ -1,4 +1,4 @@
-package shared;
+package shared.model.facade;
 
 import java.util.Collection;
 
