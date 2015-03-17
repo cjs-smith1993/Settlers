@@ -1,5 +1,8 @@
 package server.util;
 
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
+
 /**
  * Encapsulation of a serialized cookie and a message body. A CommandResponse is
  * returned by each Command class. The cookie may or may not be set, and there
@@ -7,25 +10,40 @@ package server.util;
  *
  */
 public class CommandResponse {
-	private String cookie;
+	private UserCertificate userCert;
+	private GameCertificate gameCert;
+	private StatusCode status;
 	private String body;
 
-	public CommandResponse(String cookie, String body) {
-		this.cookie = cookie;
-		this.body = body;
-	}
-
 	public CommandResponse(String body) {
-		this.cookie = null;
+		this.userCert = null;
+		this.gameCert = null;
+		this.status = null;
 		this.body = body;
 	}
 
-	public String getCookie() {
-		return this.cookie;
+	public UserCertificate getUserCert() {
+		return this.userCert;
 	}
 
-	public void setCookie(String cookie) {
-		this.cookie = cookie;
+	public void setUserCert(UserCertificate userCert) {
+		this.userCert = userCert;
+	}
+
+	public GameCertificate getGameCert() {
+		return this.gameCert;
+	}
+
+	public void setGameCert(GameCertificate gameCert) {
+		this.gameCert = gameCert;
+	}
+
+	public StatusCode getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(StatusCode status) {
+		this.status = status;
 	}
 
 	public String getBody() {
