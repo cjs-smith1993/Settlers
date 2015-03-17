@@ -1,6 +1,6 @@
 package server.factories;
 
-import server.commands.game.GameCommand;
+import server.commands.game.AbstractGameCommand;
 
 /**
  * A factory for creating instances of IGameCommand corresponding to a given
@@ -16,7 +16,7 @@ public class GameCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public static GameCommand getCommand(String url) {
+	public static AbstractGameCommand getCommand(String url) {
 		return null;
 	}
 }
