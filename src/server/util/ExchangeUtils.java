@@ -29,6 +29,10 @@ public class ExchangeUtils {
 		return body;
 	}
 
+	public void setContentType(String type) {
+		this.exchange.getResponseHeaders().add("Content-Type", type);
+	}
+
 	public void writeResponseBody(String responseBody)
 			throws IOException {
 		OutputStream os = this.exchange.getResponseBody();
