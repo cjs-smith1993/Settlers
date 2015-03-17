@@ -8,6 +8,10 @@ public class GameCertificate {
 
 	private int gameId;
 
+	public GameCertificate(int gameId) {
+		this.gameId = gameId;
+	}
+
 	public int getGameId() {
 		return this.gameId;
 	}
