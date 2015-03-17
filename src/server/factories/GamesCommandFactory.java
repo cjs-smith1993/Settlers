@@ -1,6 +1,8 @@
 package server.factories;
 
-import server.commands.games.AbstractGamesCommand;
+import server.commands.games.*;
+import server.core.CortexFactory;
+import server.core.ICortex;
 
 /**
  * A factory for creating instances of IGamesCommand corresponding to a given
@@ -27,9 +29,32 @@ public class GamesCommandFactory {
 	 *
 	 * @param type
 	 *            A String containing the type of the command
+	 * @param json
+	 *            A JSON blob containing the information for the command
 	 * @return
 	 */
-	public AbstractGamesCommand getCommand(String type) {
-		return null;
+	public AbstractGamesCommand getCommand(String type, String json) {
+		AbstractGamesCommand cmd = null;
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+
+		switch (type) {
+		case "list":
+			cmd = new GamesListCommand(json, cortex);
+			break;
+		case "create":
+			cmd = new GamesCreateCommand(json, cortex);
+			break;
+		case "join":
+			cmd = new GamesJoinCommand(json, cortex);
+			break;
+		case "save":
+			cmd = new GamesSaveCommand(json, cortex);
+			break;
+		case "load":
+			cmd = new GamesLoadCommand(json, cortex);
+			break;
+		}
+
+		return cmd;
 	}
 }

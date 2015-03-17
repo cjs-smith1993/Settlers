@@ -1,8 +1,6 @@
 package server.factories;
 
-import server.commands.user.AbstractUserCommand;
-import server.commands.user.UserLoginCommand;
-import server.commands.user.UserRegisterCommand;
+import server.commands.user.*;
 import server.core.CortexFactory;
 import server.core.ICortex;
 
@@ -31,6 +29,8 @@ public class UserCommandFactory {
 	 *
 	 * @param type
 	 *            A String containing the type of the command
+	 * @param json
+	 *            A JSON blob containing the information for the command
 	 * @return
 	 */
 	public AbstractUserCommand getCommand(String type, String json) {
@@ -45,6 +45,7 @@ public class UserCommandFactory {
 			cmd = new UserRegisterCommand(json, cortex);
 			break;
 		}
+
 		return cmd;
 	}
 }
