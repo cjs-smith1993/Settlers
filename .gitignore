@@ -4,6 +4,7 @@
 .settings/
 demo/logs
 doc
+docs
 build
 dist
 tester.zip

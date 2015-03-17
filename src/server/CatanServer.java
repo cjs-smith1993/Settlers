@@ -9,6 +9,7 @@ import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
 import server.handlers.MovesHandler;
 import server.handlers.UserHandler;
+import server.util.Handlers;
 
 /**
  * An encapsulation of the server for Catan. Each of the four groups of commands
@@ -30,6 +31,8 @@ public class CatanServer {
 			InetSocketAddress addr = new InetSocketAddress(portNum);
 			this.server = HttpServer.create(addr, MAX_WAITING_CONNECTIONS);
 			this.server.setExecutor(null);
+
+			//Server endpoints
 			this.userHandler = new UserHandler();
 			this.gamesHandler = new GamesHandler();
 			this.gameHandler = new GameHandler();
@@ -38,6 +41,10 @@ public class CatanServer {
 			this.server.createContext("/games", this.gamesHandler);
 			this.server.createContext("/game", this.gameHandler);
 			this.server.createContext("/moves", this.movesHandler);
+
+			//Swagger endpoints
+			this.server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
+			this.server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
