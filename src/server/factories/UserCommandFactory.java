@@ -1,6 +1,10 @@
 package server.factories;
 
 import server.commands.user.AbstractUserCommand;
+import server.commands.user.UserLoginCommand;
+import server.commands.user.UserRegisterCommand;
+import server.core.CortexFactory;
+import server.core.ICortex;
 
 /**
  * A factory for creating instances of IGamesCommand corresponding to a given
@@ -29,7 +33,18 @@ public class UserCommandFactory {
 	 *            A String containing the type of the command
 	 * @return
 	 */
-	public AbstractUserCommand getCommand(String type) {
-		return null;
+	public AbstractUserCommand getCommand(String type, String json) {
+		AbstractUserCommand cmd = null;
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+
+		switch (type) {
+		case "login":
+			cmd = new UserLoginCommand(json, cortex);
+			break;
+		case "register":
+			cmd = new UserRegisterCommand(json, cortex);
+			break;
+		}
+		return cmd;
 	}
 }

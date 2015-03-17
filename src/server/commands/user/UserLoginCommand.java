@@ -17,7 +17,7 @@ public class UserLoginCommand extends AbstractUserCommand {
 	 */
 	@Override
 	public CommandResponse execute() {
-		return null;
+		return new CommandResponse("cookie", "Success");
 	}
 
 }
