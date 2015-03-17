@@ -19,7 +19,7 @@ public abstract class AbstractGamesCommand implements ICommand {
 	}
 
 	/**
-	 * Authenticates the command given a UserCertificate and GameCertificate
+	 * Authenticates the command given a UserCertificate
 	 *
 	 * @param userCert
 	 *            a certificate authenticating the user
