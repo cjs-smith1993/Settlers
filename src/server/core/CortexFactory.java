@@ -16,7 +16,7 @@ public class CortexFactory {
 		return instance;
 	}
 
-	public static ICortex getCortex() {
+	public ICortex getCortex() {
 		return testingEnabled ? MockCortex.getInstance() : CentralCortex.getInstance();
 	}
 }
