@@ -2,7 +2,6 @@ package server.commands.game;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
-import server.commands.moves.AbstractMovesCommand;
 import server.core.ICortex;
 import server.util.CommandResponse;
 
@@ -11,7 +10,7 @@ import server.util.CommandResponse;
  * game
  *
  */
-public class GameModelCommand extends AbstractMovesCommand {
+public class GameModelCommand extends AbstractGameCommand {
 
 	public GameModelCommand(String json, ICortex cortex) {
 		super(cortex);
