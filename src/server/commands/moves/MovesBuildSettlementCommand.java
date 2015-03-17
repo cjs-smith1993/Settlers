@@ -8,7 +8,7 @@ import server.certificates.UserCertificate;
  * Moves command created when a user attempts to build a settlement.
  *
  */
-public class MovesBuildSettlement implements IMovesCommand {
+public class MovesBuildSettlementCommand implements IMovesCommand {
 	/**
 	 * {@inheritDoc}
 	 */
