@@ -1,12 +1,13 @@
 package server.handlers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import server.commands.ICommand;
 import server.factories.UserCommandFactory;
 import server.util.CommandResponse;
+import server.util.CookieCreator;
 import server.util.ExchangeUtils;
+import server.util.StatusCode;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -29,12 +30,15 @@ public class UserHandler implements HttpHandler {
 
 		ICommand cmd = UserCommandFactory.getInstance().getCommand(URI, blob);
 		CommandResponse response = cmd.execute();
+
+		StatusCode status = response.getStatus();
 		String body = response.getBody();
 
-		ArrayList<String> headers = new ArrayList<String>();
-		headers.add("text/html");
-		exchange.getResponseHeaders().put("Content-Type", headers);
-		exchange.sendResponseHeaders(200, body.length());
+		utils.setContentType("text/html");
+		String userCookie = CookieCreator.generateUserCookie(response.getUserCert());
+		utils.setCookie(userCookie);
+		exchange.sendResponseHeaders(status.getCode(), body.length());
+
 		utils.writeResponseBody(body);
 		exchange.close();
 	}
