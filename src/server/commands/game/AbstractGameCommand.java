@@ -1,10 +1,10 @@
 package server.commands.game;
 
-import server.CommandResponse;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.ICommand;
 import server.core.ICortex;
+import server.util.CommandResponse;
 
 /**
  * Represents the notion of executing the appropriate action for a given server

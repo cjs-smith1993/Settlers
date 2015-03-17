@@ -1,7 +1,7 @@
 package server.commands.user;
 
-import server.CommandResponse;
 import server.core.ICortex;
+import server.util.CommandResponse;
 
 /**
  * This is the command class that will register a new user as well as validate

@@ -1,9 +1,9 @@
 package server.commands.moves;
 
-import server.CommandResponse;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.core.ICortex;
+import server.util.CommandResponse;
 
 /**
  * Moves command created when a user attempts to play a monopoly card.

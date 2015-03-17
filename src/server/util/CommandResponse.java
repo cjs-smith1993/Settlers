@@ -1,4 +1,4 @@
-package server;
+package server.util;
 
 /**
  * Encapsulation of a serialized cookie and a message body. A CommandResponse is

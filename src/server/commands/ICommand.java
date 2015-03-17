@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.CommandResponse;
+import server.util.CommandResponse;
 
 public interface ICommand {
 
