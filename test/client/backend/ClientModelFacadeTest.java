@@ -1,4 +1,4 @@
-package clientBackend.model;
+package client.backend;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +19,7 @@ import shared.locations.VertexDirection;
 import shared.model.CatanException;
 import shared.transport.*;
 
-public class FacadeTest {
+public class ClientModelFacadeTest {
 	private ClientModelFacade facade;
 	TransportModel model;
 	TransportPlayer player;

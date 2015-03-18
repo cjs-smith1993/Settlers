@@ -1,4 +1,4 @@
-package clientBackend;
+package client.backend;
 
 import org.junit.Test;
 

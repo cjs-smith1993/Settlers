@@ -1,4 +1,4 @@
-package serverCommunication;
+package client.serverCommunication;
 
 import static org.junit.Assert.*;
 

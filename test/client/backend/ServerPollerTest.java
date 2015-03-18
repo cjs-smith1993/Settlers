@@ -1,4 +1,4 @@
-package clientBackend;
+package client.backend;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package clientBackend.model;
+package shared.model;
 
 import static org.junit.Assert.*;
 
