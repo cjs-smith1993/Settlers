@@ -37,10 +37,10 @@ public class UserHandler implements HttpHandler {
 		utils.setContentType("text/html");
 		String userCookie = CookieCreator.generateUserCookie(response.getUserCert());
 		utils.setCookie(userCookie);
-		exchange.sendResponseHeaders(status.getCode(), body.length());
+		utils.sendResponseHeaders(status.getCode(), body.length());
 
 		utils.writeResponseBody(body);
-		exchange.close();
+		utils.close();
 	}
 
 }
