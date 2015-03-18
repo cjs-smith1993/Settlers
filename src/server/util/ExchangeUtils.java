@@ -37,11 +37,20 @@ public class ExchangeUtils {
 		this.exchange.getResponseHeaders().add("Set-cookie", cookieText);
 	}
 
+	public void sendResponseHeaders(int status, int length) {
+		this.sendResponseHeaders(status, length);
+
+	}
+
 	public void writeResponseBody(String responseBody)
 			throws IOException {
 		OutputStream os = this.exchange.getResponseBody();
 		os.write(responseBody.getBytes());
 		os.close();
+	}
+
+	public void close() {
+		this.exchange.close();
 	}
 
 }
