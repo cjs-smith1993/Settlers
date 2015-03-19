@@ -38,20 +38,15 @@ public class MockCortex implements ICortex {
 	 */
 	@Override
 	public UserCertificate userLogin(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UserCertificate(-1, username, password);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public UserCertificate userRegister(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UserCertificate(-1, username, password);
 	}
 
 	/**

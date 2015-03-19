@@ -11,7 +11,6 @@ import server.util.StatusCode;
  * This is the command in user to validate a previous user
  */
 public class UserLoginCommand extends AbstractUserCommand {
-
 	private String username;
 	private String password;
 
@@ -32,15 +31,16 @@ public class UserLoginCommand extends AbstractUserCommand {
 	 */
 	@Override
 	public CommandResponse execute() {
-		CommandResponse response = new CommandResponse("Success");
-		if (this.username.equals("Test") && this.password.equals("test")) {
+		UserCertificate userCert = this.cortex.userLogin(this.username, this.password);
+		CommandResponse response = null;
+		if (userCert != null) {
+			response = new CommandResponse(this.successMessage);
 			response.setStatus(StatusCode.OK);
-			response.setBody(this.successMessage);
-			response.setUserCert(new UserCertificate(10, this.username, this.password));
+			response.setUserCert(userCert);
 		}
 		else {
+			response = new CommandResponse(this.failureMessage);
 			response.setStatus(StatusCode.INVALID_REQUEST);
-			response.setBody(this.failureMessage);
 		}
 		return response;
 	}
