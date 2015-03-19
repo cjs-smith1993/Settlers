@@ -1,20 +1,20 @@
 package server.handlers;
 
-import java.io.IOException;
-
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import server.commands.ICommand;
+import server.factories.GameCommandFactory;
 
 /**
- * The HttpHandler for all "/game/" calls to the server
- * @author kevinjreece
+ * The HttpHandler for all "/games/" calls to the server
+ *
  */
-public class GameHandler implements HttpHandler {
+public class GameHandler extends AbstractHandler {
 
 	@Override
-	public void handle(HttpExchange exchange) throws IOException {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	protected ICommand getCommand(String commandName, String json) {
+		return GameCommandFactory.getInstance().getCommand(commandName, json);
 	}
 
 }
