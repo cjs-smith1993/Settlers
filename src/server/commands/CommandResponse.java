@@ -1,7 +1,8 @@
-package server.util;
+package server.commands;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.util.StatusCode;
 
 /**
  * Encapsulation of a serialized cookie and a message body. A CommandResponse is
@@ -13,12 +14,14 @@ public class CommandResponse {
 	private UserCertificate userCert;
 	private GameCertificate gameCert;
 	private StatusCode status;
+	private ContentType contentType;
 	private String body;
 
 	public CommandResponse(String body) {
 		this.userCert = null;
 		this.gameCert = null;
 		this.status = null;
+		this.contentType = null;
 		this.body = body;
 	}
 
@@ -44,6 +47,14 @@ public class CommandResponse {
 
 	public void setStatus(StatusCode status) {
 		this.status = status;
+	}
+
+	public ContentType getResponseType() {
+		return this.contentType;
+	}
+
+	public void setResponseType(ContentType contentType) {
+		this.contentType = contentType;
 	}
 
 	public String getBody() {

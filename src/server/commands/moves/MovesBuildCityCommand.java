@@ -2,8 +2,8 @@ package server.commands.moves;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.CommandResponse;
 import server.core.ICortex;
-import server.util.CommandResponse;
 
 /**
  * Moves command created when a user attempts to build a city.

@@ -3,8 +3,8 @@ package server.commands.user;
 import client.backend.CatanSerializer;
 import client.backend.dataTransportObjects.DTOUserLogin;
 import server.certificates.UserCertificate;
+import server.commands.CommandResponse;
 import server.core.ICortex;
-import server.util.CommandResponse;
 import server.util.StatusCode;
 
 /**

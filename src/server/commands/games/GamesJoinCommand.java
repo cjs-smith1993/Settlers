@@ -1,8 +1,8 @@
 package server.commands.games;
 
 import server.certificates.UserCertificate;
+import server.commands.CommandResponse;
 import server.core.ICortex;
-import server.util.CommandResponse;
 
 /**
  * Games command created when the user attempts to join a game

@@ -2,8 +2,8 @@ package server.commands.game;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.CommandResponse;
 import server.core.ICortex;
-import server.util.CommandResponse;
 
 /**
  * Game command created when the user attempts to reset the current game
