@@ -21,7 +21,6 @@ public class CookieCreator {
 			String encodedUserCert = null;
 			encodedUserCert = URLEncoder.encode(json, "UTF-8");
 			cookie = "catan.user=" + encodedUserCert + ";Path=/;";
-			System.out.println(cookie);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -36,7 +35,6 @@ public class CookieCreator {
 
 		int gameId = gameCert.getGameId();
 		String cookie = "catan.game=" + gameId + ";Path=/;";
-		System.out.println(cookie);
 		return cookie;
 	}
 }
