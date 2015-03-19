@@ -16,7 +16,7 @@ public class ExchangeUtils {
 
 	public String getCommandName() {
 		String fullURI = this.exchange.getRequestURI().getPath();
-		int startIndex = fullURI.substring(1).indexOf('/');
+		int startIndex = fullURI.indexOf('/', fullURI.indexOf('/') + 1) + 1;
 		String commandName = fullURI.substring(startIndex);
 		return commandName;
 	}
