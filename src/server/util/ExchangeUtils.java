@@ -14,10 +14,11 @@ public class ExchangeUtils {
 		this.exchange = exchange;
 	}
 
-	public String getURI(String prefix) {
+	public String getCommandName() {
 		String fullURI = this.exchange.getRequestURI().getPath();
-		String URI = fullURI.substring(prefix.length());
-		return URI;
+		int startIndex = fullURI.substring(1).indexOf('/');
+		String commandName = fullURI.substring(startIndex);
+		return commandName;
 	}
 
 	public String getRequestBody() throws IOException {
@@ -29,8 +30,8 @@ public class ExchangeUtils {
 		return body;
 	}
 
-	public void setContentType(String type) {
-		this.exchange.getResponseHeaders().add("Content-Type", type);
+	public void setContentType(String contentType) {
+		this.exchange.getResponseHeaders().add("Content-Type", contentType);
 	}
 
 	public void setCookie(String cookieText) {
