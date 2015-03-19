@@ -1,13 +1,13 @@
-package client.backend;
+package shared;
 
 import org.junit.Test;
 
-public class ClientBackendTest {
+public class CatanSubsetTest {
 
 	public static void main(String[] args) {
 
 		String[] testClasses = new String[] {
-				"serverCommunication.ServerProxyTest"
+				"server.commands.UserCommandsTest"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);
