@@ -4,6 +4,7 @@ import client.backend.CatanSerializer;
 import client.backend.dataTransportObjects.DTOUserLogin;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
+import server.commands.ContentType;
 import server.core.ICortex;
 import server.util.StatusCode;
 
@@ -36,11 +37,13 @@ public class UserLoginCommand extends AbstractUserCommand {
 		if (userCert != null) {
 			response = new CommandResponse(this.successMessage);
 			response.setStatus(StatusCode.OK);
+			response.setResponseType(ContentType.PLAIN_TEXT);
 			response.setUserCert(userCert);
 		}
 		else {
 			response = new CommandResponse(this.failureMessage);
 			response.setStatus(StatusCode.INVALID_REQUEST);
+			response.setResponseType(ContentType.PLAIN_TEXT);
 		}
 		return response;
 	}
