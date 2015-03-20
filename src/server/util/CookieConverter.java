@@ -1,6 +1,7 @@
 package server.util;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import client.backend.CatanSerializer;
@@ -60,9 +61,18 @@ public class CookieConverter {
 	 * @return a UserCertificate object
 	 */
 	public static UserCertificate parseUserCookie(String cookieString) {
-		String certString = cookieString.replaceAll("catan.user=", "").replaceAll(";Path=/;", "");
-		UserCertificate userCert = (UserCertificate) CatanSerializer.getInstance()
-				.deserializeObject(certString, UserCertificate.class);
+		UserCertificate userCert = null;
+
+		try {
+			String certString = cookieString.replaceAll("catan.user=", "").replaceAll(";Path=/;",
+					"");
+			String decodedCertString = URLDecoder.decode(certString, "UTF-8");
+			CatanSerializer serializer = CatanSerializer.getInstance();
+			userCert = (UserCertificate) serializer.deserializeObject(decodedCertString,
+					UserCertificate.class);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
 		return userCert;
 	}
@@ -75,9 +85,18 @@ public class CookieConverter {
 	 * @return a GameCertificate object
 	 */
 	public static GameCertificate parseGameCookie(String cookieString) {
-		String certString = cookieString.replaceAll("catan.game=", "").replaceAll(";Path=/;", "");
-		GameCertificate gameCert = (GameCertificate) CatanSerializer.getInstance()
-				.deserializeObject(certString, GameCertificate.class);
+		GameCertificate gameCert = null;
+
+		try {
+			String certString = cookieString.replaceAll("catan.game=", "").replaceAll(";Path=/;",
+					"");
+			String decodedCertString = URLDecoder.decode(certString, "UTF-8");
+			CatanSerializer serializer = CatanSerializer.getInstance();
+			gameCert = (GameCertificate) serializer.deserializeObject(decodedCertString,
+					GameCertificate.class);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
 		return gameCert;
 	}
