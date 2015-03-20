@@ -71,5 +71,8 @@ public class GameManager {
 		//games.put(info.getId(), tempGame);
 	}
 
-	
+	public boolean authenticateGame(int gameId) {
+		return this.games.get(gameId) != null;
+	}
+
 }

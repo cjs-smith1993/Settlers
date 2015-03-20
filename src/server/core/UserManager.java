@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
+import shared.model.ModelUser;
 
 /**
  * Manages the collection of all users
@@ -71,12 +72,14 @@ public class UserManager {
 	}
 
 	/**
-	 * Authenticates the user with the given username and password
+	 * Authenticates the user with the given id, username and password
 	 *
+	 * @param userId
 	 * @param username
 	 * @param password
 	 */
-	public void authenticateUser(String username, String password) {
-
+	public boolean authenticateUser(int userId, String username, String password) {
+		ServerUser user = new ServerUser(new ModelUser(username, userId), password);
+		return this.users.contains(user);
 	}
 }
