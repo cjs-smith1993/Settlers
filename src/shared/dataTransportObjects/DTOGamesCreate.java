@@ -1,10 +1,10 @@
 package shared.dataTransportObjects;
 
 public class DTOGamesCreate {
-	boolean randomTiles;
-	boolean randomNumbers;
-	boolean randomPorts;
-	String name;
+	public boolean randomTiles;
+	public boolean randomNumbers;
+	public boolean randomPorts;
+	public String name;
 	
 	public DTOGamesCreate(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name) {
 		this.randomTiles = randomTiles;
