@@ -1,8 +1,6 @@
 package server.factories;
 
 import server.commands.moves.*;
-import server.core.CortexFactory;
-import server.core.ICortex;
 
 /**
  * A factory for creating instances of IMovesCommand corresponding to a given
@@ -35,7 +33,6 @@ public class MovesCommandFactory {
 	 */
 	public AbstractMovesCommand getCommand(String type, String json) {
 		AbstractMovesCommand cmd = null;
-		ICortex cortex = CortexFactory.getInstance().getCortex();
 
 		switch (type) {
 		case "sendChat":
