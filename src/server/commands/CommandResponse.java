@@ -11,18 +11,16 @@ import server.util.StatusCode;
  *
  */
 public class CommandResponse {
+	private String body;
+	private ContentType contentType;
+	private StatusCode status;
 	private UserCertificate userCert;
 	private GameCertificate gameCert;
-	private StatusCode status;
-	private ContentType contentType;
-	private String body;
 
-	public CommandResponse(String body) {
-		this.userCert = null;
-		this.gameCert = null;
-		this.status = null;
-		this.contentType = null;
+	public CommandResponse(String body, StatusCode status, ContentType contentType) {
 		this.body = body;
+		this.status = status;
+		this.contentType = contentType;
 	}
 
 	public UserCertificate getUserCert() {
@@ -65,4 +63,17 @@ public class CommandResponse {
 		this.body = body;
 	}
 
+	public static CommandResponse getUnauthenticatedUserResponse() {
+		String body = "The catan.user HTTP cookie is missing or invalid. You must login or register before calling this method.";
+		StatusCode status = StatusCode.INVALID_REQUEST;
+		ContentType contentType = ContentType.PLAIN_TEXT;
+		return new CommandResponse(body, status, contentType);
+	}
+
+	public static CommandResponse getUnauthenticatedGameResponse() {
+		String body = "The catan.game HTTP cookie is missing or invalid. You must join a game before calling this method.";
+		StatusCode status = StatusCode.INVALID_REQUEST;
+		ContentType contentType = ContentType.PLAIN_TEXT;
+		return new CommandResponse(body, status, contentType);
+	}
 }
