@@ -5,16 +5,16 @@ package shared.model;
  * userId of each user is unique
  */
 public class ModelUser {
-	private String name;
+	private String username;
 	private int playerID;
-
+	
 	public ModelUser(String name, int playerId) {
-		this.name = name;
+		this.username = name;
 		this.playerID = playerId;
 	}
 
 	public String getName() {
-		return this.name;
+		return this.username;
 	}
 
 	public int getUserId() {
