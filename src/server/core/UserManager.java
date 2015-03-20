@@ -12,19 +12,19 @@ import shared.model.ModelUser;
  */
 public class UserManager {
 	private Collection<ServerUser> users;
-	private UserManager instance;
+	private static UserManager instance;
 	private int playerIDCount = 0;
 
 	private UserManager() {
 		users = new ArrayList<ServerUser>();
 	}
 
-	public UserManager getInstance() {
-		if (this.instance == null) {
-			this.instance = new UserManager();
+	public static UserManager getInstance() {
+		if (instance == null) {
+			instance = new UserManager();
 		}
 		
-		return this.instance;
+		return instance;
 	}
 
 	/**
@@ -33,8 +33,8 @@ public class UserManager {
 	 * @param password
 	 * @return True If 
 	 */
-	public boolean validateUserCredentials(String username, String password) {
-		if (!validateUsername(username, password) || checkUserExistence(username)) {
+	private boolean canRegisterUser(String username, String password) {
+		if (!validateUserCredentials(username, password) || checkUserExistence(username)) {
 			return false;
 		}
 		
@@ -50,7 +50,7 @@ public class UserManager {
 	 *             if a user cannot be created with the desired properties
 	 */
 	public void registerUser(String username, String password) throws CatanException {
-		if (this.validateUserCredentials(username, password) && !this.checkUserExistence(username)) {
+		if (this.canRegisterUser(username, password)) {
 			users.add(new ServerUser(new ModelUser(username, playerIDCount), password));
 			playerIDCount++;
 		}
@@ -59,28 +59,43 @@ public class UserManager {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
 		}
 	}
-
+	
 	/**
-	 * Authenticates the user with the given username and password
+	 * Authenticates the user at LOGIN.
 	 * @param username
 	 * @param password
 	 * @return isAuthenticated
 	 */
 	public boolean authenticateUser(String username, String password) {
-		if (!validateUserCredentials(username, password)) {
-			return false;
-		}
-		
 		for(ServerUser user : users) {
-			if (user.getModelUser().getName().equals(username) && user.getModelUser().getName().equals(password)) {
+			if (user.getModelUser().getName().equals(username) 
+					&& user.getModelUser().getName().equals(password)) {
 				return true;
 			}
 		}
 		
-		return true;
+		return false;
+	}
+
+	/**
+	 * Authenticates the user from API call.
+	 * @param username
+	 * @param password
+	 * @return isAuthenticated
+	 */
+	public boolean authenticateUser(int id, String username, String password) {
+		for(ServerUser user : users) {
+			if (user.getModelUser().getName().equals(username) 
+					&& user.getModelUser().getName().equals(password)
+					&& user.getModelUser().getUserId() == id) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
-	public boolean validateUsername(String username, String password) {
+	private boolean validateUserCredentials(String username, String password) {
 		if (username.equals("") || password.equals("")) {
 			return false;
 		}
@@ -92,7 +107,7 @@ public class UserManager {
 		return true;
 	}
 	
-	public boolean checkUserExistence(String username) {
+	private boolean checkUserExistence(String username) {
 		for (ServerUser user : users) {
 			if (user.getModelUser().getName().equals(username)) {
 				return true;
