@@ -61,7 +61,7 @@ public class UserManager {
 	}
 	
 	/**
-	 * Authenticates the user at login.
+	 * Authenticates the user at LOGIN.
 	 * @param username
 	 * @param password
 	 * @return isAuthenticated
