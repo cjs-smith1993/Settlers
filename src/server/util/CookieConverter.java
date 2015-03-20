@@ -7,7 +7,7 @@ import client.backend.CatanSerializer;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 
-public class CookieCreator {
+public class CookieConverter {
 
 	public static String generateUserCookie(UserCertificate userCert) {
 		if (userCert == null) {
