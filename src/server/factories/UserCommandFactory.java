@@ -35,14 +35,13 @@ public class UserCommandFactory {
 	 */
 	public AbstractUserCommand getCommand(String type, String json) {
 		AbstractUserCommand cmd = null;
-		ICortex cortex = CortexFactory.getInstance().getCortex();
 
 		switch (type) {
 		case "login":
-			cmd = new UserLoginCommand(json, cortex);
+			cmd = new UserLoginCommand(json);
 			break;
 		case "register":
-			cmd = new UserRegisterCommand(json, cortex);
+			cmd = new UserRegisterCommand(json);
 			break;
 		}
 

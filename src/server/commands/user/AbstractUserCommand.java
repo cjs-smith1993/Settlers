@@ -10,14 +10,9 @@ import server.core.ICortex;
  */
 public abstract class AbstractUserCommand implements ICommand {
 
-	protected ICortex cortex;
-
-	public AbstractUserCommand(ICortex cortex) {
-		this.cortex = cortex;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract CommandResponse execute();
+
 }

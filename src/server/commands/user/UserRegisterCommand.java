@@ -4,6 +4,7 @@ import client.backend.CatanSerializer;
 import client.backend.dataTransportObjects.DTOUserLogin;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
+import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
 
@@ -12,15 +13,14 @@ import server.util.StatusCode;
  * and log them in.
  */
 public class UserRegisterCommand extends AbstractUserCommand {
+
+	private static final String SUCCESS_MESSAGE = "Success";
+	private static final String FAILURE_MESSAGE = "Failed to register - bad username or password.";
+
 	private String username;
 	private String password;
 
-	private final String successMessage = "Success";
-	private final String failureMessage = "Failed to register - bad username or password.";
-
-	public UserRegisterCommand(String json, ICortex cortex) {
-		super(cortex);
-
+	public UserRegisterCommand(String json) {
 		DTOUserLogin dto = (DTOUserLogin) CatanSerializer.getInstance().deserializeObject(json,
 				DTOUserLogin.class);
 		this.username = dto.username;
@@ -32,15 +32,16 @@ public class UserRegisterCommand extends AbstractUserCommand {
 	 */
 	@Override
 	public CommandResponse execute() {
-		UserCertificate userCert = this.cortex.userRegister(this.username, this.password);
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+		UserCertificate userCert = cortex.userRegister(this.username, this.password);
 		CommandResponse response = null;
 		if (userCert != null) {
-			response = new CommandResponse(this.successMessage);
+			response = new CommandResponse(SUCCESS_MESSAGE);
 			response.setStatus(StatusCode.OK);
 			response.setUserCert(userCert);
 		}
 		else {
-			response = new CommandResponse(this.failureMessage);
+			response = new CommandResponse(FAILURE_MESSAGE);
 			response.setStatus(StatusCode.INVALID_REQUEST);
 		}
 		return response;
