@@ -37,6 +37,22 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public boolean authenticateUser(UserCertificate userCert) {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean authenticateGame(GameCertificate gameCert) {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public UserCertificate userLogin(String username, String password) {
 		return new UserCertificate(-1, username, password);
 	}

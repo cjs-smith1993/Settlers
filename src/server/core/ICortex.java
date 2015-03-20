@@ -25,6 +25,28 @@ import client.serverCommunication.ServerException;
  */
 public interface ICortex {
 
+	/**
+	 * Authentication methods
+	 */
+
+	/**
+	 * Authenticates a user certificate
+	 * 
+	 * @param userCert
+	 *            a user certificate
+	 * @return true if the user certificate is valid
+	 */
+	public boolean authenticateUser(UserCertificate userCert);
+
+	/**
+	 * Authenticates a game certificate
+	 * 
+	 * @param userCert
+	 *            a game certificate
+	 * @return true if the game certificate is valid
+	 */
+	public boolean authenticateGame(GameCertificate gameCert);
+
 	/*
 	 * User methods
 	 */

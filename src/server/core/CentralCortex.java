@@ -43,6 +43,26 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public boolean authenticateUser(UserCertificate userCert) {
+		int userId = userCert.getUserId();
+		String username = userCert.getName();
+		String password = userCert.getPassword();
+		return UserManager.getInstance().authenticateUser(userId, username, password);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean authenticateGame(GameCertificate gameCert) {
+		int gameId = gameCert.getGameId();
+		return GameManager.getInstance().authenticateGame(gameId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public UserCertificate userLogin(String username, String password) {
 		// TODO Auto-generated method stub
 		return null;
