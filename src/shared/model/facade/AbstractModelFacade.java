@@ -15,7 +15,6 @@ import shared.model.Game;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
 import shared.model.Scoreboard;
-import client.frontend.data.PlayerInfo;
 
 
 /**

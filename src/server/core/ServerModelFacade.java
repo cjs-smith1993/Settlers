@@ -28,6 +28,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+	//not needed ue to this being done else where
 	@Override
 	public boolean login(String username, String password) {
 		// TODO Auto-generated method stub
@@ -37,6 +38,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+	//not needed ue to this being done else where
 	@Override
 	public boolean register(String username, String password) {
 		// TODO Auto-generated method stub
@@ -46,6 +48,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+	//not needed ue to this being done else where
 	@Override
 	public Collection<DTOGame> getGamesList() {
 		// TODO Auto-generated method stub
@@ -55,6 +58,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+	//not needed ue to this being done else where
+	//true or false
 	@Override
 	public DTOGame createGame(boolean randomTiles, boolean randomNumbers,
 			boolean randomPorts, String gameName) {
@@ -74,6 +79,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+	//return the game model or put in file system?
 	@Override
 	public boolean saveGame(int gameId, String fileName) {
 		// TODO Auto-generated method stub
@@ -134,14 +140,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canRollNumber(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	/**
 	 * {@inheritDoc}
@@ -156,40 +155,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canPlaceRobber(PlayerNumber playerNumber,
-			HexLocation location, CatanState state) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canRobPlayer(PlayerNumber playerIndex,
-			PlayerNumber victimIndex, CatanState state) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
 			HexLocation newLocation, CatanState state) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canFinishTurn(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -204,35 +175,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canBuyDevCard(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean buyDevCard(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canUseYearOfPlenty(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canPlayYearOfPlenty(PlayerNumber playerIndex,
-			ResourceType resource1, ResourceType resource2) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -251,26 +194,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canUseRoadBuilding(PlayerNumber player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean useRoadBuilding(PlayerNumber playerIndex,
 			EdgeLocation edge1, EdgeLocation edge2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canUseSoldier(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -289,15 +214,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canUseMonopoly(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
 		// TODO Auto-generated method stub
 		return false;
@@ -307,25 +223,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canUseMonument(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean useMonument(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -344,26 +242,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean buildSettlement(PlayerNumber playerIndex,
 			VertexLocation vertex, boolean isFree, boolean isSetupPhase) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canBuildCity(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -381,44 +261,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge,
-			boolean isSetupPhase) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canPlaceSettlement(PlayerNumber playerIndex,
-			VertexLocation vertex, boolean isSetupPhase) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canPlaceCity(PlayerNumber playerIndex, VertexLocation vertex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canOfferTrade(ResourceInvoice invoice) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean offerTrade(ResourceInvoice invoice) {
 		// TODO Auto-generated method stub
 		return false;
@@ -428,26 +270,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canAcceptTrade(ResourceInvoice invoice) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canMaritimeTrade(PlayerNumber playerIndex,
-			ResourceType giving) {
 		// TODO Auto-generated method stub
 		return false;
 	}
