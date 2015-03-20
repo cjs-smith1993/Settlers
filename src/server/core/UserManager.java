@@ -69,7 +69,7 @@ public class UserManager {
 	public boolean authenticateUser(String username, String password) {
 		for(ServerUser user : users) {
 			if (user.getModelUser().getName().equals(username) 
-					&& user.getModelUser().getName().equals(password)) {
+					&& user.getPassword().equals(password)) {
 				return true;
 			}
 		}
@@ -100,7 +100,7 @@ public class UserManager {
 			return false;
 		}
 
-		if (username.length() < 3 || password.length() < 5) {
+		if (username.length() < 4 || password.length() < 6) {
 			return false;
 		}
 		
