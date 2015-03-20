@@ -1,8 +1,6 @@
 package server.factories;
 
 import server.commands.games.*;
-import server.core.CortexFactory;
-import server.core.ICortex;
 
 /**
  * A factory for creating instances of IGamesCommand corresponding to a given
@@ -35,23 +33,22 @@ public class GamesCommandFactory {
 	 */
 	public AbstractGamesCommand getCommand(String type, String json) {
 		AbstractGamesCommand cmd = null;
-		ICortex cortex = CortexFactory.getInstance().getCortex();
 
 		switch (type) {
 		case "list":
-			cmd = new GamesListCommand(json, cortex);
+			cmd = new GamesListCommand(json);
 			break;
 		case "create":
-			cmd = new GamesCreateCommand(json, cortex);
+			cmd = new GamesCreateCommand(json);
 			break;
 		case "join":
-			cmd = new GamesJoinCommand(json, cortex);
+			cmd = new GamesJoinCommand(json);
 			break;
 		case "save":
-			cmd = new GamesSaveCommand(json, cortex);
+			cmd = new GamesSaveCommand(json);
 			break;
 		case "load":
-			cmd = new GamesLoadCommand(json, cortex);
+			cmd = new GamesLoadCommand(json);
 			break;
 		}
 

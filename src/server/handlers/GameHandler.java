@@ -1,20 +1,49 @@
 package server.handlers;
 
-import java.io.IOException;
-
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
+import server.commands.CommandResponse;
+import server.commands.ICommand;
+import server.factories.GameCommandFactory;
+import server.util.CookieConverter;
 
 /**
- * The HttpHandler for all "/game/" calls to the server
- * @author kevinjreece
+ * The HttpHandler for all "/games/" calls to the server
+ *
  */
-public class GameHandler implements HttpHandler {
+public class GameHandler extends AbstractHandler {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void handle(HttpExchange exchange) throws IOException {
-		// TODO Auto-generated method stub
-		
+	protected ICommand getCommand(String commandName, String json) {
+		return GameCommandFactory.getInstance().getCommand(commandName, json);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected CommandResponse processCommand(ICommand command, String cookieString) {
+		CommandResponse response = null;
+
+		UserCertificate userCert = CookieConverter.parseUserCookie(cookieString);
+		GameCertificate gameCert = CookieConverter.parseGameCookie(cookieString);
+		boolean authenticatedUser = command.authenticateUser(userCert);
+		boolean authenticatedGame = command.authenticateGame(gameCert);
+
+		if (authenticatedUser && authenticatedGame) {
+			response = command.execute();
+		}
+		else if (authenticatedUser) {
+			response = CommandResponse.getUnauthenticatedGameResponse();
+		}
+		else {
+			response = CommandResponse.getUnauthenticatedUserResponse();
+		}
+
+		return response;
 	}
 
 }

@@ -1,9 +1,6 @@
 package server.commands.moves;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
-import server.core.ICortex;
-import server.util.CommandResponse;
+import server.commands.CommandResponse;
 
 /**
  * Moves command created when a user attempts to use a Road Building card.
@@ -11,16 +8,8 @@ import server.util.CommandResponse;
  */
 public class MovesRoadBuildingCommand extends AbstractMovesCommand {
 
-	public MovesRoadBuildingCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public MovesRoadBuildingCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

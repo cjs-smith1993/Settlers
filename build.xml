@@ -181,7 +181,7 @@
 	</target>
 	
 	<target name="test-subset" depends="compile" description="run automated client backend tests">
-		<java classname="clientBackend.ClientBackendTest" fork="yes">
+		<java classname="shared.CatanSubsetTest" fork="yes">
 			<classpath>
 				<pathelement location="${java.lib}/junit-4.11.jar"/>
 				<pathelement location="${java.lib}/hamcrest-core-1.3.jar"/>

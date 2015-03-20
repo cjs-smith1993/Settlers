@@ -1,9 +1,6 @@
 package server.commands.moves;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
-import server.core.ICortex;
-import server.util.CommandResponse;
+import server.commands.CommandResponse;
 
 /**
  * Moves command create when a user attempts to offer a trade.
@@ -11,16 +8,8 @@ import server.util.CommandResponse;
  */
 public class MovesOfferTradeCommand extends AbstractMovesCommand {
 
-	public MovesOfferTradeCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public MovesOfferTradeCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -2,6 +2,7 @@ package shared.model.facade;
 
 import java.util.Collection;
 
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
@@ -12,7 +13,6 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.CatanException;
 import shared.model.ResourceInvoice;
-import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 /**
@@ -202,7 +202,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canBuyDevCard(PlayerNumber playerIndex);
+	public boolean canBuyDevCard(PlayerNumber playerIndex) throws CatanException;
 
 	/**
 	 * Buys a development card for the player
@@ -220,7 +220,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseYearOfPlenty(PlayerNumber playerIndex);
+	public boolean canUseYearOfPlenty(PlayerNumber playerIndex) throws CatanException;
 
 	/**
 	 * Determines if the player is playing, if they can use a Year of Plenty
@@ -232,7 +232,7 @@ public interface IModelFacade {
 	 * @throws CatanException
 	 */
 	public boolean canPlayYearOfPlenty(PlayerNumber playerIndex, ResourceType resource1,
-			ResourceType resource2);
+			ResourceType resource2) throws CatanException;
 
 	/**
 	 * Uses a player's year of plenty development card
@@ -253,7 +253,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseRoadBuilding(PlayerNumber player);
+	public boolean canUseRoadBuilding(PlayerNumber player) throws CatanException;
 
 	/**
 	 * Uses a player's road building development card
@@ -272,7 +272,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseSoldier(PlayerNumber playerIndex);
+	public boolean canUseSoldier(PlayerNumber playerIndex) throws CatanException;
 
 	/**
 	 * Uses a player's soldier development card
@@ -292,7 +292,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseMonopoly(PlayerNumber playerIndex);
+	public boolean canUseMonopoly(PlayerNumber playerIndex) throws CatanException;
 
 	/**
 	 * Uses a player's monopoly development card
@@ -310,7 +310,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canUseMonument(PlayerNumber playerIndex);
+	public boolean canUseMonument(PlayerNumber playerIndex) throws CatanException;
 
 	/**
 	 * Uses a player's monument development card
@@ -326,7 +326,7 @@ public interface IModelFacade {
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
 	 */
-	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree);
+	public boolean canBuildRoad(PlayerNumber playerIndex, boolean isFree) throws CatanException;
 
 	/**
 	 * Builds a road for the player
@@ -345,7 +345,7 @@ public interface IModelFacade {
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
 	 */
-	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree);
+	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree) throws CatanException;
 
 	/**
 	 * Builds a settlement for the player
@@ -365,7 +365,7 @@ public interface IModelFacade {
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
 	 */
-	public boolean canBuildCity(PlayerNumber playerIndex);
+	public boolean canBuildCity(PlayerNumber playerIndex) throws CatanException;
 
 	/**
 	 * Builds a city for the player
@@ -443,7 +443,7 @@ public interface IModelFacade {
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving);
+	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving) throws CatanException;
 
 	/**
 	 * Performs a maritime trade for the player

@@ -1,8 +1,9 @@
 package server.commands.user;
 
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
+import server.commands.CommandResponse;
 import server.commands.ICommand;
-import server.core.ICortex;
-import server.util.CommandResponse;
 
 /**
  * Represents the notion of executing the appropriate action for a given server
@@ -10,14 +11,22 @@ import server.util.CommandResponse;
  */
 public abstract class AbstractUserCommand implements ICommand {
 
-	protected ICortex cortex;
+	/**
+	 * {@inheritDoc}
+	 */
+	public abstract CommandResponse execute();
 
-	public AbstractUserCommand(ICortex cortex) {
-		this.cortex = cortex;
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean authenticateUser(UserCertificate userCert) {
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract CommandResponse execute();
+	public boolean authenticateGame(GameCertificate gameCert) {
+		return true;
+	}
 }

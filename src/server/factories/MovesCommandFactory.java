@@ -1,8 +1,6 @@
 package server.factories;
 
 import server.commands.moves.*;
-import server.core.CortexFactory;
-import server.core.ICortex;
 
 /**
  * A factory for creating instances of IMovesCommand corresponding to a given
@@ -35,59 +33,58 @@ public class MovesCommandFactory {
 	 */
 	public AbstractMovesCommand getCommand(String type, String json) {
 		AbstractMovesCommand cmd = null;
-		ICortex cortex = CortexFactory.getInstance().getCortex();
 
 		switch (type) {
 		case "sendChat":
-			cmd = new MovesSendChatCommand(json, cortex);
+			cmd = new MovesSendChatCommand(json);
 			break;
 		case "rollNumber":
-			cmd = new MovesRollNumberCommand(json, cortex);
+			cmd = new MovesRollNumberCommand(json);
 			break;
 		case "robPlayer":
-			cmd = new MovesRobPlayerCommand(json, cortex);
+			cmd = new MovesRobPlayerCommand(json);
 			break;
 		case "finishTurn":
-			cmd = new MovesFinishTurnCommand(json, cortex);
+			cmd = new MovesFinishTurnCommand(json);
 			break;
 		case "buyDevCard":
-			cmd = new MovesBuyDevCardCommand(json, cortex);
+			cmd = new MovesBuyDevCardCommand(json);
 			break;
 		case "Year_of_Plenty":
-			cmd = new MovesYearOfPlentyCommand(json, cortex);
+			cmd = new MovesYearOfPlentyCommand(json);
 			break;
 		case "Road_Building":
-			cmd = new MovesRoadBuildingCommand(json, cortex);
+			cmd = new MovesRoadBuildingCommand(json);
 			break;
 		case "Soldier":
-			cmd = new MovesSoldierCommand(json, cortex);
+			cmd = new MovesSoldierCommand(json);
 			break;
 		case "Monopoly":
-			cmd = new MovesMonopolyCommand(json, cortex);
+			cmd = new MovesMonopolyCommand(json);
 			break;
 		case "Monument":
-			cmd = new MovesMonumentCommand(json, cortex);
+			cmd = new MovesMonumentCommand(json);
 			break;
 		case "buildRoad":
-			cmd = new MovesBuildRoadCommand(json, cortex);
+			cmd = new MovesBuildRoadCommand(json);
 			break;
 		case "buildSettlement":
-			cmd = new MovesBuildSettlementCommand(json, cortex);
+			cmd = new MovesBuildSettlementCommand(json);
 			break;
 		case "buildCity":
-			cmd = new MovesBuildCityCommand(json, cortex);
+			cmd = new MovesBuildCityCommand(json);
 			break;
 		case "offerTrade":
-			cmd = new MovesOfferTradeCommand(json, cortex);
+			cmd = new MovesOfferTradeCommand(json);
 			break;
 		case "acceptTrade":
-			cmd = new MovesAcceptTradeCommand(json, cortex);
+			cmd = new MovesAcceptTradeCommand(json);
 			break;
 		case "maritimeTrade":
-			cmd = new MovesMaritimeTradeCommand(json, cortex);
+			cmd = new MovesMaritimeTradeCommand(json);
 			break;
 		case "discardCards":
-			cmd = new MovesDiscardCardsCommand(json, cortex);
+			cmd = new MovesDiscardCardsCommand(json);
 			break;
 		}
 

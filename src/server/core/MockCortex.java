@@ -1,19 +1,22 @@
 package server.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import shared.dataTransportObjects.DTOGame;
+import shared.dataTransportObjects.DTOPlayer;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.CatanException;
 import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
-import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 import com.google.gson.JsonObject;
@@ -37,30 +40,48 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UserCertificate userLogin(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean authenticateUser(UserCertificate userCert) {
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public boolean authenticateGame(GameCertificate gameCert) {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public UserCertificate userLogin(String username, String password) {
+		return new UserCertificate(-1, username, password);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public UserCertificate userRegister(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UserCertificate(-1, username, password);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<DTOGame> gamesList(UserCertificate user) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<DTOGame> gamesList() throws CatanException, ServerException {
+		Collection<DTOGame> games = new ArrayList<DTOGame>();
+		ArrayList<DTOPlayer> players = new ArrayList<DTOPlayer>();
+		players.add(new DTOPlayer(CatanColor.ORANGE, "Sam", 0));
+		players.add(new DTOPlayer(CatanColor.BLUE, "Brooke", 1));
+		players.add(new DTOPlayer(CatanColor.RED, "Pete", 10));
+		players.add(new DTOPlayer(CatanColor.GREEN, "Mark", 11));
+		games.add(new DTOGame(0, "DefaultGame", players));
+		//		[{'title':'DefaultGame','id':0,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]},{'title':'AIGame','id':1,'players':[{'color':'orange','name':'Pete','id':10},{'color':'puce','name':'Steve','id':-2},{'color':'blue','name':'Squall','id':-3},{'color':'yellow','name':'Quinn','id':-4}]},{'title':'EmptyGame','id':2,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]}]
+		return games;
 	}
 
 	/**

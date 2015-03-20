@@ -14,10 +14,15 @@ public class ExchangeUtils {
 		this.exchange = exchange;
 	}
 
-	public String getURI(String prefix) {
+	public String getCommandName() {
 		String fullURI = this.exchange.getRequestURI().getPath();
-		String URI = fullURI.substring(prefix.length());
-		return URI;
+		int startIndex = fullURI.indexOf('/', fullURI.indexOf('/') + 1) + 1;
+		String commandName = fullURI.substring(startIndex);
+		return commandName;
+	}
+
+	public RequestType getRequestType() {
+		return RequestType.valueOf(this.exchange.getRequestMethod());
 	}
 
 	public String getRequestBody() throws IOException {
@@ -29,12 +34,16 @@ public class ExchangeUtils {
 		return body;
 	}
 
-	public void setContentType(String type) {
-		this.exchange.getResponseHeaders().add("Content-Type", type);
+	public void setContentType(String contentType) {
+		this.exchange.getResponseHeaders().add("Content-Type", contentType);
 	}
 
 	public void setCookie(String cookieText) {
 		this.exchange.getResponseHeaders().add("Set-cookie", cookieText);
+	}
+
+	public void sendResponseHeaders(int status, int length) throws IOException {
+		this.exchange.sendResponseHeaders(status, length);
 	}
 
 	public void writeResponseBody(String responseBody)
@@ -42,6 +51,10 @@ public class ExchangeUtils {
 		OutputStream os = this.exchange.getResponseBody();
 		os.write(responseBody.getBytes());
 		os.close();
+	}
+
+	public void close() {
+		this.exchange.close();
 	}
 
 }

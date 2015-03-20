@@ -13,10 +13,10 @@ import java.net.URLDecoder;
 import java.util.Collection;
 
 import client.backend.CatanSerializer;
-import client.backend.dataTransportObjects.*;
 
 import com.google.gson.reflect.TypeToken;
 
+import shared.dataTransportObjects.*;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.model.CatanException;

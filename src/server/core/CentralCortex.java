@@ -5,15 +5,16 @@ import java.util.Collection;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.CatanException;
 import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
-import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 import com.google.gson.JsonObject;
@@ -43,6 +44,26 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public boolean authenticateUser(UserCertificate userCert) {
+		int userId = userCert.getUserId();
+		String username = userCert.getName();
+		String password = userCert.getPassword();
+		return UserManager.getInstance().authenticateUser(userId, username, password);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean authenticateGame(GameCertificate gameCert) {
+		int gameId = gameCert.getGameId();
+		return GameManager.getInstance().authenticateGame(gameId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public UserCertificate userLogin(String username, String password) {
 		// TODO Auto-generated method stub
 		return null;
@@ -61,7 +82,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<DTOGame> gamesList(UserCertificate user) {
+	public Collection<DTOGame> gamesList() throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,7 +1,12 @@
 package server.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
+import client.frontend.data.GameInfo;
+import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
@@ -12,19 +17,23 @@ import shared.model.ModelUser;
  * Manages the collection of all games
  */
 public class GameManager {
-	@SuppressWarnings("unused")
-	private Collection<Game> games;
-	private GameManager instance;
+
+	private Map<Integer, Game> games;
+	private Collection<GameInfo> gamesInfo;
+	private static GameManager instance;
+	private int nextGame;
 
 	private GameManager() {
-
+		this.games = new HashMap<Integer, Game>();
+		this.gamesInfo = new ArrayList();
+		this.nextGame = 0;
 	}
 
-	public GameManager getInstance() {
-		if (this.instance == null) {
-			this.instance = new GameManager();
+	public static GameManager getInstance() {
+		if (instance == null) {
+			instance = new GameManager();
 		}
-		return this.instance;
+		return instance;
 	}
 
 	/**
@@ -32,26 +41,8 @@ public class GameManager {
 	 *
 	 * @return a collection of all games
 	 */
-	public Collection<Game> getGames() {
-		return null;
-	}
-
-	/**
-	 * Returns whether a game can be created with the desired properties
-	 *
-	 * @param randomTiles
-	 * @param randomNumbers
-	 * @param randomPorts
-	 * @param name
-	 *            the desired name
-	 * @return true if the name is unique
-	 */
-	public boolean canCreateGame(
-			boolean randomTiles,
-			boolean randomNumbers,
-			boolean randomPorts,
-			String name) {
-		return false;
+	public Collection<GameInfo> getGames() {
+		return this.gamesInfo;
 	}
 
 	/**
@@ -73,26 +64,15 @@ public class GameManager {
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException {
-		if (this.canCreateGame(randomTiles, randomNumbers, randomPorts, name)) {
-
-		}
-		else {
-			String message = "A game with the desired name already exists";
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
-		}
+		GameInfo info = new GameInfo();
+		info.setTitle(name);
+		info.setId(this.nextGame++);
+		//Game tempGame = new Game(randomTiles, randomNumbers, randomPorts);
+		//games.put(info.getId(), tempGame);
 	}
 
-	public boolean canAddUser(ModelUser user, int gameId, CatanColor color) {
-		return false;
+	public boolean authenticateGame(int gameId) {
+		return this.games.get(gameId) != null;
 	}
 
-	public void addUser(ModelUser user, int gameId, CatanColor color) throws CatanException {
-		if (this.canAddUser(user, gameId, color)) {
-
-		}
-		else {
-			String message = "Cannot add the desired user with the desired color to the desired game";
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
-		}
-	}
 }

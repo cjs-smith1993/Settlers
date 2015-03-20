@@ -1,9 +1,6 @@
 package server.commands.game;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
-import server.core.ICortex;
-import server.util.CommandResponse;
+import server.commands.CommandResponse;
 
 /**
  * Game command created when the user attempts to get the model of the current
@@ -12,16 +9,8 @@ import server.util.CommandResponse;
  */
 public class GameModelCommand extends AbstractGameCommand {
 
-	public GameModelCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public GameModelCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

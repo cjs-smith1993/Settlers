@@ -1,9 +1,6 @@
 package server.commands.moves;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
-import server.core.ICortex;
-import server.util.CommandResponse;
+import server.commands.CommandResponse;
 
 /**
  * Moves command created when a user attempts to build a city.
@@ -11,16 +8,8 @@ import server.util.CommandResponse;
  */
 public class MovesBuildCityCommand extends AbstractMovesCommand {
 
-	public MovesBuildCityCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public MovesBuildCityCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
