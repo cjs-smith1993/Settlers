@@ -7,6 +7,7 @@ import server.commands.CommandResponse;
 import server.commands.ICommand;
 import server.util.CookieConverter;
 import server.util.ExchangeUtils;
+import server.util.RequestType;
 import server.util.StatusCode;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -27,7 +28,8 @@ public abstract class AbstractHandler implements HttpHandler {
 		this.exchangeUtils = new ExchangeUtils(exchange);
 
 		String commandName = this.exchangeUtils.getCommandName();
-		String blob = this.exchangeUtils.getRequestBody();
+		RequestType requestType = this.exchangeUtils.getRequestType();
+		String blob = requestType == RequestType.POST ? this.exchangeUtils.getRequestBody() : null;
 
 		ICommand command = this.getCommand(commandName, blob);
 		Collection<String> cookiesList = exchange.getRequestHeaders().get("Cookie");
@@ -81,7 +83,7 @@ public abstract class AbstractHandler implements HttpHandler {
 
 	/**
 	 * Parses a CommandResponse object and sends back an HTTP response
-	 * 
+	 *
 	 * @param response
 	 *            the response from a given ICommand
 	 * @throws IOException
