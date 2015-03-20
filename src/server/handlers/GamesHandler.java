@@ -3,8 +3,6 @@ package server.handlers;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ICommand;
-import server.core.CortexFactory;
-import server.core.ICortex;
 import server.factories.GamesCommandFactory;
 import server.util.CookieConverter;
 
@@ -29,9 +27,8 @@ public class GamesHandler extends AbstractHandler {
 	protected CommandResponse processCommand(ICommand command, String cookieString) {
 		CommandResponse response = null;
 
-		ICortex cortex = CortexFactory.getInstance().getCortex();
 		UserCertificate userCert = CookieConverter.parseUserCookie(cookieString);
-		boolean authenticatedUser = cortex.authenticateUser(userCert);
+		boolean authenticatedUser = command.authenticateUser(userCert);
 
 		if (authenticatedUser) {
 			response = command.execute();

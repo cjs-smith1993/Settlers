@@ -1,5 +1,7 @@
 package server.commands.user;
 
+import server.certificates.GameCertificate;
+import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ICommand;
 
@@ -14,4 +16,17 @@ public abstract class AbstractUserCommand implements ICommand {
 	 */
 	public abstract CommandResponse execute();
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean authenticateUser(UserCertificate userCert) {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean authenticateGame(GameCertificate gameCert) {
+		return true;
+	}
 }

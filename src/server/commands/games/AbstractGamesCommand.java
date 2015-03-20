@@ -1,9 +1,10 @@
 package server.commands.games;
 
+import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ICommand;
-import server.core.ICortex;
+import server.core.CortexFactory;
 
 /**
  * Represents the notion of executing the appropriate action for a given server
@@ -11,20 +12,19 @@ import server.core.ICortex;
  */
 public abstract class AbstractGamesCommand implements ICommand {
 
-	protected ICortex cortex;
-
-	public AbstractGamesCommand(ICortex cortex) {
-		this.cortex = cortex;
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean authenticateUser(UserCertificate userCert) {
+		return CortexFactory.getInstance().getCortex().authenticateUser(userCert);
 	}
 
 	/**
-	 * Authenticates the command given a UserCertificate
-	 *
-	 * @param userCert
-	 *            a certificate authenticating the user
-	 * @return
+	 * {@inheritDoc}
 	 */
-	public abstract boolean authenticate(UserCertificate userCert);
+	public boolean authenticateGame(GameCertificate gameCert) {
+		return true;
+	}
 
 	/**
 	 * {@inheritDoc}
