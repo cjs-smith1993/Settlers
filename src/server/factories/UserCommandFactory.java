@@ -1,8 +1,6 @@
 package server.factories;
 
 import server.commands.user.*;
-import server.core.CortexFactory;
-import server.core.ICortex;
 
 /**
  * A factory for creating instances of IGamesCommand corresponding to a given
