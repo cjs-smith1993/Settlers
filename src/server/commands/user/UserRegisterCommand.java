@@ -4,6 +4,7 @@ import client.backend.CatanSerializer;
 import client.backend.dataTransportObjects.DTOUserLogin;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
+import server.commands.ContentType;
 import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
@@ -34,16 +35,25 @@ public class UserRegisterCommand extends AbstractUserCommand {
 	public CommandResponse execute() {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		UserCertificate userCert = cortex.userRegister(this.username, this.password);
+
 		CommandResponse response = null;
+		String body;
+		StatusCode status;
+		ContentType contentType;
+
 		if (userCert != null) {
-			response = new CommandResponse(SUCCESS_MESSAGE);
-			response.setStatus(StatusCode.OK);
-			response.setUserCert(userCert);
+			body = SUCCESS_MESSAGE;
+			status = StatusCode.OK;
+			contentType = ContentType.PLAIN_TEXT;
 		}
 		else {
-			response = new CommandResponse(FAILURE_MESSAGE);
-			response.setStatus(StatusCode.INVALID_REQUEST);
+			body = FAILURE_MESSAGE;
+			status = StatusCode.INVALID_REQUEST;
+			contentType = ContentType.PLAIN_TEXT;
 		}
+
+		response = new CommandResponse(body, status, contentType);
+		response.setUserCert(userCert);
 		return response;
 	}
 

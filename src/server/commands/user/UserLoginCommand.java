@@ -34,18 +34,26 @@ public class UserLoginCommand extends AbstractUserCommand {
 	public CommandResponse execute() {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		UserCertificate userCert = cortex.userLogin(this.username, this.password);
+
 		CommandResponse response = null;
+		String body;
+		StatusCode status;
+		ContentType contentType;
+
 		if (userCert != null) {
-			response = new CommandResponse(SUCCESS_MESSAGE);
-			response.setStatus(StatusCode.OK);
-			response.setResponseType(ContentType.PLAIN_TEXT);
-			response.setUserCert(userCert);
+			body = SUCCESS_MESSAGE;
+			status = StatusCode.OK;
+			contentType = ContentType.PLAIN_TEXT;
 		}
 		else {
-			response = new CommandResponse(FAILURE_MESSAGE);
-			response.setStatus(StatusCode.INVALID_REQUEST);
-			response.setResponseType(ContentType.PLAIN_TEXT);
+			body = FAILURE_MESSAGE;
+			status = StatusCode.INVALID_REQUEST;
+			contentType = ContentType.PLAIN_TEXT;
 		}
+
+		response = new CommandResponse(body, status, contentType);
+		response.setUserCert(userCert);
 		return response;
 	}
+
 }
