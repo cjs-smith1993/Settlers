@@ -17,23 +17,23 @@ import shared.model.ModelUser;
  * Manages the collection of all games
  */
 public class GameManager {
-	
+
 	private Map<Integer, Game> games;
 	private Collection<GameInfo> gamesInfo;
-	private GameManager instance;
+	private static GameManager instance;
 	private int nextGame;
 
 	private GameManager() {
-		games = new HashMap<Integer, Game>();
-		gamesInfo = new ArrayList();
-		nextGame = 0;
+		this.games = new HashMap<Integer, Game>();
+		this.gamesInfo = new ArrayList();
+		this.nextGame = 0;
 	}
 
-	public GameManager getInstance() {
-		if (this.instance == null) {
-			this.instance = new GameManager();
+	public static GameManager getInstance() {
+		if (instance == null) {
+			instance = new GameManager();
 		}
-		return this.instance;
+		return instance;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class GameManager {
 	 * @return a collection of all games
 	 */
 	public Collection<GameInfo> getGames() {
-		return gamesInfo;
+		return this.gamesInfo;
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class GameManager {
 			String name) throws CatanException {
 		GameInfo info = new GameInfo();
 		info.setTitle(name);
-		info.setId(nextGame++);
+		info.setId(this.nextGame++);
 		//Game tempGame = new Game(randomTiles, randomNumbers, randomPorts);
 		//games.put(info.getId(), tempGame);
 	}

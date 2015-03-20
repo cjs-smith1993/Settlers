@@ -11,18 +11,18 @@ import shared.model.CatanException;
  */
 public class UserManager {
 	private Collection<ServerUser> users;
-	private UserManager instance;
+	private static UserManager instance;
 
 	private UserManager() {
-		users = new ArrayList<ServerUser>();
+		this.users = new ArrayList<ServerUser>();
 	}
 
-	public UserManager getInstance() {
-		if (this.instance == null) {
-			this.instance = new UserManager();
+	public static UserManager getInstance() {
+		if (instance == null) {
+			instance = new UserManager();
 		}
-		
-		return this.instance;
+
+		return instance;
 	}
 
 	/**
@@ -42,13 +42,13 @@ public class UserManager {
 		if (username.length() < 3 || password.length() < 5) {
 			return false;
 		}
-		
-		for (ServerUser user : users) {
+
+		for (ServerUser user : this.users) {
 			if (user.getModelUser().getName().equals(username)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
