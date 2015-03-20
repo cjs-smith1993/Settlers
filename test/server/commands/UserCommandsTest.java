@@ -9,39 +9,41 @@ import server.certificates.UserCertificate;
 import server.commands.user.AbstractUserCommand;
 import server.core.CortexFactory;
 import server.factories.UserCommandFactory;
-import server.util.CommandResponse;
 
 public class UserCommandsTest {
-	
+
 	private String username = "Test";
 	private String password = "TestPassword";
-	
+
 	private String type = "login";
-	private String json = "{username:\"" + this.username + "\", password:\"" + this.password + "\"}";
+	private String json = "{username:\"" + this.username + "\", password:\"" + this.password
+			+ "\"}";
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		CortexFactory.setTestEnabled(true);
 	}
-	
+
 	@Test
 	public void testUserLogin() {
-		AbstractUserCommand loginCommand = UserCommandFactory.getInstance().getCommand(this.type, this.json);
+		AbstractUserCommand loginCommand = UserCommandFactory.getInstance().getCommand(this.type,
+				this.json);
 		CommandResponse response = loginCommand.execute();
-		
+
 		UserCertificate userCert = response.getUserCert();
-		assert(userCert.getName().equals(this.username));
-		assert(userCert.getPassword().equals(this.password));
+		assertEquals(userCert.getName(), this.username);
+		assertEquals(userCert.getPassword(), this.password);
 	}
-	
+
 	@Test
 	public void testUserRegister() {
-		AbstractUserCommand loginCommand = UserCommandFactory.getInstance().getCommand(this.type, this.json);
+		AbstractUserCommand loginCommand = UserCommandFactory.getInstance().getCommand(this.type,
+				this.json);
 		CommandResponse response = loginCommand.execute();
-		
+
 		UserCertificate userCert = response.getUserCert();
-		assert(userCert.getName().equals(this.username));
-		assert(userCert.getPassword().equals(this.password));
+		assertEquals(userCert.getName(), this.username);
+		assertEquals(userCert.getPassword(), this.password);
 	}
 
 }
