@@ -12,6 +12,9 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.*;
+import shared.model.Broker;
+import shared.model.Game;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
 import shared.model.Scoreboard;
@@ -23,38 +26,16 @@ import shared.model.facade.AbstractModelFacade;
  *
  */
 public class ServerModelFacade extends AbstractModelFacade {
-	
 
-	/**
-	 * {@inheritDoc}
-	 */
-	//not needed ue to this being done else where
-	@Override
-	public boolean login(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
+	public ServerModelFacade(boolean randomTiles, boolean randomNumbers,
+			boolean randomPorts) {
+		this.board = new Board(randomTiles, randomNumbers, randomPorts);
+		this.game = new Game();
+		this.broker = new Broker();
+		this.postOffice = new PostOffice();
+		this.scoreboard = new Scoreboard();
+		this.openOffer = null;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	//not needed ue to this being done else where
-	@Override
-	public boolean register(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	//not needed ue to this being done else where
-	@Override
-	public Collection<DTOGame> getGamesList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -64,6 +45,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public DTOGame createGame(boolean randomTiles, boolean randomNumbers,
 			boolean randomPorts, String gameName) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -302,6 +284,24 @@ public class ServerModelFacade extends AbstractModelFacade {
 			int sheep, int wheat, int wood) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	//never call this please
+	@Override
+	public boolean login(String username, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	//never call this please
+	@Override
+	public boolean register(String username, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	//never call this please
+	@Override
+	public Collection<DTOGame> getGamesList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

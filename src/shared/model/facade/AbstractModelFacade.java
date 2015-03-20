@@ -24,16 +24,16 @@ import shared.model.Scoreboard;
  */
 public abstract class AbstractModelFacade implements IModelFacade {
 	
-	private Board board;
-	private Broker broker;
-	private Game game;
-	private PostOffice postOffice;
-	private Scoreboard scoreboard;
-	private ResourceInvoice openOffer;
-	private int version = 1;
-	private int winnerServerID = -1;
-	private int resourceCardLimit = 7;
-	private boolean hasDiscarded = false;
+	protected Board board;
+	protected Broker broker;
+	protected Game game;
+	protected PostOffice postOffice;
+	protected Scoreboard scoreboard;
+	protected ResourceInvoice openOffer;
+	protected int version = 1;
+	protected int winnerServerID = -1;
+	protected int resourceCardLimit = 7;
+	protected boolean hasDiscarded = false;
 	
 	
 	
