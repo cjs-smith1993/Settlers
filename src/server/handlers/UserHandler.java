@@ -1,5 +1,6 @@
 package server.handlers;
 
+import server.commands.CommandResponse;
 import server.commands.ICommand;
 import server.factories.UserCommandFactory;
 
@@ -9,12 +10,20 @@ import server.factories.UserCommandFactory;
  */
 public class UserHandler extends AbstractHandler {
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected ICommand getCommand(String commandName, String json) {
 		return UserCommandFactory.getInstance().getCommand(commandName, json);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected CommandResponse processCommand(ICommand command, String cookieString) {
+		return command.execute();
 	}
 
 }

@@ -1,10 +1,11 @@
 package server.handlers;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import server.commands.CommandResponse;
 import server.commands.ICommand;
-import server.util.CookieCreator;
+import server.util.CookieConverter;
 import server.util.ExchangeUtils;
 import server.util.StatusCode;
 
@@ -21,6 +22,20 @@ import com.sun.net.httpserver.HttpHandler;
 public abstract class AbstractHandler implements HttpHandler {
 	ExchangeUtils exchangeUtils;
 
+	@Override
+	public void handle(HttpExchange exchange) throws IOException {
+		this.exchangeUtils = new ExchangeUtils(exchange);
+
+		String commandName = this.exchangeUtils.getCommandName();
+		String blob = this.exchangeUtils.getRequestBody();
+
+		ICommand command = this.getCommand(commandName, blob);
+		Collection<String> cookiesList = exchange.getRequestHeaders().get("Cookie");
+		String cookie = cookiesList != null ? cookiesList.iterator().next() : null;
+		CommandResponse response = this.processCommand(command, cookie);
+		this.sendResponse(response);
+	}
+
 	/**
 	 * Returns an ICommand object appropriate for this handler
 	 *
@@ -34,6 +49,18 @@ public abstract class AbstractHandler implements HttpHandler {
 	protected abstract ICommand getCommand(String commandName, String json);
 
 	/**
+	 * Authenticates if necessary, using the provided cookies and executes the
+	 * given command
+	 *
+	 * @param command
+	 *            an ICommand to execute
+	 * @param cookieString
+	 *            a String containing the request's cookies
+	 * @return
+	 */
+	protected abstract CommandResponse processCommand(ICommand command, String cookieString);
+
+	/**
 	 * Sets the appropriate cookie on the HttpResponse if there is an applicable
 	 * userCert on the commandResponse. At most one cookie will be set per
 	 * response
@@ -43,25 +70,23 @@ public abstract class AbstractHandler implements HttpHandler {
 	 */
 	protected void setCookie(CommandResponse commandResponse) {
 		if (commandResponse.getUserCert() != null) {
-			String userCookie = CookieCreator.generateUserCookie(commandResponse.getUserCert());
+			String userCookie = CookieConverter.generateUserCookie(commandResponse.getUserCert());
 			this.exchangeUtils.setCookie(userCookie);
 		}
 		else if (commandResponse.getGameCert() != null) {
-			String gameCookie = CookieCreator.generateGameCookie(commandResponse.getGameCert());
+			String gameCookie = CookieConverter.generateGameCookie(commandResponse.getGameCert());
 			this.exchangeUtils.setCookie(gameCookie);
 		}
 	}
 
-	@Override
-	public void handle(HttpExchange exchange) throws IOException {
-		this.exchangeUtils = new ExchangeUtils(exchange);
-
-		String commandName = this.exchangeUtils.getCommandName();
-		String blob = this.exchangeUtils.getRequestBody();
-
-		ICommand command = this.getCommand(commandName, blob);
-		CommandResponse response = command.execute();
-
+	/**
+	 * Parses a CommandResponse object and sends back an HTTP response
+	 * 
+	 * @param response
+	 *            the response from a given ICommand
+	 * @throws IOException
+	 */
+	protected void sendResponse(CommandResponse response) throws IOException {
 		StatusCode status = response.getStatus();
 		String body = response.getBody();
 
@@ -71,4 +96,5 @@ public abstract class AbstractHandler implements HttpHandler {
 		this.exchangeUtils.writeResponseBody(body);
 		this.exchangeUtils.close();
 	}
+
 }
