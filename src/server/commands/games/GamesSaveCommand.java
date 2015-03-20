@@ -1,8 +1,6 @@
 package server.commands.games;
 
-import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
-import server.core.ICortex;
 
 /**
  * Games command created when the user attempts to save a game
@@ -10,16 +8,8 @@ import server.core.ICortex;
  */
 public class GamesSaveCommand extends AbstractGamesCommand {
 
-	public GamesSaveCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert) {
-		return false;
+	public GamesSaveCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -1,9 +1,6 @@
 package server.commands.game;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
-import server.core.ICortex;
 
 /**
  * Game command created when the user attempts to reset the current game
@@ -11,16 +8,8 @@ import server.core.ICortex;
  */
 public class GameResetCommand extends AbstractGameCommand {
 
-	public GameResetCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public GameResetCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

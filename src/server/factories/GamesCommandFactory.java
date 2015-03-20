@@ -39,19 +39,19 @@ public class GamesCommandFactory {
 
 		switch (type) {
 		case "list":
-			cmd = new GamesListCommand(json, cortex);
+			cmd = new GamesListCommand(json);
 			break;
 		case "create":
-			cmd = new GamesCreateCommand(json, cortex);
+			cmd = new GamesCreateCommand(json);
 			break;
 		case "join":
-			cmd = new GamesJoinCommand(json, cortex);
+			cmd = new GamesJoinCommand(json);
 			break;
 		case "save":
-			cmd = new GamesSaveCommand(json, cortex);
+			cmd = new GamesSaveCommand(json);
 			break;
 		case "load":
-			cmd = new GamesLoadCommand(json, cortex);
+			cmd = new GamesLoadCommand(json);
 			break;
 		}
 

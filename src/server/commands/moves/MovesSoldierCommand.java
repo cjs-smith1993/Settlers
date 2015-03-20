@@ -1,9 +1,6 @@
 package server.commands.moves;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
-import server.core.ICortex;
 
 /**
  * Moves command created when a user attempts to play a Soldier card.
@@ -11,16 +8,8 @@ import server.core.ICortex;
  */
 public class MovesSoldierCommand extends AbstractMovesCommand {
 
-	public MovesSoldierCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public MovesSoldierCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

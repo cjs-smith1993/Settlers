@@ -39,13 +39,13 @@ public class GameCommandFactory {
 
 		switch (type) {
 		case "model":
-			cmd = new GameModelCommand(json, cortex);
+			cmd = new GameModelCommand(json);
 			break;
 		case "reset":
-			cmd = new GameResetCommand(json, cortex);
+			cmd = new GameResetCommand(json);
 			break;
 		case "commands":
-			cmd = new GameCommandsCommand(json, cortex);
+			cmd = new GameCommandsCommand(json);
 			break;
 		}
 

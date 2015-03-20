@@ -1,9 +1,6 @@
 package server.commands.moves;
 
-import server.certificates.GameCertificate;
-import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
-import server.core.ICortex;
 
 /**
  * Moves command created when a user attempts to discard cards.
@@ -11,16 +8,8 @@ import server.core.ICortex;
  */
 public class MovesDiscardCardsCommand extends AbstractMovesCommand {
 
-	public MovesDiscardCardsCommand(String json, ICortex cortex) {
-		super(cortex);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean authenticate(UserCertificate userCert, GameCertificate gameCert) {
-		return false;
+	public MovesDiscardCardsCommand(String json) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
