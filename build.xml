@@ -124,7 +124,7 @@
 		</copy>
  		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
 			<manifest>
-				<attribute name="Main-Class" value="client.main.Catan"/>
+				<attribute name="Main-Class" value="client.frontend.main.Catan"/>
 				<attribute name="Class-Path" 
 					value="lib/gson-2.2.4.jar" />
 			</manifest>
@@ -195,7 +195,7 @@
 		<property name="host" value="localhost"/>
 		<property name="port" value="8081"/>
 		<property name="tester" value="false"/>
-		<java classname="client.main.Catan" fork="yes">
+		<java classname="client.frontend.main.Catan" fork="yes">
 			<classpath>
 				<pathelement location="${java.lib}/junit-4.11.jar"/>
 				<pathelement location="${java.lib}/hamcrest-core-1.3.jar"/>
