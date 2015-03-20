@@ -13,6 +13,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.CatanException;
 import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
 import client.backend.dataTransportObjects.DTOGame;
@@ -31,7 +32,7 @@ public interface ICortex {
 
 	/**
 	 * Authenticates a user certificate
-	 * 
+	 *
 	 * @param userCert
 	 *            a user certificate
 	 * @return true if the user certificate is valid
@@ -40,7 +41,7 @@ public interface ICortex {
 
 	/**
 	 * Authenticates a game certificate
-	 * 
+	 *
 	 * @param userCert
 	 *            a game certificate
 	 * @return true if the game certificate is valid
@@ -79,7 +80,7 @@ public interface ICortex {
 	 * @param user
 	 * @return
 	 */
-	public Collection<DTOGame> gamesList(UserCertificate user);
+	public Collection<DTOGame> gamesList() throws CatanException, ServerException;
 
 	/**
 	 * If user is authentic, creates a new game on the server

@@ -11,6 +11,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.CatanException;
 import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
 import client.backend.dataTransportObjects.DTOGame;
@@ -81,7 +82,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<DTOGame> gamesList(UserCertificate user) {
+	public Collection<DTOGame> gamesList() throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
