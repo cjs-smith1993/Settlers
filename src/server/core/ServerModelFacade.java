@@ -2,6 +2,7 @@ package server.core;
 
 import java.util.Collection;
 
+import client.frontend.data.PlayerInfo;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
@@ -11,7 +12,9 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
+import shared.model.Scoreboard;
 import shared.model.facade.AbstractModelFacade;
 
 /**
@@ -20,8 +23,8 @@ import shared.model.facade.AbstractModelFacade;
  *
  */
 public class ServerModelFacade extends AbstractModelFacade {
-
 	
+
 	/**
 	 * {@inheritDoc}
 	 */
