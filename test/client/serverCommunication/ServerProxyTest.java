@@ -8,10 +8,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import client.backend.ClientModelFacade;
-import client.backend.dataTransportObjects.DTOGame;
 import client.frontend.data.PlayerInfo;
 import client.serverCommunication.ServerException;
 import client.serverCommunication.ServerProxy;
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;

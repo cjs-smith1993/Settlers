@@ -1,13 +1,13 @@
 package server.commands.user;
 
 import client.backend.CatanSerializer;
-import client.backend.dataTransportObjects.DTOUserLogin;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ContentType;
 import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
+import shared.dataTransportObjects.DTOUserLogin;
 
 /**
  * This is the command class that will register a new user as well as validate

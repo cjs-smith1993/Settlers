@@ -8,11 +8,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import client.backend.ClientModelFacade;
-import client.backend.dataTransportObjects.DTOGame;
-import client.backend.dataTransportObjects.DTOPlayer;
 import client.frontend.base.*;
 import client.frontend.data.*;
 import client.frontend.misc.*;
+import shared.dataTransportObjects.DTOGame;
+import shared.dataTransportObjects.DTOPlayer;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.model.CatanException;

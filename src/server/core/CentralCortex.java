@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -14,7 +15,6 @@ import shared.locations.VertexLocation;
 import shared.model.CatanException;
 import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
-import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 import com.google.gson.JsonObject;

@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import client.backend.dataTransportObjects.DTOGame;
 import client.frontend.data.PlayerInfo;
 import client.serverCommunication.ServerException;
 import client.serverCommunication.ServerInterface;
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;

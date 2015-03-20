@@ -3,7 +3,7 @@ package client.serverCommunication;
 import java.io.IOException;
 import java.util.Collection;
 
-import client.backend.dataTransportObjects.DTOGame;
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.model.ResourceInvoice;

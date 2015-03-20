@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import client.backend.CatanSerializer;
-import client.backend.dataTransportObjects.DTOGame;
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;

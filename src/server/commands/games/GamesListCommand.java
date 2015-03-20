@@ -3,13 +3,13 @@ package server.commands.games;
 import java.util.Collection;
 
 import client.backend.CatanSerializer;
-import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 import server.commands.CommandResponse;
 import server.commands.ContentType;
 import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
+import shared.dataTransportObjects.DTOGame;
 import shared.model.CatanException;
 
 /**

@@ -2,6 +2,7 @@ package shared.model.facade;
 
 import java.util.Collection;
 
+import shared.dataTransportObjects.DTOGame;
 import shared.definitions.AIType;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
@@ -12,7 +13,6 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.CatanException;
 import shared.model.ResourceInvoice;
-import client.backend.dataTransportObjects.DTOGame;
 import client.serverCommunication.ServerException;
 
 /**
