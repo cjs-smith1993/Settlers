@@ -448,16 +448,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 	}
 
 	/**
-	 * Determines if the player can finish their turn
-	 *
-	 * @param player
-	 * @return
-	 */
-	public boolean canFinishTurn(PlayerNumber playerIndex) {
-		return this.isPlaying(playerIndex) || this.inSetup();
-	}
-
-	/**
 	 * Calls movesFinishTurn() on the server
 	 *
 	 * @return

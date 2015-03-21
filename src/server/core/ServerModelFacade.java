@@ -64,6 +64,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return 0;
 	}
 
+	/**
+	 * {@inheritDoc} 
+	 */
 	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location, CatanState state) {
 
 		if (super.canPlaceRobber(playerIndex, location)
