@@ -21,82 +21,7 @@ import client.serverCommunication.ServerException;
  *
  */
 public interface IModelFacade {
-	/*
-	 * User server methods
-	 */
-
-	/**
-	 * Logs a player into the server
-	 * @param username
-	 * @param password
-	 * @return
-	 * @throws ServerException
-	 */
-	public boolean login(String username, String password);
-
-	/**
-	 * Registers a new player with the server and logs them in
-	 * @param username
-	 * @param password
-	 * @return
-	 * @throws ServerException
-	 */
-	public boolean register(String username, String password);
-
-	/*
-	 * Games server methods
-	 */
-
-	/**
-	 * Gets a list of current games on the server
-	 * @return
-	 * @throws ServerException
-	 */
-	public Collection<DTOGame> getGamesList();
-
-	/**
-	 * Creates a new game on the server
-	 * @param randomTiles
-	 * @param randomNumbers
-	 * @param randomPorts
-	 * @param name
-	 * @return
-	 * @throws ServerException
-	 * @throws CatanException
-	 */
-	public DTOGame createGame(
-			boolean randomTiles,
-			boolean randomNumbers,
-			boolean randomPorts,
-			String gameName);
-
-	/**
-	 * Adds a user to a game
-	 * @param gameId
-	 * @param desiredColor
-	 * @return
-	 * @throws ServerException
-	 */
-	public boolean joinGame(int gameId, CatanColor desiredColor);
-
-	/**
-	 * Saves the current game on the server
-	 * @param gameId
-	 * @param fileName
-	 * @return
-	 * @throws ServerException
-	 */
-	public boolean saveGame(int gameId, String fileName);
-
-	/**
-	 * Loads the specified file into the server
-	 * @param fileName
-	 * @return
-	 * @throws ServerException
-	 * @throws CatanException
-	 */
-	public boolean loadGame(String fileName);
-
+	
 	/*
 	 * Game server methods
 	 */
@@ -105,25 +30,6 @@ public interface IModelFacade {
 	 * Gets the updated model from the server
 	 */
 	public void getModel(boolean sendVersion);
-
-	/**
-	 * Returns the game to its state after the setup phase
-	 * @throws ServerException
-	 */
-	public void resetGame();
-
-	/**
-	 * Adds an AI to the current game
-	 * @param AItype
-	 * @return
-	 */
-	public boolean addAI(AIType AItype);
-
-	/**
-	 * Gets a list of the possible AIs to add to a game
-	 * @return
-	 */
-	public Collection<AIType> getAITypes();
 
 	/*
 	 * Moves server methods

@@ -21,7 +21,7 @@ import shared.model.Scoreboard;
 import shared.model.facade.AbstractModelFacade;
 
 /**
- * The facade that the Game Manager will be useig to update and interact with
+ * The facade that the Game Manager will be using to update and interact with
  * different games.
  *
  */
@@ -35,46 +35,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.postOffice = new PostOffice();
 		this.scoreboard = new Scoreboard();
 		this.openOffer = null;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	//not needed ue to this being done else where
-	//true or false
-	@Override
-	public DTOGame createGame(boolean randomTiles, boolean randomNumbers,
-			boolean randomPorts, String gameName) {
-		// TODO Auto-generated method stub
-		
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean joinGame(int gameId, CatanColor desiredColor) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	//return the game model or put in file system?
-	@Override
-	public boolean saveGame(int gameId, String fileName) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean loadGame(String fileName) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	/**
@@ -90,39 +50,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void resetGame() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean addAI(AIType AItype) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Collection<AIType> getAITypes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean sendChat(PlayerNumber playerIndex, String content) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	
 
 	/**
 	 * {@inheritDoc}
@@ -285,23 +216,5 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	//never call this please
-	@Override
-	public boolean login(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	//never call this please
-	@Override
-	public boolean register(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	//never call this please
-	@Override
-	public Collection<DTOGame> getGamesList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
