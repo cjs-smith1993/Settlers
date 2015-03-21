@@ -464,24 +464,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 	}
 
 	/**
-	 * Determines if the player can buy a development card
-	 *
-	 * @param playerIndex
-	 * @return
-	 * @throws CatanException
-	 */
-	public boolean canBuyDevCard(PlayerNumber playerIndex) throws CatanException {
-
-		if (this.isPlaying(playerIndex)
-				&& this.broker.canPurchase(playerIndex, PropertyType.DEVELOPMENT_CARD)
-				&& this.broker.hasDevelopmentCard(PlayerNumber.BANK)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Calls movesBuyDevCard() on the server
 	 *
 	 * @param playerIndex
