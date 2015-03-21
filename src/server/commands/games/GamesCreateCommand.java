@@ -2,6 +2,8 @@ package server.commands.games;
 
 import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
+import server.core.CortexFactory;
+import server.core.ICortex;
 import shared.dataTransportObjects.DTOGamesCreate;
 import shared.dataTransportObjects.DTOUserLogin;
 
@@ -33,6 +35,9 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 	 */
 	@Override
 	public CommandResponse execute() {
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+		
+		
 		return null;
 	}
 
