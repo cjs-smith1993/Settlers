@@ -3,9 +3,9 @@ package shared.dataTransportObjects;
 import shared.definitions.PlayerNumber;
 
 public class DTOMovesSendChat {
-	String type = "sendChat";
-	int playerIndex;
-	String content;
+	public String type = "sendChat";
+	public int playerIndex;
+	public String content;
 
 	public DTOMovesSendChat(PlayerNumber playerIndex, String content) {
 		this.playerIndex = playerIndex.getInteger();

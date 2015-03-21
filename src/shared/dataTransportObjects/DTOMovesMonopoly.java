@@ -4,9 +4,9 @@ import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 
 public class DTOMovesMonopoly {
-	String type = "Monopoly";
-	ResourceType resource;
-	int playerIndex;
+	public String type = "Monopoly";
+	public ResourceType resource;
+	public int playerIndex;
 
 	public DTOMovesMonopoly(ResourceType resource, PlayerNumber playerIndex) {
 		this.resource = resource;

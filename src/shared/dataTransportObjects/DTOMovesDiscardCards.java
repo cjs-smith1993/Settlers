@@ -6,13 +6,18 @@ import java.util.Map;
 import shared.definitions.PlayerNumber;
 
 public class DTOMovesDiscardCards {
-	String type = "discardCards";
-	int playerIndex;
-	Map<String, Object> discardedCards;
+	public String type = "discardCards";
+	public int playerIndex;
+	public Map<String, Object> discardedCards;
 
-	public DTOMovesDiscardCards(PlayerNumber playerIndex, int brick, int ore, int sheep, int wheat, int wood) {
+	public DTOMovesDiscardCards(
+			PlayerNumber playerIndex,
+			int brick,
+			int ore,
+			int sheep,
+			int wheat,
+			int wood) {
 		this.playerIndex = playerIndex.getInteger();
-
 		this.discardedCards = new HashMap<>();
 		this.discardedCards.put("brick", brick);
 		this.discardedCards.put("ore", ore);
