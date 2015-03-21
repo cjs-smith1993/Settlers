@@ -202,15 +202,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean needsToDiscardCards(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean discardCards(PlayerNumber playerIndex, int brick, int ore,
 			int sheep, int wheat, int wood) {
 		// TODO Auto-generated method stub

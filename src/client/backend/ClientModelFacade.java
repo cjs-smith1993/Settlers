@@ -44,8 +44,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 	private ServerInterface server;
 	private PlayerInfo clientPlayer;
 	private ResourceInvoice openOffer;
-//	private int version = 1;
-//	private int winnerServerID = -1;
 	private boolean gameReady = false;
 	private boolean hasDiscarded = false;
 	private boolean roadBuildingPlayed = false;
