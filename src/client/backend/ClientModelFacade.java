@@ -34,23 +34,18 @@ import shared.model.Player;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
 import shared.model.Scoreboard;
+import shared.model.facade.AbstractModelFacade;
 import shared.transport.TransportLine;
 import shared.transport.TransportModel;
 import shared.transport.TransportPlayer;
 
-public class ClientModelFacade extends Observable {
+public class ClientModelFacade extends AbstractModelFacade {
 	private static ClientModelFacade facadeInstance;
 	private ServerInterface server;
-	private Board board;
-	private Broker broker;
-	private Game game;
-	private PostOffice postOffice;
-	private Scoreboard scoreboard;
 	private PlayerInfo clientPlayer;
 	private ResourceInvoice openOffer;
-	private int version = 1;
-	private int resourceCardLimit = 7;
-	private int winnerServerID = -1;
+//	private int version = 1;
+//	private int winnerServerID = -1;
 	private boolean gameReady = false;
 	private boolean hasDiscarded = false;
 	private boolean roadBuildingPlayed = false;
@@ -377,22 +372,6 @@ public class ClientModelFacade extends Observable {
 	 */
 	public boolean sendChat(PlayerNumber playerIndex, String content) {
 		return this.server.movesSendChat(playerIndex, content);
-	}
-
-	/**
-	 * Determines if the player can roll the dice for their turn
-	 *
-	 * @param player
-	 * @return
-	 */
-	public boolean canRollNumber(PlayerNumber playerIndex) {
-
-		if (this.game.getCurrentPlayer() == playerIndex
-				&& this.game.getState() == CatanState.ROLLING) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -1049,10 +1028,10 @@ public class ClientModelFacade extends Observable {
 	 * @param playerIndex
 	 * @return
 	 */
+	@Override
 	public boolean needsToDiscardCards(PlayerNumber playerIndex) {
 
-		if (this.game.getState() == CatanState.DISCARDING
-				&& (this.broker.getResourceCardCount(playerIndex, ResourceType.ALL) > this.resourceCardLimit)
+		if (super.needsToDiscardCards(playerIndex)
 				&& !this.hasDiscarded) {
 			return true;
 		}

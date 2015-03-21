@@ -1,5 +1,7 @@
 package shared.model.facade;
 
+import java.util.Observable;
+
 import shared.definitions.CatanState;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
@@ -22,7 +24,7 @@ import shared.model.Scoreboard;
  * and data.
  *
  */
-public abstract class AbstractModelFacade implements IModelFacade {
+public abstract class AbstractModelFacade extends Observable implements IModelFacade {
 	
 	protected Board board;
 	protected Broker broker;
@@ -32,10 +34,7 @@ public abstract class AbstractModelFacade implements IModelFacade {
 	protected ResourceInvoice openOffer;
 	protected int version = 1;
 	protected int winnerServerID = -1;
-	protected int resourceCardLimit = 7;
-	protected boolean hasDiscarded = false;
-	
-	
+	private final int RESOURCE_CARD_LIMIT = 7;
 	
 	private boolean inSetup() {
 		CatanState state = this.game.getState();
@@ -50,6 +49,7 @@ public abstract class AbstractModelFacade implements IModelFacade {
 
 		return false;
 	}
+	
 	/*
 	 * Moves server methods
 	 */
@@ -424,8 +424,7 @@ public abstract class AbstractModelFacade implements IModelFacade {
 	public boolean needsToDiscardCards(PlayerNumber playerIndex) {
 
 		if (this.game.getState() == CatanState.DISCARDING
-				&& (this.broker.getResourceCardCount(playerIndex, ResourceType.ALL) > this.resourceCardLimit)
-				&& !this.hasDiscarded) {
+				&& (this.broker.getResourceCardCount(playerIndex, ResourceType.ALL) > this.RESOURCE_CARD_LIMIT)) {
 			return true;
 		}
 
