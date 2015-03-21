@@ -77,10 +77,9 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 	 * @param location
 	 * @return
 	 */
-	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location, CatanState state) {
+	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location) {
 
-		if (this.game.getCurrentPlayer() == playerNumber
-				&& this.game.getState() == state
+		if (this.game.getCurrentPlayer() == playerIndex
 				&& this.board.canMoveRobber(location)) {
 			return true;
 		}
@@ -95,10 +94,9 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 	 * @param victim
 	 * @return
 	 */
-	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state) {
+	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex) {
 
 		if (this.game.getCurrentPlayer() == playerIndex
-				&& this.game.getState() == state
 				&& (this.broker.getResourceCardCount(victimIndex, ResourceType.ALL) > 0)) {
 			return true;
 		}

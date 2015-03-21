@@ -64,6 +64,31 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return 0;
 	}
 
+	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location, CatanState state) {
+
+		if (super.canPlaceRobber(playerIndex, location)
+				&& (this.game.getState() == CatanState.ROBBING
+					|| this.game.getState() == CatanState.PLAYING)) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state) {
+
+		if (super.canRobPlayer(playerIndex, victimIndex)
+				&& (this.game.getState() == CatanState.ROBBING
+					|| this.game.getState() == CatanState.PLAYING)) {
+			return true;
+		}
+
+		return false;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -73,7 +98,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	/**
 	 * {@inheritDoc}

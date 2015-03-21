@@ -1,10 +1,5 @@
 package shared.model.facade;
 
-import java.util.Collection;
-
-import shared.dataTransportObjects.DTOGame;
-import shared.definitions.AIType;
-import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -13,7 +8,6 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.CatanException;
 import shared.model.ResourceInvoice;
-import client.serverCommunication.ServerException;
 
 /**
  * This is the general interface for the abstract facade. Then the client facade
@@ -64,7 +58,7 @@ public interface IModelFacade {
 	 * @param location
 	 * @return
 	 */
-	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location, CatanState state);
+	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location);
 
 	/**
 	 * Determines if the player can rob the victim
@@ -73,7 +67,7 @@ public interface IModelFacade {
 	 * @param victim
 	 * @return
 	 */
-	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state);
+	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex);
 
 	/**
 	 * Robs the victim for the player

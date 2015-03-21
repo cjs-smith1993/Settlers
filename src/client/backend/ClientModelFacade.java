@@ -397,11 +397,10 @@ public class ClientModelFacade extends AbstractModelFacade {
 	 * @param location
 	 * @return
 	 */
-	public boolean canPlaceRobber(PlayerNumber playerNumber, HexLocation location, CatanState state) {
+	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location, CatanState state) {
 
-		if (this.game.getCurrentPlayer() == playerNumber
-				&& this.game.getState() == state
-				&& this.board.canMoveRobber(location)) {
+		if (super.canPlaceRobber(playerIndex, location)
+				&& this.game.getState() == state) {
 			return true;
 		}
 
@@ -417,12 +416,11 @@ public class ClientModelFacade extends AbstractModelFacade {
 	 */
 	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state) {
 
-		if (this.game.getCurrentPlayer() == playerIndex
-				&& this.game.getState() == state
-				&& (this.broker.getResourceCardCount(victimIndex, ResourceType.ALL) > 0)) {
+		if (super.canRobPlayer(playerIndex, victimIndex)
+				&& this.game.getState() == state) {
 			return true;
 		}
-
+		
 		return false;
 	}
 
