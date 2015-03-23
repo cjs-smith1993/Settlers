@@ -2,19 +2,14 @@ package server.commands.games;
 
 import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
-import server.core.CortexFactory;
-import server.core.ICortex;
 import shared.dataTransportObjects.DTOGamesCreate;
-import shared.dataTransportObjects.DTOUserLogin;
 
 /**
  * Games command created when the user attempts to create a game
  *
  */
 public class GamesCreateCommand extends AbstractGamesCommand {
-	
-	private static final String FAILURE_MESSAGE = "Failed to create game- Name field empty.";
-	
+
 	private String name;
 	private boolean randomTiles;
 	private boolean randomPorts;
@@ -27,7 +22,7 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 		this.randomNumbers = dto.randomNumbers;
 		this.randomPorts = dto.randomPorts;
 		this.randomTiles = dto.randomTiles;
-		
+
 	}
 
 	/**
@@ -35,9 +30,6 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 	 */
 	@Override
 	public CommandResponse execute() {
-		ICortex cortex = CortexFactory.getInstance().getCortex();
-		
-		
 		return null;
 	}
 

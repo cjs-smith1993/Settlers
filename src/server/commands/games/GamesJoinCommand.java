@@ -2,7 +2,6 @@ package server.commands.games;
 
 import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
-import shared.dataTransportObjects.DTOGamesCreate;
 import shared.dataTransportObjects.DTOGamesJoin;
 import shared.definitions.CatanColor;
 
@@ -11,7 +10,7 @@ import shared.definitions.CatanColor;
  *
  */
 public class GamesJoinCommand extends AbstractGamesCommand {
-	
+
 	private int id;
 	private CatanColor color;
 
