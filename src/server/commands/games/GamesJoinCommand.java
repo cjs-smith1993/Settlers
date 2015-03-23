@@ -40,24 +40,14 @@ public class GamesJoinCommand extends AbstractGamesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
+	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-		String body;
-		StatusCode status;
-		ContentType contentType;
-		GameCertificate gameCert = null;
 
-		try {
-			gameCert = cortex.gamesJoin(this.id, this.color);
-			body = SUCCESS_MESSAGE;
-			status = StatusCode.OK;
-			contentType = ContentType.PLAIN_TEXT;
-		} catch (CatanException | ServerException e) {
-			body = e.getMessage();
-			status = StatusCode.INVALID_REQUEST;
-			contentType = ContentType.PLAIN_TEXT;
-		}
+		GameCertificate gameCert = cortex.gamesJoin(this.id, this.color);
+		String body = SUCCESS_MESSAGE;
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.PLAIN_TEXT;
 
 		response = new CommandResponse(body, status, contentType);
 		response.setGameCert(gameCert);

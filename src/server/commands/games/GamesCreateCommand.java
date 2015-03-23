@@ -35,28 +35,16 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
+	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-		String body;
-		StatusCode status;
-		ContentType contentType;
 
-		try {
-			DTOGame game = cortex.gamesCreate(this.randomTiles, this.randomNumbers,
-					this.randomPorts, this.name);
+		DTOGame game = cortex.gamesCreate(this.randomTiles, this.randomNumbers,
+				this.randomPorts, this.name);
 
-			body = CatanSerializer.getInstance().serializeObject(game);
-			status = StatusCode.OK;
-			contentType = ContentType.JSON;
-		} catch (CatanException | ServerException e) {
-			body = e.getMessage();
-			status = StatusCode.INVALID_REQUEST;
-			contentType = ContentType.PLAIN_TEXT;
-			e.printStackTrace();
-			response = new CommandResponse(body, status, contentType);
-			return response;
-		}
+		String body = CatanSerializer.getInstance().serializeObject(game);
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.JSON;
 
 		response = new CommandResponse(body, status, contentType);
 		return response;

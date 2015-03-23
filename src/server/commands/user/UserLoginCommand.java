@@ -31,26 +31,15 @@ public class UserLoginCommand extends AbstractUserCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
+	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		CommandResponse response = null;
-		String body;
-		StatusCode status;
-		ContentType contentType;
-		UserCertificate userCert = null;
+		UserCertificate userCert = cortex.userLogin(this.username, this.password);
 
-		try {
-			userCert = cortex.userLogin(this.username, this.password);
-			body = CommandResponse.getSuccessMessage();
-			status = StatusCode.OK;
-			contentType = ContentType.PLAIN_TEXT;
-		} catch (CatanException | ServerException e) {
-			body = e.getMessage();
-			status = StatusCode.INVALID_REQUEST;
-			contentType = ContentType.PLAIN_TEXT;
-		}
+		String body = CommandResponse.getSuccessMessage();
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.PLAIN_TEXT;
 
-		response = new CommandResponse(body, status, contentType);
+		CommandResponse response = new CommandResponse(body, status, contentType);
 		response.setUserCert(userCert);
 		return response;
 	}

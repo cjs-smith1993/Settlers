@@ -30,23 +30,14 @@ public class GamesSaveCommand extends AbstractGamesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
+	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-		String body;
-		StatusCode status;
-		ContentType contentType;
 
-		try {
-			cortex.gamesSave(this.id, this.fileName);
-			body = CommandResponse.getSuccessMessage();
-			status = StatusCode.OK;
-			contentType = ContentType.PLAIN_TEXT;
-		} catch (CatanException | ServerException e) {
-			body = e.getMessage();
-			status = StatusCode.INVALID_REQUEST;
-			contentType = ContentType.PLAIN_TEXT;
-		}
+		cortex.gamesSave(this.id, this.fileName);
+		String body = CommandResponse.getSuccessMessage();
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.PLAIN_TEXT;
 
 		response = new CommandResponse(body, status, contentType);
 		return response;

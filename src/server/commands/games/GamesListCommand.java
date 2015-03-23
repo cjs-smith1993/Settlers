@@ -26,27 +26,14 @@ public class GamesListCommand extends AbstractGamesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
+	public CommandResponse executeInner() throws CatanException, ServerException {
+		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-		String body;
-		StatusCode status;
-		ContentType contentType;
 
-		try {
-			ICortex cortex = CortexFactory.getInstance().getCortex();
-			Collection<DTOGame> gamesList = cortex.gamesList();
-			body = CatanSerializer.getInstance().serializeObject(gamesList);
-			status = StatusCode.OK;
-			contentType = ContentType.JSON;
-		} catch (CatanException e) {
-			body = e.getMessage();
-			status = StatusCode.INVALID_REQUEST;
-			contentType = ContentType.PLAIN_TEXT;
-		} catch (ServerException e) {
-			body = e.getMessage();
-			status = StatusCode.INTERNAL_ERROR;
-			contentType = ContentType.PLAIN_TEXT;
-		}
+		Collection<DTOGame> gamesList = cortex.gamesList();
+		String body = CatanSerializer.getInstance().serializeObject(gamesList);
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.JSON;
 
 		response = new CommandResponse(body, status, contentType);
 		return response;
