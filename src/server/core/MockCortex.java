@@ -41,7 +41,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public boolean authenticateUser(UserCertificate userCert) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public boolean authenticateGame(GameCertificate gameCert) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public UserCertificate userLogin(String username, String password) {
 		// TODO Auto-generated method stub
-		return null;
+		return new UserCertificate(-1, username, password);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public UserCertificate userRegister(String username, String password) {
 		// TODO Auto-generated method stub
-		return null;
+		return new UserCertificate(-1, username, password);
 	}
 
 	/**
