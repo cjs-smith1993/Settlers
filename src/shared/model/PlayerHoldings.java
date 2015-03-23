@@ -92,6 +92,22 @@ public class PlayerHoldings implements Hand {
 	}
 	
 	/**
+	 * Extract information to the TransportResources container for serialization.
+	 * @return TransportResources
+	 */
+	public TransportResources getTransportResources() {
+		TransportResources resources = new TransportResources();
+		
+		resources.brick = resourceCards.get(ResourceType.BRICK).size();
+		resources.ore = resourceCards.get(ResourceType.ORE).size();
+		resources.sheep = resourceCards.get(ResourceType.SHEEP).size();
+		resources.wheat = resourceCards.get(ResourceType.WHEAT).size();
+		resources.wood = resourceCards.get(ResourceType.WOOD).size();
+		
+		return resources;
+	}
+	
+	/**
 	 * Extract information to the TransportOldDevCards container for serialization.
 	 * @return TransportOldDevCards
 	 */
