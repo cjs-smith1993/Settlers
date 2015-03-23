@@ -3,7 +3,6 @@ package server.commands.moves;
 import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
 import shared.dataTransportObjects.DTOMovesBuildSettlement;
-import shared.dataTransportObjects.DTOSaveLoad;
 import shared.dataTransportObjects.DTOVertexLocation;
 
 /**
@@ -12,18 +11,17 @@ import shared.dataTransportObjects.DTOVertexLocation;
  */
 public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 
-	private static final String FAILURE_MESSAGE_RES = "Failed ot build settlement - not enough resources";
-	
-	public int playerIndex;
-	public DTOVertexLocation vertexLocation;
-	public Boolean free = false;
-	
+	private int playerIndex;
+	private DTOVertexLocation vertexLocation;
+	private Boolean free = false;
+
 	public MovesBuildSettlementCommand(String json) {
-		DTOMovesBuildSettlement dto = (DTOMovesBuildSettlement) CatanSerializer.getInstance().deserializeObject(json,
-				DTOMovesBuildSettlement.class);
+		DTOMovesBuildSettlement dto = (DTOMovesBuildSettlement) CatanSerializer.getInstance()
+				.deserializeObject(json,
+						DTOMovesBuildSettlement.class);
 		this.playerIndex = dto.playerIndex;
-		this.free = dto.free;
 		this.vertexLocation = dto.vertexLocation;
+		this.free = dto.free;
 	}
 
 	/**
