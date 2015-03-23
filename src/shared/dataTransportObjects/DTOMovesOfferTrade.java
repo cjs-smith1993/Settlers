@@ -1,5 +1,7 @@
 package shared.dataTransportObjects;
 
+import com.google.gson.JsonParseException;
+
 import shared.definitions.PlayerNumber;
 import shared.model.ResourceInvoice;
 
@@ -28,6 +30,11 @@ public class DTOMovesOfferTrade {
 			int wheat,
 			int wood,
 			PlayerNumber receiver) {
+
+		if (playerIndex == null || receiver == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = playerIndex.getInteger();
 		this.offer = new DTOOffer(brick, ore, sheep, wheat, wood);
 		this.receiver = receiver.getInteger();

@@ -1,5 +1,7 @@
 package shared.dataTransportObjects;
 
+import com.google.gson.JsonParseException;
+
 import shared.definitions.PlayerNumber;
 import shared.locations.EdgeDirection;
 
@@ -15,6 +17,11 @@ public class DTOMovesBuildRoad {
 			int y,
 			EdgeDirection direction,
 			Boolean free) {
+
+		if (playerIndex == null || direction == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = playerIndex.getInteger();
 		this.free = free;
 		this.roadLocation = new DTOEdgeLocation(x, y, direction);

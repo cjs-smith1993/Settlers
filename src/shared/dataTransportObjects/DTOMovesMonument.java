@@ -1,5 +1,7 @@
 package shared.dataTransportObjects;
 
+import com.google.gson.JsonParseException;
+
 import shared.definitions.PlayerNumber;
 
 public class DTOMovesMonument {
@@ -7,6 +9,10 @@ public class DTOMovesMonument {
 	public int playerIndex;
 
 	public DTOMovesMonument(PlayerNumber playerIndex) {
+		if (playerIndex == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = playerIndex.getInteger();
 	}
 }

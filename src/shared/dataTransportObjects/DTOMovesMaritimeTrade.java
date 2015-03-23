@@ -1,5 +1,7 @@
 package shared.dataTransportObjects;
 
+import com.google.gson.JsonParseException;
+
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 
@@ -15,6 +17,11 @@ public class DTOMovesMaritimeTrade {
 			int ratio,
 			ResourceType inputResource,
 			ResourceType outputResource) {
+
+		if (inputResource == null || outputResource == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = playerIndex.getInteger();
 		this.ratio = ratio;
 		this.inputResource = inputResource;
