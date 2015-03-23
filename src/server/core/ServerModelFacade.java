@@ -20,7 +20,7 @@ import shared.model.facade.AbstractModelFacade;
  *
  */
 public class ServerModelFacade extends AbstractModelFacade {
-	// This is a temporary storage place for this variable. The same bool exists on
+	// This is a temporary storage place for the hasDiscarded variable. The same bool exists on
 	// the ClientModelFacade, and the TransportPlayer needs to get it from somewhere.
 	// - Kyle
 	boolean hasDiscarded = false;
