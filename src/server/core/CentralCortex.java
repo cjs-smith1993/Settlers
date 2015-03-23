@@ -142,15 +142,6 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameModel() throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public TransportModel gameReset() throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;

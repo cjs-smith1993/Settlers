@@ -148,18 +148,6 @@ public interface ICortex {
 	public TransportModel gameModel(int version) throws CatanException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	/**
-	 * If user and game are authentic, returns the updated model for the
-	 * appropriate game
-	 *
-	 * @param user
-	 * @param game
-	 * @return the model of the corresponding game
-	 * @throws IOException
-	 * @throws ServerException
-	 */
-	public TransportModel gameModel() throws CatanException, ServerException;
-
-	/**
 	 * If user and game are authentic, returns the appropriate game to its state
 	 * right after the Setup Phase
 	 *
