@@ -22,8 +22,9 @@ public class PlayerHoldings implements Hand {
 	private Collection<DevelopmentCard> playedKnights;
 	private Collection<DevelopmentCard> playedMonuments;
 	private Collection<Harbor> harbors;
+	
 	/**
-	 * Default constructor for the PlayerHolings class.
+	 * Default constructor for the PlayerHoldings class.
 	 * 
 	 */
 	public PlayerHoldings()
@@ -41,6 +42,7 @@ public class PlayerHoldings implements Hand {
 		harbors = new ArrayList<Harbor>();
 		
 	}
+	
 	public PlayerHoldings(TransportPlayer player,
 							Collection<Harbor> myHarbors)
 	{
@@ -90,8 +92,41 @@ public class PlayerHoldings implements Hand {
 		developmentCards.get(DevCardType.YEAR_OF_PLENTY).clear();
 		developmentCards.get(DevCardType.YEAR_OF_PLENTY).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,true));
 		developmentCards.get(DevCardType.YEAR_OF_PLENTY).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, blockedDev.yearOfPlenty,false));
-		
 	}
+	
+	/**
+	 * Extract information to the TransportOldDevCards container for serialization.
+	 * @return TransportOldDevCards
+	 */
+	public TransportOldDevCards getTransportOldDevCards() {
+		TransportOldDevCards oldDevCards = new TransportOldDevCards();
+		
+		oldDevCards.monopoly = getOldDevCardCount(developmentCards.get(DevCardType.MONOPOLY));
+		oldDevCards.monument = getOldDevCardCount(developmentCards.get(DevCardType.MONUMENT));
+		oldDevCards.roadBuilding = getOldDevCardCount(developmentCards.get(DevCardType.ROAD_BUILD));
+		oldDevCards.soldier = getOldDevCardCount(developmentCards.get(DevCardType.SOLDIER));
+		oldDevCards.yearOfPlenty = getOldDevCardCount(developmentCards.get(DevCardType.YEAR_OF_PLENTY));
+		
+		return oldDevCards;
+	}
+	
+	/**
+	 * Count number of playable (old) development cards in the deck.
+	 * @param developmentCards
+	 * @return playableDevelopmentCardCount
+	 */
+	public int getOldDevCardCount(Collection<DevelopmentCard> developmentCards) {
+		int cardCount = 0;
+		
+		for (DevelopmentCard developmentCard : developmentCards) {
+			if (developmentCard.isPlayable()) {
+				cardCount++;
+			}
+		}
+		
+		return cardCount;
+	}
+	
 	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable)
 	{
 		Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
@@ -101,6 +136,7 @@ public class PlayerHoldings implements Hand {
 		}
 		return newPile;
 	}
+	
 	private void makeResourceDeck(ResourceType type, int count)
 	{
 		Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
@@ -112,6 +148,7 @@ public class PlayerHoldings implements Hand {
 		resourceCards.get(type).addAll(newPile);
 		newPile.clear();
 	}
+	
 	//how is connor telling that the house is on a harbor
 	/**
 	 * Returns the number of development cards of the desired type in the
