@@ -1,6 +1,9 @@
 package server.commands.moves;
 
+import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
+import shared.dataTransportObjects.DTOMovesAcceptTrade;
+import shared.dataTransportObjects.DTOSaveLoad;
 
 /**
  * Moves command created when a user attempts to accept a trade.
@@ -8,8 +11,12 @@ import server.commands.CommandResponse;
  */
 public class MovesAcceptTradeCommand extends AbstractMovesCommand {
 
+	private boolean acceptOffer;
+	
 	public MovesAcceptTradeCommand(String json) {
-		// TODO Auto-generated constructor stub
+		DTOMovesAcceptTrade dto = (DTOMovesAcceptTrade) CatanSerializer.getInstance().deserializeObject(json,
+				DTOMovesAcceptTrade.class);
+		this.acceptOffer = dto.willAccept;
 	}
 
 	/**

@@ -1,6 +1,10 @@
 package server.commands.moves;
 
+import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
+import shared.dataTransportObjects.DTOEdgeLocation;
+import shared.dataTransportObjects.DTOMovesBuildRoad;
+import shared.dataTransportObjects.DTOSaveLoad;
 
 /**
  * Moves command created when a user attempts to build a road.
@@ -8,8 +12,18 @@ import server.commands.CommandResponse;
  */
 public class MovesBuildRoadCommand extends AbstractMovesCommand {
 
+	private static final String FAILURE_MESSAGE_RES = "Failed ot build city - not enough resources";
+	
+	public int playerIndex;
+	public Boolean free = false;
+	public DTOEdgeLocation roadLocation;
+	
 	public MovesBuildRoadCommand(String json) {
-		// TODO Auto-generated constructor stub
+		DTOMovesBuildRoad dto = (DTOMovesBuildRoad) CatanSerializer.getInstance().deserializeObject(json,
+				DTOMovesBuildRoad.class);
+		this.playerIndex = dto .playerIndex;
+		this.free = dto.free;
+		this.roadLocation = dto.roadLocation;
 	}
 
 	/**
