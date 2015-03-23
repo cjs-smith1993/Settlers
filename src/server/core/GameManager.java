@@ -6,12 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import client.frontend.data.GameInfo;
-import client.frontend.data.PlayerInfo;
-import shared.definitions.CatanColor;
-import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.model.Game;
-import shared.model.ModelUser;
 
 /**
  * Manages the collection of all games
@@ -25,7 +21,7 @@ public class GameManager {
 
 	private GameManager() {
 		this.games = new HashMap<Integer, Game>();
-		this.gamesInfo = new ArrayList();
+		this.gamesInfo = new ArrayList<GameInfo>();
 		this.nextGame = 0;
 	}
 
