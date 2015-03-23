@@ -1,5 +1,7 @@
 package server.commands.games;
 
+import com.google.gson.JsonParseException;
+
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.certificates.GameCertificate;
@@ -28,6 +30,10 @@ public class GamesJoinCommand extends AbstractGamesCommand {
 				DTOGamesJoin.class);
 		this.id = dto.id;
 		this.color = dto.color;
+
+		if (this.color == null) {
+			throw new JsonParseException("JSON parse error");
+		}
 	}
 
 	/**
