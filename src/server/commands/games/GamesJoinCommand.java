@@ -46,7 +46,7 @@ public class GamesJoinCommand extends AbstractGamesCommand {
 		String body;
 		StatusCode status;
 		ContentType contentType;
-		GameCertificate gameCert;
+		GameCertificate gameCert = null;
 
 		try {
 			gameCert = cortex.gamesJoin(this.id, this.color);
@@ -54,7 +54,6 @@ public class GamesJoinCommand extends AbstractGamesCommand {
 			status = StatusCode.OK;
 			contentType = ContentType.PLAIN_TEXT;
 		} catch (CatanException | ServerException e) {
-			gameCert = null;
 			body = e.getMessage();
 			status = StatusCode.INVALID_REQUEST;
 			contentType = ContentType.PLAIN_TEXT;
