@@ -1,12 +1,16 @@
 package server.commands.moves;
 
+import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.AbstractCommand;
 import server.commands.CommandResponse;
+import server.commands.ContentType;
 import server.core.CortexFactory;
+import server.util.StatusCode;
 import shared.model.CatanException;
+import shared.transport.TransportModel;
 
 /**
  * Represents the notion of executing the appropriate action for a given server
@@ -48,5 +52,17 @@ public abstract class AbstractMovesCommand extends AbstractCommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract CommandResponse executeInner() throws CatanException, ServerException;
+	public CommandResponse executeInner() throws CatanException, ServerException {
+		CommandResponse response = null;
+
+		TransportModel model = this.performMovesCommand();
+		String body = CatanSerializer.getInstance().serializeObject(model);
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.JSON;
+
+		response = new CommandResponse(body, status, contentType);
+		return response;
+	}
+
+	public abstract TransportModel performMovesCommand() throws CatanException, ServerException;
 }

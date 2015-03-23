@@ -1,9 +1,18 @@
 package server.commands.moves;
 
+import com.google.gson.JsonParseException;
+
 import client.backend.CatanSerializer;
-import server.commands.CommandResponse;
+import client.serverCommunication.ServerException;
+import server.core.CortexFactory;
+import server.core.ICortex;
 import shared.dataTransportObjects.DTOMovesBuildSettlement;
-import shared.dataTransportObjects.DTOVertexLocation;
+import shared.definitions.PlayerNumber;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
+import shared.model.CatanException;
+import shared.transport.TransportModel;
 
 /**
  * Moves command created when a user attempts to build a settlement.
@@ -11,16 +20,22 @@ import shared.dataTransportObjects.DTOVertexLocation;
  */
 public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 
-	private int playerIndex;
-	private DTOVertexLocation vertexLocation;
+	private PlayerNumber playerIndex;
+	private VertexLocation vertexLocation;
 	private Boolean free = false;
 
 	public MovesBuildSettlementCommand(String json) {
 		DTOMovesBuildSettlement dto = (DTOMovesBuildSettlement) CatanSerializer.getInstance()
-				.deserializeObject(json,
-						DTOMovesBuildSettlement.class);
+				.deserializeObject(json, DTOMovesBuildSettlement.class);
+
+		if (dto.playerIndex == null || dto.vertexLocation.direction == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = dto.playerIndex;
-		this.vertexLocation = dto.vertexLocation;
+		HexLocation hex = new HexLocation(dto.vertexLocation.x, dto.vertexLocation.y);
+		VertexDirection dir = dto.vertexLocation.direction;
+		this.vertexLocation = new VertexLocation(hex, dir);
 		this.free = dto.free;
 	}
 
@@ -28,8 +43,9 @@ public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
-		return null;
+	public TransportModel performMovesCommand() throws CatanException, ServerException {
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free);
 	}
 
 }

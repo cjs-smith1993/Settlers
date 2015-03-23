@@ -1,6 +1,16 @@
 package server.commands.moves;
 
-import server.commands.CommandResponse;
+import com.google.gson.JsonParseException;
+
+import client.backend.CatanSerializer;
+import client.serverCommunication.ServerException;
+import server.core.CortexFactory;
+import server.core.ICortex;
+import shared.dataTransportObjects.DTOMovesSoldier;
+import shared.definitions.PlayerNumber;
+import shared.locations.HexLocation;
+import shared.model.CatanException;
+import shared.transport.TransportModel;
 
 /**
  * Moves command created when a user attempts to play a Soldier card.
@@ -8,16 +18,29 @@ import server.commands.CommandResponse;
  */
 public class MovesSoldierCommand extends AbstractMovesCommand {
 
+	private PlayerNumber playerIndex;
+	private PlayerNumber victimIndex;
+	private HexLocation location;
+
 	public MovesSoldierCommand(String json) {
-		// TODO Auto-generated constructor stub
+		DTOMovesSoldier dto = (DTOMovesSoldier) CatanSerializer.getInstance()
+				.deserializeObject(json, DTOMovesSoldier.class);
+
+		if (dto.playerIndex == null || dto.victimIndex == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
+		this.playerIndex = dto.playerIndex;
+		this.location = new HexLocation(dto.location.getX(), dto.location.getY());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
-		return null;
+	public TransportModel performMovesCommand() throws CatanException, ServerException {
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+		return cortex.movesSoldier(this.playerIndex, this.victimIndex, this.location);
 	}
 
 }

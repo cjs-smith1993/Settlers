@@ -1,8 +1,15 @@
 package server.commands.moves;
 
+import com.google.gson.JsonParseException;
+
 import client.backend.CatanSerializer;
-import server.commands.CommandResponse;
+import client.serverCommunication.ServerException;
+import server.core.CortexFactory;
+import server.core.ICortex;
 import shared.dataTransportObjects.DTOMovesBuyDevCard;
+import shared.definitions.PlayerNumber;
+import shared.model.CatanException;
+import shared.transport.TransportModel;
 
 /**
  * Moves commend created when a user attempts to purchase a development card.
@@ -10,11 +17,16 @@ import shared.dataTransportObjects.DTOMovesBuyDevCard;
  */
 public class MovesBuyDevCardCommand extends AbstractMovesCommand {
 
-	private int playerIndex;
+	private PlayerNumber playerIndex;
 
 	public MovesBuyDevCardCommand(String json) {
 		DTOMovesBuyDevCard dto = (DTOMovesBuyDevCard) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesBuyDevCard.class);
+
+		if (dto.playerIndex == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = dto.playerIndex;
 	}
 
@@ -22,8 +34,9 @@ public class MovesBuyDevCardCommand extends AbstractMovesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
-		return null;
+	public TransportModel performMovesCommand() throws CatanException, ServerException {
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+		return cortex.movesBuyDevCard(this.playerIndex);
 	}
 
 }
