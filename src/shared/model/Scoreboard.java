@@ -52,7 +52,6 @@ public class Scoreboard {
 	 */
 	public TransportPlayer getTransportPlayer(TransportPlayer player, PlayerNumber playerNumber) {
 		player.roads = builtRoads.get(playerNumber);
-		player.soldiers = activeKnights.get(playerNumber);
 		player.victoryPoints = points.get(playerNumber);
 		
 		return player;
