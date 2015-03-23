@@ -39,7 +39,7 @@ public class GamesLoadCommand extends AbstractGamesCommand {
 		ContentType contentType;
 
 		try {
-			boolean success = cortex.gamesLoad(this.fileName);
+			cortex.gamesLoad(this.fileName);
 			body = CommandResponse.getSuccessMessage();
 			status = StatusCode.OK;
 			contentType = ContentType.PLAIN_TEXT;
