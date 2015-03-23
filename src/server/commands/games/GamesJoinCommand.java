@@ -46,7 +46,7 @@ public class GamesJoinCommand extends AbstractGamesCommand {
 			gameCert = cortex.gamesJoin(this.id, this.color);
 			body = SUCCESS_MESSAGE;
 			status = StatusCode.OK;
-			contentType = ContentType.JSON;
+			contentType = ContentType.PLAIN_TEXT;
 		} catch (CatanException | ServerException e) {
 			gameCert = null;
 			body = e.getMessage();
