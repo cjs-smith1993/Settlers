@@ -12,7 +12,7 @@ import shared.dataTransportObjects.DTOSaveLoad;
  */
 public class MovesBuildRoadCommand extends AbstractMovesCommand {
 
-	private static final String FAILURE_MESSAGE_RES = "Failed ot build city - not enough resources";
+	private static final String FAILURE_MESSAGE_RES = "Failed ot build road - not enough resources";
 	
 	public int playerIndex;
 	public Boolean free = false;
