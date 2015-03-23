@@ -1,6 +1,7 @@
 package server.core;
 
 import java.util.Collection;
+import java.util.Map;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
@@ -222,7 +223,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesYear_of_Plenty(
+	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2) throws CatanException, ServerException {
@@ -234,7 +235,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesRoad_Building(
+	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2) throws CatanException, ServerException {
@@ -258,7 +259,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesMonopoly(ResourceType resource, PlayerNumber playerIndex)
+	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
 			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
@@ -347,11 +348,7 @@ public class CentralCortex implements ICortex {
 	@Override
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
-			int brick,
-			int ore,
-			int sheep,
-			int wheat,
-			int wood) throws CatanException, ServerException {
+			Map<ResourceType, Integer> discardedCards) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

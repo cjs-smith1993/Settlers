@@ -2,6 +2,7 @@ package server.core;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 import com.google.gson.JsonObject;
 
@@ -260,7 +261,7 @@ public interface ICortex {
 	 * @param resource2
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesYear_of_Plenty(
+	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2) throws CatanException, ServerException;
@@ -276,7 +277,7 @@ public interface ICortex {
 	 * @param spot2
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesRoad_Building(
+	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2) throws CatanException, ServerException;
@@ -307,9 +308,8 @@ public interface ICortex {
 	 * @param playerIndex
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesMonopoly(
-			ResourceType resource,
-			PlayerNumber playerIndex) throws CatanException, ServerException;
+	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's monument development card
@@ -365,9 +365,8 @@ public interface ICortex {
 	 * @param location
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesBuildCity(
-			PlayerNumber playerIndex,
-			VertexLocation location) throws CatanException, ServerException;
+	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, offers a trade between players in the
@@ -378,8 +377,8 @@ public interface ICortex {
 	 * @param invoice
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesOfferTrade(
-			ResourceInvoice invoice) throws CatanException, ServerException;
+	public TransportModel movesOfferTrade(ResourceInvoice invoice) throws CatanException,
+			ServerException;
 
 	/**
 	 * If user and game are authentic, accepts a trade between players in the
@@ -391,9 +390,8 @@ public interface ICortex {
 	 * @param willAccept
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesAcceptTrade(
-			PlayerNumber playerIndex,
-			boolean willAccept) throws CatanException, ServerException;
+	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, performs a maritime trade for the player
@@ -429,10 +427,6 @@ public interface ICortex {
 	 */
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
-			int brick,
-			int ore,
-			int sheep,
-			int wheat,
-			int wood) throws CatanException, ServerException;
+			Map<ResourceType, Integer> discardedCards) throws CatanException, ServerException;
 
 }

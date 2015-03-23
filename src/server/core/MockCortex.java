@@ -2,6 +2,7 @@ package server.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
@@ -34,6 +35,13 @@ public class MockCortex implements ICortex {
 			instance = new MockCortex();
 		}
 		return instance;
+	}
+
+	private TransportModel getFakeModel() {
+		String json = "{\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"map\":{\"hexes\":[{\"location\":{\"x\":0,\"y\":-2}},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":-2},\"number\":4},{\"resource\":\"wood\",\"location\":{\"x\":2,\"y\":-2},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":-1,\"y\":-1},\"number\":8},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":-1},\"number\":3},{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-1},\"number\":9},{\"resource\":\"sheep\",\"location\":{\"x\":2,\"y\":-1},\"number\":12},{\"resource\":\"ore\",\"location\":{\"x\":-2,\"y\":0},\"number\":5},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":0},\"number\":10},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":0},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":0},\"number\":5},{\"resource\":\"wheat\",\"location\":{\"x\":2,\"y\":0},\"number\":6},{\"resource\":\"wheat\",\"location\":{\"x\":-2,\"y\":1},\"number\":2},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":1},\"number\":9},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":1},\"number\":4},{\"resource\":\"sheep\",\"location\":{\"x\":1,\"y\":1},\"number\":10},{\"resource\":\"wood\",\"location\":{\"x\":-2,\"y\":2},\"number\":6},{\"resource\":\"ore\",\"location\":{\"x\":-1,\"y\":2},\"number\":3},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":2},\"number\":8}],\"roads\":[{\"owner\":1,\"location\":{\"direction\":\"S\",\"x\":-1,\"y\":-1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":1}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":0}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"cities\":[],\"settlements\":[{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SE\",\"x\":1,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":0,\"y\":0}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":1,\"y\":-1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SE\",\"x\":0,\"y\":1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"radius\":3,\"ports\":[{\"ratio\":2,\"resource\":\"brick\",\"direction\":\"NE\",\"location\":{\"x\":-2,\"y\":3}},{\"ratio\":3,\"direction\":\"SW\",\"location\":{\"x\":3,\"y\":-3}},{\"ratio\":3,\"direction\":\"SE\",\"location\":{\"x\":-3,\"y\":0}},{\"ratio\":2,\"resource\":\"sheep\",\"direction\":\"NW\",\"location\":{\"x\":3,\"y\":-1}},{\"ratio\":2,\"resource\":\"ore\",\"direction\":\"S\",\"location\":{\"x\":1,\"y\":-3}},{\"ratio\":3,\"direction\":\"NW\",\"location\":{\"x\":2,\"y\":1}},{\"ratio\":3,\"direction\":\"N\",\"location\":{\"x\":0,\"y\":3}},{\"ratio\":2,\"resource\":\"wood\",\"direction\":\"NE\",\"location\":{\"x\":-3,\"y\":2}},{\"ratio\":2,\"resource\":\"wheat\",\"direction\":\"S\",\"location\":{\"x\":-1,\"y\":-2}}],\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"resources\":{\"brick\":0,\"wood\":3,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":0,\"playerIndex\":0,\"name\":\"Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":0,\"sheep\":1,\"wheat\":5,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":1,\"playerIndex\":1,\"name\":\"Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":3,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":10,\"playerIndex\":2,\"name\":\"Pete\",\"color\":\"red\"},{\"resources\":{\"brick\":2,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":11,\"playerIndex\":3,\"name\":\"Mark\",\"color\":\"green\"}],\"log\":{\"lines\":[{\"source\":\"Pete\",\"message\":\"Pete'sturnjustended\"},{\"source\":\"Mark\",\"message\":\"Markbuiltaroad\"},{\"source\":\"Mark\",\"message\":\"Markbuiltasettlement\"},{\"source\":\"Mark\",\"message\":\"Mark'sturnjustended\"},{\"source\":\"Mark\",\"message\":\"Markbuiltaroad\"},{\"source\":\"Mark\",\"message\":\"Markbuiltasettlement\"},{\"source\":\"Mark\",\"message\":\"Mark'sturnjustended\"},{\"source\":\"Pete\",\"message\":\"Petebuiltaroad\"},{\"source\":\"Pete\",\"message\":\"Petebuiltasettlement\"},{\"source\":\"Pete\",\"message\":\"Pete'sturnjustended\"},{\"source\":\"Brooke\",\"message\":\"Brookebuiltaroad\"},{\"source\":\"Brooke\",\"message\":\"Brookebuiltasettlement\"},{\"source\":\"Brooke\",\"message\":\"Brooke'sturnjustended\"},{\"source\":\"Sam\",\"message\":\"Sambuiltaroad\"},{\"source\":\"Sam\",\"message\":\"Sambuiltasettlement\"},{\"source\":\"Sam\",\"message\":\"Sam'sturnjustended\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda4.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda4.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"}]},\"chat\":{\"lines\":[]},\"bank\":{\"brick\":21,\"wood\":17,\"sheep\":20,\"wheat\":17,\"ore\":22},\"turnTracker\":{\"status\":\"Discarding\",\"currentTurn\":0,\"longestRoad\":-1,\"largestArmy\":-1},\"winner\":-1,\"version\":0}";
+		TransportModel model = (TransportModel) CatanSerializer.getInstance().deserializeObject(
+				json, TransportModel.class);
+		return model;
 	}
 
 	/**
@@ -134,10 +142,7 @@ public class MockCortex implements ICortex {
 	 */
 	@Override
 	public TransportModel gameModel(int version) throws CatanException, ServerException {
-		String json = "{\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"map\":{\"hexes\":[{\"location\":{\"x\":0,\"y\":-2}},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":-2},\"number\":4},{\"resource\":\"wood\",\"location\":{\"x\":2,\"y\":-2},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":-1,\"y\":-1},\"number\":8},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":-1},\"number\":3},{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-1},\"number\":9},{\"resource\":\"sheep\",\"location\":{\"x\":2,\"y\":-1},\"number\":12},{\"resource\":\"ore\",\"location\":{\"x\":-2,\"y\":0},\"number\":5},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":0},\"number\":10},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":0},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":0},\"number\":5},{\"resource\":\"wheat\",\"location\":{\"x\":2,\"y\":0},\"number\":6},{\"resource\":\"wheat\",\"location\":{\"x\":-2,\"y\":1},\"number\":2},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":1},\"number\":9},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":1},\"number\":4},{\"resource\":\"sheep\",\"location\":{\"x\":1,\"y\":1},\"number\":10},{\"resource\":\"wood\",\"location\":{\"x\":-2,\"y\":2},\"number\":6},{\"resource\":\"ore\",\"location\":{\"x\":-1,\"y\":2},\"number\":3},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":2},\"number\":8}],\"roads\":[{\"owner\":1,\"location\":{\"direction\":\"S\",\"x\":-1,\"y\":-1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":1}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":0}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"cities\":[],\"settlements\":[{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SE\",\"x\":1,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":0,\"y\":0}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":1,\"y\":-1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SE\",\"x\":0,\"y\":1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"radius\":3,\"ports\":[{\"ratio\":2,\"resource\":\"brick\",\"direction\":\"NE\",\"location\":{\"x\":-2,\"y\":3}},{\"ratio\":3,\"direction\":\"SW\",\"location\":{\"x\":3,\"y\":-3}},{\"ratio\":3,\"direction\":\"SE\",\"location\":{\"x\":-3,\"y\":0}},{\"ratio\":2,\"resource\":\"sheep\",\"direction\":\"NW\",\"location\":{\"x\":3,\"y\":-1}},{\"ratio\":2,\"resource\":\"ore\",\"direction\":\"S\",\"location\":{\"x\":1,\"y\":-3}},{\"ratio\":3,\"direction\":\"NW\",\"location\":{\"x\":2,\"y\":1}},{\"ratio\":3,\"direction\":\"N\",\"location\":{\"x\":0,\"y\":3}},{\"ratio\":2,\"resource\":\"wood\",\"direction\":\"NE\",\"location\":{\"x\":-3,\"y\":2}},{\"ratio\":2,\"resource\":\"wheat\",\"direction\":\"S\",\"location\":{\"x\":-1,\"y\":-2}}],\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"resources\":{\"brick\":0,\"wood\":3,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":0,\"playerIndex\":0,\"name\":\"Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":0,\"sheep\":1,\"wheat\":5,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":1,\"playerIndex\":1,\"name\":\"Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":3,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":10,\"playerIndex\":2,\"name\":\"Pete\",\"color\":\"red\"},{\"resources\":{\"brick\":2,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":11,\"playerIndex\":3,\"name\":\"Mark\",\"color\":\"green\"}],\"log\":{\"lines\":[{\"source\":\"Pete\",\"message\":\"Pete'sturnjustended\"},{\"source\":\"Mark\",\"message\":\"Markbuiltaroad\"},{\"source\":\"Mark\",\"message\":\"Markbuiltasettlement\"},{\"source\":\"Mark\",\"message\":\"Mark'sturnjustended\"},{\"source\":\"Mark\",\"message\":\"Markbuiltaroad\"},{\"source\":\"Mark\",\"message\":\"Markbuiltasettlement\"},{\"source\":\"Mark\",\"message\":\"Mark'sturnjustended\"},{\"source\":\"Pete\",\"message\":\"Petebuiltaroad\"},{\"source\":\"Pete\",\"message\":\"Petebuiltasettlement\"},{\"source\":\"Pete\",\"message\":\"Pete'sturnjustended\"},{\"source\":\"Brooke\",\"message\":\"Brookebuiltaroad\"},{\"source\":\"Brooke\",\"message\":\"Brookebuiltasettlement\"},{\"source\":\"Brooke\",\"message\":\"Brooke'sturnjustended\"},{\"source\":\"Sam\",\"message\":\"Sambuiltaroad\"},{\"source\":\"Sam\",\"message\":\"Sambuiltasettlement\"},{\"source\":\"Sam\",\"message\":\"Sam'sturnjustended\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda4.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda4.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"}]},\"chat\":{\"lines\":[]},\"bank\":{\"brick\":21,\"wood\":17,\"sheep\":20,\"wheat\":17,\"ore\":22},\"turnTracker\":{\"status\":\"Discarding\",\"currentTurn\":0,\"longestRoad\":-1,\"largestArmy\":-1},\"winner\":-1,\"version\":0}";
-		TransportModel model = (TransportModel) CatanSerializer.getInstance().deserializeObject(
-				json, TransportModel.class);
-		return model;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -145,10 +150,7 @@ public class MockCortex implements ICortex {
 	 */
 	@Override
 	public TransportModel gameReset() throws CatanException, ServerException {
-		String json = "{\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"map\":{\"hexes\":[{\"location\":{\"x\":0,\"y\":-2}},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":-2},\"number\":4},{\"resource\":\"wood\",\"location\":{\"x\":2,\"y\":-2},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":-1,\"y\":-1},\"number\":8},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":-1},\"number\":3},{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-1},\"number\":9},{\"resource\":\"sheep\",\"location\":{\"x\":2,\"y\":-1},\"number\":12},{\"resource\":\"ore\",\"location\":{\"x\":-2,\"y\":0},\"number\":5},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":0},\"number\":10},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":0},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":0},\"number\":5},{\"resource\":\"wheat\",\"location\":{\"x\":2,\"y\":0},\"number\":6},{\"resource\":\"wheat\",\"location\":{\"x\":-2,\"y\":1},\"number\":2},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":1},\"number\":9},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":1},\"number\":4},{\"resource\":\"sheep\",\"location\":{\"x\":1,\"y\":1},\"number\":10},{\"resource\":\"wood\",\"location\":{\"x\":-2,\"y\":2},\"number\":6},{\"resource\":\"ore\",\"location\":{\"x\":-1,\"y\":2},\"number\":3},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":2},\"number\":8}],\"roads\":[{\"owner\":1,\"location\":{\"direction\":\"S\",\"x\":-1,\"y\":-1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":1}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":0}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"cities\":[],\"settlements\":[{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SE\",\"x\":1,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":0,\"y\":0}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":1,\"y\":-1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SE\",\"x\":0,\"y\":1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"radius\":3,\"ports\":[{\"ratio\":2,\"resource\":\"brick\",\"direction\":\"NE\",\"location\":{\"x\":-2,\"y\":3}},{\"ratio\":3,\"direction\":\"SW\",\"location\":{\"x\":3,\"y\":-3}},{\"ratio\":3,\"direction\":\"SE\",\"location\":{\"x\":-3,\"y\":0}},{\"ratio\":2,\"resource\":\"sheep\",\"direction\":\"NW\",\"location\":{\"x\":3,\"y\":-1}},{\"ratio\":2,\"resource\":\"ore\",\"direction\":\"S\",\"location\":{\"x\":1,\"y\":-3}},{\"ratio\":3,\"direction\":\"NW\",\"location\":{\"x\":2,\"y\":1}},{\"ratio\":3,\"direction\":\"N\",\"location\":{\"x\":0,\"y\":3}},{\"ratio\":2,\"resource\":\"wood\",\"direction\":\"NE\",\"location\":{\"x\":-3,\"y\":2}},{\"ratio\":2,\"resource\":\"wheat\",\"direction\":\"S\",\"location\":{\"x\":-1,\"y\":-2}}],\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"resources\":{\"brick\":0,\"wood\":3,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":0,\"playerIndex\":0,\"name\":\"Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":0,\"sheep\":1,\"wheat\":5,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":1,\"playerIndex\":1,\"name\":\"Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":3,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":10,\"playerIndex\":2,\"name\":\"Pete\",\"color\":\"red\"},{\"resources\":{\"brick\":2,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":11,\"playerIndex\":3,\"name\":\"Mark\",\"color\":\"green\"}],\"log\":{\"lines\":[{\"source\":\"Pete\",\"message\":\"Pete'sturnjustended\"},{\"source\":\"Mark\",\"message\":\"Markbuiltaroad\"},{\"source\":\"Mark\",\"message\":\"Markbuiltasettlement\"},{\"source\":\"Mark\",\"message\":\"Mark'sturnjustended\"},{\"source\":\"Mark\",\"message\":\"Markbuiltaroad\"},{\"source\":\"Mark\",\"message\":\"Markbuiltasettlement\"},{\"source\":\"Mark\",\"message\":\"Mark'sturnjustended\"},{\"source\":\"Pete\",\"message\":\"Petebuiltaroad\"},{\"source\":\"Pete\",\"message\":\"Petebuiltasettlement\"},{\"source\":\"Pete\",\"message\":\"Pete'sturnjustended\"},{\"source\":\"Brooke\",\"message\":\"Brookebuiltaroad\"},{\"source\":\"Brooke\",\"message\":\"Brookebuiltasettlement\"},{\"source\":\"Brooke\",\"message\":\"Brooke'sturnjustended\"},{\"source\":\"Sam\",\"message\":\"Sambuiltaroad\"},{\"source\":\"Sam\",\"message\":\"Sambuiltasettlement\"},{\"source\":\"Sam\",\"message\":\"Sam'sturnjustended\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda2.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda4.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda4.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"},{\"source\":\"Sam\",\"message\":\"Samrolleda7.\"}]},\"chat\":{\"lines\":[]},\"bank\":{\"brick\":21,\"wood\":17,\"sheep\":20,\"wheat\":17,\"ore\":22},\"turnTracker\":{\"status\":\"Discarding\",\"currentTurn\":0,\"longestRoad\":-1,\"largestArmy\":-1},\"winner\":-1,\"version\":0}";
-		TransportModel model = (TransportModel) CatanSerializer.getInstance().deserializeObject(
-				json, TransportModel.class);
-		return model;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -176,8 +178,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesSendChat(PlayerNumber playerIndex, String content)
 			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -186,8 +187,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number)
 			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -198,8 +198,7 @@ public class MockCortex implements ICortex {
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -208,8 +207,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesFinishTurn(PlayerNumber playerIndex) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -218,32 +216,29 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesBuyDevCard(PlayerNumber playerIndex) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesYear_of_Plenty(
+	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesRoad_Building(
+	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -254,18 +249,16 @@ public class MockCortex implements ICortex {
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesMonopoly(ResourceType resource, PlayerNumber playerIndex)
+	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
 			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -274,8 +267,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesMonument(PlayerNumber playerIndex) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -286,8 +278,7 @@ public class MockCortex implements ICortex {
 			PlayerNumber playerIndex,
 			EdgeLocation location,
 			boolean free) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -298,8 +289,7 @@ public class MockCortex implements ICortex {
 			PlayerNumber playerIndex,
 			VertexLocation location,
 			boolean free) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -308,8 +298,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
 			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -318,8 +307,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesOfferTrade(ResourceInvoice invoice) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -328,8 +316,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
 			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -342,8 +329,7 @@ public class MockCortex implements ICortex {
 			ResourceType inputResource,
 			ResourceType outputResource) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFakeModel();
 	}
 
 	/**
@@ -352,13 +338,8 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
-			int brick,
-			int ore,
-			int sheep,
-			int wheat,
-			int wood) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+			Map<ResourceType, Integer> discardedCards) throws CatanException, ServerException {
+		return this.getFakeModel();
 	}
 
 }
