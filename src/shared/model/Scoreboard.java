@@ -42,6 +42,19 @@ public class Scoreboard {
 		this.largestArmy = PlayerNumber.BANK;
 		this.longestRoad = PlayerNumber.BANK;
 	}
+	
+	/**
+	 * IMPORTANT: This must be called just before or just after getTransporTracker() is called
+	 * on the Game class. It requires both classes to populate all the information.
+	 * @param tracker
+	 * @return TransportTurnTracker tracker
+	 */
+	public TransportTurnTracker getTransportTurnTracker(TransportTurnTracker tracker) {
+		tracker.longestRoad = this.longestRoad;
+		tracker.largestArmy = this.largestArmy;
+		
+		return tracker;
+	}
 
 	private Map<PlayerNumber, Integer> initializeMap() {
 		HashMap<PlayerNumber, Integer> map = new HashMap<PlayerNumber, Integer>();
