@@ -96,8 +96,9 @@ public class MockCortex implements ICortex {
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<DTOPlayer> players = new ArrayList<DTOPlayer>();
+		return new DTOGame(-1, "mock game", players);
 	}
 
 	/**
@@ -106,8 +107,7 @@ public class MockCortex implements ICortex {
 	@Override
 	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return new GameCertificate(-1);
 	}
 
 	/**
