@@ -25,10 +25,8 @@ public class PlayerHoldings implements Hand {
 	
 	/**
 	 * Default constructor for the PlayerHoldings class.
-	 * 
 	 */
-	public PlayerHoldings()
-	{
+	public PlayerHoldings() {
 		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
 		for(ResourceType type: ResourceType.values()){
 			resourceCards.put(type, new ArrayList<ResourceCard>());
@@ -44,8 +42,7 @@ public class PlayerHoldings implements Hand {
 	}
 	
 	public PlayerHoldings(TransportPlayer player,
-							Collection<Harbor> myHarbors)
-	{
+							Collection<Harbor> myHarbors) {
 		
 		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
 		for(ResourceType type: ResourceType.values()){
@@ -143,8 +140,7 @@ public class PlayerHoldings implements Hand {
 		return cardCount;
 	}
 	
-	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable)
-	{
+	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable) {
 		Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
 		for(int i = 0; i < count; ++i)
 		{
@@ -153,8 +149,7 @@ public class PlayerHoldings implements Hand {
 		return newPile;
 	}
 	
-	private void makeResourceDeck(ResourceType type, int count)
-	{
+	private void makeResourceDeck(ResourceType type, int count) {
 		Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
 		for(int i = 0; i < count; ++i)
 		{
@@ -165,7 +160,7 @@ public class PlayerHoldings implements Hand {
 		newPile.clear();
 	}
 	
-	//how is connor telling that the house is on a harbor
+	// How is connor telling that the house is on a harbor
 	/**
 	 * Returns the number of development cards of the desired type in the
 	 * player's hand
@@ -212,8 +207,7 @@ public class PlayerHoldings implements Hand {
 	 * @param count
 	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
 	 */
-	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count)
-	{
+	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count) {
 		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
         
         Collection<ResourceCard> cards = this.resourceCards.get(type);
@@ -242,7 +236,7 @@ public class PlayerHoldings implements Hand {
 		return added;
 	}
 	
-	//do that same for dev cards as for resource cards.
+	// Do that same for dev cards as for resource cards.
 	/**
 	 * This remove the number of development cards specified by count in a collection object
 	 * @param type the type of dev card 
@@ -263,14 +257,13 @@ public class PlayerHoldings implements Hand {
         	}
         return removed;
 	}
+	
 	/**
 	 * this will add a collection of cards to a players holding
 	 * @param type the type of the development card added
 	 * @param newCards a collection of cards to add
 	 */
-	
-	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
-	{
+	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards) {
 		//i need to deal with the fact that i can and need to store monuments and soldier but not the others
 		
 		boolean added = true;
@@ -297,7 +290,7 @@ public class PlayerHoldings implements Hand {
 		}
 	}
 	
-	//need the harbor stuff
+	// Need the harbor stuff
 	public Collection<DevelopmentCard> getPlayedKnights() {
 		return playedKnights;
 	}
@@ -339,10 +332,10 @@ public class PlayerHoldings implements Hand {
 			Map<DevCardType, Collection<DevelopmentCard>> developmentCards) {
 		this.developmentCards = developmentCards;
 	}
+	
 	public void addDevelopmentCard(DevelopmentCard devCard) {
 		DevCardType type = devCard.getType();
 		developmentCards.get(type).add(devCard);
-		
 	}
 		
 }
