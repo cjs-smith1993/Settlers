@@ -45,7 +45,7 @@ public class Scoreboard {
 	
 	/**
 	 * Extracts the PlayerNumber .roads, .soldiers, and .victoryPoints member variables
-	 * with information from the Scoreboard.
+	 *  information from the Scoreboard.
 	 * @param player
 	 * @param playerNumber
 	 * @return TransportPlayer
