@@ -44,6 +44,21 @@ public class Scoreboard {
 	}
 	
 	/**
+	 * Extracts the PlayerNumber .roads, .soldiers, and .victoryPoints member variables
+	 *  information from the Scoreboard.
+	 * @param player
+	 * @param playerNumber
+	 * @return TransportPlayer
+	 */
+	public TransportPlayer getTransportPlayer(TransportPlayer player, PlayerNumber playerNumber) {
+		player.roads = builtRoads.get(playerNumber);
+		player.soldiers = activeKnights.get(playerNumber);
+		player.victoryPoints = points.get(playerNumber);
+		
+		return player;
+	}
+	
+	/**
 	 * IMPORTANT: This must be called just before or just after getTransporTracker() is called
 	 * on the Game class. It requires both classes to populate all the information.
 	 * @param tracker
