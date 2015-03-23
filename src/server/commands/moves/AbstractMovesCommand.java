@@ -3,8 +3,8 @@ package server.commands.moves;
 import client.serverCommunication.ServerException;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.AbstractCommand;
 import server.commands.CommandResponse;
-import server.commands.ICommand;
 import server.core.CortexFactory;
 import shared.model.CatanException;
 
@@ -12,7 +12,7 @@ import shared.model.CatanException;
  * Represents the notion of executing the appropriate action for a given server
  * endpoint that begins with /moves/
  */
-public abstract class AbstractMovesCommand implements ICommand {
+public abstract class AbstractMovesCommand extends AbstractCommand {
 
 	/**
 	 * {@inheritDoc}
@@ -48,5 +48,5 @@ public abstract class AbstractMovesCommand implements ICommand {
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract CommandResponse execute();
+	public abstract CommandResponse executeInner() throws CatanException, ServerException;
 }
