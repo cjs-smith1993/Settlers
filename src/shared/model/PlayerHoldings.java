@@ -101,13 +101,29 @@ public class PlayerHoldings implements Hand {
 	public TransportOldDevCards getTransportOldDevCards() {
 		TransportOldDevCards oldDevCards = new TransportOldDevCards();
 		
-		oldDevCards.monopoly = getOldDevCardCount(developmentCards.get(DevCardType.MONOPOLY));
-		oldDevCards.monument = getOldDevCardCount(developmentCards.get(DevCardType.MONUMENT));
-		oldDevCards.roadBuilding = getOldDevCardCount(developmentCards.get(DevCardType.ROAD_BUILD));
-		oldDevCards.soldier = getOldDevCardCount(developmentCards.get(DevCardType.SOLDIER));
-		oldDevCards.yearOfPlenty = getOldDevCardCount(developmentCards.get(DevCardType.YEAR_OF_PLENTY));
+		oldDevCards.monopoly = getDevCardCount(developmentCards.get(DevCardType.MONOPOLY), true);
+		oldDevCards.monument = getDevCardCount(developmentCards.get(DevCardType.MONUMENT), true);
+		oldDevCards.roadBuilding = getDevCardCount(developmentCards.get(DevCardType.ROAD_BUILD), true);
+		oldDevCards.soldier = getDevCardCount(developmentCards.get(DevCardType.SOLDIER), true);
+		oldDevCards.yearOfPlenty = getDevCardCount(developmentCards.get(DevCardType.YEAR_OF_PLENTY), true);
 		
 		return oldDevCards;
+	}
+	
+	/**
+	 * Extract information to the TransportNewDevCards container for serialization.
+	 * @return TransportNewDevCards
+	 */
+	public TransportNewDevCards getTransportNewDevCards() {
+		TransportNewDevCards newDevCards = new TransportNewDevCards();
+		
+		newDevCards.monopoly = getDevCardCount(developmentCards.get(DevCardType.MONOPOLY), false);
+		newDevCards.monument = getDevCardCount(developmentCards.get(DevCardType.MONUMENT), false);
+		newDevCards.roadBuilding = getDevCardCount(developmentCards.get(DevCardType.ROAD_BUILD), false);
+		newDevCards.soldier = getDevCardCount(developmentCards.get(DevCardType.SOLDIER), false);
+		newDevCards.yearOfPlenty = getDevCardCount(developmentCards.get(DevCardType.YEAR_OF_PLENTY), false);
+		
+		return newDevCards;
 	}
 	
 	/**
@@ -115,11 +131,11 @@ public class PlayerHoldings implements Hand {
 	 * @param developmentCards
 	 * @return playableDevelopmentCardCount
 	 */
-	public int getOldDevCardCount(Collection<DevelopmentCard> developmentCards) {
+	public int getDevCardCount(Collection<DevelopmentCard> developmentCards, boolean isPlayable) {
 		int cardCount = 0;
 		
 		for (DevelopmentCard developmentCard : developmentCards) {
-			if (developmentCard.isPlayable()) {
+			if (developmentCard.isPlayable() == isPlayable) {
 				cardCount++;
 			}
 		}
