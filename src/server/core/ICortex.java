@@ -59,7 +59,8 @@ public interface ICortex {
 	 * @param password
 	 * @return
 	 */
-	public UserCertificate userLogin(String username, String password);
+	public UserCertificate userLogin(String username, String password) throws CatanException,
+			ServerException;
 
 	/**
 	 * Registers a new player with the server and logs them in
@@ -68,7 +69,8 @@ public interface ICortex {
 	 * @param password
 	 * @return
 	 */
-	public UserCertificate userRegister(String username, String password);
+	public UserCertificate userRegister(String username, String password) throws CatanException,
+			ServerException;
 
 	/*
 	 * Games methods

@@ -57,7 +57,8 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UserCertificate userLogin(String username, String password) {
+	public UserCertificate userLogin(String username, String password) throws CatanException,
+			ServerException {
 		// TODO Auto-generated method stub
 		return new UserCertificate(-1, username, password);
 	}
@@ -66,7 +67,8 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UserCertificate userRegister(String username, String password) {
+	public UserCertificate userRegister(String username, String password) throws CatanException,
+			ServerException {
 		// TODO Auto-generated method stub
 		return new UserCertificate(-1, username, password);
 	}

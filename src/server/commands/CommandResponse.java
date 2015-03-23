@@ -11,6 +11,7 @@ import server.util.StatusCode;
  *
  */
 public class CommandResponse {
+	private static final String SUCCESS_MESSAGE = "Success";
 	private String body;
 	private ContentType contentType;
 	private StatusCode status;
@@ -21,6 +22,10 @@ public class CommandResponse {
 		this.body = body;
 		this.status = status;
 		this.contentType = contentType;
+	}
+
+	public static String getSuccessMessage() {
+		return SUCCESS_MESSAGE;
 	}
 
 	public UserCertificate getUserCert() {

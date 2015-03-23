@@ -1,6 +1,7 @@
 package server.commands.user;
 
 import client.backend.CatanSerializer;
+import client.serverCommunication.ServerException;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ContentType;
@@ -8,15 +9,13 @@ import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
 import shared.dataTransportObjects.DTOUserLogin;
+import shared.model.CatanException;
 
 /**
  * This is the command class that will register a new user as well as validate
  * and log them in.
  */
 public class UserRegisterCommand extends AbstractUserCommand {
-
-	private static final String SUCCESS_MESSAGE = "Success";
-	private static final String FAILURE_MESSAGE = "Failed to register - bad username or password.";
 
 	private String username;
 	private String password;
@@ -34,20 +33,19 @@ public class UserRegisterCommand extends AbstractUserCommand {
 	@Override
 	public CommandResponse execute() {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		UserCertificate userCert = cortex.userRegister(this.username, this.password);
-
 		CommandResponse response = null;
 		String body;
 		StatusCode status;
 		ContentType contentType;
+		UserCertificate userCert = null;
 
-		if (userCert != null) {
-			body = SUCCESS_MESSAGE;
+		try {
+			userCert = cortex.userRegister(this.username, this.password);
+			body = CommandResponse.getSuccessMessage();
 			status = StatusCode.OK;
 			contentType = ContentType.PLAIN_TEXT;
-		}
-		else {
-			body = FAILURE_MESSAGE;
+		} catch (CatanException | ServerException e) {
+			body = e.getMessage();
 			status = StatusCode.INVALID_REQUEST;
 			contentType = ContentType.PLAIN_TEXT;
 		}

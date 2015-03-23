@@ -63,7 +63,8 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UserCertificate userLogin(String username, String password) {
+	public UserCertificate userLogin(String username, String password) throws CatanException,
+			ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -72,7 +73,8 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UserCertificate userRegister(String username, String password) {
+	public UserCertificate userRegister(String username, String password) throws CatanException,
+			ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
