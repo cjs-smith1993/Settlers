@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import shared.transport.TransportChat;
 import shared.transport.TransportLine;
+import shared.transport.TransportLog;
 
 /**
  * Holding class for the message and the log
@@ -12,8 +14,8 @@ import shared.transport.TransportLine;
  */
 
 public class PostOffice {
-	private List<Message> chat = new ArrayList<>();
-	private List<Message> log = new ArrayList<>();
+	private ArrayList<Message> chat = new ArrayList<>();
+	private ArrayList<Message> log = new ArrayList<>();
 
 	public PostOffice() {
 		chat = new ArrayList<Message>();
@@ -26,6 +28,30 @@ public class PostOffice {
 		
 		generateMessages(newChats, this.chat);
 		generateMessages(newLogs, this.log);
+	}
+	
+	public TransportChat getTransportChat() {
+		TransportChat transportChat = new TransportChat();
+		transportChat.lines = getTransportLines(chat);
+		
+		return transportChat;
+	}
+	
+	public TransportLog getTransportLog() {
+		TransportLog transportLog = new TransportLog();
+		transportLog.lines = getTransportLines(log);
+		
+		return transportLog;
+	}
+	
+	private TransportLine[] getTransportLines(ArrayList<Message> messages) {
+		ArrayList<TransportLine> lines = new ArrayList<>();
+		
+		for (Message message : messages) {
+			lines.add(new TransportLine(message.getName(), message.getMessage()));
+		}
+		
+		return (TransportLine[])lines.toArray();
 	}
 	
 	private void generateMessages(List<TransportLine> newCommunications, List<Message> existingCommunications) {
