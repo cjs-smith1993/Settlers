@@ -118,8 +118,7 @@ public class MockCortex implements ICortex {
 	 */
 	@Override
 	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/**
@@ -127,8 +126,7 @@ public class MockCortex implements ICortex {
 	 */
 	@Override
 	public boolean gamesLoad(String name) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/**
