@@ -92,6 +92,18 @@ public class PlayerHoldings implements Hand {
 	}
 	
 	/**
+	 * Extracts the TransportPlayer .soldiers and .monuments information from PlayerHoldings into the TransportPlayer.
+	 * @param player
+	 * @return TransportPlayer
+	 */
+	public TransportPlayer getTransportPlayer(TransportPlayer player) {
+		player.soldiers = playedKnights.size();
+		player.monuments = playedMonuments.size();
+		
+		return player;
+	}
+	
+	/**
 	 * Extract information to the TransportResources container for serialization.
 	 * @return TransportResources
 	 */
