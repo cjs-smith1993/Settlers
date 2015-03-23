@@ -23,6 +23,7 @@ public class UserLoginCommand extends AbstractUserCommand {
 	public UserLoginCommand(String json) {
 		DTOUserLogin dto = (DTOUserLogin) CatanSerializer.getInstance().deserializeObject(json,
 				DTOUserLogin.class);
+
 		this.username = dto.username;
 		this.password = dto.password;
 	}

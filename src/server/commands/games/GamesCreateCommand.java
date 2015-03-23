@@ -22,7 +22,6 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 		this.randomNumbers = dto.randomNumbers;
 		this.randomPorts = dto.randomPorts;
 		this.randomTiles = dto.randomTiles;
-
 	}
 
 	/**
