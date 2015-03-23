@@ -9,7 +9,6 @@ import server.core.ICortex;
 import server.util.StatusCode;
 import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOGamesCreate;
-import shared.dataTransportObjects.DTOUserLogin;
 import shared.model.CatanException;
 
 /**
@@ -17,9 +16,7 @@ import shared.model.CatanException;
  *
  */
 public class GamesCreateCommand extends AbstractGamesCommand {
-	
-	private static final String FAILURE_MESSAGE = "Failed to create game - Name field empty.";
-	
+
 	private String name;
 	private boolean randomTiles;
 	private boolean randomPorts;
@@ -32,7 +29,6 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 		this.randomNumbers = dto.randomNumbers;
 		this.randomPorts = dto.randomPorts;
 		this.randomTiles = dto.randomTiles;
-		
 	}
 
 	/**
@@ -45,26 +41,23 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 		String body;
 		StatusCode status;
 		ContentType contentType;
-			
+
 		try {
-			
-			
-			DTOGame game = cortex.gamesCreate(randomTiles, randomNumbers, randomPorts, name);
-			
+			DTOGame game = cortex.gamesCreate(this.randomTiles, this.randomNumbers,
+					this.randomPorts, this.name);
+
 			body = CatanSerializer.getInstance().serializeObject(game);
 			status = StatusCode.OK;
 			contentType = ContentType.JSON;
-			
-			
 		} catch (CatanException | ServerException e) {
-			body = FAILURE_MESSAGE;
+			body = e.getMessage();
 			status = StatusCode.INVALID_REQUEST;
 			contentType = ContentType.PLAIN_TEXT;
 			e.printStackTrace();
 			response = new CommandResponse(body, status, contentType);
 			return response;
-			
 		}
+
 		response = new CommandResponse(body, status, contentType);
 		return response;
 	}

@@ -10,6 +10,7 @@ import server.util.ExchangeUtils;
 import server.util.RequestType;
 import server.util.StatusCode;
 
+import com.google.gson.JsonParseException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -31,11 +32,15 @@ public abstract class AbstractHandler implements HttpHandler {
 		RequestType requestType = this.exchangeUtils.getRequestType();
 		String blob = requestType == RequestType.POST ? this.exchangeUtils.getRequestBody() : null;
 
-		ICommand command = this.getCommand(commandName, blob);
-		Collection<String> cookiesList = exchange.getRequestHeaders().get("Cookie");
-		String cookie = cookiesList != null ? cookiesList.iterator().next() : null;
-		CommandResponse response = this.processCommand(command, cookie);
-		this.sendResponse(response);
+		try {
+			ICommand command = this.getCommand(commandName, blob);
+			Collection<String> cookiesList = exchange.getRequestHeaders().get("Cookie");
+			String cookie = cookiesList != null ? cookiesList.iterator().next() : null;
+			CommandResponse response = this.processCommand(command, cookie);
+			this.sendResponse(response);
+		} catch (JsonParseException | NullPointerException e) {
+			this.sendResponse(CommandResponse.getMalformedCommand());
+		}
 	}
 
 	/**

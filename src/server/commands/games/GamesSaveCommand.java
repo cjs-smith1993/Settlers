@@ -2,7 +2,7 @@ package server.commands.games;
 
 import client.backend.CatanSerializer;
 import server.commands.CommandResponse;
-import shared.dataTransportObjects.DTOSaveLoad;
+import shared.dataTransportObjects.DTOGamesSave;
 
 /**
  * Games command created when the user attempts to save a game
@@ -11,14 +11,16 @@ import shared.dataTransportObjects.DTOSaveLoad;
 public class GamesSaveCommand extends AbstractGamesCommand {
 
 	private static final String SUCCESS_MESSAGE = "Success";
-	private static final String FAILURE_MESSAGE = "Failed to save game - file name format incorrect";
-	
+	private static final String FAILURE_MESSAGE = "Failed to save game";
+
+	private int id;
 	private String fileName;
-	
+
 	public GamesSaveCommand(String json) {
-		DTOSaveLoad dto = (DTOSaveLoad) CatanSerializer.getInstance().deserializeObject(json,
-				DTOSaveLoad.class);
-		this.fileName = dto.fileName;
+		DTOGamesSave dto = (DTOGamesSave) CatanSerializer.getInstance().deserializeObject(json,
+				DTOGamesSave.class);
+		this.id = dto.id;
+		this.fileName = dto.name;
 	}
 
 	/**

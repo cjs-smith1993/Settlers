@@ -63,6 +63,10 @@ public class CookieConverter {
 	public static UserCertificate parseUserCookie(String cookieString) {
 		UserCertificate userCert = null;
 
+		if (cookieString == null) {
+			return userCert;
+		}
+
 		try {
 			String certString = cookieString.replaceAll("catan.user=", "").replaceAll(";Path=/;",
 					"");
@@ -86,6 +90,10 @@ public class CookieConverter {
 	 */
 	public static GameCertificate parseGameCookie(String cookieString) {
 		GameCertificate gameCert = null;
+
+		if (cookieString == null) {
+			return gameCert;
+		}
 
 		try {
 			String certString = cookieString.replaceAll("catan.game=", "").replaceAll(";Path=/;",

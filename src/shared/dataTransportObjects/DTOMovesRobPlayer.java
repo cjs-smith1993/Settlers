@@ -1,5 +1,7 @@
 package shared.dataTransportObjects;
 
+import com.google.gson.JsonParseException;
+
 import shared.definitions.PlayerNumber;
 
 public class DTOMovesRobPlayer {
@@ -13,6 +15,11 @@ public class DTOMovesRobPlayer {
 			PlayerNumber victimIndex,
 			int x,
 			int y) {
+
+		if (playerIndex == null || victimIndex == null) {
+			throw new JsonParseException("JSON parse error");
+		}
+
 		this.playerIndex = playerIndex.getInteger();
 		this.victimIndex = victimIndex.getInteger();
 		this.location = new DTOHexLocation(x, y);

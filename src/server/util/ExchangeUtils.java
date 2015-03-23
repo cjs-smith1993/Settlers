@@ -30,6 +30,8 @@ public class ExchangeUtils {
 		try (Scanner s = new Scanner(this.exchange.getRequestBody())) {
 			s.useDelimiter("\\A");
 			body += s.next();
+		} catch (Exception e) {
+
 		}
 		return body;
 	}

@@ -76,4 +76,11 @@ public class CommandResponse {
 		ContentType contentType = ContentType.PLAIN_TEXT;
 		return new CommandResponse(body, status, contentType);
 	}
+
+	public static CommandResponse getMalformedCommand() {
+		String body = "Error - malformed JSON";
+		StatusCode status = StatusCode.INVALID_REQUEST;
+		ContentType contentType = ContentType.PLAIN_TEXT;
+		return new CommandResponse(body, status, contentType);
+	}
 }
