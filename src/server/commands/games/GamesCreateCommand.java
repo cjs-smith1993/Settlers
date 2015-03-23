@@ -1,8 +1,15 @@
 package server.commands.games;
 
 import client.backend.CatanSerializer;
+import client.serverCommunication.ServerException;
 import server.commands.CommandResponse;
+import server.commands.ContentType;
+import server.core.CortexFactory;
+import server.core.ICortex;
+import server.util.StatusCode;
+import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOGamesCreate;
+import shared.model.CatanException;
 
 /**
  * Games command created when the user attempts to create a game
@@ -29,7 +36,30 @@ public class GamesCreateCommand extends AbstractGamesCommand {
 	 */
 	@Override
 	public CommandResponse execute() {
-		return null;
+		ICortex cortex = CortexFactory.getInstance().getCortex();
+		CommandResponse response = null;
+		String body;
+		StatusCode status;
+		ContentType contentType;
+
+		try {
+			DTOGame game = cortex.gamesCreate(this.randomTiles, this.randomNumbers,
+					this.randomPorts, this.name);
+
+			body = CatanSerializer.getInstance().serializeObject(game);
+			status = StatusCode.OK;
+			contentType = ContentType.JSON;
+		} catch (CatanException | ServerException e) {
+			body = e.getMessage();
+			status = StatusCode.INVALID_REQUEST;
+			contentType = ContentType.PLAIN_TEXT;
+			e.printStackTrace();
+			response = new CommandResponse(body, status, contentType);
+			return response;
+		}
+
+		response = new CommandResponse(body, status, contentType);
+		return response;
 	}
 
 }

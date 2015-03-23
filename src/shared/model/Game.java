@@ -76,6 +76,19 @@ public class Game {
 
 		this.dice = new Dice();
 	}
+	
+	/**
+	 * IMPORTANT: This must be called just before or just after getTransporTracker() is called
+	 * on the Scoreboard class. It requires both classes to populate all the information.
+	 * @param tracker
+	 * @return TransportTurnTracker tracker
+	 */
+	public TransportTurnTracker getTransportTurnTracker(TransportTurnTracker tracker) {
+		tracker.currentTurn = this.currentPlayer;
+		tracker.status = this.state;
+		
+		return tracker;
+	}
 
 	/**
 	 * Returns whether a player can be added to the game To be used at initial
