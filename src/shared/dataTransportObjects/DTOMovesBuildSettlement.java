@@ -1,13 +1,11 @@
 package shared.dataTransportObjects;
 
-import com.google.gson.JsonParseException;
-
 import shared.definitions.PlayerNumber;
 import shared.locations.VertexDirection;
 
 public class DTOMovesBuildSettlement {
 	public String type = "buildSettlement";
-	public int playerIndex;
+	public PlayerNumber playerIndex;
 	public DTOVertexLocation vertexLocation;
 	public Boolean free = false;
 
@@ -18,11 +16,7 @@ public class DTOMovesBuildSettlement {
 			VertexDirection direction,
 			Boolean free) {
 
-		if (playerIndex == null || direction == null) {
-			throw new JsonParseException("JSON parse error");
-		}
-
-		this.playerIndex = playerIndex.getInteger();
+		this.playerIndex = playerIndex;
 		this.vertexLocation = new DTOVertexLocation(x, y, direction);
 		this.free = free;
 	}

@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import shared.definitions.PlayerNumber;
+import shared.definitions.ResourceType;
 
 public class DTOMovesDiscardCards {
 	public String type = "discardCards";
-	public int playerIndex;
-	public Map<String, Object> discardedCards;
+	public PlayerNumber playerIndex;
+	public Map<ResourceType, Integer> discardedCards;
 
 	public DTOMovesDiscardCards(
 			PlayerNumber playerIndex,
@@ -17,12 +18,13 @@ public class DTOMovesDiscardCards {
 			int sheep,
 			int wheat,
 			int wood) {
-		this.playerIndex = playerIndex.getInteger();
+
+		this.playerIndex = playerIndex;
 		this.discardedCards = new HashMap<>();
-		this.discardedCards.put("brick", brick);
-		this.discardedCards.put("ore", ore);
-		this.discardedCards.put("sheep", sheep);
-		this.discardedCards.put("wheat", wheat);
-		this.discardedCards.put("wood", wood);
+		this.discardedCards.put(ResourceType.BRICK, brick);
+		this.discardedCards.put(ResourceType.ORE, ore);
+		this.discardedCards.put(ResourceType.SHEEP, sheep);
+		this.discardedCards.put(ResourceType.WHEAT, wheat);
+		this.discardedCards.put(ResourceType.WOOD, wood);
 	}
 }
