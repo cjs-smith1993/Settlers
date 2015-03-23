@@ -106,6 +106,7 @@ public class Bank implements Hand {
 	
 	public TransportBank getTransportBank() {
 		TransportBank bank = new TransportBank();
+		
 		bank.brick = resourceCards.get(ResourceType.BRICK).size();
 		bank.ore = resourceCards.get(ResourceType.ORE).size();
 		bank.sheep = resourceCards.get(ResourceType.SHEEP).size();
@@ -113,6 +114,18 @@ public class Bank implements Hand {
 		bank.wood = resourceCards.get(ResourceType.WOOD).size();
 		
 		return bank;
+	}
+	
+	public TransportDeck getTransportDeck() { 
+		TransportDeck deck = new TransportDeck();
+		
+		deck.monopoly = developmentCards.get(DevCardType.MONOPOLY).size();
+		deck.monument = developmentCards.get(DevCardType.MONUMENT).size();
+		deck.roadBuilding = developmentCards.get(DevCardType.ROAD_BUILD).size();
+		deck.soldier = developmentCards.get(DevCardType.SOLDIER).size();
+		deck.yearOfPlenty = developmentCards.get(DevCardType.YEAR_OF_PLENTY).size();
+		
+		return deck;
 	}
 	
 	private Collection<DevelopmentCard> makeDevelopmentDeck(
