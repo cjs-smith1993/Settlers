@@ -38,7 +38,7 @@ public abstract class AbstractHandler implements HttpHandler {
 			String cookie = cookiesList != null ? cookiesList.iterator().next() : null;
 			CommandResponse response = this.processCommand(command, cookie);
 			this.sendResponse(response);
-		} catch (JsonParseException e) {
+		} catch (JsonParseException | NullPointerException e) {
 			this.sendResponse(CommandResponse.getMalformedCommand());
 		}
 	}
