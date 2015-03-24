@@ -20,11 +20,6 @@ import shared.model.facade.AbstractModelFacade;
  *
  */
 public class ServerModelFacade extends AbstractModelFacade {
-	// This is a temporary storage place for the hasDiscarded variable. The same bool exists on
-	// the ClientModelFacade, and the TransportPlayer needs to get it from somewhere.
-	// - Kyle
-	boolean hasDiscarded = false;
-
 	public ServerModelFacade(boolean randomTiles, boolean randomNumbers,
 			boolean randomPorts) {
 		this.board = new Board(randomTiles, randomNumbers, randomPorts);
@@ -49,7 +44,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 */
 	@Override
 	public boolean sendChat(PlayerNumber playerIndex, String content) {
-		// TODO Auto-generated method stub
+		String name = this.getNameForPlayerNumber(playerIndex);
+		this.postOffice.addChatMessage(new Message(name, content));
 		return false;
 	}
 

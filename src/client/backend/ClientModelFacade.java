@@ -930,21 +930,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 		return this.getClientPlayer().getPlayerIndex() == this.game.getCurrentPlayer();
 	}
 
-	public List<PlayerInfo> getPlayers() {
-		Map<PlayerNumber, Player> fullPlayers = this.game.getPlayers();
-		List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
-
-		for (Player eachPlayer : fullPlayers.values()) {
-			PlayerInfo info = new PlayerInfo(eachPlayer.getUser().getUserId(),
-					eachPlayer.getNumber(),
-					eachPlayer.getUser().getName(),
-					eachPlayer.getColor());
-			playerInfos.add(info);
-		}
-
-		return playerInfos;
-	}
-
 	public PlayerNumber getPlayerNumberForName(String name) {
 		for (PlayerInfo player : this.getPlayers()) {
 			if (player.getName().equals(name)) {
@@ -1018,23 +1003,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 		}
 
 		return winnerName;
-	}
-
-	public String getNameForPlayerNumber(PlayerNumber player) {
-		String playerName = null;
-		List<PlayerInfo> players = this.getPlayers();
-
-		if (player == PlayerNumber.BANK) {
-			return null;
-		}
-
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getPlayerIndex() == player) {
-				playerName = players.get(i).getName();
-			}
-		}
-
-		return playerName;
 	}
 
 	public int getClientsPlayedSoldiers() throws CatanException {
