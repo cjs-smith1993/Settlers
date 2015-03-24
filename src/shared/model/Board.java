@@ -3,6 +3,7 @@ package shared.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import shared.definitions.*;
@@ -40,6 +41,54 @@ public class Board {
 		this.dwellings.putAll(BoardFactory.parseCities(map.cities));
 		this.harbors = BoardFactory.parseHarbors(map.ports);
 		this.robber = BoardFactory.parseRobber(map.robber);
+	}
+	
+	public TransportMap getTransportMap() {
+		TransportMap transportMap = new TransportMap();
+		
+		transportMap.hexes = getTransportHexes();
+		transportMap.roads = getTransportRoads();
+		transportMap.settlements = getTransportSettlements();
+		transportMap.cities = getTransportCities();
+		transportMap.ports = getTransportPorts();
+		transportMap.radius = RADIUS;
+		
+		return transportMap;
+	}
+	
+	private List<TransportHex> getTransportHexes() {
+		List<TransportHex> hexList = new ArrayList<>();
+		
+		for (Map.Entry<HexLocation, Tile> tile : tiles.entrySet()) {
+			
+		}
+		
+		return hexList;
+	}
+	
+	private List<TransportRoad> getTransportRoads() {
+		List<TransportRoad> roadList = new ArrayList<>();
+		
+		
+		return roadList;
+	}
+	
+	private List<TransportSettlement> getTransportSettlements() {
+		List<TransportSettlement> settlementList = new ArrayList<>();
+		
+		return settlementList;
+	}
+	
+	private List<TransportCity> getTransportCities() {
+		List<TransportCity> cityList = new ArrayList<>();
+		
+		return cityList;
+	}
+	
+	private List<TransportPort> getTransportPorts() {
+		List<TransportPort> portList = new ArrayList<>();
+		
+		return portList;
 	}
 
 	private Collection<Road> getAdjacentRoads(VertexLocation vertex) {
