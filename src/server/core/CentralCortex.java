@@ -115,6 +115,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//the id of the player who wants to join
 	@Override
 	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
 			ServerException {
@@ -144,6 +145,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//need to know what game to get the model for
 	@Override
 	public TransportModel gameModel(int version) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
@@ -153,6 +155,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//the id of the game that needs to be reset
 	@Override
 	public TransportModel gameReset() throws CatanException, ServerException {
 		// TODO Auto-generated method stub
@@ -181,6 +184,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game they are in
 	@Override
 	public TransportModel movesSendChat(PlayerNumber playerIndex, String content)
 			throws CatanException, ServerException {
@@ -191,6 +195,8 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//the game the number is rolled in 
+	//and isn't our server rolling for people?
 	@Override
 	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number)
 			throws CatanException, ServerException {
@@ -201,6 +207,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game do we call this on
 	@Override
 	public TransportModel movesRobPlayer(
 			PlayerNumber playerIndex,
@@ -213,6 +220,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game is this player in
 	@Override
 	public TransportModel movesFinishTurn(PlayerNumber playerIndex) throws CatanException,
 			ServerException {
@@ -223,6 +231,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game ??
 	@Override
 	public TransportModel movesBuyDevCard(PlayerNumber playerIndex) throws CatanException,
 			ServerException {
@@ -233,6 +242,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
@@ -245,6 +255,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
@@ -257,6 +268,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesSoldier(
 			PlayerNumber playerIndex,
@@ -269,6 +281,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
 			throws CatanException, ServerException {
@@ -279,6 +292,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesMonument(PlayerNumber playerIndex) throws CatanException,
 			ServerException {
@@ -289,6 +303,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesBuildRoad(
 			PlayerNumber playerIndex,
@@ -301,6 +316,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesBuildSettlement(
 			PlayerNumber playerIndex,
@@ -313,6 +329,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
 			throws CatanException, ServerException {
@@ -323,6 +340,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesOfferTrade(ResourceInvoice invoice) throws CatanException,
 			ServerException {
@@ -333,6 +351,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
 			throws CatanException, ServerException {
@@ -343,6 +362,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesMaritimeTrade(
 			PlayerNumber playerIndex,
@@ -356,6 +376,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
