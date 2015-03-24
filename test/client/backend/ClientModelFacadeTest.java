@@ -2,6 +2,11 @@ package client.backend;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -23,83 +28,31 @@ public class ClientModelFacadeTest {
 	private ClientModelFacade facade;
 	TransportModel model;
 	TransportPlayer player;
-
+	private String cleanFile = "testFiles/cleanGame.txt";
+	
+	private TransportModel loadCleanModel() throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(new File(this.cleanFile)));
+		StringBuilder builder = new StringBuilder();
+		
+		while (reader.ready()) {
+			builder.append(reader.readLine());
+		}
+		
+		reader.close();
+		TransportModel model = (TransportModel) CatanSerializer.getInstance().deserializeObject(builder.toString(), TransportModel.class);
+		
+		return model; 
+				
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		this.facade = ClientModelFacade.getInstance();
-
-		PlayerInfo clientPlayer = new PlayerInfo();
+		this.model = this.loadCleanModel();
+		
+		this.player = this.model.players[0];
+		PlayerInfo clientPlayer = new PlayerInfo(this.player.playerID, this.player.playerIndex, this.player.name, this.player.color);
 		this.facade.setClientPlayer(clientPlayer);
-
-		this.model = new TransportModel();
-		this.player = new TransportPlayer();
-
-		this.model.deck = new TransportDeck();
-		this.model.bank = new TransportBank();
-		this.model.players = new TransportPlayer[1];
-		this.model.map = new TransportMap();
-		this.model.turnTracker = new TransportTurnTracker();
-
-		this.model.chat = new TransportChat();
-		this.model.chat.lines = new TransportLine[1];
-		this.model.chat.lines[0] = new TransportLine();
-		this.model.chat.lines[0].message = "Test message.";
-		this.model.chat.lines[0].source = "Billy Joel";
-
-		this.model.log = new TransportLog();
-		this.model.log.lines = new TransportLine[1];
-		this.model.log.lines[0] = new TransportLine();
-		this.model.log.lines[0].message = "Luke, I am your baby-daddy.";
-		this.model.log.lines[0].source = "Darth Vader";
-
-		this.model.turnTracker.status = CatanState.PLAYING;
-		this.model.turnTracker.currentTurn = PlayerNumber.ONE;
-
-		this.model.deck.yearOfPlenty = 1;
-		this.model.deck.monopoly = 1;
-		this.model.deck.soldier = 13;
-		this.model.deck.roadBuilding = 1;
-		this.model.deck.monument = 4;
-
-		this.model.bank.brick = 23;
-		this.model.bank.ore = 21;
-		this.model.bank.sheep = 23;
-		this.model.bank.wheat = 21;
-		this.model.bank.wood = 23;
-
-		this.player.resources = new TransportResources();
-		this.player.oldDevCards = new TransportOldDevCards();
-		this.player.newDevCards = new TransportNewDevCards();
-		this.player.playedDevCard = false;
-
-		this.player.resources.brick = 2;
-		this.player.resources.ore = 4;
-		this.player.resources.sheep = 2;
-		this.player.resources.wheat = 4;
-		this.player.resources.wood = 2;
-
-		this.player.oldDevCards.yearOfPlenty = 1;
-		this.player.oldDevCards.monopoly = 1;
-		this.player.oldDevCards.soldier = 1;
-		this.player.oldDevCards.roadBuilding = 1;
-		this.player.oldDevCards.monument = 1;
-
-		this.player.roads = 15;
-		this.player.settlements = 5;
-		this.player.cities = 4;
-		this.player.playerIndex = PlayerNumber.ONE;
-		this.player.color = CatanColor.BLUE;
-		this.player.name = "FirstPlayer";
-		this.player.playerID = 0;
-
-		this.model.players[0] = this.player;
-
-		this.model.map.hexes = new ArrayList<TransportHex>();
-		this.model.map.roads = new ArrayList<TransportRoad>();
-		this.model.map.cities = new ArrayList<TransportCity>();
-		this.model.map.settlements = new ArrayList<TransportSettlement>();
-		this.model.map.ports = new ArrayList<TransportPort>();
-		this.model.map.robber = new TransportRobber();
 
 		try {
 			this.facade.initializeModel(this.model);
@@ -185,27 +138,21 @@ public class ClientModelFacadeTest {
 
 	@Test
 	public void testCanMaritimeTrade() throws CatanException {
-		PlayerNumber one = PlayerNumber.ONE;
-		TransportPort port = new TransportPort();
-		port.direction = EdgeDirection.NorthEast;
-		port.location = new TransportHexLocation();
-		port.location.x = 3;
-		port.location.y = 3;
-		port.ratio = 3;
-		port.resource = ResourceType.ALL;
-		this.model.map.ports.add(port);
-		TransportSettlement TS = new TransportSettlement();
-		TS.location = new TransportVertexLocation();
-		TS.location.x = 3;
-		TS.location.y = 3;
-		TS.location.direction = VertexDirection.East;
-		TS.owner = PlayerNumber.ONE;
-		this.model.map.settlements.add(TS);
+		PlayerNumber player = PlayerNumber.ONE;
+		this.model.turnTracker.status = CatanState.PLAYING;
+		this.model.players[0].resources.ore = 3;
+		TransportSettlement newSettlement = new TransportSettlement();
+		newSettlement.location = new TransportVertexLocation();
+		newSettlement.location.x = 1;
+		newSettlement.location.y = 1;
+		newSettlement.location.direction = VertexDirection.East;
+		newSettlement.owner = PlayerNumber.ONE;
+		this.model.map.settlements.add(newSettlement);
 		this.facade.initializeModel(this.model);
-		ResourceType giving = ResourceType.SHEEP;
-		//Cannot trade
-		assertFalse(this.facade.canMaritimeTrade(one, giving));
-		assertTrue(this.facade.canMaritimeTrade(one, ResourceType.ORE));
+		// Should not work
+		assertFalse(this.facade.canMaritimeTrade(player, ResourceType.SHEEP));
+		// Should work
+		assertTrue(this.facade.canMaritimeTrade(player, ResourceType.ORE));
 	}
 
 	@Test
@@ -225,44 +172,47 @@ public class ClientModelFacadeTest {
 
 	@Test
 	public void testCanPlayYearOfPlenty() throws CatanException {
-		// 1. Test doesn't have a card
+		this.model.turnTracker.currentTurn = PlayerNumber.ONE;
+		this.model.turnTracker.status = CatanState.PLAYING;
+		
+		/*
+		 * 1. Test doesn't have a card
+		 */
 		this.model.players[0].oldDevCards.yearOfPlenty = 0;
 		this.model.players[0].newDevCards.yearOfPlenty = 1;
 		this.facade.initializeModel(this.model);
-		/*
-		 * Should not pass
-		 */
+		//Should not pass
 		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
 				ResourceType.WOOD));
 
-		// 2. Test has a card
+		/*
+		 * 2. Test has a card
+		 */
 		this.model.players[0].oldDevCards.yearOfPlenty = 1;
 		this.model.players[0].newDevCards.yearOfPlenty = 0;
 		this.facade.initializeModel(this.model);
-		/*
-		 * Should pass
-		 */
+		// Should pass
 		assertTrue(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
 				ResourceType.WOOD));
 
-		// 3. Test has a card but player has already played another dev card
+		/*
+		 * 3. Test has a card but player has already played another dev card
+		 */
 		this.model.players[0].oldDevCards.yearOfPlenty = 1;
 		this.model.players[0].newDevCards.yearOfPlenty = 0;
 		this.model.players[0].playedDevCard = true;
 		this.facade.initializeModel(this.model);
-		/*
-		 * Should not pass
-		 */
+		//Should not pass
 		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
 				ResourceType.WOOD));
-
-		// 4. Test bank doesn't have resources
+		
+		/*
+		 * 4. Test bank doesn't have resources
+		 */
 		this.model.bank.wood = 0;
 		this.model.players[0].playedDevCard = false;
 		this.facade.initializeModel(this.model);
-		/*
-		 * Should not pass
-		 */
+		//Should not pass
 		assertFalse(this.facade.canPlayYearOfPlenty(PlayerNumber.ONE, ResourceType.BRICK,
 				ResourceType.WOOD));
 
