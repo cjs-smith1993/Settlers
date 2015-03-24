@@ -5,7 +5,7 @@ import shared.definitions.ResourceType;
 
 public class DTOMovesMaritimeTrade {
 	public String type = "maritimeTrade";
-	public PlayerNumber playerIndex;
+	public int playerIndex;
 	public int ratio;
 	public ResourceType inputResource;
 	public ResourceType outputResource;
@@ -16,7 +16,7 @@ public class DTOMovesMaritimeTrade {
 			ResourceType inputResource,
 			ResourceType outputResource) {
 
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.ratio = ratio;
 		this.inputResource = inputResource;
 		this.outputResource = outputResource;

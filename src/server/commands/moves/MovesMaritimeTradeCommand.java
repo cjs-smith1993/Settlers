@@ -27,11 +27,11 @@ public class MovesMaritimeTradeCommand extends AbstractMovesCommand {
 		DTOMovesMaritimeTrade dto = (DTOMovesMaritimeTrade) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesMaritimeTrade.class);
 
-		if (dto.playerIndex == null || dto.inputResource == null || dto.outputResource == null) {
+		if (dto.inputResource == null || dto.outputResource == null) {
 			throw new JsonParseException("JSON parse error");
 		}
 
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		this.ratio = dto.ratio;
 		this.inputResource = dto.inputResource;
 		this.outputResource = dto.outputResource;

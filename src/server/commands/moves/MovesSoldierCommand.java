@@ -1,7 +1,5 @@
 package server.commands.moves;
 
-import com.google.gson.JsonParseException;
-
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.core.CortexFactory;
@@ -26,11 +24,8 @@ public class MovesSoldierCommand extends AbstractMovesCommand {
 		DTOMovesSoldier dto = (DTOMovesSoldier) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesSoldier.class);
 
-		if (dto.playerIndex == null || dto.victimIndex == null) {
-			throw new JsonParseException("JSON parse error");
-		}
-
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
+		this.victimIndex = PlayerNumber.getPlayerNumber(dto.victimIndex);
 		this.location = new HexLocation(dto.location.getX(), dto.location.getY());
 	}
 

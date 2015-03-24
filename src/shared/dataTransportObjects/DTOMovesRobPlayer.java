@@ -4,8 +4,8 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesRobPlayer {
 	public String type = "robPlayer";
-	public PlayerNumber playerIndex;
-	public PlayerNumber victimIndex;
+	public int playerIndex;
+	public int victimIndex;
 	public DTOHexLocation location;
 
 	public DTOMovesRobPlayer(
@@ -14,8 +14,8 @@ public class DTOMovesRobPlayer {
 			int x,
 			int y) {
 
-		this.playerIndex = playerIndex;
-		this.victimIndex = victimIndex;
+		this.playerIndex = playerIndex.getInteger();
+		this.victimIndex = victimIndex.getInteger();
 		this.location = new DTOHexLocation(x, y);
 	}
 }

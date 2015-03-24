@@ -4,7 +4,7 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesDiscardCards {
 	public String type = "discardCards";
-	public PlayerNumber playerIndex;
+	public int playerIndex;
 	public DTOCards discardedCards;
 
 	public DTOMovesDiscardCards(
@@ -15,7 +15,7 @@ public class DTOMovesDiscardCards {
 			int wheat,
 			int wood) {
 
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.discardedCards = new DTOCards(brick, ore, sheep, wheat, wood);
 	}
 }

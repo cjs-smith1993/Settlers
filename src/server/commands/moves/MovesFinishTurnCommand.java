@@ -1,7 +1,5 @@
 package server.commands.moves;
 
-import com.google.gson.JsonParseException;
-
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.core.CortexFactory;
@@ -23,11 +21,7 @@ public class MovesFinishTurnCommand extends AbstractMovesCommand {
 		DTOMovesFinishTurn dto = (DTOMovesFinishTurn) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesFinishTurn.class);
 
-		if (dto.playerIndex == null) {
-			throw new JsonParseException("JSON parse error");
-		}
-
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 	}
 
 	/**

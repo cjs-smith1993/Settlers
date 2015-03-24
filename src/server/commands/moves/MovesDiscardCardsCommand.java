@@ -3,8 +3,6 @@ package server.commands.moves;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.JsonParseException;
-
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.core.CortexFactory;
@@ -29,11 +27,7 @@ public class MovesDiscardCardsCommand extends AbstractMovesCommand {
 		DTOMovesDiscardCards dto = (DTOMovesDiscardCards) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesDiscardCards.class);
 
-		if (dto.playerIndex == null) {
-			throw new JsonParseException("JSON parse error");
-		}
-
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		DTOCards cards = dto.discardedCards;
 		this.discardedCards = new HashMap<ResourceType, Integer>();
 		this.discardedCards.put(ResourceType.BRICK, cards.brick);

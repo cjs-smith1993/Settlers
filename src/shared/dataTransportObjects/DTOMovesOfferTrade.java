@@ -5,19 +5,19 @@ import shared.model.ResourceInvoice;
 
 public class DTOMovesOfferTrade {
 	public String type = "offerTrade";
-	public PlayerNumber playerIndex;
+	public int playerIndex;
 	public DTOOffer offer;
-	public PlayerNumber receiver;
+	public int receiver;
 
 	public DTOMovesOfferTrade(ResourceInvoice invoice) {
-		this.playerIndex = invoice.getSourcePlayer();
+		this.playerIndex = invoice.getSourcePlayer().getInteger();
 		this.offer = new DTOOffer(
 				invoice.getBrick(),
 				invoice.getOre(),
 				invoice.getSheep(),
 				invoice.getWheat(),
 				invoice.getWood());
-		this.receiver = invoice.getDestinationPlayer();
+		this.receiver = invoice.getDestinationPlayer().getInteger();
 	}
 
 	public DTOMovesOfferTrade(
@@ -29,8 +29,8 @@ public class DTOMovesOfferTrade {
 			int wood,
 			PlayerNumber receiver) {
 
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.offer = new DTOOffer(brick, ore, sheep, wheat, wood);
-		this.receiver = receiver;
+		this.receiver = receiver.getInteger();
 	}
 }

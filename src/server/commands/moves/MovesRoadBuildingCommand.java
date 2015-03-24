@@ -28,11 +28,11 @@ public class MovesRoadBuildingCommand extends AbstractMovesCommand {
 		DTOMovesRoadBuilding dto = (DTOMovesRoadBuilding) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesRoadBuilding.class);
 
-		if (dto.playerIndex == null || dto.spot1.direction == null || dto.spot2.direction == null) {
+		if (dto.spot1.direction == null || dto.spot2.direction == null) {
 			throw new JsonParseException("JSON parse error");
 		}
 
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		HexLocation hex1 = new HexLocation(dto.spot1.x, dto.spot1.y);
 		EdgeDirection dir1 = dto.spot1.direction;
 		this.edge1 = new EdgeLocation(hex1, dir1);
