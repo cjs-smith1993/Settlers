@@ -88,8 +88,8 @@ public class CentralCortex implements ICortex {
 	@Override
 	public UserCertificate userRegister(String username, String password) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		UserCertificate cert = new UserCertificate(HRDepartment.registerUser(username, password),username,password);
+		return cert;
 	}
 
 	/**
