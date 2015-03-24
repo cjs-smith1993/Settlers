@@ -22,7 +22,7 @@ public class GameManager {
 	private static GameManager instance;
 	private int nextGame;
 
-	private GameManager() {
+	protected GameManager() {
 		this.games = new HashMap<Integer, ServerModelFacade>();
 		this.gamesInfo = new ArrayList<DTOGame>();
 		this.nextGame = 0;

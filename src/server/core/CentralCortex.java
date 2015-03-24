@@ -9,6 +9,7 @@ import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
+import shared.definitions.ServerExceptionType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -28,8 +29,13 @@ import com.google.gson.JsonObject;
 public class CentralCortex implements ICortex {
 
 	private static CentralCortex instance;
+	private GameManager gameWarden;
+	private UserManager HRDepartment;
 
 	private CentralCortex() {
+		
+		gameWarden = new GameManager();
+		HRDepartment = new UserManager();
 
 	}
 
@@ -66,8 +72,14 @@ public class CentralCortex implements ICortex {
 	@Override
 	public UserCertificate userLogin(String username, String password) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		UserCertificate cert;
+		int id = HRDepartment.getUserId(username, password);
+		if (id != -1) {
+			cert = new UserCertificate(id, username, password);
+		} else {
+			throw new ServerException(ServerExceptionType.INVALID_OPERATION, "The username and password did not match");
+		}
+		return cert;
 	}
 
 	/**
@@ -76,8 +88,8 @@ public class CentralCortex implements ICortex {
 	@Override
 	public UserCertificate userRegister(String username, String password) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		UserCertificate cert = new UserCertificate(HRDepartment.registerUser(username, password),username,password);
+		return cert;
 	}
 
 	/**

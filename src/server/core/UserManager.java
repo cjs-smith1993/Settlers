@@ -15,7 +15,7 @@ public class UserManager {
 	private static UserManager instance;
 	private int playerIDCount = 0;
 
-	private UserManager() {
+	protected UserManager() {
 		users = new ArrayList<ServerUser>();
 	}
 
@@ -49,10 +49,11 @@ public class UserManager {
 	 * @throws CatanException
 	 *             if a user cannot be created with the desired properties
 	 */
-	public void registerUser(String username, String password) throws CatanException {
+	public int registerUser(String username, String password) throws CatanException {
 		if (this.canRegisterUser(username, password)) {
 			users.add(new ServerUser(new ModelUser(username, playerIDCount), password));
 			playerIDCount++;
+			return playerIDCount-1;
 		}
 		else {
 			String message = "A user with the desired username already exists";
@@ -86,7 +87,7 @@ public class UserManager {
 	public boolean authenticateUser(int id, String username, String password) {
 		for(ServerUser user : users) {
 			if (user.getModelUser().getName().equals(username) 
-					&& user.getModelUser().getName().equals(password)
+					&& user.getPassword().equals(password)
 					&& user.getModelUser().getUserId() == id) {
 				return true;
 			}
@@ -115,5 +116,16 @@ public class UserManager {
 		}
 		
 		return false;
+	}
+	
+	public int getUserId(String username, String password) {
+		for(ServerUser user : users) {
+			if (user.getModelUser().getName().equals(username) 
+					&& user.getPassword().equals(password)) {
+				return user.getModelUser().getUserId();
+			}
+			
+		}
+		return -1;
 	}
 }
