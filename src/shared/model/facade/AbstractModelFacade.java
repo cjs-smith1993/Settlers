@@ -1,7 +1,11 @@
 package shared.model.facade;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
+import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanState;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
@@ -14,6 +18,7 @@ import shared.model.Board;
 import shared.model.Broker;
 import shared.model.CatanException;
 import shared.model.Game;
+import shared.model.Player;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
 import shared.model.Scoreboard;
@@ -429,4 +434,35 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 		return false;
 	}
 
+	public List<PlayerInfo> getPlayers() {
+		Map<PlayerNumber, Player> fullPlayers = this.game.getPlayers();
+		List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
+
+		for (Player eachPlayer : fullPlayers.values()) {
+			PlayerInfo info = new PlayerInfo(eachPlayer.getUser().getUserId(),
+					eachPlayer.getNumber(),
+					eachPlayer.getUser().getName(),
+					eachPlayer.getColor());
+			playerInfos.add(info);
+		}
+
+		return playerInfos;
+	}
+	
+	public String getNameForPlayerNumber(PlayerNumber player) {
+		String playerName = null;
+		List<PlayerInfo> players = this.getPlayers();
+
+		if (player == PlayerNumber.BANK) {
+			return null;
+		}
+
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getPlayerIndex() == player) {
+				playerName = players.get(i).getName();
+			}
+		}
+
+		return playerName;
+	}
 }
