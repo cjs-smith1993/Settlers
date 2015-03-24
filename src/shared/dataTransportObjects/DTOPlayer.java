@@ -1,7 +1,5 @@
 package shared.dataTransportObjects;
 
-import com.google.gson.JsonParseException;
-
 import shared.definitions.CatanColor;
 
 public class DTOPlayer {
@@ -16,10 +14,6 @@ public class DTOPlayer {
 	}
 
 	public DTOPlayer(CatanColor color, String name, int id) {
-		if (color == null) {
-			throw new JsonParseException("JSON parse error");
-		}
-
 		this.color = color;
 		this.name = name;
 		this.id = id;
