@@ -109,7 +109,7 @@ public class MockCortex implements ICortex {
 			String name) throws CatanException, ServerException {
 
 		ArrayList<DTOPlayer> players = new ArrayList<DTOPlayer>();
-		return new DTOGame(-1, "mock game", players);
+		return new DTOGame(-1, "TestGame", players);
 	}
 
 	/**
