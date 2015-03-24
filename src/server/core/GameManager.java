@@ -80,4 +80,10 @@ public class GameManager {
 		return this.games.get(gameId) != null;
 	}
 
+	public ServerModelFacade getFacadeById (int gameId) {
+		if(this.games.get(gameId) != null) {
+			return this.games.get(gameId);
+		}
+		return null;
+	}
 }
