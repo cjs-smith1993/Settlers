@@ -97,8 +97,7 @@ public class CentralCortex implements ICortex {
 	 */
 	@Override
 	public Collection<DTOGame> gamesList() throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return gameWarden.getGames();
 	}
 
 	/**
@@ -110,8 +109,7 @@ public class CentralCortex implements ICortex {
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return gameWarden.createGame(randomTiles, randomNumbers, randomPorts, name);
 	}
 
 	/**
@@ -120,7 +118,8 @@ public class CentralCortex implements ICortex {
 	@Override
 	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
+		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
+		
 		return null;
 	}
 
