@@ -1,4 +1,4 @@
-package client.backend;
+package shared.model.facade;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import client.backend.CatanSerializer;
 import client.backend.ClientModelFacade;
 import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanColor;
@@ -24,7 +25,7 @@ import shared.locations.VertexDirection;
 import shared.model.CatanException;
 import shared.transport.*;
 
-public class ClientModelFacadeTest {
+public class AbstractModelFacadeTest {
 	private ClientModelFacade facade;
 	TransportModel model;
 	TransportPlayer player;

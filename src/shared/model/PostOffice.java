@@ -44,6 +44,18 @@ public class PostOffice {
 		return transportLog;
 	}
 	
+	public void addChatMessage(Message newMessage) {
+		this.addMessage(newMessage, chat);
+	}
+	
+	public void addLogMessage(Message newMessage) {
+		this.addMessage(newMessage, log);
+	}
+	
+	private void addMessage(Message newMessage, ArrayList<Message> messages) {
+		messages.add(newMessage);
+	}
+	
 	private TransportLine[] getTransportLines(ArrayList<Message> messages) {
 		ArrayList<TransportLine> lines = new ArrayList<>();
 		
