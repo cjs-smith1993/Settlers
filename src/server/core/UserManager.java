@@ -68,14 +68,7 @@ public class UserManager {
 	 * @return isAuthenticated
 	 */
 	public boolean authenticateUser(String username, String password) {
-		for(ServerUser user : users) {
-			if (user.getModelUser().getName().equals(username) 
-					&& user.getPassword().equals(password)) {
-				return true;
-			}
-		}
-		
-		return false;
+		return this.getUserId(username, password) != -1;
 	}
 
 	/**

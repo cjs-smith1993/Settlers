@@ -19,6 +19,7 @@ public class Player {
 	private ArrayList<Settlement> availableSettlements;
 	private ArrayList<City> availableCities;
 	private boolean hasPlayedDevCard;
+	private boolean hasDicarded;
 	
 	public final static int MAX_ROADS = 15;
 	public final static int MAX_SETTLEMENTS = 5;
@@ -45,6 +46,8 @@ public class Player {
 		
 		this.setHasPlayedDevCard(player.playedDevCard);
 	}
+	
+	
 	
 	private ArrayList<Road> initializeRoads(int numRoads) {
 		ArrayList<Road> roads = new ArrayList<Road>();
