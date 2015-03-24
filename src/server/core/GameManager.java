@@ -5,27 +5,26 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import client.frontend.data.GameInfo;
-import client.frontend.data.PlayerInfo;
-import shared.definitions.CatanColor;
+
+import shared.dataTransportObjects.DTOGame;
+import shared.dataTransportObjects.DTOPlayer;
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
-import shared.model.Game;
-import shared.model.ModelUser;
+
 
 /**
  * Manages the collection of all games
  */
 public class GameManager {
 
-	private Map<Integer, Game> games;
-	private Collection<GameInfo> gamesInfo;
+	private Map<Integer, ServerModelFacade> games;
+	private ArrayList<DTOGame> gamesInfo;
 	private static GameManager instance;
 	private int nextGame;
 
 	private GameManager() {
-		this.games = new HashMap<Integer, Game>();
-		this.gamesInfo = new ArrayList();
+		this.games = new HashMap<Integer, ServerModelFacade>();
+		this.gamesInfo = new ArrayList<DTOGame>();
 		this.nextGame = 0;
 	}
 
@@ -41,7 +40,7 @@ public class GameManager {
 	 *
 	 * @return a collection of all games
 	 */
-	public Collection<GameInfo> getGames() {
+	public Collection<DTOGame> getGames() {
 		return this.gamesInfo;
 	}
 
@@ -59,16 +58,22 @@ public class GameManager {
 	 * @throws CatanException
 	 *             if the game name is already taken
 	 */
-	public void createGame(
+	public DTOGame createGame(
 			boolean randomTiles,
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException {
-		GameInfo info = new GameInfo();
-		info.setTitle(name);
-		info.setId(this.nextGame++);
-		//Game tempGame = new Game(randomTiles, randomNumbers, randomPorts);
-		//games.put(info.getId(), tempGame);
+		if(name.equals(null)) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Game Not created - the name is null");
+		}
+		int gameid = nextGame++;
+		ArrayList<DTOPlayer> player_list = new ArrayList<DTOPlayer>();
+		DTOGame info = new DTOGame(gameid, name, player_list);
+		ServerModelFacade smf = new ServerModelFacade(randomTiles, randomNumbers, randomPorts);
+		games.put(info.id, smf);
+		gamesInfo.add(info);
+		return info;
+
 	}
 
 	public boolean authenticateGame(int gameId) {

@@ -22,12 +22,11 @@ public class PlayerHoldings implements Hand {
 	private Collection<DevelopmentCard> playedKnights;
 	private Collection<DevelopmentCard> playedMonuments;
 	private Collection<Harbor> harbors;
+	
 	/**
-	 * Default constructor for the PlayerHolings class.
-	 * 
+	 * Default constructor for the PlayerHoldings class.
 	 */
-	public PlayerHoldings()
-	{
+	public PlayerHoldings() {
 		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
 		for(ResourceType type: ResourceType.values()){
 			resourceCards.put(type, new ArrayList<ResourceCard>());
@@ -41,9 +40,9 @@ public class PlayerHoldings implements Hand {
 		harbors = new ArrayList<Harbor>();
 		
 	}
+	
 	public PlayerHoldings(TransportPlayer player,
-							Collection<Harbor> myHarbors)
-	{
+							Collection<Harbor> myHarbors) {
 		
 		resourceCards = new HashMap<ResourceType,Collection<ResourceCard>>();
 		for(ResourceType type: ResourceType.values()){
@@ -90,10 +89,86 @@ public class PlayerHoldings implements Hand {
 		developmentCards.get(DevCardType.YEAR_OF_PLENTY).clear();
 		developmentCards.get(DevCardType.YEAR_OF_PLENTY).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, playableDev.yearOfPlenty,true));
 		developmentCards.get(DevCardType.YEAR_OF_PLENTY).addAll(makeDevTypePile(DevCardType.YEAR_OF_PLENTY, blockedDev.yearOfPlenty,false));
-		
 	}
-	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable)
-	{
+	
+	/**
+	 * Extracts the TransportPlayer .soldiers and .monuments information from PlayerHoldings into the TransportPlayer.
+	 * @param player
+	 * @return TransportPlayer
+	 */
+	public TransportPlayer getTransportPlayer(TransportPlayer player) {
+		player.soldiers = playedKnights.size();
+		player.monuments = playedMonuments.size();
+		
+		return player;
+	}
+	
+	/**
+	 * Extract information to the TransportResources container for serialization.
+	 * @return TransportResources
+	 */
+	public TransportResources getTransportResources() {
+		TransportResources resources = new TransportResources();
+		
+		resources.brick = resourceCards.get(ResourceType.BRICK).size();
+		resources.ore = resourceCards.get(ResourceType.ORE).size();
+		resources.sheep = resourceCards.get(ResourceType.SHEEP).size();
+		resources.wheat = resourceCards.get(ResourceType.WHEAT).size();
+		resources.wood = resourceCards.get(ResourceType.WOOD).size();
+		
+		return resources;
+	}
+	
+	/**
+	 * Extract information to the TransportOldDevCards container for serialization.
+	 * @return TransportOldDevCards
+	 */
+	public TransportOldDevCards getTransportOldDevCards() {
+		TransportOldDevCards oldDevCards = new TransportOldDevCards();
+		
+		oldDevCards.monopoly = getDevCardCount(developmentCards.get(DevCardType.MONOPOLY), true);
+		oldDevCards.monument = getDevCardCount(developmentCards.get(DevCardType.MONUMENT), true);
+		oldDevCards.roadBuilding = getDevCardCount(developmentCards.get(DevCardType.ROAD_BUILD), true);
+		oldDevCards.soldier = getDevCardCount(developmentCards.get(DevCardType.SOLDIER), true);
+		oldDevCards.yearOfPlenty = getDevCardCount(developmentCards.get(DevCardType.YEAR_OF_PLENTY), true);
+		
+		return oldDevCards;
+	}
+	
+	/**
+	 * Extract information to the TransportNewDevCards container for serialization.
+	 * @return TransportNewDevCards
+	 */
+	public TransportNewDevCards getTransportNewDevCards() {
+		TransportNewDevCards newDevCards = new TransportNewDevCards();
+		
+		newDevCards.monopoly = getDevCardCount(developmentCards.get(DevCardType.MONOPOLY), false);
+		newDevCards.monument = getDevCardCount(developmentCards.get(DevCardType.MONUMENT), false);
+		newDevCards.roadBuilding = getDevCardCount(developmentCards.get(DevCardType.ROAD_BUILD), false);
+		newDevCards.soldier = getDevCardCount(developmentCards.get(DevCardType.SOLDIER), false);
+		newDevCards.yearOfPlenty = getDevCardCount(developmentCards.get(DevCardType.YEAR_OF_PLENTY), false);
+		
+		return newDevCards;
+	}
+	
+	/**
+	 * Count number of playable (old) development cards in the deck.
+	 * @param developmentCards
+	 * @return playableDevelopmentCardCount
+	 */
+	public int getDevCardCount(Collection<DevelopmentCard> developmentCards, boolean isPlayable) {
+		int cardCount = 0;
+		
+		for (DevelopmentCard developmentCard : developmentCards) {
+			if (developmentCard.isPlayable() == isPlayable) {
+				cardCount++;
+			}
+		}
+		
+		return cardCount;
+	}
+	
+	private Collection<DevelopmentCard> makeDevTypePile(DevCardType type, int count, boolean playable) {
 		Collection<DevelopmentCard> newPile = new ArrayList<DevelopmentCard>();
 		for(int i = 0; i < count; ++i)
 		{
@@ -101,8 +176,8 @@ public class PlayerHoldings implements Hand {
 		}
 		return newPile;
 	}
-	private void makeResourceDeck(ResourceType type, int count)
-	{
+	
+	private void makeResourceDeck(ResourceType type, int count) {
 		Collection<ResourceCard> newPile = new ArrayList<ResourceCard>();
 		for(int i = 0; i < count; ++i)
 		{
@@ -112,7 +187,8 @@ public class PlayerHoldings implements Hand {
 		resourceCards.get(type).addAll(newPile);
 		newPile.clear();
 	}
-	//how is connor telling that the house is on a harbor
+	
+	// How is connor telling that the house is on a harbor
 	/**
 	 * Returns the number of development cards of the desired type in the
 	 * player's hand
@@ -159,8 +235,7 @@ public class PlayerHoldings implements Hand {
 	 * @param count
 	 * @return this will return a collection of ResourceCard objects to be added to another PlayerHoldings
 	 */
-	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count)
-	{
+	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count) {
 		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
         
         Collection<ResourceCard> cards = this.resourceCards.get(type);
@@ -189,7 +264,7 @@ public class PlayerHoldings implements Hand {
 		return added;
 	}
 	
-	//do that same for dev cards as for resource cards.
+	// Do that same for dev cards as for resource cards.
 	/**
 	 * This remove the number of development cards specified by count in a collection object
 	 * @param type the type of dev card 
@@ -210,14 +285,13 @@ public class PlayerHoldings implements Hand {
         	}
         return removed;
 	}
+	
 	/**
 	 * this will add a collection of cards to a players holding
 	 * @param type the type of the development card added
 	 * @param newCards a collection of cards to add
 	 */
-	
-	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards)
-	{
+	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards) {
 		//i need to deal with the fact that i can and need to store monuments and soldier but not the others
 		
 		boolean added = true;
@@ -244,7 +318,7 @@ public class PlayerHoldings implements Hand {
 		}
 	}
 	
-	//need the harbor stuff
+	// Need the harbor stuff
 	public Collection<DevelopmentCard> getPlayedKnights() {
 		return playedKnights;
 	}
@@ -286,10 +360,10 @@ public class PlayerHoldings implements Hand {
 			Map<DevCardType, Collection<DevelopmentCard>> developmentCards) {
 		this.developmentCards = developmentCards;
 	}
+	
 	public void addDevelopmentCard(DevelopmentCard devCard) {
 		DevCardType type = devCard.getType();
 		developmentCards.get(type).add(devCard);
-		
 	}
 		
 }

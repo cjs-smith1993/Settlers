@@ -63,13 +63,22 @@ public class CookieConverter {
 	public static UserCertificate parseUserCookie(String cookieString) {
 		UserCertificate userCert = null;
 
+		if (cookieString == null) {
+			return userCert;
+		}
+
 		try {
-			String certString = cookieString.replaceAll("catan.user=", "").replaceAll(";Path=/;",
-					"");
-			String decodedCertString = URLDecoder.decode(certString, "UTF-8");
-			CatanSerializer serializer = CatanSerializer.getInstance();
-			userCert = (UserCertificate) serializer.deserializeObject(decodedCertString,
-					UserCertificate.class);
+			String[] encodedCookies = cookieString.replaceAll(" ", "").split(";");
+			for (String encodedCookie : encodedCookies) {
+				if (encodedCookie.startsWith("catan.user=")) {
+					encodedCookie = encodedCookie.replaceAll("catan.user=", "");
+					String decodedCookie = URLDecoder.decode(encodedCookie, "UTF-8");
+					CatanSerializer serializer = CatanSerializer.getInstance();
+					userCert = (UserCertificate) serializer.deserializeObject(decodedCookie,
+							UserCertificate.class);
+					break;
+				}
+			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -87,13 +96,22 @@ public class CookieConverter {
 	public static GameCertificate parseGameCookie(String cookieString) {
 		GameCertificate gameCert = null;
 
+		if (cookieString == null) {
+			return gameCert;
+		}
+
 		try {
-			String certString = cookieString.replaceAll("catan.game=", "").replaceAll(";Path=/;",
-					"");
-			String decodedCertString = URLDecoder.decode(certString, "UTF-8");
-			CatanSerializer serializer = CatanSerializer.getInstance();
-			gameCert = (GameCertificate) serializer.deserializeObject(decodedCertString,
-					GameCertificate.class);
+			String[] encodedCookies = cookieString.replaceAll(" ", "").split(";");
+			for (String encodedCookie : encodedCookies) {
+				if (encodedCookie.startsWith("catan.user=")) {
+					encodedCookie = encodedCookie.replaceAll("catan.user=", "");
+					String decodedCookie = URLDecoder.decode(encodedCookie, "UTF-8");
+					CatanSerializer serializer = CatanSerializer.getInstance();
+					gameCert = (GameCertificate) serializer.deserializeObject(decodedCookie,
+							GameCertificate.class);
+					break;
+				}
+			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

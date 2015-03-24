@@ -5,7 +5,7 @@ import shared.locations.VertexDirection;
 
 public class DTOMovesBuildSettlement {
 	public String type = "buildSettlement";
-	public int playerIndex;
+	public PlayerNumber playerIndex;
 	public DTOVertexLocation vertexLocation;
 	public Boolean free = false;
 
@@ -15,7 +15,8 @@ public class DTOMovesBuildSettlement {
 			int y,
 			VertexDirection direction,
 			Boolean free) {
-		this.playerIndex = playerIndex.getInteger();
+
+		this.playerIndex = playerIndex;
 		this.vertexLocation = new DTOVertexLocation(x, y, direction);
 		this.free = free;
 	}

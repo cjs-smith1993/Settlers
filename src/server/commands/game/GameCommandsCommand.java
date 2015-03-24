@@ -1,6 +1,8 @@
 package server.commands.game;
 
+import client.serverCommunication.ServerException;
 import server.commands.CommandResponse;
+import shared.model.CatanException;
 
 /**
  * Game command created when the user attempts to execute a list of commands
@@ -16,7 +18,7 @@ public class GameCommandsCommand extends AbstractGameCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
+	public CommandResponse executeInner() throws CatanException, ServerException {
 		return null;
 	}
 

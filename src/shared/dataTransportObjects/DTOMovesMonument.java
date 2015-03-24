@@ -4,9 +4,9 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesMonument {
 	public String type = "Monument";
-	public int playerIndex;
+	public PlayerNumber playerIndex;
 
 	public DTOMovesMonument(PlayerNumber playerIndex) {
-		this.playerIndex = playerIndex.getInteger();
+		this.playerIndex = playerIndex;
 	}
 }

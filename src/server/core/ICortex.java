@@ -2,6 +2,7 @@ package server.core;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 import com.google.gson.JsonObject;
 
@@ -59,7 +60,8 @@ public interface ICortex {
 	 * @param password
 	 * @return
 	 */
-	public UserCertificate userLogin(String username, String password);
+	public UserCertificate userLogin(String username, String password) throws CatanException,
+			ServerException;
 
 	/**
 	 * Registers a new player with the server and logs them in
@@ -68,7 +70,8 @@ public interface ICortex {
 	 * @param password
 	 * @return
 	 */
-	public UserCertificate userRegister(String username, String password);
+	public UserCertificate userRegister(String username, String password) throws CatanException,
+			ServerException;
 
 	/*
 	 * Games methods
@@ -92,9 +95,11 @@ public interface ICortex {
 	 * @param name
 	 * @return
 	 */
-	public DTOGame gamesCreate(UserCertificate user, boolean randomTiles, boolean randomNumbers,
+	public DTOGame gamesCreate(
+			boolean randomTiles,
+			boolean randomNumbers,
 			boolean randomPorts,
-			String name);
+			String name) throws CatanException, ServerException;
 
 	/**
 	 * If user is authentic, adds the user to the specified game
@@ -104,7 +109,8 @@ public interface ICortex {
 	 * @param color
 	 * @return
 	 */
-	public GameCertificate gamesJoin(UserCertificate user, int gameId, CatanColor color);
+	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
+			ServerException;
 
 	/**
 	 * If user is authentic, saves the appropriate game to the given file
@@ -114,7 +120,7 @@ public interface ICortex {
 	 * @param name
 	 * @return
 	 */
-	public boolean gamesSave(UserCertificate user, int gameId, String name);
+	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException;
 
 	/**
 	 * If user is authentic, loads a previous game from the given file
@@ -123,7 +129,7 @@ public interface ICortex {
 	 * @param name
 	 * @return
 	 */
-	public boolean gamesLoad(UserCertificate user, String name);
+	public boolean gamesLoad(String name) throws CatanException, ServerException;
 
 	/*
 	 * Game methods
@@ -140,21 +146,7 @@ public interface ICortex {
 	 * @throws IOException
 	 * @throws ServerException
 	 */
-	public TransportModel gameModel(UserCertificate user, GameCertificate game, int version)
-			throws IOException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
-
-	/**
-	 * If user and game are authentic, returns the updated model for the
-	 * appropriate game
-	 *
-	 * @param user
-	 * @param game
-	 * @return the model of the corresponding game
-	 * @throws IOException
-	 * @throws ServerException
-	 */
-	public TransportModel gameModel(UserCertificate user, GameCertificate game) throws IOException,
-			ServerException;
+	public TransportModel gameModel(int version) throws CatanException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	/**
 	 * If user and game are authentic, returns the appropriate game to its state
@@ -164,7 +156,7 @@ public interface ICortex {
 	 * @param game
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameReset(UserCertificate user, GameCertificate game);
+	public TransportModel gameReset() throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, returns a list of every command that has
@@ -174,7 +166,7 @@ public interface ICortex {
 	 * @param game
 	 * @return
 	 */
-	public Collection<JsonObject> gameCommands(UserCertificate user, GameCertificate game);
+	public Collection<JsonObject> gameCommands() throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, applies the provided list of commands to
@@ -185,8 +177,8 @@ public interface ICortex {
 	 * @param commandList
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameCommands(UserCertificate user, GameCertificate game,
-			Collection<JsonObject> commandList);
+	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
+			ServerException;
 
 	/*
 	 * Moves methods
@@ -202,11 +194,8 @@ public interface ICortex {
 	 * @param content
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesSendChat(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex,
-			String content);
+	public TransportModel movesSendChat(PlayerNumber playerIndex, String content)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, rolls the dice for the player in the
@@ -218,11 +207,8 @@ public interface ICortex {
 	 * @param number
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesRollNumber(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex,
-			int number);
+	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, robs the victim for the player in the
@@ -236,11 +222,9 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesRobPlayer(
-			UserCertificate user,
-			GameCertificate game,
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location);
+			HexLocation location) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, finishes the player's turn in the
@@ -251,10 +235,8 @@ public interface ICortex {
 	 * @param playerIndex
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesFinishTurn(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex);
+	public TransportModel movesFinishTurn(PlayerNumber playerIndex) throws CatanException,
+			ServerException;
 
 	/**
 	 * If user and game are authentic, buys a development card for the player in
@@ -265,10 +247,8 @@ public interface ICortex {
 	 * @param playerIndex
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesBuyDevCard(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex);
+	public TransportModel movesBuyDevCard(PlayerNumber playerIndex) throws CatanException,
+			ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's year of plenty
@@ -281,12 +261,10 @@ public interface ICortex {
 	 * @param resource2
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesYear_of_Plenty(
-			UserCertificate user,
-			GameCertificate game,
+	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
-			ResourceType resource2);
+			ResourceType resource2) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's road building development
@@ -299,12 +277,10 @@ public interface ICortex {
 	 * @param spot2
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesRoad_Building(
-			UserCertificate user,
-			GameCertificate game,
+	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
-			EdgeLocation spot2);
+			EdgeLocation spot2) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's soldier development card
@@ -318,11 +294,9 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesSoldier(
-			UserCertificate user,
-			GameCertificate game,
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location);
+			HexLocation location) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's monopoly development card
@@ -334,11 +308,8 @@ public interface ICortex {
 	 * @param playerIndex
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesMonopoly(
-			UserCertificate user,
-			GameCertificate game,
-			ResourceType resource,
-			PlayerNumber playerIndex);
+	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's monument development card
@@ -349,10 +320,8 @@ public interface ICortex {
 	 * @param playerIndex
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesMonument(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex);
+	public TransportModel movesMonument(PlayerNumber playerIndex) throws CatanException,
+			ServerException;
 
 	/**
 	 * If user and game are authentic, builds a road for the player in the
@@ -366,11 +335,9 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildRoad(
-			UserCertificate user,
-			GameCertificate game,
 			PlayerNumber playerIndex,
 			EdgeLocation location,
-			boolean free);
+			boolean free) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, builds a settlement for the player in the
@@ -384,11 +351,9 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildSettlement(
-			UserCertificate user,
-			GameCertificate game,
 			PlayerNumber playerIndex,
 			VertexLocation location,
-			boolean free);
+			boolean free) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, builds a city for the player in the
@@ -400,11 +365,8 @@ public interface ICortex {
 	 * @param location
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesBuildCity(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex,
-			VertexLocation location);
+	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, offers a trade between players in the
@@ -415,10 +377,8 @@ public interface ICortex {
 	 * @param invoice
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesOfferTrade(
-			UserCertificate user,
-			GameCertificate game,
-			ResourceInvoice invoice);
+	public TransportModel movesOfferTrade(ResourceInvoice invoice) throws CatanException,
+			ServerException;
 
 	/**
 	 * If user and game are authentic, accepts a trade between players in the
@@ -430,11 +390,8 @@ public interface ICortex {
 	 * @param willAccept
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesAcceptTrade(
-			UserCertificate user,
-			GameCertificate game,
-			PlayerNumber playerIndex,
-			boolean willAccept);
+	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, performs a maritime trade for the player
@@ -449,12 +406,10 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesMaritimeTrade(
-			UserCertificate user,
-			GameCertificate game,
 			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
-			ResourceType outputResource);
+			ResourceType outputResource) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, discards a player's cards in the
@@ -471,13 +426,7 @@ public interface ICortex {
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesDiscardCards(
-			UserCertificate user,
-			GameCertificate game,
 			PlayerNumber playerIndex,
-			int brick,
-			int ore,
-			int sheep,
-			int wheat,
-			int wood);
+			Map<ResourceType, Integer> discardedCards) throws CatanException, ServerException;
 
 }

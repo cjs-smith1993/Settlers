@@ -5,11 +5,11 @@ import shared.locations.VertexDirection;
 
 public class DTOMovesBuildCity {
 	public String type = "buildCity";
-	public int playerIndex;
+	public PlayerNumber playerIndex;
 	public DTOVertexLocation vertexLocation;
 
 	public DTOMovesBuildCity(PlayerNumber playerIndex, int x, int y, VertexDirection direction) {
-		this.playerIndex = playerIndex.getInteger();
+		this.playerIndex = playerIndex;
 		this.vertexLocation = new DTOVertexLocation(x, y, direction);
 	}
 }

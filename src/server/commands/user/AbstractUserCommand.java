@@ -1,20 +1,17 @@
 package server.commands.user;
 
+import client.serverCommunication.ServerException;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.AbstractCommand;
 import server.commands.CommandResponse;
-import server.commands.ICommand;
+import shared.model.CatanException;
 
 /**
  * Represents the notion of executing the appropriate action for a given server
  * endpoint that begins with /user/
  */
-public abstract class AbstractUserCommand implements ICommand {
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract CommandResponse execute();
+public abstract class AbstractUserCommand extends AbstractCommand {
 
 	/**
 	 * {@inheritDoc}
@@ -29,4 +26,10 @@ public abstract class AbstractUserCommand implements ICommand {
 	public boolean authenticateGame(GameCertificate gameCert) {
 		return true;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public abstract CommandResponse executeInner() throws CatanException, ServerException;
+
 }

@@ -14,7 +14,7 @@ import shared.transport.TransportDeck;
  * Represents the bank, which manages the collections of available resource and
  * development cards, as well as played development cards
  */
-public class Bank implements Hand{
+public class Bank implements Hand {
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
 	private Map<DevCardType, Collection<DevelopmentCard>> developmentCards;
 	private Collection<DevelopmentCard> playedCards;
@@ -23,8 +23,7 @@ public class Bank implements Hand{
 	 * Default constructor for the bank will create all the pieces needed
 	 * Not Implemented
 	 */
-	public Bank()
-	{
+	public Bank() {
 		resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
 		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
 		playedCards = new ArrayList<DevelopmentCard>();
@@ -51,8 +50,7 @@ public class Bank implements Hand{
 		
 	}
 	
-	public Bank(TransportDeck devDeck, TransportBank resDeck)
-	{
+	public Bank(TransportDeck devDeck, TransportBank resDeck) {
 		resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
 		developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
 		playedCards = new ArrayList<DevelopmentCard>();
@@ -79,8 +77,8 @@ public class Bank implements Hand{
 				break;
 			}
 		}
-		for(DevCardType type: DevCardType.values())
-		{
+		
+		for(DevCardType type: DevCardType.values()) {
 			switch(type){
 			case SOLDIER:
 				developmentCards.put(type, makeDevelopmentDeck(type, devDeck.soldier));
@@ -104,6 +102,30 @@ public class Bank implements Hand{
 		}
 		//Development cards
 		
+	}
+	
+	public TransportBank getTransportBank() {
+		TransportBank bank = new TransportBank();
+		
+		bank.brick = resourceCards.get(ResourceType.BRICK).size();
+		bank.ore = resourceCards.get(ResourceType.ORE).size();
+		bank.sheep = resourceCards.get(ResourceType.SHEEP).size();
+		bank.wheat = resourceCards.get(ResourceType.WHEAT).size();
+		bank.wood = resourceCards.get(ResourceType.WOOD).size();
+		
+		return bank;
+	}
+	
+	public TransportDeck getTransportDeck() { 
+		TransportDeck deck = new TransportDeck();
+		
+		deck.monopoly = developmentCards.get(DevCardType.MONOPOLY).size();
+		deck.monument = developmentCards.get(DevCardType.MONUMENT).size();
+		deck.roadBuilding = developmentCards.get(DevCardType.ROAD_BUILD).size();
+		deck.soldier = developmentCards.get(DevCardType.SOLDIER).size();
+		deck.yearOfPlenty = developmentCards.get(DevCardType.YEAR_OF_PLENTY).size();
+		
+		return deck;
 	}
 	
 	private Collection<DevelopmentCard> makeDevelopmentDeck(

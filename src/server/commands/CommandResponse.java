@@ -11,6 +11,7 @@ import server.util.StatusCode;
  *
  */
 public class CommandResponse {
+	private static final String SUCCESS_MESSAGE = "Success";
 	private String body;
 	private ContentType contentType;
 	private StatusCode status;
@@ -21,6 +22,10 @@ public class CommandResponse {
 		this.body = body;
 		this.status = status;
 		this.contentType = contentType;
+	}
+
+	public static String getSuccessMessage() {
+		return SUCCESS_MESSAGE;
 	}
 
 	public UserCertificate getUserCert() {
@@ -72,6 +77,13 @@ public class CommandResponse {
 
 	public static CommandResponse getUnauthenticatedGameResponse() {
 		String body = "The catan.game HTTP cookie is missing or invalid. You must join a game before calling this method.";
+		StatusCode status = StatusCode.INVALID_REQUEST;
+		ContentType contentType = ContentType.PLAIN_TEXT;
+		return new CommandResponse(body, status, contentType);
+	}
+
+	public static CommandResponse getMalformedCommand() {
+		String body = "Error - malformed JSON";
 		StatusCode status = StatusCode.INVALID_REQUEST;
 		ContentType contentType = ContentType.PLAIN_TEXT;
 		return new CommandResponse(body, status, contentType);

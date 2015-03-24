@@ -3,6 +3,7 @@ package server.handlers;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ICommand;
+import server.commands.games.GamesJoinCommand;
 import server.factories.GamesCommandFactory;
 import server.util.CookieConverter;
 
@@ -27,14 +28,18 @@ public class GamesHandler extends AbstractHandler {
 	protected CommandResponse processCommand(ICommand command, String cookieString) {
 		CommandResponse response = null;
 
-		UserCertificate userCert = CookieConverter.parseUserCookie(cookieString);
-		boolean authenticatedUser = command.authenticateUser(userCert);
-
-		if (authenticatedUser) {
-			response = command.execute();
+		if (command instanceof GamesJoinCommand) {
+			UserCertificate userCert = CookieConverter.parseUserCookie(cookieString);
+			boolean authenticatedUser = command.authenticateUser(userCert);
+			if (authenticatedUser) {
+				response = command.execute();
+			}
+			else {
+				response = CommandResponse.getUnauthenticatedUserResponse();
+			}
 		}
 		else {
-			response = CommandResponse.getUnauthenticatedUserResponse();
+			response = command.execute();
 		}
 
 		return response;

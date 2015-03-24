@@ -24,36 +24,6 @@ public class Player {
 	public final static int MAX_SETTLEMENTS = 5;
 	public final static int MAX_CITIES = 4;
 	
-	private ArrayList<Road> initializeRoads(int numRoads) {
-		ArrayList<Road> roads = new ArrayList<Road>();
-		
-		for (int i = 0; i < numRoads; i++) {
-			roads.add(new Road(number));
-		}
-		
-		return roads;
-	}
-	
-	private ArrayList<Settlement> initializeSettlements(int numSettlements) {
-		ArrayList<Settlement> settlements = new ArrayList<Settlement>();
-		
-		for (int i = 0; i < numSettlements; i++) {
-			settlements.add(new Settlement(number));
-		}
-		
-		return settlements;
-	}
-	
-	private ArrayList<City> initializeCities(int numCities) {
-		ArrayList<City> cities = new ArrayList<City>();
-		
-		for (int i = 0; i < numCities; i++) {
-			cities.add(new City(number));
-		}
-		
-		return cities;
-	}
-	
 	public Player(ModelUser user, CatanColor color, PlayerNumber number) {
 		this.user = user;
 		this.color = color;
@@ -74,6 +44,54 @@ public class Player {
 		this.availableCities = initializeCities(player.cities);
 		
 		this.setHasPlayedDevCard(player.playedDevCard);
+	}
+	
+	private ArrayList<Road> initializeRoads(int numRoads) {
+		ArrayList<Road> roads = new ArrayList<Road>();
+		
+		for (int i = 0; i < numRoads; i++) {
+			roads.add(new Road(number));
+		}
+		
+		return roads;
+	}
+	
+	/**
+	 * Extracts TransportPlayer 
+	 * @param player
+	 * @return
+	 */
+	public TransportPlayer getTransportPlayer(TransportPlayer player) {
+		player.name = user.getName();
+		player.color = this.color;
+		player.playerID = user.getUserId();
+		player.playerIndex = this.number;
+		player.roads = availableRoads.size();
+		player.settlements = availableSettlements.size();
+		player.cities = availableCities.size();
+		player.playedDevCard = hasPlayedDevCard;
+		
+		return player;
+	}
+	
+	private ArrayList<Settlement> initializeSettlements(int numSettlements) {
+		ArrayList<Settlement> settlements = new ArrayList<Settlement>();
+		
+		for (int i = 0; i < numSettlements; i++) {
+			settlements.add(new Settlement(number));
+		}
+		
+		return settlements;
+	}
+	
+	private ArrayList<City> initializeCities(int numCities) {
+		ArrayList<City> cities = new ArrayList<City>();
+		
+		for (int i = 0; i < numCities; i++) {
+			cities.add(new City(number));
+		}
+		
+		return cities;
 	}
 	
 	public int getNumRoads() {

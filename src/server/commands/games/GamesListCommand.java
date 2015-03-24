@@ -26,28 +26,14 @@ public class GamesListCommand extends AbstractGamesCommand {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CommandResponse execute() {
-		//		[{'title':'DefaultGame','id':0,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]},{'title':'AIGame','id':1,'players':[{'color':'orange','name':'Pete','id':10},{'color':'puce','name':'Steve','id':-2},{'color':'blue','name':'Squall','id':-3},{'color':'yellow','name':'Quinn','id':-4}]},{'title':'EmptyGame','id':2,'players':[{'color':'orange','name':'Sam','id':0},{'color':'blue','name':'Brooke','id':1},{'color':'red','name':'Pete','id':10},{'color':'green','name':'Mark','id':11}]}]
+	public CommandResponse executeInner() throws CatanException, ServerException {
+		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-		String body;
-		StatusCode status;
-		ContentType contentType;
 
-		try {
-			ICortex cortex = CortexFactory.getInstance().getCortex();
-			Collection<DTOGame> gamesList = cortex.gamesList();
-			body = CatanSerializer.getInstance().serializeObject(gamesList);
-			status = StatusCode.OK;
-			contentType = ContentType.JSON;
-		} catch (CatanException e) {
-			body = e.getMessage();
-			status = StatusCode.INVALID_REQUEST;
-			contentType = ContentType.PLAIN_TEXT;
-		} catch (ServerException e) {
-			body = e.getMessage();
-			status = StatusCode.INTERNAL_ERROR;
-			contentType = ContentType.PLAIN_TEXT;
-		}
+		Collection<DTOGame> gamesList = cortex.gamesList();
+		String body = CatanSerializer.getInstance().serializeObject(gamesList);
+		StatusCode status = StatusCode.OK;
+		ContentType contentType = ContentType.JSON;
 
 		response = new CommandResponse(body, status, contentType);
 		return response;

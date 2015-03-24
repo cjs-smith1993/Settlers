@@ -4,9 +4,9 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesFinishTurn {
 	public String type = "finishTurn";
-	public int playerIndex;
+	public PlayerNumber playerIndex;
 
 	public DTOMovesFinishTurn(PlayerNumber playerIndex) {
-		this.playerIndex = playerIndex.getInteger();
+		this.playerIndex = playerIndex;
 	}
 }

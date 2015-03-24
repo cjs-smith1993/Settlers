@@ -1,11 +1,5 @@
 package server.core;
 
-import java.util.Collection;
-
-import client.frontend.data.PlayerInfo;
-import shared.dataTransportObjects.DTOGame;
-import shared.definitions.AIType;
-import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -26,6 +20,10 @@ import shared.model.facade.AbstractModelFacade;
  *
  */
 public class ServerModelFacade extends AbstractModelFacade {
+	// This is a temporary storage place for the hasDiscarded variable. The same bool exists on
+	// the ClientModelFacade, and the TransportPlayer needs to get it from somewhere.
+	// - Kyle
+	boolean hasDiscarded = false;
 
 	public ServerModelFacade(boolean randomTiles, boolean randomNumbers,
 			boolean randomPorts) {
@@ -65,19 +63,19 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location, CatanState state) {
 
 		if (super.canPlaceRobber(playerIndex, location)
 				&& (this.game.getState() == CatanState.ROBBING
-					|| this.game.getState() == CatanState.PLAYING)) {
+				|| this.game.getState() == CatanState.PLAYING)) {
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -85,13 +83,13 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 		if (super.canRobPlayer(playerIndex, victimIndex)
 				&& (this.game.getState() == CatanState.ROBBING
-					|| this.game.getState() == CatanState.PLAYING)) {
+				|| this.game.getState() == CatanState.PLAYING)) {
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -234,5 +232,5 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 }

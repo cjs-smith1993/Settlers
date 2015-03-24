@@ -1,16 +1,18 @@
 package server.commands.games;
 
+import client.serverCommunication.ServerException;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.AbstractCommand;
 import server.commands.CommandResponse;
-import server.commands.ICommand;
 import server.core.CortexFactory;
+import shared.model.CatanException;
 
 /**
  * Represents the notion of executing the appropriate action for a given server
  * endpoint that begins with /games/
  */
-public abstract class AbstractGamesCommand implements ICommand {
+public abstract class AbstractGamesCommand extends AbstractCommand {
 
 	/**
 	 * {@inheritDoc}
@@ -26,8 +28,6 @@ public abstract class AbstractGamesCommand implements ICommand {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract CommandResponse execute();
+	public abstract CommandResponse executeInner() throws CatanException, ServerException;
+
 }

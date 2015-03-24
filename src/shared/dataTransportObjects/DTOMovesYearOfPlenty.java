@@ -5,7 +5,7 @@ import shared.definitions.ResourceType;
 
 public class DTOMovesYearOfPlenty {
 	public String type = "Year_of_Plenty";
-	public int playerIndex;
+	public PlayerNumber playerIndex;
 	public ResourceType resource1;
 	public ResourceType resource2;
 
@@ -13,7 +13,8 @@ public class DTOMovesYearOfPlenty {
 			PlayerNumber playerIndex,
 			ResourceType resource1,
 			ResourceType resource2) {
-		this.playerIndex = playerIndex.getInteger();
+
+		this.playerIndex = playerIndex;
 		this.resource1 = resource1;
 		this.resource2 = resource2;
 	}
