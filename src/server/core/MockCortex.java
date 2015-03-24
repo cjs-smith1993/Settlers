@@ -116,7 +116,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
+	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId) throws CatanException,
 			ServerException {
 		return new GameCertificate(-1);
 	}

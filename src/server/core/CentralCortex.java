@@ -115,9 +115,9 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
-	//the id of the player who wants to join
+	//the id of the player who wants to join userId
 	@Override
-	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
+	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId) throws CatanException,
 			ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
 		
@@ -165,6 +165,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//game id
 	@Override
 	public Collection<JsonObject> gameCommands() throws CatanException, ServerException {
 		// TODO Auto-generated method stub
@@ -174,6 +175,7 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//game id
 	@Override
 	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
 			ServerException {

@@ -13,6 +13,8 @@ import shared.model.CatanException;
  * endpoint that begins with /games/
  */
 public abstract class AbstractGamesCommand extends AbstractCommand {
+	
+	private int playerId;
 
 	/**
 	 * {@inheritDoc}
@@ -29,5 +31,13 @@ public abstract class AbstractGamesCommand extends AbstractCommand {
 	}
 
 	public abstract CommandResponse executeInner() throws CatanException, ServerException;
+
+	public int getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
+	}
 
 }

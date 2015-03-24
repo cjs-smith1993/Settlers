@@ -32,6 +32,7 @@ public class GamesHandler extends AbstractHandler {
 			UserCertificate userCert = CookieConverter.parseUserCookie(cookieString);
 			boolean authenticatedUser = command.authenticateUser(userCert);
 			if (authenticatedUser) {
+				((GamesJoinCommand) command).setPlayerId(userCert.getUserId());
 				response = command.execute();
 			}
 			else {

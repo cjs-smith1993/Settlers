@@ -103,13 +103,14 @@ public interface ICortex {
 
 	/**
 	 * If user is authentic, adds the user to the specified game
-	 *
-	 * @param user
 	 * @param gameId
 	 * @param color
+	 * @param playerId TODO
+	 * @param user
+	 *
 	 * @return
 	 */
-	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
+	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId) throws CatanException,
 			ServerException;
 
 	/**
