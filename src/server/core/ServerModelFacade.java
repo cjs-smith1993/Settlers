@@ -44,7 +44,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 */
 	@Override
 	public boolean sendChat(PlayerNumber playerIndex, String content) {
-		// TODO Auto-generated method stub
+		String name = this.getNameForPlayerNumber(playerIndex);
+		this.postOffice.addChatMessage(new Message(name, content));
 		return false;
 	}
 
