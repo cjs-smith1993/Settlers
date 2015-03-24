@@ -52,6 +52,7 @@ public class Board {
 		transportMap.cities = getTransportCities();
 		transportMap.ports = getTransportPorts();
 		transportMap.radius = RADIUS;
+		transportMap.robber = new TransportRobber(robber);
 		
 		return transportMap;
 	}
@@ -60,7 +61,22 @@ public class Board {
 		List<TransportHex> hexList = new ArrayList<>();
 		
 		for (Map.Entry<HexLocation, Tile> tile : tiles.entrySet()) {
+			TransportHex hex = new TransportHex();
 			
+			hex.location.x = tile.getKey().getX();
+			hex.location.y = tile.getKey().getY();
+			hex.resource = tile.getValue().getResourceType();
+			
+			for (Map.Entry<Integer, Collection<Chit>> listOfChits : chits.entrySet()) {
+				for (Chit chit : listOfChits.getValue()) {
+					if (chit.getLocation().equals(tile.getKey())) {
+						hex.number = listOfChits.getKey();
+						continue;
+					}
+				}
+			}
+			
+			hexList.add(hex);
 		}
 		
 		return hexList;
@@ -69,6 +85,16 @@ public class Board {
 	private List<TransportRoad> getTransportRoads() {
 		List<TransportRoad> roadList = new ArrayList<>();
 		
+		for (Map.Entry<EdgeLocation, Road> road : roads.entrySet()) {
+			TransportRoad transportRoad = new TransportRoad();
+			
+			transportRoad.owner = road.getValue().getOwner();
+			transportRoad.location.direction = road.getKey().getDir();
+			transportRoad.location.x = road.getValue().getLocation().getHexLoc().getX();
+			transportRoad.location.y = road.getValue().getLocation().getHexLoc().getY();
+			
+			roadList.add(transportRoad);
+		}
 		
 		return roadList;
 	}
@@ -76,17 +102,55 @@ public class Board {
 	private List<TransportSettlement> getTransportSettlements() {
 		List<TransportSettlement> settlementList = new ArrayList<>();
 		
+		for (Map.Entry<VertexLocation, Dwelling> dwelling : dwellings.entrySet()) {
+			if (dwelling.getValue().getPropertyType().equals(PropertyType.SETTLEMENT)) {
+				TransportSettlement settlement = new TransportSettlement();
+				
+				settlement.owner = dwelling.getValue().getOwner();
+				settlement.location.direction = dwelling.getKey().getDir();
+				settlement.location.x = dwelling.getKey().getHexLoc().getX();
+				settlement.location.y = dwelling.getKey().getHexLoc().getY();
+				
+				settlementList.add(settlement);
+			}
+		}
+		
 		return settlementList;
 	}
 	
 	private List<TransportCity> getTransportCities() {
 		List<TransportCity> cityList = new ArrayList<>();
 		
+		for (Map.Entry<VertexLocation, Dwelling> dwelling : dwellings.entrySet()) {
+			if (dwelling.getValue().getPropertyType().equals(PropertyType.CITY)) {
+				TransportCity city = new TransportCity();
+				
+				city.owner = dwelling.getValue().getOwner();
+				city.location.direction = dwelling.getKey().getDir();
+				city.location.x = dwelling.getKey().getHexLoc().getX();
+				city.location.y = dwelling.getKey().getHexLoc().getY();
+				
+				cityList.add(city);
+			}
+		}
+		
 		return cityList;
 	}
 	
 	private List<TransportPort> getTransportPorts() {
 		List<TransportPort> portList = new ArrayList<>();
+		
+		for (Harbor harbor : harbors) {
+			TransportPort port = new TransportPort();
+			
+			port.ratio = harbor.getRatio();
+			port.resource = harbor.getResource();
+//			port.direction // TODO: Complete this method!
+			port.location.x = harbor.getLocation().getX();
+			port.location.y = harbor.getLocation().getY();
+			
+			portList.add(port);
+		}
 		
 		return portList;
 	}
