@@ -95,6 +95,11 @@ public class ServerModelFacade extends AbstractModelFacade {
 		
 		return getModel();
 	}
+	
+	private void sendLog(PlayerNumber playerIndex, String content) {
+		String name = this.getNameForPlayerNumber(playerIndex);
+		this.postOffice.addLogMessage(new Message(name, content));
+	}
 
 	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled) throws CatanException {
 		// If 7, change state to discarding for those that need to discard.
