@@ -17,6 +17,7 @@ import shared.transport.TransportTradeOffer;
 public class Broker {
 	private Map<PlayerNumber, Hand> holdings;
 	private ResourceInvoice tradeOffer = null; // Use this to manage trade offers as they come through the Broker.
+	private long randomSeed;
 
 	/**
 	 * Default constructor for the broker. This will go through and make each
@@ -38,6 +39,7 @@ public class Broker {
 			Collection<TransportPlayer> playerList,
 			Map<PlayerNumber,
 			Collection<Harbor>> harborMap) {
+
 		this.holdings = new HashMap<PlayerNumber, Hand>();
 		this.holdings.put(PlayerNumber.BANK, new Bank(bankDevCard, resources));
 
@@ -48,6 +50,7 @@ public class Broker {
 			PlayerNumber playerNum = player.playerIndex;
 			this.holdings.put(playerNum, new PlayerHoldings(player, harborMap.get(playerNum)));
 		}
+
 	}
 
 	public TransportPlayer getTransportPlayer(
@@ -71,6 +74,14 @@ public class Broker {
 		}
 
 		return null;
+	}
+
+	public long getRandomSeed() {
+		return this.randomSeed;
+	}
+
+	public void setRandomSeed(long seed) {
+		this.randomSeed = seed;
 	}
 
 	/**
@@ -382,7 +393,7 @@ public class Broker {
 	}
 
 	private DevelopmentCard drawDevelopmentCard() {
-		return ((Bank) this.holdings.get(PlayerNumber.BANK)).drawDevelopmentCard();
+		return ((Bank) this.holdings.get(PlayerNumber.BANK)).drawDevelopmentCard(this.randomSeed);
 	}
 
 	/**

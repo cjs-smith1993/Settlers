@@ -155,9 +155,9 @@ public class Bank implements Hand {
 	 *
 	 * @param player
 	 */
-	public DevelopmentCard drawDevelopmentCard() {
-		RandomNumberGenerator randNum = new RandomNumberGenerator();
-		int rand = randNum.generate(0, this.getDevelopmentCardCount(null));
+	public DevelopmentCard drawDevelopmentCard(long rngSeed) {
+		RandomNumberGenerator rng = RandomNumberGenerator.getInstance(rngSeed);
+		int rand = rng.generate(0, this.getDevelopmentCardCount(null));
 		int soldierCount = this.getDevelopmentCardCount(DevCardType.SOLDIER);
 		int monoplyCount = this.getDevelopmentCardCount(DevCardType.MONOPOLY);
 		int monumentCount = this.getDevelopmentCardCount(DevCardType.MONUMENT);
