@@ -274,7 +274,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 		
 		int numberOfDiscardedResources = brick + ore + sheep + wheat + wood;
 		
-		if (broker.getNumberToDiscard(playerIndex) == numberOfDiscardedResources) {
+		if (game.getState() == CatanState.DISCARDING 
+				&& broker.getNumberToDiscard(playerIndex) == numberOfDiscardedResources) {
 			ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
 			
 			invoice.setBrick(brick);
