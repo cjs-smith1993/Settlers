@@ -4,8 +4,6 @@ import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ICommand;
-import server.commands.game.AbstractGameCommand;
-import server.commands.moves.AbstractMovesCommand;
 import server.factories.MovesCommandFactory;
 import server.util.CookieConverter;
 
@@ -36,10 +34,8 @@ public class MovesHandler extends AbstractHandler {
 		boolean authenticatedGame = command.authenticateGame(gameCert);
 
 		if (authenticatedUser && authenticatedGame) {
-			if(command instanceof AbstractMovesCommand) {
-				((AbstractMovesCommand) command).setGameId(gameCert.getGameId());
-				((AbstractMovesCommand) command).setPlayerId(userCert.getUserId());
-			}
+			command.setGameId(gameCert.getGameId());
+			command.setPlayerId(userCert.getUserId());
 			response = command.execute();
 		}
 		else if (authenticatedUser) {
