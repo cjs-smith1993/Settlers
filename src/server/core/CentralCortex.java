@@ -201,7 +201,7 @@ public class CentralCortex implements ICortex {
 	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number, int gameId, int userId)
 			throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return null;
+		return facade.rollNumber(playerIndex, number);
 	}
 
 	/**
@@ -249,8 +249,7 @@ public class CentralCortex implements ICortex {
 			ResourceType resource1,
 			ResourceType resource2, int gameId, int userId) throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		// TODO Auto-generated method stub
-		return null;
+		return facade.useYearOfPlenty(playerIndex, resource1, resource2);
 	}
 
 	/**
@@ -262,8 +261,8 @@ public class CentralCortex implements ICortex {
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
 			EdgeLocation spot2, int gameId, int userId) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
+		return facade.useRoadBuilding(playerIndex, spot1, spot2);
 	}
 
 	/**
@@ -275,8 +274,8 @@ public class CentralCortex implements ICortex {
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
 			HexLocation location, int gameId, int userId) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
+		return facade.useSoldier(playerIndex, victimIndex, location);
 	}
 
 	/**
@@ -286,8 +285,8 @@ public class CentralCortex implements ICortex {
 	@Override
 	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource, int gameId, int userId)
 			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
+		return facade.useMonopoly(playerIndex, resource);
 	}
 
 	/**
@@ -297,8 +296,8 @@ public class CentralCortex implements ICortex {
 	@Override
 	public TransportModel movesMonument(PlayerNumber playerIndex, int gameId, int userId) throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
+		return facade.useMonument(playerIndex);
 	}
 
 	/**
@@ -311,7 +310,7 @@ public class CentralCortex implements ICortex {
 			EdgeLocation location,
 			boolean free, int gameId, int userId) throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.buildRoad(playerIndex, location, free);//TODO need to change if nessicary
+		return facade.buildRoad(playerIndex, location, free);
 	}
 
 	/**
@@ -324,7 +323,7 @@ public class CentralCortex implements ICortex {
 			VertexLocation location,
 			boolean free, int gameId, int userId) throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.buildSettlement(playerIndex, location, free); //TODO need to change if nessicary
+		return facade.buildSettlement(playerIndex, location, free); 
 	}
 
 	/**
@@ -357,7 +356,7 @@ public class CentralCortex implements ICortex {
 	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept, int gameId, int userId)
 			throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.acceptTrade(userId, willAccept);//TODO need to change if nessicary
+		return facade.acceptTrade(userId, willAccept);
 	}
 
 	/**
