@@ -156,6 +156,39 @@ public class Broker {
 		
 		return invoice;
 	}
+	
+	public void processMonopoly(PlayerNumber player, ResourceType resource) throws CatanException {
+		for (Map.Entry<PlayerNumber, Hand> holding : holdings.entrySet()) {
+			if (holding.getKey() != player 
+					&& holding.getKey() != PlayerNumber.BANK) {
+				ResourceInvoice invoice = new ResourceInvoice(holding.getKey(), player);
+				
+				switch (resource) {
+				case BRICK:
+					invoice.setBrick(holding.getValue().getResourceCardCount(resource));
+					break;
+				case ORE:
+					invoice.setOre(holding.getValue().getResourceCardCount(resource));
+					break;
+				case SHEEP:
+					invoice.setSheep(holding.getValue().getResourceCardCount(resource));
+					break;
+				case WHEAT:
+					invoice.setWheat(holding.getValue().getResourceCardCount(resource));
+					break;
+				case WOOD:
+					invoice.setWood(holding.getValue().getResourceCardCount(resource));
+					break;
+				default:
+					break;
+				}
+				
+				this.processInvoice(invoice);
+			}
+		}
+		
+		((PlayerHoldings)holdings.get(player)).removeDevelopmentCard(DevCardType.MONOPOLY, 1);
+	}
 
 	/**
 	 * @deprecated

@@ -225,9 +225,15 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return robPlayer(playerIndex, victim, newLocation);
 	}
 
-	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
-		// TODO Auto-generated method stub
-		return getModel();
+	public TransportModel useMonopoly(PlayerNumber player, ResourceType resource) throws CatanException {
+		if (canUseMonopoly(player)) {
+			broker.processMonopoly(player, resource);
+			
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Monopoly card. Repent.")
+		}
 	}
 
 	public TransportModel useMonument(PlayerNumber playerIndex) {
