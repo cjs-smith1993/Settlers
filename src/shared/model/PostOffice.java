@@ -63,7 +63,7 @@ public class PostOffice {
 			lines.add(new TransportLine(message.getName(), message.getMessage()));
 		}
 		
-		return (TransportLine[])lines.toArray();
+		return lines.toArray(new TransportLine[lines.size()]);
 	}
 	
 	private void generateMessages(List<TransportLine> newCommunications, List<Message> existingCommunications) {
