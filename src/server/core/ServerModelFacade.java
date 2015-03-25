@@ -262,7 +262,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
 			boolean isFree) throws CatanException {
 		if (canBuildRoad(playerIndex, isFree)) {
-			// Handle isFree, such that no resources are used if true.
 			if (!isFree) {
 				broker.purchase(playerIndex, PropertyType.ROAD);
 			}
