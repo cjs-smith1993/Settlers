@@ -122,83 +122,82 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-	public boolean finishTurn(PlayerNumber playerIndex) {
+	public TransportModel finishTurn(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean buyDevCard(PlayerNumber playerIndex) {
+	public TransportModel buyDevCard(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean useYearOfPlenty(PlayerNumber playerIndex,
+	public TransportModel useYearOfPlenty(PlayerNumber playerIndex,
 			ResourceType resource1, ResourceType resource2) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean useRoadBuilding(PlayerNumber playerIndex,
+	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
 			EdgeLocation edge1, EdgeLocation edge2) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean useSoldier(PlayerNumber playerIndex,
+	public TransportModel useSoldier(PlayerNumber playerIndex,
 			PlayerNumber victimIndex, HexLocation newLocation) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
+	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean useMonument(PlayerNumber playerIndex) {
+	public TransportModel useMonument(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
 
-	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location,
+	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
 			boolean isFree, boolean isSetupPhase) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-
-	public boolean buildSettlement(PlayerNumber playerIndex,
+	public TransportModel buildSettlement(PlayerNumber playerIndex,
 			VertexLocation vertex, boolean isFree, boolean isSetupPhase) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean buildCity(PlayerNumber playerIndex, VertexLocation vertex) {
+	public TransportModel buildCity(PlayerNumber playerIndex, VertexLocation vertex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean offerTrade(ResourceInvoice invoice) {
+	public TransportModel offerTrade(ResourceInvoice invoice) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) {
+	public TransportModel acceptTrade(ResourceInvoice invoice, boolean willAccept) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean maritimeTrade(PlayerNumber playerIndex, int ratio,
+	public TransportModel maritimeTrade(PlayerNumber playerIndex, int ratio,
 			ResourceType inputResource, ResourceType outputResource) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	public boolean discardCards(PlayerNumber playerIndex, int brick, int ore,
+	public TransportModel discardCards(PlayerNumber playerIndex, int brick, int ore,
 			int sheep, int wheat, int wood) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
 }
