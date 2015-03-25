@@ -103,7 +103,7 @@ public class GameManager {
 			game.players.add(player);
 		}
 		else {throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");}
-		games.get(gameId);//do the join game on the facade 
+		games.get(gameId).joinGame(user, color);//do the join game on the facade 
 		gamesInfo.remove(gameId);
 		gamesInfo.put(game.id, game);
 		return new GameCertificate(game.id);
