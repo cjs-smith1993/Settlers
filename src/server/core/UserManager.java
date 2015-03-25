@@ -3,7 +3,9 @@ package server.core;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import client.serverCommunication.ServerException;
 import shared.definitions.CatanExceptionType;
+import shared.definitions.ServerExceptionType;
 import shared.model.CatanException;
 import shared.model.ModelUser;
 
@@ -120,5 +122,13 @@ public class UserManager {
 			
 		}
 		return -1;
+	}
+	public ModelUser getModelUser(int playerId) throws ServerException {
+		for(ServerUser user : users) {
+			if(user.getModelUser().getUserId() == playerId) {
+				return user.getModelUser();
+			}
+		}
+		throw new ServerException(ServerExceptionType.INVALID_OPERATION, "no user data for given id");
 	}
 }
