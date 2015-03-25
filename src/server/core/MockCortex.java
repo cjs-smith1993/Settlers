@@ -116,8 +116,8 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId) throws CatanException,
-			ServerException {
+	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId)
+			throws CatanException, ServerException {
 		return new GameCertificate(-1);
 	}
 
@@ -166,8 +166,8 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId) throws CatanException,
-			ServerException {
+	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId)
+			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -176,8 +176,11 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesSendChat(PlayerNumber playerIndex, String content, int gameId, int userId)
-			throws CatanException, ServerException {
+	public TransportModel movesSendChat(
+			PlayerNumber playerIndex,
+			String content,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -185,8 +188,11 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number, int gameId, int userId)
-			throws CatanException, ServerException {
+	public TransportModel movesRollNumber(
+			PlayerNumber playerIndex,
+			int number,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -197,7 +203,9 @@ public class MockCortex implements ICortex {
 	public TransportModel movesRobPlayer(
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location, int gameId, int userId) throws CatanException, ServerException {
+			HexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -205,8 +213,8 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesFinishTurn(PlayerNumber playerIndex, int gameId, int userId) throws CatanException,
-			ServerException {
+	public TransportModel movesFinishTurn(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -214,8 +222,8 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesBuyDevCard(PlayerNumber playerIndex, int gameId, int userId) throws CatanException,
-			ServerException {
+	public TransportModel movesBuyDevCard(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -226,7 +234,9 @@ public class MockCortex implements ICortex {
 	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
-			ResourceType resource2, int gameId, int userId) throws CatanException, ServerException {
+			ResourceType resource2,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -237,7 +247,9 @@ public class MockCortex implements ICortex {
 	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
-			EdgeLocation spot2, int gameId, int userId) throws CatanException, ServerException {
+			EdgeLocation spot2,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -248,7 +260,9 @@ public class MockCortex implements ICortex {
 	public TransportModel movesSoldier(
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location, int gameId, int userId) throws CatanException, ServerException {
+			HexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -256,17 +270,20 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource, int gameId, int userId)
+	public TransportModel movesMonopoly(
+			PlayerNumber playerIndex,
+			ResourceType resource,
+			int gameId,
+			int userId) throws CatanException, ServerException {
+		return this.getFakeModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TransportModel movesMonument(PlayerNumber playerIndex, int gameId, int userId)
 			throws CatanException, ServerException {
-		return this.getFakeModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TransportModel movesMonument(PlayerNumber playerIndex, int gameId, int userId) throws CatanException,
-			ServerException {
 		return this.getFakeModel();
 	}
 
@@ -277,7 +294,9 @@ public class MockCortex implements ICortex {
 	public TransportModel movesBuildRoad(
 			PlayerNumber playerIndex,
 			EdgeLocation location,
-			boolean free, int gameId, int userId) throws CatanException, ServerException {
+			boolean free,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -288,7 +307,9 @@ public class MockCortex implements ICortex {
 	public TransportModel movesBuildSettlement(
 			PlayerNumber playerIndex,
 			VertexLocation location,
-			boolean free, int gameId, int userId) throws CatanException, ServerException {
+			boolean free,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -296,7 +317,19 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location, int gameId, int userId)
+	public TransportModel movesBuildCity(
+			PlayerNumber playerIndex,
+			VertexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException {
+		return this.getFakeModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TransportModel movesOfferTrade(ResourceInvoice invoice, int gameId, int userId)
 			throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
@@ -305,17 +338,11 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel movesOfferTrade(ResourceInvoice invoice, int gameId, int userId) throws CatanException,
-			ServerException {
-		return this.getFakeModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept, int gameId, int userId)
-			throws CatanException, ServerException {
+	public TransportModel movesAcceptTrade(
+			PlayerNumber playerIndex,
+			boolean willAccept,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -327,8 +354,9 @@ public class MockCortex implements ICortex {
 			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
-			ResourceType outputResource, int gameId, int userId) throws CatanException,
-			ServerException {
+			ResourceType outputResource,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -338,7 +366,9 @@ public class MockCortex implements ICortex {
 	@Override
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
-			Map<ResourceType, Integer> discardedCards, int gameId, int userId) throws CatanException, ServerException {
+			Map<ResourceType, Integer> discardedCards,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
