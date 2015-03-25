@@ -133,8 +133,8 @@ public class Broker {
 	}
 
 	/**
-	 * depriciated We dont need this because now process invoice does this all
-	 * for us
+	 * DEPRECATED
+	 * We dont need this because now process invoice does this all for us
 	 *
 	 * @param srcPlayer
 	 * @param dstPlayer

@@ -90,8 +90,24 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-	public TransportModel rollNumber(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
+	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled) {
+		// If 7, change state to discarding for those that need to discard.
+			// If people need to discard:
+				// Facade wait for people to discard.
+				// Keep a list of people that are discarding.
+			// Move to Robbing.
+		// Else, Map --> Resource Invoices --> Broker.
+			// Change state to Playing.
+		
+		if (numberRolled == 7) {
+			
+		}
+		else {
+			
+		}
+
+		// Create log message.
+		// Increment version.
 		
 		return getModel();
 	}
