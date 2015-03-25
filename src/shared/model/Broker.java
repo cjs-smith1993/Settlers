@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import shared.definitions.*;
-import shared.locations.EdgeLocation;
 import shared.transport.TransportBank;
 import shared.transport.TransportDeck;
 import shared.transport.TransportPlayer;
@@ -18,7 +17,7 @@ import shared.transport.TransportTradeOffer;
 public class Broker {
 	private Map<PlayerNumber, Hand> holdings;
 	private ResourceInvoice tradeOffer = null; // Use this to manage trade offers as they come through the Broker.
-	
+
 	/**
 	 * Default constructor for the broker. This will go through and make each
 	 * one of the hands. Not implemented
@@ -41,7 +40,7 @@ public class Broker {
 			Collection<Harbor>> harborMap) {
 		this.holdings = new HashMap<PlayerNumber, Hand>();
 		this.holdings.put(PlayerNumber.BANK, new Bank(bankDevCard, resources));
-		
+
 		for (TransportPlayer player : playerList) {
 			if (player == null) {
 				continue;
@@ -50,24 +49,27 @@ public class Broker {
 			this.holdings.put(playerNum, new PlayerHoldings(player, harborMap.get(playerNum)));
 		}
 	}
-	
-	public TransportPlayer getTransportPlayer(TransportPlayer transportPlayer,PlayerNumber playerNumber) {
-		return ((PlayerHoldings)holdings.get(playerNumber)).getTransportPlayer(transportPlayer);
+
+	public TransportPlayer getTransportPlayer(
+			TransportPlayer transportPlayer,
+			PlayerNumber playerNumber) {
+		return ((PlayerHoldings) this.holdings.get(playerNumber))
+				.getTransportPlayer(transportPlayer);
 	}
-	
+
 	public TransportBank getTransportBank() {
-		return ((Bank)holdings.get(PlayerNumber.BANK)).getTransportBank();
+		return ((Bank) this.holdings.get(PlayerNumber.BANK)).getTransportBank();
 	}
-	
+
 	public TransportDeck getTransportDeck() {
-		return ((Bank)holdings.get(PlayerNumber.BANK)).getTransportDeck();
+		return ((Bank) this.holdings.get(PlayerNumber.BANK)).getTransportDeck();
 	}
-	
+
 	public TransportTradeOffer getTransportTradeOffer() {
-		if (tradeOffer != null) {
-			return tradeOffer.getTransporTradeOffer();
+		if (this.tradeOffer != null) {
+			return this.tradeOffer.getTransporTradeOffer();
 		}
-		
+
 		return null;
 	}
 
@@ -132,15 +134,20 @@ public class Broker {
 		}
 		return success;
 	}
-	
+
 	/**
-	 * Sets the invoice's resource for a given {@link ResourceType}, at a given quantity.
+	 * Sets the invoice's resource for a given {@link ResourceType}, at a given
+	 * quantity.
+	 *
 	 * @param invoice
 	 * @param resource
 	 * @param quantity
 	 * @return {@link ResourceInvoice}
 	 */
-	private ResourceInvoice setInvoiceResource(ResourceInvoice invoice, ResourceType resource, int quantity) {
+	private ResourceInvoice setInvoiceResource(
+			ResourceInvoice invoice,
+			ResourceType resource,
+			int quantity) {
 		switch (resource) {
 		case BRICK:
 			invoice.setBrick(quantity);
@@ -160,79 +167,88 @@ public class Broker {
 		default:
 			break;
 		}
-		
+
 		return invoice;
 	}
-	
+
 	public ResourceInvoice randomRobPlayer(PlayerNumber playerIndex, PlayerNumber victim) {
 		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
-		
-		if (holdings.get(victim).getResourceCardCount(ResourceType.BRICK) > 0) {
+
+		if (this.holdings.get(victim).getResourceCardCount(ResourceType.BRICK) > 0) {
 			invoice.setBrick(1);
 		}
-		else if (holdings.get(victim).getResourceCardCount(ResourceType.ORE) > 0) {
+		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.ORE) > 0) {
 			invoice.setOre(1);
 		}
-		else if (holdings.get(victim).getResourceCardCount(ResourceType.SHEEP) > 0) {
+		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.SHEEP) > 0) {
 			invoice.setSheep(1);
 		}
-		else if (holdings.get(victim).getResourceCardCount(ResourceType.WHEAT) > 0) {
+		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.WHEAT) > 0) {
 			invoice.setWheat(1);
 		}
-		else if (holdings.get(victim).getResourceCardCount(ResourceType.WOOD) > 0) {
+		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.WOOD) > 0) {
 			invoice.setWood(1);
 		}
 		else {
 			return null;
 		}
-		
+
 		return invoice;
 	}
-	
+
 	/**
 	 * Handles the logic when a Monopoly card is played.
+	 *
 	 * @param player
 	 * @param resource
 	 * @throws CatanException
 	 */
 	public void processMonopoly(PlayerNumber player, ResourceType resource) throws CatanException {
-		for (Map.Entry<PlayerNumber, Hand> holding : holdings.entrySet()) {
-			if (holding.getKey() != player 
+		for (Map.Entry<PlayerNumber, Hand> holding : this.holdings.entrySet()) {
+			if (holding.getKey() != player
 					&& holding.getKey() != PlayerNumber.BANK) {
 				ResourceInvoice invoice = new ResourceInvoice(holding.getKey(), player);
-				
-				invoice = this.setInvoiceResource(invoice, resource, holding.getValue().getResourceCardCount(resource));
-				
+
+				invoice = this.setInvoiceResource(invoice, resource, holding.getValue()
+						.getResourceCardCount(resource));
+
 				this.processInvoice(invoice);
 			}
 		}
-		
-		((PlayerHoldings)holdings.get(player)).removeDevelopmentCard(DevCardType.MONOPOLY, 1);
+
+		((PlayerHoldings) this.holdings.get(player)).removeDevelopmentCard(DevCardType.MONOPOLY, 1);
 	}
-	
-	public void processYearOfPlenty(PlayerNumber playerIndex, ResourceType resource1, ResourceType resource2) throws CatanException {
+
+	public void processYearOfPlenty(
+			PlayerNumber playerIndex,
+			ResourceType resource1,
+			ResourceType resource2) throws CatanException {
 		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, playerIndex);
 		invoice = this.setInvoiceResource(invoice, resource1, 1);
 		invoice = this.setInvoiceResource(invoice, resource2, 1);
 		this.processInvoice(invoice);
-		
-		PlayerHoldings playerHolding = ((PlayerHoldings)holdings.get(playerIndex));
-		playerHolding.addDevelopmentCardCollection(DevCardType.YEAR_OF_PLENTY, playerHolding.removeDevelopmentCard(DevCardType.YEAR_OF_PLENTY, 1));
+
+		PlayerHoldings playerHolding = ((PlayerHoldings) this.holdings.get(playerIndex));
+		playerHolding.addDevelopmentCardCollection(DevCardType.YEAR_OF_PLENTY,
+				playerHolding.removeDevelopmentCard(DevCardType.YEAR_OF_PLENTY, 1));
 	}
-	
+
 	public void processMonument(PlayerNumber player) {
-		PlayerHoldings playerHolding = ((PlayerHoldings)holdings.get(player));
-		playerHolding.addDevelopmentCardCollection(DevCardType.MONUMENT, playerHolding.removeDevelopmentCard(DevCardType.MONUMENT, 1));
+		PlayerHoldings playerHolding = ((PlayerHoldings) this.holdings.get(player));
+		playerHolding.addDevelopmentCardCollection(DevCardType.MONUMENT,
+				playerHolding.removeDevelopmentCard(DevCardType.MONUMENT, 1));
 	}
-	
+
 	public void processRoadBuilding(PlayerNumber playerIndex) {
-		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
-		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
+		((PlayerHoldings) this.holdings.get(playerIndex)).removeDevelopmentCard(
+				DevCardType.ROAD_BUILD, 1);
+		((PlayerHoldings) this.holdings.get(playerIndex)).removeDevelopmentCard(
+				DevCardType.ROAD_BUILD, 1);
 	}
 
 	/**
-	 * @deprecated
-	 * We dont need this because now process invoice does this all for us
+	 * @deprecated We dont need this because now process invoice does this all
+	 *             for us
 	 *
 	 * @param srcPlayer
 	 * @param dstPlayer
@@ -326,12 +342,12 @@ public class Broker {
 	 */
 	public void purchase(PlayerNumber player, PropertyType type) throws CatanException {
 		ResourceInvoice purchase;
-		
+
 		if (!(this.canPurchase(player, type))) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
 					"Not enough resource cards to purchase");
 		}
-		
+
 		switch (type) {
 		case ROAD:
 			purchase = new ResourceInvoice(player, PlayerNumber.BANK);
@@ -399,17 +415,17 @@ public class Broker {
 		}
 		return success;
 	}
-	
+
 	public int getDevelopmentCardCount(PlayerNumber player, DevCardType type) throws CatanException {
 		if (player == PlayerNumber.BANK) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"The bank cannot play development cards.");
 		}
-		
-		PlayerHoldings holdings = (PlayerHoldings)this.holdings.get(player);
-		
+
+		PlayerHoldings holdings = (PlayerHoldings) this.holdings.get(player);
+
 		int cardCount = holdings.getDevelopmentCardCount(type);
-		
+
 		return cardCount;
 	}
 
@@ -652,10 +668,10 @@ public class Broker {
 	}
 
 	public int getNumberToDiscard(PlayerNumber playerIndex) {
-		int numberOfCards = this.holdings.get(playerIndex).getResourceCardCount(ResourceType.ALL); 
+		int numberOfCards = this.holdings.get(playerIndex).getResourceCardCount(ResourceType.ALL);
 		return ((numberOfCards > 7) ? (numberOfCards / 2) : 0);
 	}
-	
+
 	public int getNumberOfPlayedSoldiers(PlayerNumber player) throws CatanException {
 		if (player == PlayerNumber.BANK) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
