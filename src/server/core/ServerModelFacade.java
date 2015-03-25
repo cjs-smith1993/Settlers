@@ -215,9 +215,15 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel useYearOfPlenty(PlayerNumber playerIndex,
-			ResourceType resource1, ResourceType resource2) {
-		// TODO Auto-generated method stub
-		return getModel();
+			ResourceType resource1, ResourceType resource2) throws CatanException {
+		if (canUseYearOfPlenty(playerIndex)) {
+			broker.processYearOfPlenty(playerIndex, resource1, resource2);
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Year Of Plenty card. Repent.");
+		}
+		
 	}
 
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
