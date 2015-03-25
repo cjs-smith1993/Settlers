@@ -9,7 +9,7 @@ package server.core;
  */
 public class CortexFactory {
 
-	public static boolean testingEnabled = true;
+	public static boolean testingEnabled = false;
 	private static CortexFactory instance;
 
 	private CortexFactory() {
