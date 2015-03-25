@@ -225,9 +225,14 @@ public class Broker {
 		playerHolding.addDevelopmentCardCollection(DevCardType.MONUMENT, playerHolding.removeDevelopmentCard(DevCardType.MONUMENT, 1));
 	}
 	
-	public void processRoadBuilding(PlayerNumber playerIndex) {
-		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
-		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
+	public void processRoadBuilding(PlayerNumber player) {
+		((PlayerHoldings)holdings.get(player)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
+		((PlayerHoldings)holdings.get(player)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
+	}
+	
+	public void processSoldier(PlayerNumber player) {
+		PlayerHoldings playerHolding = ((PlayerHoldings)holdings.get(player));
+		playerHolding.addDevelopmentCardCollection(DevCardType.SOLDIER, playerHolding.removeDevelopmentCard(DevCardType.SOLDIER, 1));
 	}
 
 	/**
