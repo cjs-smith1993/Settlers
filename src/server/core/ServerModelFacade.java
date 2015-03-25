@@ -368,19 +368,72 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept) throws CatanException {
 		if(this.canAcceptTrade(openOffer) && willAccept) {
 			this.broker.processInvoice(openOffer);
-			this.version++;
 			this.sendLog(openOffer.getSourcePlayer(), "Trade was accepted");
+			this.version++;
 		} else {
 			this.openOffer = null;
-			this.version++;
 			this.sendLog(openOffer.getSourcePlayer(), "Trade was declined");
+			this.version++;
 		}
 		return this.getModel();
 	}
 
 	public TransportModel maritimeTrade(PlayerNumber playerIndex, int ratio,
-			ResourceType inputResource, ResourceType outputResource) {
-		// TODO Auto-generated method stub
+			ResourceType inputResource, ResourceType outputResource) throws CatanException {
+		if(this.broker.canMaritimeTrade(playerIndex, inputResource)) {
+			ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
+			for(ResourceType type: ResourceType.values()) {
+				switch(type) {
+				case BRICK:
+					if(type == inputResource) {
+						invoice.setBrick(ratio);
+					} 
+					if(type == outputResource) {
+						invoice.setBrick(-1);
+					}
+					break;
+				case WOOD:
+					if(type == inputResource) {
+						invoice.setWood(ratio);
+					} 
+					if(type == outputResource) {
+						invoice.setWood(-1);
+					}
+					break;
+				case ORE:
+					if(type == inputResource) {
+						invoice.setOre(ratio);
+					} 
+					if(type == outputResource) {
+						invoice.setOre(-1);
+					}
+					break;
+				case WHEAT:
+					if(type == inputResource) {
+						invoice.setWheat(ratio);
+					} 
+					if(type == outputResource) {
+						invoice.setWheat(-1);
+					}
+					break;
+				case SHEEP:
+					if(type == inputResource) {
+						invoice.setSheep(ratio);
+					} 
+					if(type == outputResource) {
+						invoice.setSheep(-1);
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			this.broker.processInvoice(invoice);
+			this.version++;
+			this.sendLog(playerIndex, "Just Maritime Traded!");
+		} else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,"Can not maritime trade.");
+		}
 		return this.getModel();
 	}
 
