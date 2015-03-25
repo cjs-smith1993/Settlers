@@ -38,18 +38,23 @@ public class ServerModelFacade extends AbstractModelFacade {
 			boolean randomTiles,
 			boolean randomNumbers,
 			boolean randomPorts) {
+
+		RandomNumberGenerator.getInstance(gameId).reSeed(gameId);
 		this.gameId = gameId;
 		this.name = name;
 		this.board = new Board(randomTiles, randomNumbers, randomPorts);
 		this.game = new Game();
 		this.broker = new Broker();
+		this.broker.setRandomSeed(this.gameId);
 		this.postOffice = new PostOffice();
 		this.scoreboard = new Scoreboard();
 		this.openOffer = null;
 	}
 
 	public ServerModelFacade(String fileName) throws IOException, CatanException {
+		RandomNumberGenerator.getInstance(this.gameId).reSeed(this.gameId);
 		this.initializeModelFromFile(fileName);
+		this.broker.setRandomSeed(this.gameId);
 	}
 
 	public TransportModel getModel(int version) {
