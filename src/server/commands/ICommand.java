@@ -30,4 +30,12 @@ public interface ICommand {
 	 * @return true if the user is authenticated
 	 */
 	public boolean authenticateGame(GameCertificate gameCert);
+
+	public int getPlayerId();
+
+	public void setPlayerId(int playerId);
+
+	public int getGameId();
+
+	public void setGameId(int gameId);
 }

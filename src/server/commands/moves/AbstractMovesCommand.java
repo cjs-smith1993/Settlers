@@ -17,9 +17,6 @@ import shared.transport.TransportModel;
  * endpoint that begins with /moves/
  */
 public abstract class AbstractMovesCommand extends AbstractCommand {
-	
-	private int playerId;
-	private int gameId;
 
 	/**
 	 * {@inheritDoc}
@@ -69,19 +66,4 @@ public abstract class AbstractMovesCommand extends AbstractCommand {
 
 	public abstract TransportModel performMovesCommand() throws CatanException, ServerException;
 
-	public int getPlayerId() {
-		return playerId;
-	}
-
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-
-	public int getGameId() {
-		return gameId;
-	}
-
-	public void setGameId(int gameId) {
-		this.gameId = gameId;
-	}
 }
