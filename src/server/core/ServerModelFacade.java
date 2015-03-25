@@ -115,10 +115,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 			version++;
 			
 			if (numberRolled == 7) {
-				if (broker.checkDiscardStatus()) {
-					// The discardCards() method will setState() to .ROBBING
-					// when the number of people who need to discard is fulfilled.
-					game.setState(CatanState.DISCARDING);
+				this.startDiscarding();
+				if (!this.continueDiscarding()) {
+					this.stopDiscarding();
 				}
 			}
 			else {
@@ -284,10 +283,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 			invoice.setWood(wood);
 			
 			broker.processInvoice(invoice);
+			this.game.setHasDiscarded(playerIndex, true);
 			
-			if (!broker.checkDiscardStatus()) {
-				version++;
-				game.setState(CatanState.ROBBING);
+			if (!this.continueDiscarding()) {
+				this.stopDiscarding();
 			}
 		}
 		else {
@@ -295,5 +294,62 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		
 		return getModel();
+	}
+
+	/**
+	 * Called when a 7 is rolled to determine if any players need to discard.
+	 * Checks the number of cards each player has and sets hasDiscarded to true 
+	 * for each player that doesn't need to discard.
+	 * @pre model state is ROLLING
+	 * @return
+	 */
+	public void startDiscarding() {
+		for (PlayerNumber playerIndex : PlayerNumber.values()) {
+			if (playerIndex != PlayerNumber.BANK) {
+				if (this.broker.getNumberToDiscard(playerIndex) == 0) {
+					this.game.setHasDiscarded(playerIndex, true);
+				}
+			}
+		}
+		
+		this.game.setState(CatanState.DISCARDING);
+		this.version++;
+	}
+	
+	/**
+	 * Determines if any players need to discard.
+	 * Checks hasDiscarded for each player.
+	 * @pre model state is DISCARDING
+	 * @return
+	 */
+	public boolean continueDiscarding() {
+		boolean isNecessary = false;
+		
+		for (PlayerNumber playerIndex : PlayerNumber.values()) {
+			if (playerIndex != PlayerNumber.BANK) {
+				if (!this.game.hasDiscarded(playerIndex)) {
+					isNecessary = true;
+				}
+			}
+		}
+		
+		return isNecessary;
+	}
+	
+	/**
+	 * Called when no more players need to discard.
+	 * Sets hasDiscarded to false for each player.
+	 * Sets the model state to ROBBING.
+	 * Increments the model version.
+	 * @pre model state is DISCARDING
+	 */
+	public void stopDiscarding() {
+		for (PlayerNumber playerIndex : PlayerNumber.values()) {
+			if (playerIndex != PlayerNumber.BANK) {
+				this.game.setHasDiscarded(playerIndex, false);
+			}
+		}
+		this.game.setState(CatanState.ROBBING);
+		this.version++;
 	}
 }

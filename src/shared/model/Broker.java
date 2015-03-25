@@ -581,24 +581,6 @@ public class Broker {
 		return ((numberOfCards > 7) ? (numberOfCards / 2) : 0);
 	}
 	
-	/**
-	 * Determines whether a discard round is necessary based on the current players.
-	 * @return
-	 */
-	public boolean checkDiscardStatus() {
-		boolean isNecessary = false;
-		
-		for (PlayerNumber player : holdings.keySet()) {
-			if (player != PlayerNumber.BANK) {
-				if (getNumberToDiscard(player) >= 7) {
-					isNecessary = true;
-				}
-			}
-		}
-		
-		return isNecessary;
-	}
-	
 	public int getNumberOfPlayedSoldiers(PlayerNumber player) throws CatanException {
 		if (player == PlayerNumber.BANK) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
