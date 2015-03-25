@@ -81,6 +81,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return (TransportPlayer[]) transportPlayers.toArray();
 	}
 	
+	public void resetGame() {
+		
+	}
+	
 	public boolean joinGame(ModelUser user, CatanColor color) {
 		return false;
 	}
