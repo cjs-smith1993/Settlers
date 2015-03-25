@@ -465,4 +465,13 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 
 		return playerName;
 	}
+
+	public List<Message> getMessages() {
+		return this.postOffice.getMessages();
+	}
+
+	public List<Message> getLog() {
+		return this.postOffice.getLog();
+	}
+
 }
