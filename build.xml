@@ -149,15 +149,18 @@
 			</assertions>
 			<arg value="${host}"/>
 			<arg value="${port}"/>
+			<arg value="${tester}"/>
 		</java>
 	</target>
  	
 	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
+		<property name="port" value="8081"/>
 		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>
 			</assertions>
+			<arg value="${port}"/>
 		</java>
 	</target>
     

@@ -38,18 +38,23 @@ public class ServerModelFacade extends AbstractModelFacade {
 			boolean randomTiles,
 			boolean randomNumbers,
 			boolean randomPorts) {
+
+		RandomNumberGenerator.getInstance(gameId).reSeed(gameId);
 		this.gameId = gameId;
 		this.name = name;
 		this.board = new Board(randomTiles, randomNumbers, randomPorts);
 		this.game = new Game();
 		this.broker = new Broker();
+		this.broker.setRandomSeed(this.gameId);
 		this.postOffice = new PostOffice();
 		this.scoreboard = new Scoreboard();
 		this.openOffer = null;
 	}
 
 	public ServerModelFacade(String fileName) throws IOException, CatanException {
+		RandomNumberGenerator.getInstance(this.gameId).reSeed(this.gameId);
 		this.initializeModelFromFile(fileName);
+		this.broker.setRandomSeed(this.gameId);
 	}
 
 	public TransportModel getModel(int version) {
@@ -256,11 +261,15 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
 			PlayerNumber victim, HexLocation newLocation) throws CatanException {
-		// TODO: Implement safety checks:
-		// 1 - Check whether it's this player's turn.
-		// 2 - Check whether the player has a soldier card to spend.
-		// 3 - Expire dev card.
-		return this.robPlayer(playerIndex, victim, newLocation);
+		if (canUseSoldier(playerIndex)) {
+			broker.processSoldier(playerIndex);
+			this.robPlayer(playerIndex, victim, newLocation);
+			
+			return robPlayer(playerIndex, victim, newLocation);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Soldier card. Repent.");
+		}
 	}
 
 	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource)

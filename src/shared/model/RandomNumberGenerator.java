@@ -1,5 +1,6 @@
 package shared.model;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -7,13 +8,21 @@ import java.util.Random;
  */
 public class RandomNumberGenerator {
 	private Random rng;
+	private static HashMap<Long, RandomNumberGenerator> generators = new HashMap<Long, RandomNumberGenerator>();
 
 	public RandomNumberGenerator() {
 		this.rng = new Random();
 	}
 
-	public RandomNumberGenerator(long seed) {
+	private RandomNumberGenerator(long seed) {
 		this.rng = new Random(seed);
+	}
+
+	public static RandomNumberGenerator getInstance(long seed) {
+		if (generators.get(seed) == null) {
+			generators.put(seed, new RandomNumberGenerator(seed));
+		}
+		return generators.get(seed);
 	}
 
 	public void reSeed() {
