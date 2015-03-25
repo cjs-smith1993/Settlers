@@ -1,5 +1,6 @@
 package server.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -34,6 +35,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.postOffice = new PostOffice();
 		this.scoreboard = new Scoreboard();
 		this.openOffer = null;
+	}
+	public ServerModelFacade (String fileName) throws IOException, CatanException {
+		this.initializeModelFromFile(fileName);
 	}
 	
 	public TransportModel getModel(int version) {
@@ -87,8 +91,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// TODO: Implement this.
 	}
 	
-	public boolean joinGame(ModelUser user, CatanColor color) {
-		return false;
+	public boolean joinGame(ModelUser user, CatanColor color) throws CatanException {
+		this.game.addPlayer(user, color);
+		return true;
 	}
 
 	public TransportModel sendChat(PlayerNumber playerIndex, String content) {
@@ -200,8 +205,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 	}
 
-	public TransportModel buyDevCard(PlayerNumber playerIndex) {
+	public TransportModel buyDevCard(PlayerNumber playerIndex) throws CatanException {
 		// TODO Auto-generated method stub
+		this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
 		return getModel();
 	}
 
@@ -279,13 +285,24 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-	public TransportModel offerTrade(ResourceInvoice invoice) {
-		// TODO Auto-generated method stub
+	public TransportModel offerTrade(ResourceInvoice invoice) throws CatanException {
+		if(this.canOfferTrade(invoice)) {
+			this.openOffer = invoice;
+		} else {
+			this.openOffer = null;
+			this.version++;
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "it is not your turn or you can't offer that trade.");
+		}
 		return getModel();
 	}
 
 	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept) {
-		// TODO Auto-generated method stub
+		if(this.canAcceptTrade(openOffer) && willAccept) {
+			
+		} else {
+			this.openOffer = null;
+			this.version++;
+		}
 		return getModel();
 	}
 

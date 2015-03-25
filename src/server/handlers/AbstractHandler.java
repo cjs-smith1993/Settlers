@@ -26,6 +26,8 @@ public abstract class AbstractHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
+		System.out.println("Request: " + exchange.getProtocol() + " " + exchange.getRequestMethod() + " " + exchange.getRequestURI());
+		
 		this.exchangeUtils = new ExchangeUtils(exchange);
 
 		String commandName = this.exchangeUtils.getCommandName();
@@ -37,8 +39,10 @@ public abstract class AbstractHandler implements HttpHandler {
 			Collection<String> cookiesList = exchange.getRequestHeaders().get("Cookie");
 			String cookie = cookiesList != null ? cookiesList.iterator().next() : null;
 			CommandResponse response = this.processCommand(command, cookie);
+			System.out.println("Response: " + response.getStatus());
 			this.sendResponse(response);
 		} catch (JsonParseException | NullPointerException e) {
+			System.out.println("Response: " + CommandResponse.getMalformedCommand());
 			this.sendResponse(CommandResponse.getMalformedCommand());
 		}
 	}
