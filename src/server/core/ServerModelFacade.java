@@ -159,7 +159,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
 			HexLocation newLocation) throws CatanException {
-		// TODO: Should canRobPlayer() use CatanState as an argument or not?
 		if (canRobPlayer(playerIndex, victim)) {
 			if (board.canMoveRobber(newLocation)) {
 				board.moveRobber(newLocation);
