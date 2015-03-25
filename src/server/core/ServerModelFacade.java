@@ -232,7 +232,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			return getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Monopoly card. Repent.")
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Monopoly card. Repent.");
 		}
 	}
 
