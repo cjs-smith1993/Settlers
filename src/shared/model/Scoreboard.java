@@ -137,7 +137,7 @@ public class Scoreboard {
 		
 		this.calculateSpecialCardHolder(this.builtRoads, this.longestRoad);
 	}
-
+	
 	/**
 	 * This method calculates the PlayerNumber with the largest Integer as a
 	 * value in the map. This method works with LongestRoad and LargestArmy.

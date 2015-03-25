@@ -266,23 +266,43 @@ public class ServerModelFacade extends AbstractModelFacade {
 			
 			scoreboard.roadBuilt(playerIndex);
 			game.purchaseProperty(playerIndex, PropertyType.ROAD);
+			
+			return getModel();
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildRoad. Repent.");
 		}
-		
-		return getModel();
 	}
 
 	public TransportModel buildSettlement(PlayerNumber playerIndex,
-			VertexLocation vertex, boolean isFree) {
-		// TODO Auto-generated method stub
-		return getModel();
+			VertexLocation vertex, boolean isFree) throws CatanException {
+		if (canBuildSettlement(playerIndex, isFree)) {
+			if (!isFree) {
+				broker.purchase(playerIndex, PropertyType.SETTLEMENT);
+			}
+			
+			scoreboard.dwellingBuilt(playerIndex);
+			game.purchaseProperty(playerIndex, PropertyType.SETTLEMENT);
+
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildSettlement. Repent.");
+		}
+		
 	}
 
-	public TransportModel buildCity(PlayerNumber playerIndex, VertexLocation vertex) {
-		// TODO Auto-generated method stub
-		return getModel();
+	public TransportModel buildCity(PlayerNumber playerIndex, VertexLocation vertex) throws CatanException {
+		if (canBuildCity(playerIndex)) {
+			broker.purchase(playerIndex, PropertyType.CITY);
+			scoreboard.dwellingBuilt(playerIndex);
+			game.purchaseProperty(playerIndex, PropertyType.CITY);
+			
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildSettlement. Repent.");
+		}
 	}
 
 	public TransportModel offerTrade(ResourceInvoice invoice) throws CatanException {
