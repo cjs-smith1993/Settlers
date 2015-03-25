@@ -101,7 +101,6 @@ public class Bank implements Hand {
 			}
 		}
 		//Development cards
-		
 	}
 	
 	public TransportBank getTransportBank() {

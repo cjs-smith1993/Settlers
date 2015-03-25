@@ -1,5 +1,8 @@
 package server.core;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -7,12 +10,10 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.*;
-import shared.model.Broker;
-import shared.model.Game;
-import shared.model.PostOffice;
-import shared.model.ResourceInvoice;
-import shared.model.Scoreboard;
 import shared.model.facade.AbstractModelFacade;
+import shared.transport.TransportModel;
+import shared.transport.TransportPlayer;
+import shared.transport.TransportTurnTracker;
 
 /**
  * The facade that the Game Manager will be using to update and interact with
@@ -35,8 +36,40 @@ public class ServerModelFacade extends AbstractModelFacade {
 	 */
 	@Override
 	public void getModel(boolean sendVersion) {
-		// TODO Auto-generated method stub
-
+		TransportModel transportModel = new TransportModel();
+		
+		transportModel.bank = broker.getTransportBank();
+		transportModel.chat = postOffice.getTransportChat();
+		transportModel.log = postOffice.getTransportLog();
+		transportModel.deck = broker.getTransportDeck();
+		transportModel.map = board.getTransportMap();
+		
+		TransportTurnTracker turnTracker = new TransportTurnTracker();
+		game.getTransportTurnTracker(turnTracker);
+		scoreboard.getTransportTurnTracker(turnTracker);
+		transportModel.turnTracker = turnTracker;
+		
+		transportModel.tradeOffer = broker.getTransportTradeOffer();
+		transportModel.players = getTransportPlayers();
+		transportModel.version = version;
+		transportModel.winner = winnerServerID;
+	}
+	
+	public TransportPlayer[] getTransportPlayers() {
+		ArrayList<TransportPlayer> transportPlayers = new ArrayList<>();
+		Map<PlayerNumber, Player> players = game.getPlayers();
+		
+		for (Map.Entry<PlayerNumber, Player> player : players.entrySet()) {
+			TransportPlayer transportPlayer = new TransportPlayer();
+			
+			transportPlayer = scoreboard.getTransportPlayer(transportPlayer, player.getKey());
+			transportPlayer = player.getValue().getTransportPlayer(transportPlayer);
+			transportPlayer = broker.getTransportPlayer(transportPlayer, player.getKey());
+			
+			transportPlayers.add(transportPlayer);
+		}
+		
+		return (TransportPlayer[]) transportPlayers.toArray();
 	}
 
 	/**
