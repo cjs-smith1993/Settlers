@@ -156,20 +156,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 		return (oldState == queryState && newState != queryState);
 	}
 
-	private boolean isPlaying(PlayerNumber player) {
-		if (this.game.getState() == CatanState.PLAYING
-				&& this.game.getCurrentPlayer() == player) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private boolean inSetup() {
-		CatanState state = this.game.getState();
-		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
-	}
-
 	/*
 	 * User server methods
 	 */
