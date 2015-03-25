@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import shared.definitions.*;
+import shared.locations.EdgeLocation;
 import shared.transport.TransportBank;
 import shared.transport.TransportDeck;
 import shared.transport.TransportPlayer;
@@ -132,6 +133,37 @@ public class Broker {
 		return success;
 	}
 	
+	/**
+	 * Sets the invoice's resource for a given {@link ResourceType}, at a given quantity.
+	 * @param invoice
+	 * @param resource
+	 * @param quantity
+	 * @return {@link ResourceInvoice}
+	 */
+	private ResourceInvoice setInvoiceResource(ResourceInvoice invoice, ResourceType resource, int quantity) {
+		switch (resource) {
+		case BRICK:
+			invoice.setBrick(quantity);
+			break;
+		case ORE:
+			invoice.setOre(quantity);
+			break;
+		case SHEEP:
+			invoice.setSheep(quantity);
+			break;
+		case WHEAT:
+			invoice.setWheat(quantity);
+			break;
+		case WOOD:
+			invoice.setWood(quantity);
+			break;
+		default:
+			break;
+		}
+		
+		return invoice;
+	}
+	
 	public ResourceInvoice randomRobPlayer(PlayerNumber playerIndex, PlayerNumber victim) {
 		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
 		
@@ -169,25 +201,7 @@ public class Broker {
 					&& holding.getKey() != PlayerNumber.BANK) {
 				ResourceInvoice invoice = new ResourceInvoice(holding.getKey(), player);
 				
-				switch (resource) {
-				case BRICK:
-					invoice.setBrick(holding.getValue().getResourceCardCount(resource));
-					break;
-				case ORE:
-					invoice.setOre(holding.getValue().getResourceCardCount(resource));
-					break;
-				case SHEEP:
-					invoice.setSheep(holding.getValue().getResourceCardCount(resource));
-					break;
-				case WHEAT:
-					invoice.setWheat(holding.getValue().getResourceCardCount(resource));
-					break;
-				case WOOD:
-					invoice.setWood(holding.getValue().getResourceCardCount(resource));
-					break;
-				default:
-					break;
-				}
+				invoice = this.setInvoiceResource(invoice, resource, holding.getValue().getResourceCardCount(resource));
 				
 				this.processInvoice(invoice);
 			}
@@ -196,9 +210,24 @@ public class Broker {
 		((PlayerHoldings)holdings.get(player)).removeDevelopmentCard(DevCardType.MONOPOLY, 1);
 	}
 	
+	public void processYearOfPlenty(PlayerNumber playerIndex, ResourceType resource1, ResourceType resource2) throws CatanException {
+		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, playerIndex);
+		invoice = this.setInvoiceResource(invoice, resource1, 1);
+		invoice = this.setInvoiceResource(invoice, resource2, 1);
+		this.processInvoice(invoice);
+		
+		PlayerHoldings playerHolding = ((PlayerHoldings)holdings.get(playerIndex));
+		playerHolding.addDevelopmentCardCollection(DevCardType.YEAR_OF_PLENTY, playerHolding.removeDevelopmentCard(DevCardType.YEAR_OF_PLENTY, 1));
+	}
+	
 	public void processMonument(PlayerNumber player) {
 		PlayerHoldings playerHolding = ((PlayerHoldings)holdings.get(player));
 		playerHolding.addDevelopmentCardCollection(DevCardType.MONUMENT, playerHolding.removeDevelopmentCard(DevCardType.MONUMENT, 1));
+	}
+	
+	public void processRoadBuilding(PlayerNumber playerIndex) {
+		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
+		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
 	}
 
 	/**
@@ -297,10 +326,12 @@ public class Broker {
 	 */
 	public void purchase(PlayerNumber player, PropertyType type) throws CatanException {
 		ResourceInvoice purchase;
+		
 		if (!(this.canPurchase(player, type))) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
 					"Not enough resource cards to purchase");
 		}
+		
 		switch (type) {
 		case ROAD:
 			purchase = new ResourceInvoice(player, PlayerNumber.BANK);

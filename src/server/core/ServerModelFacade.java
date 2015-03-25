@@ -228,16 +228,30 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel useYearOfPlenty(PlayerNumber playerIndex,
-			ResourceType resource1, ResourceType resource2) {
-		// TODO Auto-generated method stub
-		return this.getModel();
+			ResourceType resource1, ResourceType resource2) throws CatanException {
+		if (this.canUseYearOfPlenty(playerIndex)) {
+			this.broker.processYearOfPlenty(playerIndex, resource1, resource2);
+			return this.getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"You are not qualified to use the Year Of Plenty card. Repent.");
+		}
 	}
 
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
-			EdgeLocation edge1, EdgeLocation edge2) {
-		// TODO Auto-generated method stub
-		//check state
-		return this.getModel();
+			EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
+		if (this.canUseRoadBuilding(playerIndex)) {
+			this.buildRoad(playerIndex, edge1, true);
+			this.buildRoad(playerIndex, edge2, true);
+			this.broker.processRoadBuilding(playerIndex);
+
+			return this.getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"You are not qualified to use the Road Building card. Repent.");
+		}
 	}
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
@@ -278,7 +292,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
 			boolean isFree) throws CatanException {
 		if (this.canBuildRoad(playerIndex, isFree)) {
-			// Handle isFree, such that no resources are used if true.
 			if (!isFree) {
 				this.broker.purchase(playerIndex, PropertyType.ROAD);
 			}
