@@ -301,7 +301,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			return getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildSettlement. Repent.");
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildCity. Repent.");
 		}
 	}
 
