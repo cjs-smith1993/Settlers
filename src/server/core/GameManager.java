@@ -71,9 +71,9 @@ public class GameManager {
 		int gameid = this.nextGame++;
 		ArrayList<DTOPlayer> player_list = new ArrayList<DTOPlayer>();
 		DTOGame info = new DTOGame(gameid, name, player_list);
-		ServerModelFacade smf = new ServerModelFacade(randomTiles, randomNumbers, randomPorts);
-		this.games.put(info.id, smf);
-		this.gamesInfo.put(info.id, info);
+		ServerModelFacade smf = new ServerModelFacade(gameid, randomTiles, randomNumbers, randomPorts);
+		games.put(info.id, smf);
+		gamesInfo.put(info.id, info);
 		return info;
 
 	}

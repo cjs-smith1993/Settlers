@@ -27,8 +27,11 @@ import shared.transport.TransportTurnTracker;
  *
  */
 public class ServerModelFacade extends AbstractModelFacade {
-	public ServerModelFacade(boolean randomTiles, boolean randomNumbers,
+	private int gameId;
+	
+	public ServerModelFacade(int gameId, boolean randomTiles, boolean randomNumbers,
 			boolean randomPorts) {
+		this.gameId = gameId;
 		this.board = new Board(randomTiles, randomNumbers, randomPorts);
 		this.game = new Game();
 		this.broker = new Broker();
@@ -416,5 +419,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		this.game.setState(CatanState.ROBBING);
 		this.version++;
+	}
+	
+	public int getGameId() {
+		return this.gameId;
 	}
 }
