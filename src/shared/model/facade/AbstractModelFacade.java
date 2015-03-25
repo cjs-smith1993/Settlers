@@ -18,6 +18,7 @@ import shared.model.Board;
 import shared.model.Broker;
 import shared.model.CatanException;
 import shared.model.Game;
+import shared.model.Message;
 import shared.model.Player;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
