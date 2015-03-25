@@ -43,7 +43,7 @@ public class MovesBuildCityCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildCity(this.playerIndex, this.vertexLocation);
+		return cortex.movesBuildCity(this.playerIndex, this.vertexLocation, this.getGameId(), this.getPlayerId());
 	}
 
 }

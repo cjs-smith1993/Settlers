@@ -43,7 +43,7 @@ public class MovesDiscardCardsCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesDiscardCards(this.playerIndex, this.discardedCards);
+		return cortex.movesDiscardCards(this.playerIndex, this.discardedCards, this.getGameId(), this.getPlayerId());
 	}
 
 }

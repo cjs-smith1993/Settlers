@@ -30,7 +30,7 @@ public class MovesFinishTurnCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesFinishTurn(this.playerIndex);
+		return cortex.movesFinishTurn(this.playerIndex, this.getGameId(), this.getPlayerId());
 	}
 
 }

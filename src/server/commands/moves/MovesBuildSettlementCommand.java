@@ -45,7 +45,7 @@ public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free);
+		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free, this.getGameId(), this.getPlayerId());
 	}
 
 }

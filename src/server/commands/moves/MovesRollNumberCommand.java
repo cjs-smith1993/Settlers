@@ -31,7 +31,7 @@ public class MovesRollNumberCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesRollNumber(this.playerIndex, this.number);
+		return cortex.movesRollNumber(this.playerIndex, this.number, this.getGameId(), this.getPlayerId());
 	}
 
 }

@@ -30,7 +30,7 @@ public class MovesMonumentCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesMonument(this.playerIndex);
+		return cortex.movesMonument(this.playerIndex, this.getGameId(), this.getPlayerId());
 	}
 
 }

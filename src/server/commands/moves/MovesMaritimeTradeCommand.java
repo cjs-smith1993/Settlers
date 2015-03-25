@@ -44,7 +44,7 @@ public class MovesMaritimeTradeCommand extends AbstractMovesCommand {
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		return cortex.movesMaritimeTrade(this.playerIndex, this.ratio, this.inputResource,
-				this.outputResource);
+				this.outputResource, this.getGameId(), this.getPlayerId());
 	}
 
 }

@@ -35,7 +35,7 @@ public class MovesSoldierCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesSoldier(this.playerIndex, this.victimIndex, this.location);
+		return cortex.movesSoldier(this.playerIndex, this.victimIndex, this.location, this.getGameId(), this.getPlayerId());
 	}
 
 }

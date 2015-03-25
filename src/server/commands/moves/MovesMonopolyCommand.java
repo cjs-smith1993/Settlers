@@ -39,7 +39,7 @@ public class MovesMonopolyCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesMonopoly(this.playerIndex, this.resource);
+		return cortex.movesMonopoly(this.playerIndex, this.resource, this.getGameId(), this.getPlayerId());
 	}
 
 }

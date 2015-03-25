@@ -41,7 +41,7 @@ public class MovesYearOfPlentyCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesYearOfPlenty(this.playerIndex, this.resource1, this.resource2);
+		return cortex.movesYearOfPlenty(this.playerIndex, this.resource1, this.resource2, this.getGameId(), this.getPlayerId());
 	}
 
 }

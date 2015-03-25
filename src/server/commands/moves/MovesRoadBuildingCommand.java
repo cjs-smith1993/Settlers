@@ -47,7 +47,7 @@ public class MovesRoadBuildingCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesRoadBuilding(this.playerIndex, this.edge1, this.edge2);
+		return cortex.movesRoadBuilding(this.playerIndex, this.edge1, this.edge2, this.getGameId(), this.getPlayerId());
 	}
 
 }
