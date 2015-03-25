@@ -31,11 +31,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.openOffer = null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void getModel(boolean sendVersion) {
+	public TransportModel getModel() {
 		TransportModel transportModel = new TransportModel();
 		
 		transportModel.bank = broker.getTransportBank();
@@ -53,6 +49,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 		transportModel.players = getTransportPlayers();
 		transportModel.version = version;
 		transportModel.winner = winnerServerID;
+		
+		return transportModel;
 	}
 	
 	public TransportPlayer[] getTransportPlayers() {
