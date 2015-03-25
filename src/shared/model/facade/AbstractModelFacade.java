@@ -1,10 +1,16 @@
 package shared.model.facade;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import client.backend.CatanSerializer;
 import client.frontend.data.PlayerInfo;
 import shared.definitions.CatanState;
 import shared.definitions.DevCardType;
@@ -23,6 +29,9 @@ import shared.model.Player;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
 import shared.model.Scoreboard;
+import shared.transport.TransportLine;
+import shared.transport.TransportModel;
+import shared.transport.TransportPlayer;
 
 
 /**
@@ -54,6 +63,43 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 		}
 
 		return false;
+	}
+	
+	public void initializeModel(TransportModel newModel) throws CatanException {
+		this.board = new Board(newModel.map);
+
+		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(newModel.players));
+		this.broker = new Broker(newModel.bank, newModel.deck, players,
+				this.board.getHarborsByPlayer());
+
+		this.game = new Game(players, newModel.turnTracker);
+		this.scoreboard = new Scoreboard(players, newModel.turnTracker);
+
+		List<TransportLine> chat = new ArrayList<TransportLine>(Arrays.asList(newModel.chat.lines));
+		List<TransportLine> log = new ArrayList<TransportLine>(Arrays.asList(newModel.log.lines));
+
+		this.postOffice = new PostOffice(chat, log);
+		this.version = newModel.version;
+	}
+	
+	public TransportModel getModelFromFile(String fileName) throws IOException, CatanException {
+		
+		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
+		StringBuilder builder = new StringBuilder();
+		
+		while (reader.ready()) {
+			builder.append(reader.readLine());
+		}
+		
+		reader.close();
+		return (TransportModel) CatanSerializer.getInstance().deserializeObject(builder.toString(), TransportModel.class);
+	}
+	
+	public void initializeModelFromFile(String fileName) throws IOException, CatanException {
+		
+		this.initializeModel(this.getModelFromFile(fileName));
+		
+		return; 
 	}
 	
 	/*
