@@ -166,19 +166,19 @@ public class Bank implements Hand {
 		if (rand < soldierCount) {
 			return this.getDevelopmentCard(DevCardType.SOLDIER);
 		}
-		rand -= (soldierCount - 1);
+		rand -= soldierCount;
 		if (rand < monoplyCount) {
 			return this.getDevelopmentCard(DevCardType.MONOPOLY);
 		}
-		rand -= (monoplyCount - 1);
+		rand -= monoplyCount;
 		if (rand < roadBuildCount) {
 			return this.getDevelopmentCard(DevCardType.ROAD_BUILD);
 		}
-		rand -= (roadBuildCount - 1);
+		rand -= roadBuildCount;
 		if (rand < yearofPlentyCount) {
 			return this.getDevelopmentCard(DevCardType.YEAR_OF_PLENTY);
 		}
-		rand -= (yearofPlentyCount - 1);
+		rand -= yearofPlentyCount;
 		if (rand < monumentCount) {
 			return this.getDevelopmentCard(DevCardType.MONOPOLY);
 		}
