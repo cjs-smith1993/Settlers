@@ -39,4 +39,31 @@ public class UserCertificate {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result + playerID;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserCertificate other = (UserCertificate) obj;
+		return (this.name.equals(other.name)
+				&& this.password.equals(other.password)
+				&& this.playerID == other.playerID);
+	}
 }
