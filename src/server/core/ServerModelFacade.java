@@ -137,7 +137,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 		if (this.canRollNumber(playerIndex)) {
 			this.game.setCurrentPlayerHasRolled(true);
-			this.version++;
+			this.incrementVersion();
 
 			String name = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, name + " rolled a " + Integer.toString(numberRolled));
@@ -193,9 +193,16 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 					if (invoice != null) {
 						this.broker.processInvoice(invoice);
+					} else {
+						throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+								"The trade invoice was null");
 					}
+				} else {
+					throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+							"That player has no cards to steal.");
 				}
-
+				this.sendLog(playerIndex, this.getNameForPlayerNumber(playerIndex)+" just robbed"+ this.getNameForPlayerNumber(victim));
+				this.incrementVersion();
 				return this.getModel();
 			}
 			else {
@@ -206,7 +213,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
-					"CurrentPlayer or State. is not correct");
+					"CurrentPlayer or State is not correct");
 		}
 	}
 
@@ -216,7 +223,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.game.setState(CatanState.ROLLING);
 			this.game.advanceTurn();
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
-
+			this.sendLog(playerIndex, this.getNameForPlayerNumber(playerIndex)+" ended their turn.");
+			this.incrementVersion();
 			return this.getModel();
 		}
 		else {
@@ -227,7 +235,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel buyDevCard(PlayerNumber playerIndex) throws CatanException {
-		// TODO Auto-generated method stub
 		this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
 		return this.getModel();
 	}
@@ -236,6 +243,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 			ResourceType resource1, ResourceType resource2) throws CatanException {
 		if (this.canUseYearOfPlenty(playerIndex)) {
 			this.broker.processYearOfPlenty(playerIndex, resource1, resource2);
+			this.sendLog(playerIndex, this.getNameForPlayerNumber(playerIndex)+ " played Year of Plenty");
+			this.incrementVersion();
 			return this.getModel();
 		}
 		else {
@@ -250,7 +259,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.buildRoad(playerIndex, edge1, true);
 			this.buildRoad(playerIndex, edge2, true);
 			this.broker.processRoadBuilding(playerIndex);
-
+			this.incrementVersion();
+			this.sendLog(playerIndex, this.getNameForPlayerNumber(playerIndex)+" just used road building");
 			return this.getModel();
 		}
 		else {
@@ -262,10 +272,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel useSoldier(PlayerNumber playerIndex,
 			PlayerNumber victim, HexLocation newLocation) throws CatanException {
 		if (canUseSoldier(playerIndex)) {
-			broker.processSoldier(playerIndex);
-			this.robPlayer(playerIndex, victim, newLocation);
-			
-			return robPlayer(playerIndex, victim, newLocation);
+			broker.processSoldier(playerIndex);	
+			this.sendLog(playerIndex, this.getNameForPlayerNumber(playerIndex)+" played a soldier");
+			return this.robPlayer(playerIndex, victim, newLocation);
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Soldier card. Repent.");
@@ -356,11 +365,11 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		else {
 			this.openOffer = null;
-			this.version++;
+			this.incrementVersion();
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"it is not your turn or you can't offer that trade.");
 		}
-		this.version++;
+		this.incrementVersion();
 		return getModel();
 	}
 
@@ -369,11 +378,11 @@ public class ServerModelFacade extends AbstractModelFacade {
 		if(this.canAcceptTrade(openOffer) && willAccept) {
 			this.broker.processInvoice(openOffer);
 			this.sendLog(openOffer.getSourcePlayer(), "Trade was accepted");
-			this.version++;
+			this.incrementVersion();
 		} else {
 			this.openOffer = null;
 			this.sendLog(openOffer.getSourcePlayer(), "Trade was declined");
-			this.version++;
+			this.incrementVersion();
 		}
 		return this.getModel();
 	}
@@ -429,7 +438,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 				}
 			}
 			this.broker.processInvoice(invoice);
-			this.version++;
+			this.incrementVersion();
 			this.sendLog(playerIndex, "Just Maritime Traded!");
 		} else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,"Can not maritime trade.");
@@ -485,7 +494,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 
 		this.game.setState(CatanState.DISCARDING);
-		this.version++;
+		this.incrementVersion();
 	}
 
 	/**
@@ -523,7 +532,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			}
 		}
 		this.game.setState(CatanState.ROBBING);
-		this.version++;
+		this.incrementVersion();
 	}
 
 	public int getGameId() {
@@ -543,6 +552,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		DTOGame gameInfo = new DTOGame(this.getGameId(), this.getName(), players);
 		return gameInfo;
+	}
+	private void incrementVersion() {
+		this.version++;
 	}
 
 }

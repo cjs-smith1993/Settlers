@@ -269,8 +269,6 @@ public class Broker {
 	public void processRoadBuilding(PlayerNumber playerIndex) {
 		((PlayerHoldings) this.holdings.get(playerIndex)).removeDevelopmentCard(
 				DevCardType.ROAD_BUILD, 1);
-		((PlayerHoldings) this.holdings.get(playerIndex)).removeDevelopmentCard(
-				DevCardType.ROAD_BUILD, 1);
 	}
 
 	public void processSoldier(PlayerNumber player) {
@@ -280,7 +278,7 @@ public class Broker {
 	}
 
 	/**
-	 * @deprecated We dont need this because now process invoice does this all
+	 * We dont need this because now process invoice does this all
 	 *             for us
 	 *
 	 * @param srcPlayer
