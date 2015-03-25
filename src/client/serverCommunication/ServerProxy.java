@@ -102,7 +102,7 @@ public class ServerProxy implements ServerInterface {
 			br.close();
 		}
 		else {
-			String message = "Status code != 200";
+			String message = connection.getResponseMessage();
 			throw new ServerException(ServerExceptionType.INVALID_OPERATION, message);
 		}
 
