@@ -14,6 +14,8 @@ import shared.model.CatanException;
  */
 
 public abstract class AbstractGameCommand extends AbstractCommand {
+	
+	private int gameId;
 
 	/**
 	 * {@inheritDoc}
@@ -33,5 +35,14 @@ public abstract class AbstractGameCommand extends AbstractCommand {
 	 * {@inheritDoc}
 	 */
 	public abstract CommandResponse executeInner() throws CatanException, ServerException;
+
+	public int getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(int gameId) {
+		this.gameId = gameId;
+	}
+	
 
 }

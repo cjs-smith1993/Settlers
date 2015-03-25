@@ -141,7 +141,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameModel(int version) throws CatanException, ServerException {
+	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -149,7 +149,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameReset() throws CatanException, ServerException {
+	public TransportModel gameReset(int gameId) throws CatanException, ServerException {
 		return this.getFakeModel();
 	}
 
@@ -157,7 +157,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<JsonObject> gameCommands() throws CatanException, ServerException {
+	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -166,7 +166,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
+	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId) throws CatanException,
 			ServerException {
 		// TODO Auto-generated method stub
 		return null;

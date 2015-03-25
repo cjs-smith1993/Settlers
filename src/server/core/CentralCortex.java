@@ -147,7 +147,7 @@ public class CentralCortex implements ICortex {
 	 */
 	//need to know what game to get the model for
 	@Override
-	public TransportModel gameModel(int version) throws CatanException, ServerException {
+	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -157,7 +157,7 @@ public class CentralCortex implements ICortex {
 	 */
 	//the id of the game that needs to be reset
 	@Override
-	public TransportModel gameReset() throws CatanException, ServerException {
+	public TransportModel gameReset(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -167,7 +167,7 @@ public class CentralCortex implements ICortex {
 	 */
 	//game id
 	@Override
-	public Collection<JsonObject> gameCommands() throws CatanException, ServerException {
+	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -177,7 +177,7 @@ public class CentralCortex implements ICortex {
 	 */
 	//game id
 	@Override
-	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
+	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId) throws CatanException,
 			ServerException {
 		// TODO Auto-generated method stub
 		return null;

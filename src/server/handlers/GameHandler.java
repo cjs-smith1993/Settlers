@@ -4,6 +4,7 @@ import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.CommandResponse;
 import server.commands.ICommand;
+import server.commands.game.AbstractGameCommand;
 import server.factories.GameCommandFactory;
 import server.util.CookieConverter;
 
@@ -34,6 +35,9 @@ public class GameHandler extends AbstractHandler {
 		boolean authenticatedGame = command.authenticateGame(gameCert);
 
 		if (authenticatedUser && authenticatedGame) {
+			if(command instanceof AbstractGameCommand) {
+				((AbstractGameCommand) command).setGameId(gameCert.getGameId());
+			}
 			response = command.execute();
 		}
 		else if (authenticatedUser) {

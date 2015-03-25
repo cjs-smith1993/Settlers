@@ -139,46 +139,50 @@ public interface ICortex {
 	/**
 	 * If user and game are authentic and the version is not current, returns
 	 * the updated model for the appropriate game
-	 *
+	 * @param version
+	 * @param gameId TODO
 	 * @param user
 	 * @param game
-	 * @param version
+	 *
 	 * @return the model of the corresponding game
 	 * @throws IOException
 	 * @throws ServerException
 	 */
-	public TransportModel gameModel(int version) throws CatanException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
+	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	/**
 	 * If user and game are authentic, returns the appropriate game to its state
 	 * right after the Setup Phase
-	 *
+	 * @param gameId TODO
 	 * @param user
 	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameReset() throws CatanException, ServerException;
+	public TransportModel gameReset(int gameId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, returns a list of every command that has
 	 * been executed since the game began
-	 *
+	 * @param gameId TODO
 	 * @param user
 	 * @param game
+	 *
 	 * @return
 	 */
-	public Collection<JsonObject> gameCommands() throws CatanException, ServerException;
+	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, applies the provided list of commands to
 	 * the appropriate game
-	 *
+	 * @param commandList
+	 * @param gameId TODO
 	 * @param user
 	 * @param game
-	 * @param commandList
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
+	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId) throws CatanException,
 			ServerException;
 
 	/*

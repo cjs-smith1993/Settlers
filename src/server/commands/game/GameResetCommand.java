@@ -28,7 +28,7 @@ public class GameResetCommand extends AbstractGameCommand {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
 
-		TransportModel model = cortex.gameReset();
+		TransportModel model = cortex.gameReset(this.getGameId());
 		String body = CatanSerializer.getInstance().serializeObject(model);
 		StatusCode status = StatusCode.OK;
 		ContentType contentType = ContentType.JSON;
