@@ -65,4 +65,5 @@ public abstract class AbstractMovesCommand extends AbstractCommand {
 	}
 
 	public abstract TransportModel performMovesCommand() throws CatanException, ServerException;
+
 }

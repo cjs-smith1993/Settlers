@@ -3,23 +3,20 @@ package shared.dataTransportObjects;
 import java.util.HashMap;
 import java.util.Map;
 
-import shared.definitions.PlayerNumber;
-
 public class DTOOfferTrade {
 	public String type = "offerTrade";
-	public PlayerNumber playerIndex;
+	public int playerIndex;
 	public Map<String, Object> offer;
-	public PlayerNumber receiver;
+	public int receiver;
 
 	public DTOOfferTrade(
-			PlayerNumber playerIndex,
+			int playerIndex,
 			int brick,
 			int ore,
 			int sheep,
 			int wheat,
 			int wood,
-			PlayerNumber receiver) {
-
+			int receiver) {
 		this.playerIndex = playerIndex;
 		this.offer = new HashMap<>();
 		this.offer.put("brick", brick);

@@ -43,8 +43,8 @@ public class GamesJoinCommand extends AbstractGamesCommand {
 	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-
-		GameCertificate gameCert = cortex.gamesJoin(this.id, this.color);
+		
+		GameCertificate gameCert = cortex.gamesJoin(this.id, this.color, this.getPlayerId());
 		String body = SUCCESS_MESSAGE;
 		StatusCode status = StatusCode.OK;
 		ContentType contentType = ContentType.PLAIN_TEXT;

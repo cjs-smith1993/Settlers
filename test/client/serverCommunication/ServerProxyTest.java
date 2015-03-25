@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Collection;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import client.backend.ClientModelFacade;
@@ -60,7 +61,7 @@ public class ServerProxyTest {
 		}
 	}
 
-	@Test
+	@Ignore
 	public void testgameListAI() {
 		try {
 			Collection<AIType> AIlist = proxy.gameListAI();

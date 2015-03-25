@@ -4,11 +4,11 @@ import shared.definitions.PlayerNumber;
 
 public class DTOMovesRollNumber {
 	public String type = "rollNumber";
-	public PlayerNumber playerIndex;
+	public int playerIndex;
 	public int number;
 
 	public DTOMovesRollNumber(PlayerNumber playerIndex, int number) {
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.number = number;
 	}
 }

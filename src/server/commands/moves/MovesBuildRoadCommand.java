@@ -28,11 +28,11 @@ public class MovesBuildRoadCommand extends AbstractMovesCommand {
 		DTOMovesBuildRoad dto = (DTOMovesBuildRoad) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesBuildRoad.class);
 
-		if (dto.playerIndex == null || dto.roadLocation.direction == null) {
+		if (dto.roadLocation.direction == null) {
 			throw new JsonParseException("JSON parse error");
 		}
 
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		HexLocation hex = new HexLocation(dto.roadLocation.x, dto.roadLocation.y);
 		EdgeDirection dir = dto.roadLocation.direction;
 		this.roadLocation = new EdgeLocation(hex, dir);
@@ -45,7 +45,7 @@ public class MovesBuildRoadCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildRoad(this.playerIndex, this.roadLocation, this.free);
+		return cortex.movesBuildRoad(this.playerIndex, this.roadLocation, this.free, this.getGameId(), this.getPlayerId());
 	}
 
 }

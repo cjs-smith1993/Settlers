@@ -8,6 +8,9 @@ import client.serverCommunication.ServerException;
 
 public abstract class AbstractCommand implements ICommand {
 
+	private int playerId;
+	private int gameId;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -50,4 +53,21 @@ public abstract class AbstractCommand implements ICommand {
 	 * @throws ServerException
 	 */
 	public abstract CommandResponse executeInner() throws CatanException, ServerException;
+
+	public int getPlayerId() {
+		return this.playerId;
+	}
+
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
+	}
+
+	public int getGameId() {
+		return this.gameId;
+	}
+
+	public void setGameId(int gameId) {
+		this.gameId = gameId;
+	}
+
 }

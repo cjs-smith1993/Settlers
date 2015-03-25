@@ -5,13 +5,13 @@ import shared.locations.HexLocation;
 
 public class DTOMovesSoldier {
 	public String type = "Soldier";
-	public PlayerNumber playerIndex;
-	public PlayerNumber victimIndex;
+	public int playerIndex;
+	public int victimIndex;
 	public HexLocation location;
 
 	public DTOMovesSoldier(PlayerNumber playerIndex, PlayerNumber victimIndex, int x, int y) {
-		this.playerIndex = playerIndex;
-		this.victimIndex = victimIndex;
+		this.playerIndex = playerIndex.getInteger();
+		this.victimIndex = victimIndex.getInteger();
 		this.location = new HexLocation(x, y);
 	}
 }

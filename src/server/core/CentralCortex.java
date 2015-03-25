@@ -33,10 +33,8 @@ public class CentralCortex implements ICortex {
 	private UserManager HRDepartment;
 
 	private CentralCortex() {
-		
-		gameWarden = new GameManager();
-		HRDepartment = new UserManager();
-
+		this.gameWarden = new GameManager();
+		this.HRDepartment = new UserManager();
 	}
 
 	public static CentralCortex getInstance() {
@@ -73,11 +71,13 @@ public class CentralCortex implements ICortex {
 	public UserCertificate userLogin(String username, String password) throws CatanException,
 			ServerException {
 		UserCertificate cert;
-		int id = HRDepartment.getUserId(username, password);
+		int id = this.HRDepartment.getUserId(username, password);
 		if (id != -1) {
 			cert = new UserCertificate(id, username, password);
-		} else {
-			throw new ServerException(ServerExceptionType.INVALID_OPERATION, "The username and password did not match");
+		}
+		else {
+			throw new ServerException(ServerExceptionType.INVALID_OPERATION,
+					"The username and password did not match");
 		}
 		return cert;
 	}
@@ -88,7 +88,8 @@ public class CentralCortex implements ICortex {
 	@Override
 	public UserCertificate userRegister(String username, String password) throws CatanException,
 			ServerException {
-		UserCertificate cert = new UserCertificate(HRDepartment.registerUser(username, password),username,password);
+		UserCertificate cert = new UserCertificate(this.HRDepartment.registerUser(username,
+				password), username, password);
 		return cert;
 	}
 
@@ -97,7 +98,7 @@ public class CentralCortex implements ICortex {
 	 */
 	@Override
 	public Collection<DTOGame> gamesList() throws CatanException, ServerException {
-		return gameWarden.getGames();
+		return this.gameWarden.getGames();
 	}
 
 	/**
@@ -109,17 +110,16 @@ public class CentralCortex implements ICortex {
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException, ServerException {
-		return gameWarden.createGame(randomTiles, randomNumbers, randomPorts, name);
+		return this.gameWarden.createGame(randomTiles, randomNumbers, randomPorts, name);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
-			ServerException {
-		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		
+	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId)
+			throws CatanException, ServerException {
+		//ServerModelFacade facade = gameWarden.getFacadeById(gameId);
 		return null;
 	}
 
@@ -145,7 +145,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameModel(int version) throws CatanException, ServerException {
+	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -154,7 +154,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameReset() throws CatanException, ServerException {
+	public TransportModel gameReset(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -163,7 +163,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<JsonObject> gameCommands() throws CatanException, ServerException {
+	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -172,17 +172,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
-			ServerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TransportModel movesSendChat(PlayerNumber playerIndex, String content)
+	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId)
 			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
@@ -191,8 +181,13 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game they are in
 	@Override
-	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number)
+	public TransportModel movesSendChat(
+			PlayerNumber playerIndex,
+			String content,
+			int gameId,
+			int userId)
 			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
@@ -201,11 +196,30 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//the game the number is rolled in
+	//and isn't our server rolling for people?
+	@Override
+	public TransportModel movesRollNumber(
+			PlayerNumber playerIndex,
+			int number,
+			int gameId,
+			int userId)
+			throws CatanException, ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	//which game do we call this on
 	@Override
 	public TransportModel movesRobPlayer(
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location) throws CatanException, ServerException {
+			HexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -213,9 +227,10 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game is this player in
 	@Override
-	public TransportModel movesFinishTurn(PlayerNumber playerIndex) throws CatanException,
-			ServerException {
+	public TransportModel movesFinishTurn(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -223,9 +238,10 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game ??
 	@Override
-	public TransportModel movesBuyDevCard(PlayerNumber playerIndex) throws CatanException,
-			ServerException {
+	public TransportModel movesBuyDevCard(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -233,11 +249,14 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
-			ResourceType resource2) throws CatanException, ServerException {
+			ResourceType resource2,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -245,11 +264,14 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
-			EdgeLocation spot2) throws CatanException, ServerException {
+			EdgeLocation spot2,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -257,11 +279,14 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
 	public TransportModel movesSoldier(
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location) throws CatanException, ServerException {
+			HexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -269,8 +294,23 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game
 	@Override
-	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
+	public TransportModel movesMonopoly(
+			PlayerNumber playerIndex,
+			ResourceType resource,
+			int gameId,
+			int userId) throws CatanException, ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	//which game
+	@Override
+	public TransportModel movesMonument(PlayerNumber playerIndex, int gameId, int userId)
 			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
@@ -279,21 +319,14 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public TransportModel movesMonument(PlayerNumber playerIndex) throws CatanException,
-			ServerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	//which game
 	@Override
 	public TransportModel movesBuildRoad(
 			PlayerNumber playerIndex,
 			EdgeLocation location,
-			boolean free) throws CatanException, ServerException {
+			boolean free,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -301,11 +334,14 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesBuildSettlement(
 			PlayerNumber playerIndex,
 			VertexLocation location,
-			boolean free) throws CatanException, ServerException {
+			boolean free,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -313,8 +349,23 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
-	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
+	public TransportModel movesBuildCity(
+			PlayerNumber playerIndex,
+			VertexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	//which game??
+	@Override
+	public TransportModel movesOfferTrade(ResourceInvoice invoice, int gameId, int userId)
 			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
@@ -323,9 +374,13 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
-	public TransportModel movesOfferTrade(ResourceInvoice invoice) throws CatanException,
-			ServerException {
+	public TransportModel movesAcceptTrade(
+			PlayerNumber playerIndex,
+			boolean willAccept,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -333,22 +388,15 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
-			throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	//which game??
 	@Override
 	public TransportModel movesMaritimeTrade(
 			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
-			ResourceType outputResource) throws CatanException, ServerException {
+			ResourceType outputResource,
+			int gameId,
+			int userId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -356,10 +404,14 @@ public class CentralCortex implements ICortex {
 	/**
 	 * {@inheritDoc}
 	 */
+	//which game??
 	@Override
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
-			Map<ResourceType, Integer> discardedCards) throws CatanException, ServerException {
+			Map<ResourceType, Integer> discardedCards,
+			int gameId,
+			int userId)
+			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

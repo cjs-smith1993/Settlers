@@ -104,13 +104,16 @@ public interface ICortex {
 	/**
 	 * If user is authentic, adds the user to the specified game
 	 *
-	 * @param user
 	 * @param gameId
 	 * @param color
+	 * @param playerId
+	 *            TODO
+	 * @param user
+	 *
 	 * @return
 	 */
-	public GameCertificate gamesJoin(int gameId, CatanColor color) throws CatanException,
-			ServerException;
+	public GameCertificate gamesJoin(int gameId, CatanColor color, int playerId)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user is authentic, saves the appropriate game to the given file
@@ -139,46 +142,58 @@ public interface ICortex {
 	 * If user and game are authentic and the version is not current, returns
 	 * the updated model for the appropriate game
 	 *
+	 * @param version
+	 * @param gameId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param version
+	 *
 	 * @return the model of the corresponding game
 	 * @throws IOException
 	 * @throws ServerException
 	 */
-	public TransportModel gameModel(int version) throws CatanException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
+	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException;//the return type will depend on if we make listener or if we try to send this to a deserializer
 
 	/**
 	 * If user and game are authentic, returns the appropriate game to its state
 	 * right after the Setup Phase
 	 *
+	 * @param gameId
+	 *            TODO
 	 * @param user
 	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameReset() throws CatanException, ServerException;
+	public TransportModel gameReset(int gameId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, returns a list of every command that has
 	 * been executed since the game began
 	 *
+	 * @param gameId
+	 *            TODO
 	 * @param user
 	 * @param game
+	 *
 	 * @return
 	 */
-	public Collection<JsonObject> gameCommands() throws CatanException, ServerException;
+	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, applies the provided list of commands to
 	 * the appropriate game
 	 *
+	 * @param commandList
+	 * @param gameId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param commandList
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameCommands(Collection<JsonObject> commandList) throws CatanException,
-			ServerException;
+	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId)
+			throws CatanException, ServerException;
 
 	/*
 	 * Moves methods
@@ -188,245 +203,364 @@ public interface ICortex {
 	 * If user and game are authentic, sends the provided chat in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param content
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesSendChat(PlayerNumber playerIndex, String content)
+	public TransportModel movesSendChat(
+			PlayerNumber playerIndex,
+			String content,
+			int gameId,
+			int userId)
 			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, rolls the dice for the player in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param number
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesRollNumber(PlayerNumber playerIndex, int number)
+	public TransportModel movesRollNumber(
+			PlayerNumber playerIndex,
+			int number,
+			int gameId,
+			int userId)
 			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, robs the victim for the player in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param victimIndex
 	 * @param location
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesRobPlayer(
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location) throws CatanException, ServerException;
+			HexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, finishes the player's turn in the
 	 * appropriate game
 	 *
+	 * @param playerIndex
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param playerIndex
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesFinishTurn(PlayerNumber playerIndex) throws CatanException,
-			ServerException;
+	public TransportModel movesFinishTurn(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, buys a development card for the player in
 	 * the appropriate game
 	 *
+	 * @param playerIndex
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param playerIndex
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesBuyDevCard(PlayerNumber playerIndex) throws CatanException,
-			ServerException;
+	public TransportModel movesBuyDevCard(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's year of plenty
 	 * development card in the appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesYearOfPlenty(
 			PlayerNumber playerIndex,
 			ResourceType resource1,
-			ResourceType resource2) throws CatanException, ServerException;
+			ResourceType resource2,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's road building development
 	 * card in the appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param spot1
 	 * @param spot2
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesRoadBuilding(
 			PlayerNumber playerIndex,
 			EdgeLocation spot1,
-			EdgeLocation spot2) throws CatanException, ServerException;
+			EdgeLocation spot2,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's soldier development card
 	 * in the appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param victimIndex
 	 * @param location
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesSoldier(
 			PlayerNumber playerIndex,
 			PlayerNumber victimIndex,
-			HexLocation location) throws CatanException, ServerException;
+			HexLocation location,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's monopoly development card
 	 * in the appropriate game
 	 *
+	 * @param playerIndex
+	 * @param resource
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param resource
-	 * @param playerIndex
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesMonopoly(PlayerNumber playerIndex, ResourceType resource)
-			throws CatanException, ServerException;
+	public TransportModel movesMonopoly(
+			PlayerNumber playerIndex,
+			ResourceType resource,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, uses a player's monument development card
 	 * in the appropriate game
 	 *
+	 * @param playerIndex
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param playerIndex
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesMonument(PlayerNumber playerIndex) throws CatanException,
-			ServerException;
+	public TransportModel movesMonument(PlayerNumber playerIndex, int gameId, int userId)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, builds a road for the player in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param location
 	 * @param free
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildRoad(
 			PlayerNumber playerIndex,
 			EdgeLocation location,
-			boolean free) throws CatanException, ServerException;
+			boolean free,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, builds a settlement for the player in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param location
 	 * @param free
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesBuildSettlement(
 			PlayerNumber playerIndex,
 			VertexLocation location,
-			boolean free) throws CatanException, ServerException;
+			boolean free,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, builds a city for the player in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param location
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesBuildCity(PlayerNumber playerIndex, VertexLocation location)
+	public TransportModel movesBuildCity(
+			PlayerNumber playerIndex,
+			VertexLocation location,
+			int gameId,
+			int userId)
 			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, offers a trade between players in the
 	 * appropriate game
 	 *
+	 * @param invoice
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param invoice
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesOfferTrade(ResourceInvoice invoice) throws CatanException,
-			ServerException;
+	public TransportModel movesOfferTrade(ResourceInvoice invoice, int gameId, int userId)
+			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, accepts a trade between players in the
 	 * appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param willAccept
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept)
+	public TransportModel movesAcceptTrade(
+			PlayerNumber playerIndex,
+			boolean willAccept,
+			int gameId,
+			int userId)
 			throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, performs a maritime trade for the player
 	 * in the appropriate game
 	 *
-	 * @param user
-	 * @param game
 	 * @param playerIndex
 	 * @param ratio
 	 * @param inputResource
 	 * @param outputResource
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
+	 * @param user
+	 * @param game
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesMaritimeTrade(
 			PlayerNumber playerIndex,
 			int ratio,
 			ResourceType inputResource,
-			ResourceType outputResource) throws CatanException, ServerException;
+			ResourceType outputResource,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, discards a player's cards in the
 	 * appropriate game
 	 *
+	 * @param playerIndex
+	 * @param gameId
+	 *            TODO
+	 * @param userId
+	 *            TODO
 	 * @param user
 	 * @param game
-	 * @param playerIndex
 	 * @param brick
 	 * @param ore
 	 * @param sheep
 	 * @param wheat
 	 * @param wood
+	 *
 	 * @return the updated model of the corresponding game
 	 */
 	public TransportModel movesDiscardCards(
 			PlayerNumber playerIndex,
-			Map<ResourceType, Integer> discardedCards) throws CatanException, ServerException;
+			Map<ResourceType, Integer> discardedCards,
+			int gameId,
+			int userId) throws CatanException, ServerException;
 
 }

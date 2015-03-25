@@ -34,6 +34,7 @@ public class GameHandler extends AbstractHandler {
 		boolean authenticatedGame = command.authenticateGame(gameCert);
 
 		if (authenticatedUser && authenticatedGame) {
+			command.setGameId(gameCert.getGameId());
 			response = command.execute();
 		}
 		else if (authenticatedUser) {

@@ -25,11 +25,11 @@ public class MovesMonopolyCommand extends AbstractMovesCommand {
 		DTOMovesMonopoly dto = (DTOMovesMonopoly) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesMonopoly.class);
 
-		if (dto.playerIndex == null || dto.resource == null) {
+		if (dto.resource == null) {
 			throw new JsonParseException("JSON parse error");
 		}
 
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		this.resource = dto.resource;
 	}
 
@@ -39,7 +39,7 @@ public class MovesMonopolyCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesMonopoly(this.playerIndex, this.resource);
+		return cortex.movesMonopoly(this.playerIndex, this.resource, this.getGameId(), this.getPlayerId());
 	}
 
 }

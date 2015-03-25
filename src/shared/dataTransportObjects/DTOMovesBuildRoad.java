@@ -5,7 +5,7 @@ import shared.locations.EdgeDirection;
 
 public class DTOMovesBuildRoad {
 	public String type = "buildRoad";
-	public PlayerNumber playerIndex;
+	public int playerIndex;
 	public Boolean free = false;
 	public DTOEdgeLocation roadLocation;
 
@@ -16,7 +16,7 @@ public class DTOMovesBuildRoad {
 			EdgeDirection direction,
 			Boolean free) {
 
-		this.playerIndex = playerIndex;
+		this.playerIndex = playerIndex.getInteger();
 		this.free = free;
 		this.roadLocation = new DTOEdgeLocation(x, y, direction);
 	}

@@ -27,11 +27,11 @@ public class MovesMaritimeTradeCommand extends AbstractMovesCommand {
 		DTOMovesMaritimeTrade dto = (DTOMovesMaritimeTrade) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesMaritimeTrade.class);
 
-		if (dto.playerIndex == null || dto.inputResource == null || dto.outputResource == null) {
+		if (dto.inputResource == null || dto.outputResource == null) {
 			throw new JsonParseException("JSON parse error");
 		}
 
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		this.ratio = dto.ratio;
 		this.inputResource = dto.inputResource;
 		this.outputResource = dto.outputResource;
@@ -44,7 +44,7 @@ public class MovesMaritimeTradeCommand extends AbstractMovesCommand {
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		return cortex.movesMaritimeTrade(this.playerIndex, this.ratio, this.inputResource,
-				this.outputResource);
+				this.outputResource, this.getGameId(), this.getPlayerId());
 	}
 
 }

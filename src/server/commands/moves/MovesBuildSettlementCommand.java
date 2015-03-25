@@ -28,11 +28,11 @@ public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 		DTOMovesBuildSettlement dto = (DTOMovesBuildSettlement) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesBuildSettlement.class);
 
-		if (dto.playerIndex == null || dto.vertexLocation.direction == null) {
+		if (dto.vertexLocation.direction == null) {
 			throw new JsonParseException("JSON parse error");
 		}
 
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		HexLocation hex = new HexLocation(dto.vertexLocation.x, dto.vertexLocation.y);
 		VertexDirection dir = dto.vertexLocation.direction;
 		this.vertexLocation = new VertexLocation(hex, dir);
@@ -45,7 +45,7 @@ public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free);
+		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free, this.getGameId(), this.getPlayerId());
 	}
 
 }

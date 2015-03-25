@@ -34,6 +34,8 @@ public class MovesHandler extends AbstractHandler {
 		boolean authenticatedGame = command.authenticateGame(gameCert);
 
 		if (authenticatedUser && authenticatedGame) {
+			command.setGameId(gameCert.getGameId());
+			command.setPlayerId(userCert.getUserId());
 			response = command.execute();
 		}
 		else if (authenticatedUser) {

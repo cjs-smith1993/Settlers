@@ -1,7 +1,5 @@
 package server.commands.moves;
 
-import com.google.gson.JsonParseException;
-
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.core.CortexFactory;
@@ -23,11 +21,7 @@ public class MovesRollNumberCommand extends AbstractMovesCommand {
 		DTOMovesRollNumber dto = (DTOMovesRollNumber) CatanSerializer.getInstance()
 				.deserializeObject(json, DTOMovesRollNumber.class);
 
-		if (dto.playerIndex == null) {
-			throw new JsonParseException("JSON parse error");
-		}
-
-		this.playerIndex = dto.playerIndex;
+		this.playerIndex = PlayerNumber.getPlayerNumber(dto.playerIndex);
 		this.number = dto.number;
 	}
 
@@ -37,7 +31,7 @@ public class MovesRollNumberCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesRollNumber(this.playerIndex, this.number);
+		return cortex.movesRollNumber(this.playerIndex, this.number, this.getGameId(), this.getPlayerId());
 	}
 
 }
