@@ -56,6 +56,27 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 		return false;
 	}
 	
+	
+	public TransportModel getModelFromFile(String fileName) throws IOException, CatanException {
+		
+		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
+		StringBuilder builder = new StringBuilder();
+		
+		while (reader.ready()) {
+			builder.append(reader.readLine());
+		}
+		
+		reader.close();
+		return (TransportModel) CatanSerializer.getInstance().deserializeObject(builder.toString(), TransportModel.class);
+	}
+	
+	public void initializeModelFromFile(String fileName) throws IOException, CatanException {
+		
+		this.initializeModel(this.getModelFromFile(fileName));
+		
+		return; 
+	}
+	
 	/*
 	 * Moves server methods
 	 */
