@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import shared.definitions.CatanColor;
+import shared.definitions.CatanExceptionType;
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -93,14 +94,16 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled) {
 		// If 7, change state to discarding for those that need to discard.
 			// If people need to discard:
-				// Facade wait for people to discard.
+				// Set CatanState to DISCARDING.
 				// Keep a list of people that are discarding.
 			// Move to Robbing.
 		// Else, Map --> Resource Invoices --> Broker.
 			// Change state to Playing.
 		
 		if (numberRolled == 7) {
-			
+			if (broker.checkDiscardStatus()) {
+				game.setState(CatanState.DISCARDING);
+			}
 		}
 		else {
 			
@@ -211,9 +214,25 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel discardCards(PlayerNumber playerIndex, int brick, int ore,
-			int sheep, int wheat, int wood) {
-		// TODO Auto-generated method stub
+			int sheep, int wheat, int wood) throws CatanException {
+		
+		int numberOfDiscardedResources = brick + ore + sheep + wheat + wood;
+		
+		if (broker.getNumberToDiscard(playerIndex) == numberOfDiscardedResources) {
+			ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
+			
+			invoice.setBrick(brick);
+			invoice.setOre(ore);
+			invoice.setSheep(sheep);
+			invoice.setWheat(wheat);
+			invoice.setWood(wood);
+			
+			broker.processInvoice(invoice);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "User attempted to discard an invalid number of cards.");
+		}
+		
 		return getModel();
 	}
-
 }
