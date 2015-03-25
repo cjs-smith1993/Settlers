@@ -200,25 +200,7 @@ public class Broker {
 					&& holding.getKey() != PlayerNumber.BANK) {
 				ResourceInvoice invoice = new ResourceInvoice(holding.getKey(), player);
 				
-				switch (resource) {
-				case BRICK:
-					invoice.setBrick(holding.getValue().getResourceCardCount(resource));
-					break;
-				case ORE:
-					invoice.setOre(holding.getValue().getResourceCardCount(resource));
-					break;
-				case SHEEP:
-					invoice.setSheep(holding.getValue().getResourceCardCount(resource));
-					break;
-				case WHEAT:
-					invoice.setWheat(holding.getValue().getResourceCardCount(resource));
-					break;
-				case WOOD:
-					invoice.setWood(holding.getValue().getResourceCardCount(resource));
-					break;
-				default:
-					break;
-				}
+				invoice = this.setInvoiceResource(invoice, resource, holding.getValue().getResourceCardCount(resource));
 				
 				this.processInvoice(invoice);
 			}
