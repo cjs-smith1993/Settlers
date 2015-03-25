@@ -13,7 +13,6 @@ import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.model.ModelUser;
 
-
 /**
  * Manages the collection of all games
  */
@@ -24,7 +23,7 @@ public class GameManager {
 	private static GameManager instance;
 	private int nextGame;
 
-	protected GameManager() {
+	private GameManager() {
 		this.games = new HashMap<Integer, ServerModelFacade>();
 		this.gamesInfo = new HashMap<Integer, DTOGame>();//map int to DTOgame
 		this.nextGame = 0;
