@@ -136,7 +136,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
-			HexLocation newLocation, CatanState state) {
+			HexLocation newLocation) {
+		//check state
 		// TODO Auto-generated method stub
 		return getModel();
 	}
@@ -160,12 +161,14 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
 			EdgeLocation edge1, EdgeLocation edge2) {
 		// TODO Auto-generated method stub
+		//check state
 		return getModel();
 	}
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
 			PlayerNumber victimIndex, HexLocation newLocation) {
 		// TODO Auto-generated method stub
+		//check state
 		return getModel();
 	}
 
@@ -181,13 +184,13 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
-			boolean isFree, boolean isSetupPhase) {
+			boolean isFree) {
 		// TODO Auto-generated method stub
 		return getModel();
 	}
 
 	public TransportModel buildSettlement(PlayerNumber playerIndex,
-			VertexLocation vertex, boolean isFree, boolean isSetupPhase) {
+			VertexLocation vertex, boolean isFree) {
 		// TODO Auto-generated method stub
 		return getModel();
 	}
@@ -202,7 +205,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-	public TransportModel acceptTrade(ResourceInvoice invoice, boolean willAccept) {
+	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept) {
 		// TODO Auto-generated method stub
 		return getModel();
 	}

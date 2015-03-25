@@ -214,7 +214,7 @@ public class CentralCortex implements ICortex {
 			PlayerNumber victimIndex,
 			HexLocation location, int gameId, int userId) throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.robPlayer(playerIndex, victimIndex, location, null);//might need to not have the state
+		return facade.robPlayer(playerIndex, victimIndex, location);//might need to not have the state
 	}
 
 	/**
@@ -311,7 +311,7 @@ public class CentralCortex implements ICortex {
 			EdgeLocation location,
 			boolean free, int gameId, int userId) throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.buildRoad(playerIndex, location, free, true);//TODO need to change if nessicary
+		return facade.buildRoad(playerIndex, location, free);//TODO need to change if nessicary
 	}
 
 	/**
@@ -324,7 +324,7 @@ public class CentralCortex implements ICortex {
 			VertexLocation location,
 			boolean free, int gameId, int userId) throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.buildSettlement(playerIndex, location, free, true); //TODO need to change if nessicary
+		return facade.buildSettlement(playerIndex, location, free); //TODO need to change if nessicary
 	}
 
 	/**
@@ -357,7 +357,7 @@ public class CentralCortex implements ICortex {
 	public TransportModel movesAcceptTrade(PlayerNumber playerIndex, boolean willAccept, int gameId, int userId)
 			throws CatanException, ServerException {
 		ServerModelFacade facade = gameWarden.getFacadeById(gameId);
-		return facade.acceptTrade(null, willAccept);//TODO need to change if nessicary
+		return facade.acceptTrade(userId, willAccept);//TODO need to change if nessicary
 	}
 
 	/**
