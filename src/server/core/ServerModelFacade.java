@@ -215,16 +215,28 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel useYearOfPlenty(PlayerNumber playerIndex,
-			ResourceType resource1, ResourceType resource2) {
-		// TODO Auto-generated method stub
-		return getModel();
+			ResourceType resource1, ResourceType resource2) throws CatanException {
+		if (canUseYearOfPlenty(playerIndex)) {
+			broker.processYearOfPlenty(playerIndex, resource1, resource2);
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Year Of Plenty card. Repent.");
+		}
 	}
 
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
-			EdgeLocation edge1, EdgeLocation edge2) {
-		// TODO Auto-generated method stub
-		//check state
-		return getModel();
+			EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
+		if (canUseRoadBuilding(playerIndex)) {
+			buildRoad(playerIndex, edge1, true);
+			buildRoad(playerIndex, edge2, true);
+			broker.processRoadBuilding(playerIndex);
+			
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Road Building card. Repent.");
+		}
 	}
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
@@ -262,7 +274,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
 			boolean isFree) throws CatanException {
 		if (canBuildRoad(playerIndex, isFree)) {
-			// Handle isFree, such that no resources are used if true.
 			if (!isFree) {
 				broker.purchase(playerIndex, PropertyType.ROAD);
 			}
@@ -304,7 +315,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			return getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildSettlement. Repent.");
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildCity. Repent.");
 		}
 	}
 
