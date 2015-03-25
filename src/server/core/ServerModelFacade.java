@@ -114,6 +114,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 			game.setCurrentPlayerHasRolled(true);
 			version++;
 			
+			String name = this.getNameForPlayerNumber(playerIndex);
+			this.postOffice.addLogMessage(new Message(name, name + " rolled a " + Integer.toString(numberRolled)));
+			
 			if (numberRolled == 7) {
 				this.startDiscarding();
 				if (!this.continueDiscarding()) {
@@ -131,9 +134,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			}
 		}
 
-		// TODO: Create log messageS, not message.
-		
-		return getModel();
+		return this.getModel();
 	}
 
 	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location) {
