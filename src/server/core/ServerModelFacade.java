@@ -115,7 +115,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.version++;
 			
 			String name = this.getNameForPlayerNumber(playerIndex);
-			this.postOffice.addLogMessage(new Message(name, name + " rolled a " + Integer.toString(numberRolled)));
+			this.sendLog(playerIndex, name + " rolled a " + Integer.toString(numberRolled));
 			
 			if (numberRolled == 7) {
 				this.startDiscarding();
@@ -188,6 +188,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		if (this.canFinishTurn(playerIndex)) {
 			this.game.setCurrentPlayerHasRolled(false);
 			this.game.setState(CatanState.ROLLING);
+			this.game.advanceTurn();
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
 			
 			return this.getModel();
