@@ -110,7 +110,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// Else, Map --> Resource Invoices --> Broker.
 			// Change state to Playing.
 		
-		if (playerIndex == game.getCurrentPlayer()) {
+		if (this.canRollNumber(playerIndex)) {
 			game.setCurrentPlayerHasRolled(true);
 			version++;
 			
@@ -159,9 +159,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
 			HexLocation newLocation) throws CatanException {
-		if (playerIndex == game.getCurrentPlayer() 
-				&& (game.getState() == CatanState.ROBBING
-				|| game.getState() == CatanState.PLAYING)) {
+		// TODO: Should canRobPlayer() use CatanState as an argument or not?
+		if (canRobPlayer(playerIndex, victim)) {
 			if (board.canMoveRobber(newLocation)) {
 				board.moveRobber(newLocation);
 				
@@ -186,7 +185,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
-		if (game.getCurrentPlayer() == playerIndex && game.getCurrentPlayerHasRolled()) {
+		if (this.canFinishTurn(playerIndex)) {
 			game.setCurrentPlayerHasRolled(false);
 			game.setState(CatanState.ROLLING);
 			broker.makeDevelopmentCardsPlayable(playerIndex);
