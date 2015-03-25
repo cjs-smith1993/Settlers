@@ -11,4 +11,6 @@ public class TransportModel {
 	public TransportTradeOffer tradeOffer;
 	public int winner;
 	public int version;
+	public String name;
+	public int gameId;
 }
