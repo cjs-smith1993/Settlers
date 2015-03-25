@@ -218,10 +218,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
-			PlayerNumber victimIndex, HexLocation newLocation) {
-		// TODO Auto-generated method stub
-		//check state
-		return getModel();
+			PlayerNumber victim, HexLocation newLocation) throws CatanException {
+		// TODO: Implement safety checks:
+			// 1 - Check whether it's this player's turn.
+			// 2 - Check whether the player has a soldier card to spend.
+			// 3 - Expire dev card.
+		return robPlayer(playerIndex, victim, newLocation);
 	}
 
 	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
