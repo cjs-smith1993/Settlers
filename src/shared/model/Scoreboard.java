@@ -134,7 +134,7 @@ public class Scoreboard {
 		int playerRoads = this.builtRoads.get(player);
 		playerRoads++;
 		this.builtRoads.put(player, playerRoads);
-
+		
 		this.calculateSpecialCardHolder(this.builtRoads, this.longestRoad);
 	}
 

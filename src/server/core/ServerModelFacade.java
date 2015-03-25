@@ -9,6 +9,7 @@ import shared.definitions.CatanExceptionType;
 import shared.definitions.CatanState;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
+import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -250,8 +251,20 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
-			boolean isFree) {
-		// TODO Auto-generated method stub
+			boolean isFree) throws CatanException {
+		if (canBuildRoad(playerIndex, isFree)) {
+			// Handle isFree, such that no resources are used if true.
+			if (!isFree) {
+				broker.purchase(playerIndex, PropertyType.ROAD);
+			}
+			
+			scoreboard.roadBuilt(playerIndex);
+			game.purchaseProperty(playerIndex, PropertyType.ROAD);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use buildRoad. Repent.");
+		}
+		
 		return getModel();
 	}
 

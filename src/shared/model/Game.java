@@ -292,6 +292,14 @@ public class Game {
 					"Current player is not a valid PlayerNumber: " + this.currentPlayer);
 		}
 	}
+	
+	/**
+	 * Purchases a given {@link PropertyType}.
+	 * @param property
+	 */
+	public void purchaseProperty(PlayerNumber player, PropertyType property) {
+		players.get(player).purchaseProperty(property);
+	}
 
 	public boolean getCurrentPlayerHasRolled() {
 		return this.currentPlayerHasRolled;
