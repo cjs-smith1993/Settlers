@@ -71,28 +71,14 @@ public class ClientModelFacade extends AbstractModelFacade {
 	}
 
 	public void initializeModel(TransportModel model) throws CatanException {
+		super.initializeModel(model);
+		
 		if (model.tradeOffer != null) {
 			this.openOffer = new ResourceInvoice(model.tradeOffer);
 		}
 		else {
 			this.openOffer = null;
 		}
-		
-//		System.out.print("\nOld state: " + this.getModelState() + "    New state: " + model.turnTracker.status + "\n");
-		this.board = new Board(model.map);
-
-		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(model.players));
-		this.broker = new Broker(model.bank, model.deck, players,
-				this.board.getHarborsByPlayer());
-
-		this.game = new Game(players, model.turnTracker);
-		this.scoreboard = new Scoreboard(players, model.turnTracker);
-
-		List<TransportLine> chat = new ArrayList<TransportLine>(Arrays.asList(model.chat.lines));
-		List<TransportLine> log = new ArrayList<TransportLine>(Arrays.asList(model.log.lines));
-
-		this.postOffice = new PostOffice(chat, log);
-		this.version = model.version;
 		
 		this.finishClientSetup();
 
