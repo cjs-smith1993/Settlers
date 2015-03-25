@@ -162,6 +162,10 @@ public class Player {
 		return this.color;
 	}
 
+	public void setColor(CatanColor color) {
+		this.color = color;
+	}
+
 	public PlayerNumber getNumber() {
 		return this.number;
 	}
