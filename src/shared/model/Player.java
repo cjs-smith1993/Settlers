@@ -48,7 +48,7 @@ public class Player {
 	}
 
 	/**
-	 * Extracts TransportPlayer 
+	 * Extracts {@link TransportPlayer} 
 	 * @param player
 	 * @return
 	 */
@@ -94,6 +94,22 @@ public class Player {
 		}
 		
 		return cities;
+	}
+	
+	public void purchaseProperty(PropertyType property) {
+		switch (property) {
+		case CITY:
+			availableCities.remove(0);
+			break;
+		case ROAD:
+			availableRoads.remove(0);
+			break;
+		case SETTLEMENT:
+			availableSettlements.remove(0);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	public int getNumRoads() {

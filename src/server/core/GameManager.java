@@ -13,7 +13,6 @@ import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.model.ModelUser;
 
-
 /**
  * Manages the collection of all games
  */
@@ -24,7 +23,7 @@ public class GameManager {
 	private static GameManager instance;
 	private int nextGame;
 
-	protected GameManager() {
+	private GameManager() {
 		this.games = new HashMap<Integer, ServerModelFacade>();
 		this.gamesInfo = new HashMap<Integer, DTOGame>();//map int to DTOgame
 		this.nextGame = 0;
@@ -65,10 +64,11 @@ public class GameManager {
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException {
-		if(name.equals(null)) {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Game Not created - the name is null");
+		if (name.equals(null)) {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"Game Not created - the name is null");
 		}
-		int gameid = nextGame++;
+		int gameid = this.nextGame++;
 		ArrayList<DTOPlayer> player_list = new ArrayList<DTOPlayer>();
 		DTOGame info = new DTOGame(gameid, name, player_list);
 		ServerModelFacade smf = new ServerModelFacade(gameid, randomTiles, randomNumbers, randomPorts);
@@ -82,31 +82,36 @@ public class GameManager {
 		return this.games.get(gameId) != null;
 	}
 
-	public ServerModelFacade getFacadeById (int gameId) {
-		if(this.games.get(gameId) != null) {
+	public ServerModelFacade getFacadeById(int gameId) {
+		if (this.games.get(gameId) != null) {
 			return this.games.get(gameId);
 		}
 		return null;
 	}
-	public GameCertificate joinGame(int gameId, CatanColor color, ModelUser user) throws CatanException {
-		DTOGame game = gamesInfo.get(gameId);
+
+	public GameCertificate joinGame(int gameId, CatanColor color, ModelUser user)
+			throws CatanException {
+		DTOGame game = this.gamesInfo.get(gameId);
 		DTOPlayer player = new DTOPlayer();
 		player.color = color;
 		player.id = user.getUserId();
 		player.name = user.getName();
-		if(game.players.size() <= 3) {
-			for(DTOPlayer play: game.players) {
-				if(play.id == player.id) {
-					throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Already joined that game");
+		if (game.players.size() <= 3) {
+			for (DTOPlayer play : game.players) {
+				if (play.id == player.id) {
+					throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+							"Already joined that game");
 				}
 			}
 			game.players.add(player);
 		}
-		else {throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");}
-		games.get(gameId).joinGame(user, color);//do the join game on the facade 
-		gamesInfo.remove(gameId);
-		gamesInfo.put(game.id, game);
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");
+		}
+		this.games.get(gameId).joinGame(user, color);//do the join game on the facade
+		this.gamesInfo.remove(gameId);
+		this.gamesInfo.put(game.id, game);
 		return new GameCertificate(game.id);
-		
+
 	}
 }

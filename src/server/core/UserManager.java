@@ -17,32 +17,35 @@ public class UserManager {
 	private static UserManager instance;
 	private int playerIDCount = 0;
 
-	protected UserManager() {
-		users = new ArrayList<ServerUser>();
+	private static final int MIN_USERNAME_LENGTH = 3;
+	private static final int MIN_PASSWORD_LENGTH = 5;
+
+	private UserManager() {
+		this.users = new ArrayList<ServerUser>();
 	}
 
 	public static UserManager getInstance() {
 		if (instance == null) {
 			instance = new UserManager();
 		}
-		
+
 		return instance;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param username
 	 * @param password
-	 * @return True If 
+	 * @return True If
 	 */
 	private boolean canRegisterUser(String username, String password) {
-		if (!validateUserCredentials(username, password) || checkUserExistence(username)) {
+		if (!this.validateUserCredentials(username, password) || this.checkUserExistence(username)) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Registers a user with the desired username and password
 	 *
@@ -53,18 +56,19 @@ public class UserManager {
 	 */
 	public int registerUser(String username, String password) throws CatanException {
 		if (this.canRegisterUser(username, password)) {
-			users.add(new ServerUser(new ModelUser(username, playerIDCount), password));
-			playerIDCount++;
-			return playerIDCount-1;
+			this.users.add(new ServerUser(new ModelUser(username, this.playerIDCount), password));
+			this.playerIDCount++;
+			return this.playerIDCount - 1;
 		}
 		else {
 			String message = "A user with the desired username already exists";
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, message);
 		}
 	}
-	
+
 	/**
 	 * Authenticates the user at LOGIN.
+	 *
 	 * @param username
 	 * @param password
 	 * @return isAuthenticated
@@ -75,60 +79,53 @@ public class UserManager {
 
 	/**
 	 * Authenticates the user from API call.
+	 *
 	 * @param username
 	 * @param password
 	 * @return isAuthenticated
 	 */
 	public boolean authenticateUser(int id, String username, String password) {
-		for(ServerUser user : users) {
-			if (user.getModelUser().getName().equals(username) 
-					&& user.getPassword().equals(password)
-					&& user.getModelUser().getUserId() == id) {
-				return true;
-			}
-		}
-		
-		return false;
+		return this.getUserId(username, password) == id;
 	}
-	
-	private boolean validateUserCredentials(String username, String password) {
-		if (username.equals("") || password.equals("")) {
-			return false;
-		}
 
-		if (username.length() < 4 || password.length() < 6) {
+	private boolean validateUserCredentials(String username, String password) {
+		if (username.length() < MIN_USERNAME_LENGTH) {
 			return false;
 		}
-		
+		if (password.length() < MIN_PASSWORD_LENGTH) {
+			return false;
+		}
 		return true;
 	}
-	
+
 	private boolean checkUserExistence(String username) {
-		for (ServerUser user : users) {
+		for (ServerUser user : this.users) {
 			if (user.getModelUser().getName().equals(username)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public int getUserId(String username, String password) {
-		for(ServerUser user : users) {
-			if (user.getModelUser().getName().equals(username) 
+		for (ServerUser user : this.users) {
+			if (user.getModelUser().getName().equals(username)
 					&& user.getPassword().equals(password)) {
 				return user.getModelUser().getUserId();
 			}
-			
+
 		}
 		return -1;
 	}
+
 	public ModelUser getModelUser(int playerId) throws ServerException {
-		for(ServerUser user : users) {
-			if(user.getModelUser().getUserId() == playerId) {
+		for (ServerUser user : this.users) {
+			if (user.getModelUser().getUserId() == playerId) {
 				return user.getModelUser();
 			}
 		}
-		throw new ServerException(ServerExceptionType.INVALID_OPERATION, "no user data for given id");
+		throw new ServerException(ServerExceptionType.INVALID_OPERATION,
+				"no user data for given id");
 	}
 }
