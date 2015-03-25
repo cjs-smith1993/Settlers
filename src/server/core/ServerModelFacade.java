@@ -3,6 +3,7 @@ package server.core;
 import java.util.ArrayList;
 import java.util.Map;
 
+import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -29,6 +30,14 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.postOffice = new PostOffice();
 		this.scoreboard = new Scoreboard();
 		this.openOffer = null;
+	}
+	
+	public TransportModel getModel(int version) {
+		if (this.version == version) {
+			return getModel();
+		}
+		
+		return null;
 	}
 
 	public TransportModel getModel() {
@@ -69,45 +78,35 @@ public class ServerModelFacade extends AbstractModelFacade {
 		
 		return (TransportPlayer[]) transportPlayers.toArray();
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean sendChat(PlayerNumber playerIndex, String content) {
-		String name = this.getNameForPlayerNumber(playerIndex);
-		this.postOffice.addChatMessage(new Message(name, content));
+	
+	public boolean joinGame(ModelUser user, CatanColor color) {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int rollNumber(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return 0;
+	public TransportModel sendChat(PlayerNumber playerIndex, String content) {
+		String name = this.getNameForPlayerNumber(playerIndex);
+		this.postOffice.addChatMessage(new Message(name, content));
+		
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location, CatanState state) {
+	public TransportModel rollNumber(PlayerNumber playerIndex) {
+		// TODO Auto-generated method stub
+		
+		return getModel();
+	}
 
+	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location, CatanState state) {
 		if (super.canPlaceRobber(playerIndex, location)
 				&& (this.game.getState() == CatanState.ROBBING
 				|| this.game.getState() == CatanState.PLAYING)) {
 			return true;
 		}
-
+		
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex, CatanState state) {
-
 		if (super.canRobPlayer(playerIndex, victimIndex)
 				&& (this.game.getState() == CatanState.ROBBING
 				|| this.game.getState() == CatanState.PLAYING)) {
@@ -117,147 +116,88 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
+	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
 			HexLocation newLocation, CatanState state) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean finishTurn(PlayerNumber playerIndex) {
+	public TransportModel finishTurn(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean buyDevCard(PlayerNumber playerIndex) {
+	public TransportModel buyDevCard(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean useYearOfPlenty(PlayerNumber playerIndex,
+	public TransportModel useYearOfPlenty(PlayerNumber playerIndex,
 			ResourceType resource1, ResourceType resource2) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean useRoadBuilding(PlayerNumber playerIndex,
+	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
 			EdgeLocation edge1, EdgeLocation edge2) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean useSoldier(PlayerNumber playerIndex,
+	public TransportModel useSoldier(PlayerNumber playerIndex,
 			PlayerNumber victimIndex, HexLocation newLocation) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
+	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean useMonument(PlayerNumber playerIndex) {
+	public TransportModel useMonument(PlayerNumber playerIndex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean buildRoad(PlayerNumber playerIndex, EdgeLocation location,
+
+	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
 			boolean isFree, boolean isSetupPhase) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean buildSettlement(PlayerNumber playerIndex,
+	public TransportModel buildSettlement(PlayerNumber playerIndex,
 			VertexLocation vertex, boolean isFree, boolean isSetupPhase) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean buildCity(PlayerNumber playerIndex, VertexLocation vertex) {
+	public TransportModel buildCity(PlayerNumber playerIndex, VertexLocation vertex) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean offerTrade(ResourceInvoice invoice) {
+	public TransportModel offerTrade(ResourceInvoice invoice) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean acceptTrade(ResourceInvoice invoice, boolean willAccept) {
+	public TransportModel acceptTrade(ResourceInvoice invoice, boolean willAccept) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean maritimeTrade(PlayerNumber playerIndex, int ratio,
+	public TransportModel maritimeTrade(PlayerNumber playerIndex, int ratio,
 			ResourceType inputResource, ResourceType outputResource) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean discardCards(PlayerNumber playerIndex, int brick, int ore,
+	public TransportModel discardCards(PlayerNumber playerIndex, int brick, int ore,
 			int sheep, int wheat, int wood) {
 		// TODO Auto-generated method stub
-		return false;
+		return getModel();
 	}
 
 }
