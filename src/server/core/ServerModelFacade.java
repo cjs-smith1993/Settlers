@@ -111,8 +111,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 			// Change state to Playing.
 		
 		if (this.canRollNumber(playerIndex)) {
-			game.setCurrentPlayerHasRolled(true);
-			version++;
+			this.game.setCurrentPlayerHasRolled(true);
+			this.version++;
 			
 			String name = this.getNameForPlayerNumber(playerIndex);
 			this.postOffice.addLogMessage(new Message(name, name + " rolled a " + Integer.toString(numberRolled)));
@@ -124,13 +124,13 @@ public class ServerModelFacade extends AbstractModelFacade {
 				}
 			}
 			else {
-				Collection<ResourceInvoice> invoices = board.generateInvoices(numberRolled);
+				Collection<ResourceInvoice> invoices = this.board.generateInvoices(numberRolled);
 				
 				for (ResourceInvoice resourceInvoice : invoices) {
-					broker.processInvoice(resourceInvoice);
+					this.broker.processInvoice(resourceInvoice);
 				}
 				
-				game.setState(CatanState.PLAYING);
+				this.game.setState(CatanState.PLAYING);
 			}
 		}
 
@@ -186,11 +186,11 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
 		if (this.canFinishTurn(playerIndex)) {
-			game.setCurrentPlayerHasRolled(false);
-			game.setState(CatanState.ROLLING);
-			broker.makeDevelopmentCardsPlayable(playerIndex);
+			this.game.setCurrentPlayerHasRolled(false);
+			this.game.setState(CatanState.ROLLING);
+			this.broker.makeDevelopmentCardsPlayable(playerIndex);
 			
-			return getModel();
+			return this.getModel();
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are either not the player "
