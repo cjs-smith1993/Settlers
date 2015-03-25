@@ -3,6 +3,7 @@ package server.core;
 import java.util.ArrayList;
 import java.util.Map;
 
+import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
@@ -68,6 +69,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		
 		return (TransportPlayer[]) transportPlayers.toArray();
+	}
+	
+	public boolean joinGame(ModelUser user, CatanColor color) {
+		return false;
 	}
 
 	/**
