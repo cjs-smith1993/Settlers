@@ -26,41 +26,17 @@ import shared.model.CatanException;
 import shared.transport.*;
 
 public class AbstractModelFacadeTest {
-	private ClientModelFacade facade;
+	private AbstractModelFacade facade;
 	TransportModel model;
 	TransportPlayer player;
 	private String cleanFile = "testFiles/cleanGame.txt";
 	
-	private TransportModel loadCleanModel() throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(new File(this.cleanFile)));
-		StringBuilder builder = new StringBuilder();
-		
-		while (reader.ready()) {
-			builder.append(reader.readLine());
-		}
-		
-		reader.close();
-		TransportModel model = (TransportModel) CatanSerializer.getInstance().deserializeObject(builder.toString(), TransportModel.class);
-		
-		return model; 
-				
-	}
-	
 	@Before
 	public void setUp() throws Exception {
-		this.facade = ClientModelFacade.getInstance();
-		this.model = this.loadCleanModel();
-		
+		this.facade = new AbstractModelFacade();
+		this.model = this.facade.getModelFromFile(cleanFile);
 		this.player = this.model.players[0];
-		PlayerInfo clientPlayer = new PlayerInfo(this.player.playerID, this.player.playerIndex, this.player.name, this.player.color);
-		this.facade.setClientPlayer(clientPlayer);
-
-		try {
-			this.facade.initializeModel(this.model);
-		} catch (CatanException e) {
-			e.printStackTrace();
-			fail();
-		}
+		this.facade.initializeModel(this.model);
 	}
 
 	@Test
@@ -377,12 +353,12 @@ public class AbstractModelFacadeTest {
 		this.model.players[1] = otherPlayer;
 		this.facade.initializeModel(this.model);
 		assertFalse(this.facade
-				.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO, CatanState.PLAYING));
+				.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
 
 		// 2. Test rob player with one card, should succeed
 		otherPlayer.resources.brick = 1;
 		this.facade.initializeModel(this.model);
-		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO, CatanState.ROBBING));
+		assertTrue(this.facade.canRobPlayer(PlayerNumber.ONE, PlayerNumber.TWO));
 	}
 
 	@Test
@@ -393,11 +369,11 @@ public class AbstractModelFacadeTest {
 		this.model.map.robber.y = 0;
 		this.facade.initializeModel(this.model);
 		// 1. Test place Robber on same location; should fail
-		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 0), CatanState.ROBBING));
+		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 0)));
 		// 2. Test place Rober on new location; should pass
-		assertTrue(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 1), CatanState.ROBBING));
+		assertTrue(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(0, 1)));
 		// 3. Test place Robber on water; should fail
-		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(-3, 0), CatanState.ROBBING));
+		assertFalse(this.facade.canPlaceRobber(PlayerNumber.ONE, new HexLocation(-3, 0)));
 
 
 	}

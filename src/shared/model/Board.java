@@ -62,6 +62,7 @@ public class Board {
 		
 		for (Map.Entry<HexLocation, Tile> tile : tiles.entrySet()) {
 			TransportHex hex = new TransportHex();
+			hex.location = new TransportHexLocation();
 			
 			hex.location.x = tile.getKey().getX();
 			hex.location.y = tile.getKey().getY();
@@ -88,6 +89,7 @@ public class Board {
 		for (Map.Entry<EdgeLocation, Road> road : roads.entrySet()) {
 			TransportRoad transportRoad = new TransportRoad();
 			
+			transportRoad.location = new TransportEdgeLocation();
 			transportRoad.owner = road.getValue().getOwner();
 			transportRoad.location.direction = road.getKey().getDir();
 			transportRoad.location.x = road.getValue().getLocation().getHexLoc().getX();
@@ -106,6 +108,7 @@ public class Board {
 			if (dwelling.getValue().getPropertyType().equals(PropertyType.SETTLEMENT)) {
 				TransportSettlement settlement = new TransportSettlement();
 				
+				settlement.location = new TransportVertexLocation();
 				settlement.owner = dwelling.getValue().getOwner();
 				settlement.location.direction = dwelling.getKey().getDir();
 				settlement.location.x = dwelling.getKey().getHexLoc().getX();
@@ -141,11 +144,14 @@ public class Board {
 		List<TransportPort> portList = new ArrayList<>();
 		
 		for (Harbor harbor : harbors) {
+			VertexLocation[] ports = harbor.getPorts().toArray(new VertexLocation[2]);
+			
 			TransportPort port = new TransportPort();
 			
 			port.ratio = harbor.getRatio();
 			port.resource = harbor.getResource();
-//			port.direction // TODO: Complete this method!
+			port.direction = Geometer.getEquivalentDirection(ports[0], ports[1]);
+			port.location = new TransportHexLocation();
 			port.location.x = harbor.getLocation().getX();
 			port.location.y = harbor.getLocation().getY();
 			

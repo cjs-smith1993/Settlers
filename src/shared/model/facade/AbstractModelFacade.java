@@ -39,7 +39,7 @@ import shared.transport.TransportPlayer;
  * and data.
  *
  */
-public abstract class AbstractModelFacade extends Observable implements IModelFacade {
+public class AbstractModelFacade extends Observable implements IModelFacade {
 	
 	protected Board board;
 	protected Broker broker;
@@ -50,6 +50,8 @@ public abstract class AbstractModelFacade extends Observable implements IModelFa
 	protected int version = 1;
 	protected int winnerServerID = -1;
 	private final int RESOURCE_CARD_LIMIT = 7;
+	
+	public AbstractModelFacade() {}
 	
 	private boolean inSetup() {
 		CatanState state = this.game.getState();

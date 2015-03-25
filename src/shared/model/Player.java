@@ -76,7 +76,6 @@ public class Player {
 		return roads;
 	}
 	
-	
 	private ArrayList<Settlement> initializeSettlements(int numSettlements) {
 		ArrayList<Settlement> settlements = new ArrayList<Settlement>();
 		
@@ -177,5 +176,13 @@ public class Player {
 				other.getNumber() == this.getNumber());
 	}
 
+	public boolean hasDiscarded() {
+		return this.hasDiscarded;
+	}
+	
+	public void setHasDiscarded(boolean hasDiscarded) {
+		this.hasDiscarded = hasDiscarded;
+	}
+	
 	
 }

@@ -328,4 +328,12 @@ public class Game {
 	public void setState(CatanState state) {
 		this.state = state;
 	}
+	
+	public boolean hasDiscarded(PlayerNumber playerIndex) {
+		return this.players.get(playerIndex).hasDiscarded();
+	}
+	
+	public void setHasDiscarded(PlayerNumber playerIndex, boolean hasDiscarded) {
+		this.players.get(playerIndex).setHasDiscarded(hasDiscarded);
+	}
 }

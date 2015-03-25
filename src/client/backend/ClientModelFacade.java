@@ -50,8 +50,7 @@ public class ClientModelFacade extends AbstractModelFacade {
 	private boolean hasFinishedFirstRound = false;
 	private boolean hasFinishedSecondRound = false;
 
-	private ClientModelFacade() {
-	}
+	private ClientModelFacade() {}
 
 	public static ClientModelFacade getInstance() {
 		if (facadeInstance == null) {

@@ -78,7 +78,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			transportPlayers.add(transportPlayer);
 		}
 		
-		return (TransportPlayer[]) transportPlayers.toArray();
+		return transportPlayers.toArray(new TransportPlayer[transportPlayers.size()]);
 	}
 	
 	public void resetGame() {
@@ -93,7 +93,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		String name = this.getNameForPlayerNumber(playerIndex);
 		this.postOffice.addChatMessage(new Message(name, content));
 		
-		return getModel();
+		return this.getModel();
 	}
 	
 	private void sendLog(PlayerNumber playerIndex, String content) {
@@ -111,30 +111,30 @@ public class ServerModelFacade extends AbstractModelFacade {
 			// Change state to Playing.
 		
 		if (this.canRollNumber(playerIndex)) {
-			game.setCurrentPlayerHasRolled(true);
-			version++;
+			this.game.setCurrentPlayerHasRolled(true);
+			this.version++;
+			
+			String name = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, name + " rolled a " + Integer.toString(numberRolled));
 			
 			if (numberRolled == 7) {
-				if (broker.checkDiscardStatus()) {
-					// The discardCards() method will setState() to .ROBBING
-					// when the number of people who need to discard is fulfilled.
-					game.setState(CatanState.DISCARDING);
+				this.startDiscarding();
+				if (!this.continueDiscarding()) {
+					this.stopDiscarding();
 				}
 			}
 			else {
-				Collection<ResourceInvoice> invoices = board.generateInvoices(numberRolled);
+				Collection<ResourceInvoice> invoices = this.board.generateInvoices(numberRolled);
 				
 				for (ResourceInvoice resourceInvoice : invoices) {
-					broker.processInvoice(resourceInvoice);
+					this.broker.processInvoice(resourceInvoice);
 				}
 				
-				game.setState(CatanState.PLAYING);
+				this.game.setState(CatanState.PLAYING);
 			}
 		}
 
-		// TODO: Create log messageS, not message.
-		
-		return getModel();
+		return this.getModel();
 	}
 
 	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location) {
@@ -185,11 +185,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
 		if (this.canFinishTurn(playerIndex)) {
-			game.setCurrentPlayerHasRolled(false);
-			game.setState(CatanState.ROLLING);
-			broker.makeDevelopmentCardsPlayable(playerIndex);
+			this.game.setCurrentPlayerHasRolled(false);
+			this.game.setState(CatanState.ROLLING);
+			this.game.advanceTurn();
+			this.broker.makeDevelopmentCardsPlayable(playerIndex);
 			
-			return getModel();
+			return this.getModel();
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are either not the player "
@@ -283,10 +284,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 			invoice.setWood(wood);
 			
 			broker.processInvoice(invoice);
+			this.game.setHasDiscarded(playerIndex, true);
 			
-			if (!broker.checkDiscardStatus()) {
-				version++;
-				game.setState(CatanState.ROBBING);
+			if (!this.continueDiscarding()) {
+				this.stopDiscarding();
 			}
 		}
 		else {
@@ -294,5 +295,62 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 		
 		return getModel();
+	}
+
+	/**
+	 * Called when a 7 is rolled to determine if any players need to discard.
+	 * Checks the number of cards each player has and sets hasDiscarded to true 
+	 * for each player that doesn't need to discard.
+	 * @pre model state is ROLLING
+	 * @return
+	 */
+	public void startDiscarding() {
+		for (PlayerNumber playerIndex : PlayerNumber.values()) {
+			if (playerIndex != PlayerNumber.BANK) {
+				if (this.broker.getNumberToDiscard(playerIndex) == 0) {
+					this.game.setHasDiscarded(playerIndex, true);
+				}
+			}
+		}
+		
+		this.game.setState(CatanState.DISCARDING);
+		this.version++;
+	}
+	
+	/**
+	 * Determines if any players need to discard.
+	 * Checks hasDiscarded for each player.
+	 * @pre model state is DISCARDING
+	 * @return
+	 */
+	public boolean continueDiscarding() {
+		boolean isNecessary = false;
+		
+		for (PlayerNumber playerIndex : PlayerNumber.values()) {
+			if (playerIndex != PlayerNumber.BANK) {
+				if (!this.game.hasDiscarded(playerIndex)) {
+					isNecessary = true;
+				}
+			}
+		}
+		
+		return isNecessary;
+	}
+	
+	/**
+	 * Called when no more players need to discard.
+	 * Sets hasDiscarded to false for each player.
+	 * Sets the model state to ROBBING.
+	 * Increments the model version.
+	 * @pre model state is DISCARDING
+	 */
+	public void stopDiscarding() {
+		for (PlayerNumber playerIndex : PlayerNumber.values()) {
+			if (playerIndex != PlayerNumber.BANK) {
+				this.game.setHasDiscarded(playerIndex, false);
+			}
+		}
+		this.game.setState(CatanState.ROBBING);
+		this.version++;
 	}
 }
