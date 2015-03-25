@@ -7,6 +7,7 @@ import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
+import shared.definitions.CatanExceptionType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.definitions.ServerExceptionType;
@@ -78,7 +79,7 @@ public class CentralCortex implements ICortex {
 		if (id != -1) {
 			cert = new UserCertificate(id, username, password);
 		} else {
-			throw new ServerException(ServerExceptionType.INVALID_OPERATION, "The username and password did not match");
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The username and password did not match");
 		}
 		return cert;
 	}
