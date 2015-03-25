@@ -150,7 +150,7 @@ public class Board {
 
 			port.ratio = harbor.getRatio();
 			port.resource = harbor.getResource();
-			port.direction = Geometer.getEquivalentDirection(ports[0], ports[1]);
+			port.direction = Geometer.getSharedEdge(ports[0], ports[1]).getDir();
 			port.location = new TransportHexLocation();
 			port.location.x = harbor.getLocation().getX();
 			port.location.y = harbor.getLocation().getY();
