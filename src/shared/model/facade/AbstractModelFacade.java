@@ -33,14 +33,13 @@ import shared.transport.TransportLine;
 import shared.transport.TransportModel;
 import shared.transport.TransportPlayer;
 
-
 /**
  * Represents an abstract notion of a facade for interacting with model objects
  * and data.
  *
  */
 public class AbstractModelFacade extends Observable implements IModelFacade {
-	
+
 	protected Board board;
 	protected Broker broker;
 	protected Game game;
@@ -50,14 +49,15 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 	protected int version = 1;
 	protected int winnerServerID = -1;
 	private final int RESOURCE_CARD_LIMIT = 7;
-	
-	public AbstractModelFacade() {}
-	
+
+	public AbstractModelFacade() {
+	}
+
 	private boolean inSetup() {
 		CatanState state = this.game.getState();
 		return state == CatanState.FIRST_ROUND || state == CatanState.SECOND_ROUND;
 	}
-	
+
 	private boolean isPlaying(PlayerNumber player) {
 		if (this.game.getState() == CatanState.PLAYING
 				&& this.game.getCurrentPlayer() == player) {
@@ -66,11 +66,12 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 
 		return false;
 	}
-	
+
 	public void initializeModel(TransportModel newModel) throws CatanException {
 		this.board = new Board(newModel.map);
 
-		List<TransportPlayer> players = new ArrayList<TransportPlayer>(Arrays.asList(newModel.players));
+		List<TransportPlayer> players = new ArrayList<TransportPlayer>(
+				Arrays.asList(newModel.players));
 		this.broker = new Broker(newModel.bank, newModel.deck, players,
 				this.board.getHarborsByPlayer());
 
@@ -83,27 +84,28 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 		this.postOffice = new PostOffice(chat, log);
 		this.version = newModel.version;
 	}
-	
+
 	public TransportModel getModelFromFile(String fileName) throws IOException, CatanException {
-		
+
 		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
 		StringBuilder builder = new StringBuilder();
-		
+
 		while (reader.ready()) {
 			builder.append(reader.readLine());
 		}
-		
+
 		reader.close();
-		return (TransportModel) CatanSerializer.getInstance().deserializeObject(builder.toString(), TransportModel.class);
+		return (TransportModel) CatanSerializer.getInstance().deserializeObject(builder.toString(),
+				TransportModel.class);
 	}
-	
+
 	public void initializeModelFromFile(String fileName) throws IOException, CatanException {
-		
+
 		this.initializeModel(this.getModelFromFile(fileName));
-		
-		return; 
+
+		return;
 	}
-	
+
 	/*
 	 * Moves server methods
 	 */
@@ -497,7 +499,16 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 
 		return playerInfos;
 	}
-	
+
+	public Player getPlayer(int userId) {
+		for (Player player : this.game.getPlayers().values()) {
+			if (player.getUser().getUserId() == userId) {
+				return player;
+			}
+		}
+		return null;
+	}
+
 	public String getNameForPlayerNumber(PlayerNumber player) {
 		String playerName = null;
 		List<PlayerInfo> players = this.getPlayers();
