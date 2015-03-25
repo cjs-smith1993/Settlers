@@ -155,9 +155,18 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-	public TransportModel finishTurn(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return getModel();
+	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
+		if (game.getCurrentPlayer() == playerIndex && game.getCurrentPlayerHasRolled()) {
+			game.setCurrentPlayerHasRolled(false);
+			game.setState(CatanState.ROLLING);
+			broker.makeDevelopmentCardsPlayable(playerIndex);
+			
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are either not the player "
+					+ "who's turn it is, or you still need you finish your turn.");
+		}
 	}
 
 	public TransportModel buyDevCard(PlayerNumber playerIndex) {
