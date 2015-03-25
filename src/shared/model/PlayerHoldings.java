@@ -266,7 +266,7 @@ public class PlayerHoldings implements Hand {
 	
 	// Do that same for dev cards as for resource cards.
 	/**
-	 * This remove the number of development cards specified by count in a collection object
+	 * This remove the number of development cards specified by count in a collection object.
 	 * @param type the type of dev card 
 	 * @param count the number of that card to move
 	 * @return this will return a collection of DevelopmentCard objects to be added to another place
@@ -274,8 +274,8 @@ public class PlayerHoldings implements Hand {
 	public Collection<DevelopmentCard> removeDevelopmentCard (DevCardType type, int count)
 	{
 		Collection<DevelopmentCard> removed = new ArrayList<DevelopmentCard>();
-        
         Collection<DevelopmentCard> cards = this.developmentCards.get(type);
+        
         if(!cards.isEmpty())
         	for (int i = 0; i < count; i++) {
         		Iterator<DevelopmentCard> it = cards.iterator();
@@ -295,6 +295,7 @@ public class PlayerHoldings implements Hand {
 		//i need to deal with the fact that i can and need to store monuments and soldier but not the others
 		
 		boolean added = true;
+		
 		switch(type){
 		case SOLDIER:
 			playedKnights.addAll(newCards);
@@ -304,7 +305,6 @@ public class PlayerHoldings implements Hand {
 			break;
 		default:
 			added = false;
-			
 		}
 		
 		return added;
