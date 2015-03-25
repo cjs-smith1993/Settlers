@@ -27,6 +27,8 @@ public class Game {
 	public Game() {
 		this.players = new HashMap<PlayerNumber, Player>();
 		this.dice = new Dice();
+		this.setState(CatanState.FIRST_ROUND);
+		this.currentPlayer = PlayerNumber.ONE;
 	}
 
 	/**

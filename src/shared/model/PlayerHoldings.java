@@ -99,6 +99,9 @@ public class PlayerHoldings implements Hand {
 	public TransportPlayer getTransportPlayer(TransportPlayer player) {
 		player.soldiers = playedKnights.size();
 		player.monuments = playedMonuments.size();
+		player.resources = getTransportResources();
+		player.oldDevCards = getTransportOldDevCards();
+		player.newDevCards = getTransportNewDevCards();
 		
 		return player;
 	}
