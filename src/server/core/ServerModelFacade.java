@@ -1,6 +1,7 @@
 package server.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import shared.definitions.CatanColor;
@@ -91,7 +92,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled) {
+	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled) throws CatanException {
 		// If 7, change state to discarding for those that need to discard.
 			// If people need to discard:
 				// Set CatanState to DISCARDING.
@@ -100,17 +101,29 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// Else, Map --> Resource Invoices --> Broker.
 			// Change state to Playing.
 		
-		if (numberRolled == 7) {
-			if (broker.checkDiscardStatus()) {
-				game.setState(CatanState.DISCARDING);
+		if (playerIndex == game.getCurrentPlayer()) {
+			game.setCurrentPlayerHasRolled(true);
+			version++;
+			
+			if (numberRolled == 7) {
+				if (broker.checkDiscardStatus()) {
+					// The discardCards() method will setState() to .ROBBING
+					// when the number of people who need to discard is fulfilled.
+					game.setState(CatanState.DISCARDING);
+				}
+			}
+			else {
+				Collection<ResourceInvoice> invoices = board.generateInvoices(numberRolled);
+				
+				for (ResourceInvoice resourceInvoice : invoices) {
+					broker.processInvoice(resourceInvoice);
+				}
+				
+				game.setState(CatanState.PLAYING);
 			}
 		}
-		else {
-			
-		}
 
-		// Create log message.
-		// Increment version.
+		// TODO: Create log messageS, not message.
 		
 		return getModel();
 	}
@@ -182,7 +195,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return getModel();
 	}
 
-
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,
 			boolean isFree) {
 		// TODO Auto-generated method stub
@@ -231,6 +243,11 @@ public class ServerModelFacade extends AbstractModelFacade {
 			invoice.setWood(wood);
 			
 			broker.processInvoice(invoice);
+			
+			if (!broker.checkDiscardStatus()) {
+				version++;
+				game.setState(CatanState.ROBBING);
+			}
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "User attempted to discard an invalid number of cards.");
