@@ -132,6 +132,37 @@ public class Broker {
 		return success;
 	}
 	
+	/**
+	 * Sets the invoice's resource for a given {@link ResourceType}, at a given quantity.
+	 * @param invoice
+	 * @param resource
+	 * @param quantity
+	 * @return {@link ResourceInvoice}
+	 */
+	private ResourceInvoice setInvoiceResource(ResourceInvoice invoice, ResourceType resource, int quantity) {
+		switch (resource) {
+		case BRICK:
+			invoice.setBrick(quantity);
+			break;
+		case ORE:
+			invoice.setOre(quantity);
+			break;
+		case SHEEP:
+			invoice.setSheep(quantity);
+			break;
+		case WHEAT:
+			invoice.setWheat(quantity);
+			break;
+		case WOOD:
+			invoice.setWood(quantity);
+			break;
+		default:
+			break;
+		}
+		
+		return invoice;
+	}
+	
 	public ResourceInvoice randomRobPlayer(PlayerNumber playerIndex, PlayerNumber victim) {
 		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
 		
