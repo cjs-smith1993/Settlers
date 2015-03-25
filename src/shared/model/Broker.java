@@ -257,6 +257,12 @@ public class Broker {
 				DevCardType.ROAD_BUILD, 1);
 	}
 
+	public void processSoldier(PlayerNumber player) {
+		PlayerHoldings playerHolding = ((PlayerHoldings) this.holdings.get(player));
+		playerHolding.addDevelopmentCardCollection(DevCardType.SOLDIER,
+				playerHolding.removeDevelopmentCard(DevCardType.SOLDIER, 1));
+	}
+
 	/**
 	 * @deprecated We dont need this because now process invoice does this all
 	 *             for us

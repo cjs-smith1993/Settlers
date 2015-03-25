@@ -261,11 +261,15 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
 			PlayerNumber victim, HexLocation newLocation) throws CatanException {
-		// TODO: Implement safety checks:
-		// 1 - Check whether it's this player's turn.
-		// 2 - Check whether the player has a soldier card to spend.
-		// 3 - Expire dev card.
-		return this.robPlayer(playerIndex, victim, newLocation);
+		if (canUseSoldier(playerIndex)) {
+			broker.processSoldier(playerIndex);
+			this.robPlayer(playerIndex, victim, newLocation);
+			
+			return robPlayer(playerIndex, victim, newLocation);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Soldier card. Repent.");
+		}
 	}
 
 	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource)
@@ -356,16 +360,20 @@ public class ServerModelFacade extends AbstractModelFacade {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"it is not your turn or you can't offer that trade.");
 		}
-		return this.getModel();
+		this.version++;
+		return getModel();
 	}
 
-	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept) {
-		if (this.canAcceptTrade(this.openOffer) && willAccept) {
 
-		}
-		else {
+	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept) throws CatanException {
+		if(this.canAcceptTrade(openOffer) && willAccept) {
+			this.broker.processInvoice(openOffer);
+			this.version++;
+			this.sendLog(openOffer.getSourcePlayer(), "Trade was accepted");
+		} else {
 			this.openOffer = null;
 			this.version++;
+			this.sendLog(openOffer.getSourcePlayer(), "Trade was declined");
 		}
 		return this.getModel();
 	}

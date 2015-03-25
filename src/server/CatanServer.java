@@ -97,7 +97,7 @@ public class CatanServer {
 	}
 
 	public static void main(String args[]) {
-		int portNum = args.length > 1 ? Integer.parseInt(args[1]) : 8081;
+		int portNum = args.length > 0 ? Integer.parseInt(args[0]) : 8081;
 		CatanServer server = CatanServer.getInstance(portNum);
 		server.start();
 	}
