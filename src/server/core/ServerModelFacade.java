@@ -7,6 +7,7 @@ import java.util.Map;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.definitions.CatanState;
+import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -225,9 +226,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return robPlayer(playerIndex, victim, newLocation);
 	}
 
-	public TransportModel useMonopoly(PlayerNumber player, ResourceType resource) throws CatanException {
-		if (canUseMonopoly(player)) {
-			broker.processMonopoly(player, resource);
+	public TransportModel useMonopoly(PlayerNumber playerIndex, ResourceType resource) throws CatanException {
+		if (canUseMonopoly(playerIndex)) {
+			broker.processMonopoly(playerIndex, resource);
 			
 			return getModel();
 		}
@@ -236,9 +237,16 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 	}
 
-	public TransportModel useMonument(PlayerNumber playerIndex) {
-		// TODO Auto-generated method stub
-		return getModel();
+	public TransportModel useMonument(PlayerNumber playerIndex) throws CatanException {
+		if (canUseMonument(playerIndex)) {
+			broker.processMonument(playerIndex);
+			scoreboard.devCardPlayed(playerIndex, DevCardType.MONUMENT);
+			
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Monument card. Repent.");
+		}
 	}
 
 	public TransportModel buildRoad(PlayerNumber playerIndex, EdgeLocation location,

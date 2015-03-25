@@ -157,6 +157,12 @@ public class Broker {
 		return invoice;
 	}
 	
+	/**
+	 * Handles the logic when a Monopoly card is played.
+	 * @param player
+	 * @param resource
+	 * @throws CatanException
+	 */
 	public void processMonopoly(PlayerNumber player, ResourceType resource) throws CatanException {
 		for (Map.Entry<PlayerNumber, Hand> holding : holdings.entrySet()) {
 			if (holding.getKey() != player 
@@ -188,6 +194,11 @@ public class Broker {
 		}
 		
 		((PlayerHoldings)holdings.get(player)).removeDevelopmentCard(DevCardType.MONOPOLY, 1);
+	}
+	
+	public void processMonument(PlayerNumber player) {
+		PlayerHoldings playerHolding = ((PlayerHoldings)holdings.get(player));
+		playerHolding.addDevelopmentCardCollection(DevCardType.MONUMENT, playerHolding.removeDevelopmentCard(DevCardType.MONUMENT, 1));
 	}
 
 	/**
