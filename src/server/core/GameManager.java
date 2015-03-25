@@ -1,5 +1,6 @@
 package server.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.model.ModelUser;
+import shared.model.Player;
 
 /**
  * Manages the collection of all games
@@ -19,14 +21,14 @@ import shared.model.ModelUser;
 public class GameManager {
 
 	private Map<Integer, ServerModelFacade> games;
-	private Map<Integer, DTOGame> gamesInfo;
 	private static GameManager instance;
-	private int nextGame;
+	private int nextGameId;
+
+	private static final int MAX_PLAYERS = 4;
 
 	private GameManager() {
 		this.games = new HashMap<Integer, ServerModelFacade>();
-		this.gamesInfo = new HashMap<Integer, DTOGame>();//map int to DTOgame
-		this.nextGame = 0;
+		this.nextGameId = 0;
 	}
 
 	public static GameManager getInstance() {
@@ -36,13 +38,24 @@ public class GameManager {
 		return instance;
 	}
 
+	private int getNextGameId() {
+		while (this.games.get(this.nextGameId) != null) {
+			this.nextGameId++;
+		}
+		return this.nextGameId;
+	}
+
 	/**
 	 * Returns a collection of all games
 	 *
 	 * @return a collection of all games
 	 */
 	public Collection<DTOGame> getGames() {
-		return this.gamesInfo.values();
+		Collection<DTOGame> gamesList = new ArrayList<DTOGame>();
+		for (ServerModelFacade game : this.games.values()) {
+			gamesList.add(game.getGameInfo());
+		}
+		return gamesList;
 	}
 
 	/**
@@ -64,18 +77,31 @@ public class GameManager {
 			boolean randomNumbers,
 			boolean randomPorts,
 			String name) throws CatanException {
-		if (name.equals(null)) {
+
+		if (name.length() == 0) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
 					"Game Not created - the name is null");
 		}
-		int gameid = this.nextGame++;
-		ArrayList<DTOPlayer> player_list = new ArrayList<DTOPlayer>();
-		DTOGame info = new DTOGame(gameid, name, player_list);
-		ServerModelFacade smf = new ServerModelFacade(gameid, randomTiles, randomNumbers, randomPorts);
-		games.put(info.id, smf);
-		gamesInfo.put(info.id, info);
-		return info;
 
+		int gameId = this.getNextGameId();
+		ArrayList<DTOPlayer> player_list = new ArrayList<DTOPlayer>();
+		ServerModelFacade smf = new ServerModelFacade(gameId, name, randomTiles, randomNumbers,
+				randomPorts);
+		this.games.put(gameId, smf);
+
+		DTOGame info = new DTOGame(gameId, name, player_list);
+		return info;
+	}
+
+	public boolean createGameFromFile(String filename) {
+		try {
+			ServerModelFacade facade = new ServerModelFacade(filename);
+			int gameId = facade.getGameId();
+			this.games.put(gameId, facade);
+			return true;
+		} catch (IOException | CatanException e) {
+			return false;
+		}
 	}
 
 	public boolean authenticateGame(int gameId) {
@@ -91,27 +117,20 @@ public class GameManager {
 
 	public GameCertificate joinGame(int gameId, CatanColor color, ModelUser user)
 			throws CatanException {
-		DTOGame game = this.gamesInfo.get(gameId);
-		DTOPlayer player = new DTOPlayer();
-		player.color = color;
-		player.id = user.getUserId();
-		player.name = user.getName();
-		if (game.players.size() <= 3) {
-			for (DTOPlayer play : game.players) {
-				if (play.id == player.id) {
-					throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
-							"Already joined that game");
-				}
+		ServerModelFacade facade = this.games.get(gameId);
+		if (facade.getPlayers().size() < MAX_PLAYERS) {
+			Player existingPlayer = facade.getPlayer(user.getUserId());
+			if (existingPlayer == null) {
+				facade.joinGame(user, color);
 			}
-			game.players.add(player);
+			else {
+				existingPlayer.setColor(color);
+			}
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");
 		}
-		this.games.get(gameId).joinGame(user, color);//do the join game on the facade
-		this.gamesInfo.remove(gameId);
-		this.gamesInfo.put(game.id, game);
-		return new GameCertificate(game.id);
 
+		return new GameCertificate(gameId);
 	}
 }

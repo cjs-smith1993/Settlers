@@ -175,45 +175,5 @@ public class Geometer {
 			return edges1.iterator().next();
 		}
 	}
-	
-	public static EdgeDirection getEquivalentDirection(VertexLocation location1, VertexLocation location2) {
-		if ((location1.getDir() == VertexDirection.NorthWest
-				&& location2.getDir() == VertexDirection.NorthEast)
-				|| (location2.getDir() == VertexDirection.NorthWest
-						&& location1.getDir() == VertexDirection.NorthEast)) {
-			return EdgeDirection.North;
-		}
-		else if ((location1.getDir() == VertexDirection.NorthEast
-				&& location2.getDir() == VertexDirection.East)
-				|| (location2.getDir() == VertexDirection.NorthEast
-						&& location1.getDir() == VertexDirection.East)) {
-			return EdgeDirection.NorthEast;
-		}
-		else if ((location1.getDir() == VertexDirection.East
-				&& location2.getDir() == VertexDirection.SouthEast)
-				|| (location2.getDir() == VertexDirection.East
-						&& location1.getDir() == VertexDirection.SouthEast)) {
-			return EdgeDirection.SouthEast;
-		}
-		else if ((location1.getDir() == VertexDirection.SouthEast
-				&& location2.getDir() == VertexDirection.SouthWest)
-				||(location2.getDir() == VertexDirection.SouthEast
-						&& location1.getDir() == VertexDirection.SouthWest)) {
-			return EdgeDirection.South;
-		}
-		else if ((location1.getDir() == VertexDirection.SouthWest
-				&& location2.getDir() == VertexDirection.West)
-				|| (location2.getDir() == VertexDirection.SouthWest
-						&& location1.getDir() == VertexDirection.West)) {
-			return EdgeDirection.SouthWest;
-		}
-		else if ((location1.getDir() == VertexDirection.West
-				&& location2.getDir() == VertexDirection.NorthWest)
-				|| (location2.getDir() == VertexDirection.West
-						&& location1.getDir() == VertexDirection.NorthWest)) {
-			return EdgeDirection.NorthWest;
-		}
-		
-		return null;
-	}
+
 }
