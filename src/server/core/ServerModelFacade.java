@@ -76,7 +76,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			transportPlayers.add(transportPlayer);
 		}
 		
-		return (TransportPlayer[]) transportPlayers.toArray();
+		return transportPlayers.toArray(new TransportPlayer[transportPlayers.size()]);
 	}
 	
 	public boolean joinGame(ModelUser user, CatanColor color) {
@@ -87,7 +87,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		String name = this.getNameForPlayerNumber(playerIndex);
 		this.postOffice.addChatMessage(new Message(name, content));
 		
-		return getModel();
+		return this.getModel();
 	}
 
 	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled) {
