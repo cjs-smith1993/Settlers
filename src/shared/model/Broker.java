@@ -225,9 +225,9 @@ public class Broker {
 		playerHolding.addDevelopmentCardCollection(DevCardType.MONUMENT, playerHolding.removeDevelopmentCard(DevCardType.MONUMENT, 1));
 	}
 	
-	public void processRoadBuilding(PlayerNumber playerIndex,
-			EdgeLocation edge1, EdgeLocation edge2) {
-		
+	public void processRoadBuilding(PlayerNumber playerIndex) {
+		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
+		((PlayerHoldings)holdings.get(playerIndex)).removeDevelopmentCard(DevCardType.ROAD_BUILD, 1);
 	}
 
 	/**
@@ -326,10 +326,12 @@ public class Broker {
 	 */
 	public void purchase(PlayerNumber player, PropertyType type) throws CatanException {
 		ResourceInvoice purchase;
+		
 		if (!(this.canPurchase(player, type))) {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
 					"Not enough resource cards to purchase");
 		}
+		
 		switch (type) {
 		case ROAD:
 			purchase = new ResourceInvoice(player, PlayerNumber.BANK);

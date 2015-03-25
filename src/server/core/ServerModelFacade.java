@@ -223,14 +223,20 @@ public class ServerModelFacade extends AbstractModelFacade {
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Year Of Plenty card. Repent.");
 		}
-		
 	}
 
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
-			EdgeLocation edge1, EdgeLocation edge2) {
-		// TODO Auto-generated method stub
-		//check state
-		return getModel();
+			EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
+		if (canUseRoadBuilding(playerIndex)) {
+			buildRoad(playerIndex, edge1, true);
+			buildRoad(playerIndex, edge2, true);
+			broker.processRoadBuilding(playerIndex);
+			
+			return getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "You are not qualified to use the Road Building card. Repent.");
+		}
 	}
 
 	public TransportModel useSoldier(PlayerNumber playerIndex,
