@@ -19,10 +19,7 @@ public class ServerModelFacadeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		this.facade = new ServerModelFacade(false, false, false);
-		this.facade.initializeModelFromFile(cleanFile);
-		
-		
+		this.facade = new ServerModelFacade(cleanFile);
 	}
 	
 	@Test
