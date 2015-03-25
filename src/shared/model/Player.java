@@ -46,17 +46,7 @@ public class Player {
 		
 		this.setHasPlayedDevCard(player.playedDevCard);
 	}
-	
-	private ArrayList<Road> initializeRoads(int numRoads) {
-		ArrayList<Road> roads = new ArrayList<Road>();
-		
-		for (int i = 0; i < numRoads; i++) {
-			roads.add(new Road(number));
-		}
-		
-		return roads;
-	}
-	
+
 	/**
 	 * Extracts TransportPlayer 
 	 * @param player
@@ -75,6 +65,17 @@ public class Player {
 		
 		return player;
 	}
+	
+	private ArrayList<Road> initializeRoads(int numRoads) {
+		ArrayList<Road> roads = new ArrayList<Road>();
+		
+		for (int i = 0; i < numRoads; i++) {
+			roads.add(new Road(number));
+		}
+		
+		return roads;
+	}
+	
 	
 	private ArrayList<Settlement> initializeSettlements(int numSettlements) {
 		ArrayList<Settlement> settlements = new ArrayList<Settlement>();

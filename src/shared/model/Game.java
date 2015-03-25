@@ -22,33 +22,6 @@ public class Game {
 	private CatanState state;
 
 	/**
-	 * Returns the next available player number
-	 * */
-	private PlayerNumber getNextPlayerNumber() throws CatanException {
-
-		for (PlayerNumber number : PlayerNumber.values()) {
-
-			if (number == PlayerNumber.BANK) {
-				continue;
-			}
-
-			boolean found = false;
-
-			if (this.players.get(number) != null) {
-				found = true;
-				continue;
-			}
-
-			if (!found) {
-				return number;
-			}
-		}
-
-		throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
-				"There are no more available player numbers");
-	}
-
-	/**
 	 * The default constructor for initializing the first game
 	 * */
 	public Game() {
@@ -88,6 +61,33 @@ public class Game {
 		tracker.status = this.state;
 		
 		return tracker;
+	}
+	
+	/**
+	 * Returns the next available player number
+	 **/
+	private PlayerNumber getNextPlayerNumber() throws CatanException {
+
+		for (PlayerNumber number : PlayerNumber.values()) {
+
+			if (number == PlayerNumber.BANK) {
+				continue;
+			}
+
+			boolean found = false;
+
+			if (this.players.get(number) != null) {
+				found = true;
+				continue;
+			}
+
+			if (!found) {
+				return number;
+			}
+		}
+
+		throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+				"There are no more available player numbers");
 	}
 
 	/**
