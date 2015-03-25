@@ -185,23 +185,39 @@ public class Broker {
 	public ResourceInvoice randomRobPlayer(PlayerNumber playerIndex, PlayerNumber victim) {
 		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
 
-		if (this.holdings.get(victim).getResourceCardCount(ResourceType.BRICK) > 0) {
+		RandomNumberGenerator rng = RandomNumberGenerator.getInstance(this.randomSeed);
+		int rand = rng.generate(0, this.getResourceCardCount(victim, ResourceType.ALL));
+
+		PlayerHoldings holdings = (PlayerHoldings) this.getHoldings().get(victim);
+		int brickCount = holdings.getResourceCardCount(ResourceType.BRICK);
+		int oreCount = holdings.getResourceCardCount(ResourceType.ORE);
+		int sheepCount = holdings.getResourceCardCount(ResourceType.SHEEP);
+		int wheatCount = holdings.getResourceCardCount(ResourceType.WHEAT);
+		int woodCount = holdings.getResourceCardCount(ResourceType.WOOD);
+
+		if (rand < brickCount) {
 			invoice.setBrick(1);
+			return invoice;
 		}
-		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.ORE) > 0) {
-			invoice.setOre(1);
+		rand -= brickCount;
+		if (rand < oreCount) {
+			invoice.setBrick(1);
+			return invoice;
 		}
-		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.SHEEP) > 0) {
-			invoice.setSheep(1);
+		rand -= oreCount;
+		if (rand < sheepCount) {
+			invoice.setBrick(1);
+			return invoice;
 		}
-		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.WHEAT) > 0) {
-			invoice.setWheat(1);
+		rand -= sheepCount;
+		if (rand < wheatCount) {
+			invoice.setBrick(1);
+			return invoice;
 		}
-		else if (this.holdings.get(victim).getResourceCardCount(ResourceType.WOOD) > 0) {
-			invoice.setWood(1);
-		}
-		else {
-			return null;
+		rand -= wheatCount;
+		if (rand < woodCount) {
+			invoice.setBrick(1);
+			return invoice;
 		}
 
 		return invoice;
