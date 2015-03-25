@@ -8,6 +8,7 @@ import shared.definitions.*;
 import shared.transport.TransportBank;
 import shared.transport.TransportDeck;
 import shared.transport.TransportPlayer;
+import shared.transport.TransportTradeOffer;
 
 /**
  * Responsible for the transfer of cards between and among the bank and players'
@@ -15,7 +16,8 @@ import shared.transport.TransportPlayer;
  * */
 public class Broker {
 	private Map<PlayerNumber, Hand> holdings;
-
+	private ResourceInvoice tradeOffer = null; // Use this to manage trade offers as they come through the Broker.
+	
 	/**
 	 * Default constructor for the broker. This will go through and make each
 	 * one of the hands. Not implemented
@@ -46,6 +48,26 @@ public class Broker {
 			PlayerNumber playerNum = player.playerIndex;
 			this.holdings.put(playerNum, new PlayerHoldings(player, harborMap.get(playerNum)));
 		}
+	}
+	
+	public TransportPlayer getTransportPlayer(TransportPlayer transportPlayer,PlayerNumber playerNumber) {
+		return ((PlayerHoldings)holdings.get(playerNumber)).getTransportPlayer(transportPlayer);
+	}
+	
+	public TransportBank getTransportBank() {
+		return ((Bank)holdings.get(PlayerNumber.BANK)).getTransportBank();
+	}
+	
+	public TransportDeck getTransportDeck() {
+		return ((Bank)holdings.get(PlayerNumber.BANK)).getTransportDeck();
+	}
+	
+	public TransportTradeOffer getTransportTradeOffer() {
+		if (tradeOffer != null) {
+			return tradeOffer.getTransporTradeOffer();
+		}
+		
+		return null;
 	}
 
 	/**

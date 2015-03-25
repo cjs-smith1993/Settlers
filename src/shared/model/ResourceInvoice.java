@@ -67,6 +67,21 @@ public class ResourceInvoice {
 		this.setWheat(offer.offer.wheat);
 		this.setWood(offer.offer.wood);
 	}
+	
+	public TransportTradeOffer getTransporTradeOffer() {
+		TransportTradeOffer tradeOffer = new TransportTradeOffer();
+		
+		tradeOffer.receiver = destinationPlayer;
+		tradeOffer.sender = sourcePlayer;
+		
+		tradeOffer.offer.brick = brick;
+		tradeOffer.offer.ore = ore;
+		tradeOffer.offer.sheep = sheep;
+		tradeOffer.offer.wheat = wheat;
+		tradeOffer.offer.wood = wood;
+		
+		return tradeOffer;
+	}
 
 	public int getBrick() {
 		return this.brick;
