@@ -161,19 +161,19 @@ public class Broker {
 			int quantity) {
 		switch (resource) {
 		case BRICK:
-			invoice.setBrick(quantity);
+			invoice.setBrick(invoice.getBrick()+quantity);
 			break;
 		case ORE:
-			invoice.setOre(quantity);
+			invoice.setOre(invoice.getOre()+quantity);
 			break;
 		case SHEEP:
-			invoice.setSheep(quantity);
+			invoice.setSheep(invoice.getSheep()+quantity);
 			break;
 		case WHEAT:
-			invoice.setWheat(quantity);
+			invoice.setWheat(invoice.getWheat()+quantity);
 			break;
 		case WOOD:
-			invoice.setWood(quantity);
+			invoice.setWood(invoice.getWood()+quantity);
 			break;
 		default:
 			break;
@@ -236,7 +236,7 @@ public class Broker {
 					&& holding.getKey() != PlayerNumber.BANK) {
 				ResourceInvoice invoice = new ResourceInvoice(holding.getKey(), player);
 
-				invoice = this.setInvoiceResource(invoice, resource, holding.getValue()
+				this.setInvoiceResource(invoice, resource, holding.getValue()
 						.getResourceCardCount(resource));
 
 				this.processInvoice(invoice);
@@ -251,8 +251,8 @@ public class Broker {
 			ResourceType resource1,
 			ResourceType resource2) throws CatanException {
 		ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, playerIndex);
-		invoice = this.setInvoiceResource(invoice, resource1, 1);
-		invoice = this.setInvoiceResource(invoice, resource2, 1);
+		this.setInvoiceResource(invoice, resource1, 1);
+		this.setInvoiceResource(invoice, resource2, 1);
 		this.processInvoice(invoice);
 
 		PlayerHoldings playerHolding = ((PlayerHoldings) this.holdings.get(playerIndex));
