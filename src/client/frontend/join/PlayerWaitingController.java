@@ -80,7 +80,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 	public void setAIChoices() {
-		if (this.getView().isModalShowing()) {
+		if (this.getView().isModalShowing() && this.facade.getAITypes() != null) {
 			AIType[] AITypes = this.facade.getAITypes().toArray(new AIType[0]);
 			String[] stringTypes = new String[AITypes.length];
 			for (int i = 0; i < AITypes.length; i++) {
