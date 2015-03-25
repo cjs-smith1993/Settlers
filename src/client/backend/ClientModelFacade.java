@@ -885,14 +885,6 @@ public class ClientModelFacade extends AbstractModelFacade {
 		this.hasFinishedSecondRound = hasFinishedSecondRound;
 	}
 
-	public List<Message> getMessages() {
-		return this.postOffice.getMessages();
-	}
-
-	public List<Message> getLog() {
-		return this.postOffice.getLog();
-	}
-
 	public CatanColor getPlayerColor(PlayerNumber player) {
 		return this.game.getPlayers().get(player).getColor();
 	}
