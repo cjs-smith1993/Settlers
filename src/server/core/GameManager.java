@@ -5,11 +5,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-
+import server.certificates.GameCertificate;
 import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOPlayer;
+import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
+import shared.model.ModelUser;
 
 
 /**
@@ -18,13 +20,13 @@ import shared.model.CatanException;
 public class GameManager {
 
 	private Map<Integer, ServerModelFacade> games;
-	private ArrayList<DTOGame> gamesInfo;
+	private Map<Integer, DTOGame> gamesInfo;
 	private static GameManager instance;
 	private int nextGame;
 
 	protected GameManager() {
 		this.games = new HashMap<Integer, ServerModelFacade>();
-		this.gamesInfo = new ArrayList<DTOGame>();
+		this.gamesInfo = new HashMap<Integer, DTOGame>();//map int to DTOgame
 		this.nextGame = 0;
 	}
 
@@ -41,7 +43,7 @@ public class GameManager {
 	 * @return a collection of all games
 	 */
 	public Collection<DTOGame> getGames() {
-		return this.gamesInfo;
+		return this.gamesInfo.values();
 	}
 
 	/**
@@ -71,7 +73,7 @@ public class GameManager {
 		DTOGame info = new DTOGame(gameid, name, player_list);
 		ServerModelFacade smf = new ServerModelFacade(randomTiles, randomNumbers, randomPorts);
 		games.put(info.id, smf);
-		gamesInfo.add(info);
+		gamesInfo.put(info.id, info);
 		return info;
 
 	}
@@ -85,5 +87,26 @@ public class GameManager {
 			return this.games.get(gameId);
 		}
 		return null;
+	}
+	public GameCertificate joinGame(int gameId, CatanColor color, ModelUser user) throws CatanException {
+		DTOGame game = gamesInfo.get(gameId);
+		DTOPlayer player = new DTOPlayer();
+		player.color = color;
+		player.id = user.getUserId();
+		player.name = user.getName();
+		if(game.players.size() <= 3) {
+			for(DTOPlayer play: game.players) {
+				if(play.id == player.id) {
+					throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Already joined that game");
+				}
+			}
+			game.players.add(player);
+		}
+		else {throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");}
+		games.get(gameId).joinGame(user, color);//do the join game on the facade 
+		gamesInfo.remove(gameId);
+		gamesInfo.put(game.id, game);
+		return new GameCertificate(game.id);
+		
 	}
 }
