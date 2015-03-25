@@ -131,9 +131,34 @@ public class Broker {
 		}
 		return success;
 	}
+	
+	public ResourceInvoice randomRobPlayer(PlayerNumber playerIndex, PlayerNumber victim) {
+		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
+		
+		if (holdings.get(victim).getResourceCardCount(ResourceType.BRICK) > 0) {
+			invoice.setBrick(1);
+		}
+		else if (holdings.get(victim).getResourceCardCount(ResourceType.ORE) > 0) {
+			invoice.setOre(1);
+		}
+		else if (holdings.get(victim).getResourceCardCount(ResourceType.SHEEP) > 0) {
+			invoice.setSheep(1);
+		}
+		else if (holdings.get(victim).getResourceCardCount(ResourceType.WHEAT) > 0) {
+			invoice.setWheat(1);
+		}
+		else if (holdings.get(victim).getResourceCardCount(ResourceType.WOOD) > 0) {
+			invoice.setWood(1);
+		}
+		else {
+			return null;
+		}
+		
+		return invoice;
+	}
 
 	/**
-	 * DEPRECATED
+	 * @deprecated
 	 * We dont need this because now process invoice does this all for us
 	 *
 	 * @param srcPlayer

@@ -82,7 +82,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 	
 	public void resetGame() {
-		
+		// TODO: Implement this.
 	}
 	
 	public boolean joinGame(ModelUser user, CatanColor color) {
@@ -158,10 +158,31 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
-			HexLocation newLocation) {
-		//check state
-		// TODO Auto-generated method stub
-		return getModel();
+			HexLocation newLocation) throws CatanException {
+		if (playerIndex == game.getCurrentPlayer() 
+				&& (game.getState() == CatanState.ROBBING
+				|| game.getState() == CatanState.PLAYING)) {
+			if (board.canMoveRobber(newLocation)) {
+				board.moveRobber(newLocation);
+				
+				if (broker.getResourceCardCount(victim, ResourceType.ALL) > 0) {
+					ResourceInvoice invoice = broker.randomRobPlayer(playerIndex, victim);
+					
+					if (invoice != null) {
+						broker.processInvoice(invoice);
+					}
+				}
+				
+				return getModel();
+			}
+			else {
+				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Cannot place robber at that location.");
+			}
+			
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "CurrentPlayer or State. is not correct");
+		}
 	}
 
 	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
