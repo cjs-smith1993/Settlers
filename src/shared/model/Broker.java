@@ -588,9 +588,9 @@ public class Broker {
 	public boolean checkDiscardStatus() {
 		boolean isNecessary = false;
 		
-		for (Map.Entry<PlayerNumber, Hand> hand : holdings.entrySet()) {
-			if (hand.getKey() != PlayerNumber.BANK) {
-				if (getNumberToDiscard(hand.getKey()) >= 7) {
+		for (PlayerNumber player : holdings.keySet()) {
+			if (player != PlayerNumber.BANK) {
+				if (getNumberToDiscard(player) >= 7) {
 					isNecessary = true;
 				}
 			}
