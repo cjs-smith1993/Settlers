@@ -41,7 +41,7 @@ public class CentralCortex implements ICortex {
 	public static CentralCortex getInstance() {
 		if (instance == null) {
 			try {
-			instance = new CentralCortex();
+				instance = new CentralCortex();
 			} catch (IOException err) {
 				err.printStackTrace();
 			}
@@ -154,7 +154,7 @@ public class CentralCortex implements ICortex {
 	@Override
 	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException {
 		ServerModelFacade facade = this.gameManager.getFacadeById(gameId);
-		return facade.getModel();
+		return version == 0 ? facade.getModel() : facade.getModel(version);
 	}
 
 	/**
