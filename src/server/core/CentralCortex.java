@@ -153,7 +153,7 @@ public class CentralCortex implements ICortex {
 	@Override
 	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException {
 		ServerModelFacade facade = this.gameManager.getFacadeById(gameId);
-		return version == 0 ? facade.getModel() : facade.getModel(version);
+		return version == -1 ? facade.getModel() : facade.getModel(version);
 	}
 
 	/**
