@@ -27,7 +27,7 @@ public class TypeConverter {
 	}
 
 	public static PortType toPortType(ResourceType type) {
-		if (type == null) {
+		if (type == null || type == ResourceType.ALL) {
 			return PortType.THREE;
 		}
 		switch (type) {

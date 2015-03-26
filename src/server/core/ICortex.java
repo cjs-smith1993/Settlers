@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
-import com.google.gson.JsonObject;
-
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.ICommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
@@ -178,7 +177,7 @@ public interface ICortex {
 	 *
 	 * @return
 	 */
-	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException;
+	public Collection<ICommand> gameCommands(int gameId) throws CatanException, ServerException;
 
 	/**
 	 * If user and game are authentic, applies the provided list of commands to
@@ -192,7 +191,7 @@ public interface ICortex {
 	 *
 	 * @return the updated model of the corresponding game
 	 */
-	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId)
+	public TransportModel gameCommands(Collection<ICommand> commandList, int gameId)
 			throws CatanException, ServerException;
 
 	/*

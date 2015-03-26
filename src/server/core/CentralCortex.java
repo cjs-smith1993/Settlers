@@ -6,6 +6,7 @@ import java.util.Map;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.ICommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
@@ -19,8 +20,6 @@ import shared.model.ModelUser;
 import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
 import client.serverCommunication.ServerException;
-
-import com.google.gson.JsonObject;
 
 /**
  * This is our HAL9000. It will be responsible for interfacing with our Game and
@@ -171,20 +170,20 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<ICommand> gameCommands(int gameId) throws CatanException, ServerException {
+		ServerModelFacade facade = GameManager.getInstance().getFacadeById(gameId);
+		return facade.getCommands();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId)
+	public TransportModel gameCommands(Collection<ICommand> commandList, int gameId)
 			throws CatanException,
 			ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		ServerModelFacade facade = GameManager.getInstance().getFacadeById(gameId);
+		return facade.postCommands(commandList);
 	}
 
 	/**
