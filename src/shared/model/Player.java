@@ -97,22 +97,6 @@ public class Player {
 		return cities;
 	}
 
-	public void purchaseProperty(PropertyType property) {
-		switch (property) {
-		case CITY:
-			this.availableCities.remove(0);
-			break;
-		case ROAD:
-			this.availableRoads.remove(0);
-			break;
-		case SETTLEMENT:
-			this.availableSettlements.remove(0);
-			break;
-		default:
-			break;
-		}
-	}
-
 	public int getNumRoads() {
 		return this.availableRoads.size();
 	}

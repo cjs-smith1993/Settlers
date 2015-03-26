@@ -51,20 +51,22 @@ public class Game {
 
 		this.dice = new Dice();
 	}
-	
+
 	/**
-	 * IMPORTANT: This must be called just before or just after getTransporTracker() is called
-	 * on the Scoreboard class. It requires both classes to populate all the information.
+	 * IMPORTANT: This must be called just before or just after
+	 * getTransporTracker() is called on the Scoreboard class. It requires both
+	 * classes to populate all the information.
+	 * 
 	 * @param tracker
 	 * @return TransportTurnTracker tracker
 	 */
 	public TransportTurnTracker getTransportTurnTracker(TransportTurnTracker tracker) {
 		tracker.currentTurn = this.currentPlayer;
 		tracker.status = this.state;
-		
+
 		return tracker;
 	}
-	
+
 	/**
 	 * Returns the next available player number
 	 **/
@@ -294,14 +296,6 @@ public class Game {
 					"Current player is not a valid PlayerNumber: " + this.currentPlayer);
 		}
 	}
-	
-	/**
-	 * Purchases a given {@link PropertyType}.
-	 * @param property
-	 */
-	public void purchaseProperty(PlayerNumber player, PropertyType property) {
-		players.get(player).purchaseProperty(property);
-	}
 
 	public boolean getCurrentPlayerHasRolled() {
 		return this.currentPlayerHasRolled;
@@ -338,11 +332,11 @@ public class Game {
 	public void setState(CatanState state) {
 		this.state = state;
 	}
-	
+
 	public boolean hasDiscarded(PlayerNumber playerIndex) {
 		return this.players.get(playerIndex).hasDiscarded();
 	}
-	
+
 	public void setHasDiscarded(PlayerNumber playerIndex, boolean hasDiscarded) {
 		this.players.get(playerIndex).setHasDiscarded(hasDiscarded);
 	}
