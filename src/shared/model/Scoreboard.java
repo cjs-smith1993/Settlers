@@ -15,8 +15,8 @@ import shared.transport.TransportTurnTracker;
  * playing a development card), the scoreboard will update
  */
 public class Scoreboard {
-	private PlayerNumber largestArmy;
-	private PlayerNumber longestRoad;
+	private PlayerNumber largestArmyPlayer;
+	private PlayerNumber longestRoadPlayer;
 	private Map<PlayerNumber, Integer> points;
 	private Map<PlayerNumber, Integer> activeKnights;
 	private Map<PlayerNumber, Integer> builtRoads;
@@ -26,8 +26,8 @@ public class Scoreboard {
 		this.activeKnights = this.initializeMap();
 		this.builtRoads = this.initializeMap();
 
-		this.largestArmy = turnTracker.largestArmy;
-		this.longestRoad = turnTracker.longestRoad;
+		this.largestArmyPlayer = turnTracker.largestArmy;
+		this.longestRoadPlayer = turnTracker.longestRoad;
 
 		this.countRoads(player);
 		this.countKnights(player);
@@ -39,34 +39,37 @@ public class Scoreboard {
 		this.activeKnights = this.initializeMap();
 		this.builtRoads = this.initializeMap();
 
-		this.largestArmy = PlayerNumber.BANK;
-		this.longestRoad = PlayerNumber.BANK;
+		this.largestArmyPlayer = PlayerNumber.BANK;
+		this.longestRoadPlayer = PlayerNumber.BANK;
 	}
-	
+
 	/**
-	 * Extracts the PlayerNumber .roads, .soldiers, and .victoryPoints member variables
-	 *  information from the Scoreboard.
+	 * Extracts the PlayerNumber .roads, .soldiers, and .victoryPoints member
+	 * variables information from the Scoreboard.
+	 *
 	 * @param player
 	 * @param playerNumber
 	 * @return TransportPlayer
 	 */
 	public TransportPlayer getTransportPlayer(TransportPlayer player, PlayerNumber playerNumber) {
-		player.roads = builtRoads.get(playerNumber);
-		player.victoryPoints = points.get(playerNumber);
-		
+		player.roads = this.builtRoads.get(playerNumber);
+		player.victoryPoints = this.points.get(playerNumber);
+
 		return player;
 	}
-	
+
 	/**
-	 * IMPORTANT: This must be called just before or just after getTransporTracker() is called
-	 * on the Game class. It requires both classes to populate all the information.
+	 * IMPORTANT: This must be called just before or just after
+	 * getTransporTracker() is called on the Game class. It requires both
+	 * classes to populate all the information.
+	 *
 	 * @param tracker
 	 * @return TransportTurnTracker tracker
 	 */
 	public TransportTurnTracker getTransportTurnTracker(TransportTurnTracker tracker) {
-		tracker.longestRoad = this.longestRoad;
-		tracker.largestArmy = this.largestArmy;
-		
+		tracker.longestRoad = this.longestRoadPlayer;
+		tracker.largestArmy = this.largestArmyPlayer;
+
 		return tracker;
 	}
 
@@ -134,34 +137,17 @@ public class Scoreboard {
 		int playerRoads = this.builtRoads.get(player);
 		playerRoads++;
 		this.builtRoads.put(player, playerRoads);
-		
-		this.calculateSpecialCardHolder(this.builtRoads, this.longestRoad);
+		this.updateLongestRoad();
 	}
-	
-	/**
-	 * This method calculates the PlayerNumber with the largest Integer as a
-	 * value in the map. This method works with LongestRoad and LargestArmy.
-	 *
-	 * @param specialCard
-	 * @param currentHolder
-	 */
-	private void calculateSpecialCardHolder(Map<PlayerNumber, Integer> specialCard,
-			PlayerNumber currentHolder) {
-		PlayerNumber currentWinner = currentHolder;
-		PlayerNumber oldWinner = currentWinner;
 
-		for (Map.Entry<PlayerNumber, Integer> cardCount : specialCard.entrySet()) {
-			if (cardCount.getValue() >= 5) {
-				if (cardCount.getValue() > specialCard.get(currentWinner)) {
-					currentWinner = cardCount.getKey();
-				}
+	private void updateLongestRoad() {
+		PlayerNumber newLongestRoadPlayer = this.longestRoadPlayer;
+		for (PlayerNumber player : this.builtRoads.keySet()) {
+			if (this.builtRoads.get(player) > this.builtRoads.get(newLongestRoadPlayer)) {
+				newLongestRoadPlayer = player;
 			}
 		}
-
-		if (oldWinner != currentWinner) {
-			this.updatePlayerMaps(this.points, oldWinner, -2);
-			this.updatePlayerMaps(this.points, currentWinner, 2);
-		}
+		this.longestRoadPlayer = newLongestRoadPlayer;
 	}
 
 	/**
@@ -180,15 +166,25 @@ public class Scoreboard {
 			break;
 		case SOLDIER:
 			this.updatePlayerMaps(this.activeKnights, player, 1);
-			this.calculateSpecialCardHolder(this.activeKnights, this.largestArmy);
+			this.updateLongestRoad();
 			break;
 		case ROAD_BUILD:
 			this.updatePlayerMaps(this.builtRoads, player, 1);
-			this.calculateSpecialCardHolder(this.builtRoads, this.longestRoad);
+			this.updateLargestArmy();
 			break;
 		default:
 			break;
 		}
+	}
+
+	private void updateLargestArmy() {
+		PlayerNumber newLargestArmyPlayer = this.largestArmyPlayer;
+		for (PlayerNumber player : this.activeKnights.keySet()) {
+			if (this.activeKnights.get(player) > this.activeKnights.get(newLargestArmyPlayer)) {
+				newLargestArmyPlayer = player;
+			}
+		}
+		this.largestArmyPlayer = newLargestArmyPlayer;
 	}
 
 	/**
@@ -201,24 +197,24 @@ public class Scoreboard {
 	public int getPoints(PlayerNumber player) {
 		return this.points.get(player);
 	}
-	
+
 	public PlayerNumber getWinner() {
 		PlayerNumber winner = PlayerNumber.BANK;
-		
-		for (Map.Entry<PlayerNumber, Integer> player : points.entrySet()) {
+
+		for (Map.Entry<PlayerNumber, Integer> player : this.points.entrySet()) {
 			if (player.getValue() >= 10) {
 				winner = player.getKey();
 			}
 		}
-		
+
 		return winner;
 	}
-	
+
 	public PlayerNumber getLargestArmyPlayer() {
-		return this.largestArmy;
+		return this.largestArmyPlayer;
 	}
-	
+
 	public PlayerNumber getLongestRoadPlayer() {
-		return this.longestRoad;
+		return this.longestRoadPlayer;
 	}
 }
