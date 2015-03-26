@@ -190,7 +190,7 @@ public class Broker {
 		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
 
 		RandomNumberGenerator rng = RandomNumberGenerator.getInstance(this.randomSeed);
-		int rand = rng.generate(0, this.getResourceCardCount(victim, ResourceType.ALL));
+		int rand = rng.generate(0, this.getResourceCardCount(victim, ResourceType.ALL) - 1);
 
 		PlayerHoldings holdings = (PlayerHoldings) this.getHoldings().get(victim);
 		int brickCount = holdings.getResourceCardCount(ResourceType.BRICK);
