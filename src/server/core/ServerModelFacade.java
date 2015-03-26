@@ -102,22 +102,26 @@ public class ServerModelFacade extends AbstractModelFacade {
 		transportModel.turnTracker = turnTracker;
 
 		// TODO: The tradeOffer member variable needs to be ported from the Broker to the Facade.
-		transportModel.tradeOffer = this.makeTransTrade(openOffer);
+		transportModel.tradeOffer = this.makeTransTrade(this.openOffer);
 		transportModel.players = this.getTransportPlayers();
 		transportModel.version = this.version;
+
+		this.winnerServerID = this.scoreboard.getWinner().getInteger();
+
 		transportModel.winner = this.winnerServerID;
 		transportModel.gameId = this.gameId;
 
 		return transportModel;
 	}
+
 	private TransportTradeOffer makeTransTrade(ResourceInvoice invoice) {
 		TransportTradeOffer tradeOffer = new TransportTradeOffer();
-		if(invoice == null) {
+		if (invoice == null) {
 			return null;
 		}
 		tradeOffer.receiver = invoice.destinationPlayer;
 		tradeOffer.sender = invoice.sourcePlayer;
-		
+
 		tradeOffer.offer.brick = invoice.getBrick();
 		tradeOffer.offer.ore = invoice.getOre();
 		tradeOffer.offer.sheep = invoice.getSheep();
