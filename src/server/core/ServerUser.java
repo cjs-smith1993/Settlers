@@ -15,7 +15,6 @@ public class ServerUser {
 
 	private ModelUser modelUser;
 	private String password;
-	private Collection<Game> joinedGames;
 
 	/**
 	 * Creates a new user with the given information, and initializes the user's
@@ -29,22 +28,6 @@ public class ServerUser {
 	public ServerUser(ModelUser modelUser, String password) {
 		this.modelUser = modelUser;
 		this.password = password;
-		this.joinedGames = new ArrayList<Game>();
-	}
-
-	/**
-	 * Creates a new user with the given information
-	 * 
-	 * @param modelUser
-	 *            The representation of the user in a game model
-	 * @param password
-	 *            The user's plain-text password. Yeah, that's a bad idea.
-	 * @param joinedGames
-	 */
-	public ServerUser(ModelUser modelUser, String password, Collection<Game> joinedGames) {
-		this.modelUser = modelUser;
-		this.password = password;
-		this.joinedGames = joinedGames;
 	}
 
 	public ModelUser getModelUser() {
@@ -61,14 +44,6 @@ public class ServerUser {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Collection<Game> getJoinedGames() {
-		return this.joinedGames;
-	}
-
-	public void setJoinedGames(Collection<Game> joinedGames) {
-		this.joinedGames = joinedGames;
 	}
 
 }
