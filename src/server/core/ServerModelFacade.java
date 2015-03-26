@@ -485,9 +485,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept)
 			throws CatanException {
 		if (this.canAcceptTrade(this.openOffer)) {
+			ResourceInvoice invoice = this.openOffer;
 			this.openOffer = null;
 			if (willAccept) {
-				this.broker.processInvoice(this.openOffer);
+				this.broker.processInvoice(invoice);
 
 				PlayerNumber sourceIndex = this.openOffer.sourcePlayer;
 				PlayerNumber destinationIndex = this.openOffer.destinationPlayer;
