@@ -484,26 +484,34 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept)
 			throws CatanException {
-		if (this.canAcceptTrade(this.openOffer)) {
-			ResourceInvoice invoice = this.openOffer;
-			this.openOffer = null;
-			if (willAccept) {
-				this.broker.processInvoice(invoice);
 
-				PlayerNumber sourceIndex = this.openOffer.sourcePlayer;
-				PlayerNumber destinationIndex = this.openOffer.destinationPlayer;
-				String sourceName = this.getNameForPlayerNumber(sourceIndex);
-				String destinationName = this.getNameForPlayerNumber(destinationIndex);
-				this.sendLog(sourceIndex, destinationName + " accepted a trade from " + sourceName);
+		PlayerNumber sourceIndex = this.openOffer.sourcePlayer;
+		PlayerNumber destinationIndex = this.openOffer.destinationPlayer;
+		String sourceName = this.getNameForPlayerNumber(sourceIndex);
+		String destinationName = this.getNameForPlayerNumber(destinationIndex);
+
+		if (willAccept) {
+			if (this.canAcceptTrade(this.openOffer)) {
+				ResourceInvoice invoice = this.openOffer;
+				if (willAccept) {
+					this.broker.processInvoice(invoice);
+					this.sendLog(sourceIndex, destinationName + " accepted a trade from "
+							+ sourceName);
+				}
+				else {
+					this.sendLog(this.openOffer.getSourcePlayer(), "Trade was declined");
+				}
 			}
 			else {
-				this.sendLog(this.openOffer.getSourcePlayer(), "Trade was declined");
+				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "cannot accept a trade");
 			}
-			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "cannot accept a trade");
+			this.openOffer = null;
+			this.sendLog(sourceIndex, destinationName + " could not accept a trade from "
+					+ sourceName);
 		}
+		return this.getModel();
 	}
 
 	public TransportModel maritimeTrade(PlayerNumber playerIndex, int ratio,
