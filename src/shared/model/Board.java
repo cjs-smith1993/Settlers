@@ -149,8 +149,15 @@ public class Board {
 			TransportPort port = new TransportPort();
 
 			port.ratio = harbor.getRatio();
-			port.resource = harbor.getResource();
+			ResourceType type = harbor.getResource();
+			
+			if (type == ResourceType.ALL) {
+				type = null;
+			}
+			
+			port.resource = type;
 			port.direction = Geometer.getSharedEdge(ports[0], ports[1]).getDir();
+			
 			port.location = new TransportHexLocation();
 			port.location.x = harbor.getLocation().getX();
 			port.location.y = harbor.getLocation().getY();
