@@ -154,8 +154,9 @@ public class Bank implements Hand {
 	 * Returns a development card from the deck
 	 *
 	 * @param player
+	 * @throws CatanException 
 	 */
-	public DevelopmentCard drawDevelopmentCard(long rngSeed) {
+	public DevelopmentCard drawDevelopmentCard(long rngSeed) throws CatanException {
 		RandomNumberGenerator rng = RandomNumberGenerator.getInstance(rngSeed);
 		int rand = rng.generate(0, this.getDevelopmentCardCount(null));
 		int soldierCount = this.getDevelopmentCardCount(DevCardType.SOLDIER);
@@ -182,7 +183,8 @@ public class Bank implements Hand {
 		if (rand < monumentCount) {
 			return this.getDevelopmentCard(DevCardType.MONOPOLY);
 		}
-		return null;
+		throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Development card deck is empty.");
+		
 	}
 
 	private DevelopmentCard getDevelopmentCard(DevCardType type) {
@@ -197,21 +199,24 @@ public class Bank implements Hand {
 	 *
 	 * @param player
 	 * @param type
+	 * @throws CatanException 
 	 */
 	@Override
 	public Collection<ResourceCard> removeResourceCard(ResourceType type,
-			int count) {
+			int count) throws CatanException {
 		Collection<ResourceCard> removed = new ArrayList<ResourceCard>();
 
 		Collection<ResourceCard> cards = this.resourceCards.get(type);
 
 		if (!cards.isEmpty()) {
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count && !cards.isEmpty(); i++) {
 				Iterator<ResourceCard> it = cards.iterator();
 				ResourceCard card = it.next();
 				it.remove();
 				removed.add(card);
 			}
+		} else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "That resource deck is empty.");
 		}
 		return removed;
 	}
