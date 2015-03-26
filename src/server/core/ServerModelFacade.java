@@ -33,6 +33,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 	private int gameId;
 	private String name;
 	private Collection<ICommand> commandsList;
+	private boolean randomTiles;
+	private boolean randomNumbers;
+	private boolean randomPorts;
 
 	public ServerModelFacade(
 			int gameId,
@@ -52,6 +55,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.scoreboard = new Scoreboard();
 		this.openOffer = null;
 		this.commandsList = new ArrayList<ICommand>();
+
+		this.randomTiles = randomTiles;
+		this.randomNumbers = randomNumbers;
+		this.randomPorts = randomPorts;
 	}
 
 	public ServerModelFacade(String fileName) throws IOException, CatanException {
@@ -98,6 +105,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		transportModel.players = this.getTransportPlayers();
 		transportModel.version = this.version;
 		transportModel.winner = this.winnerServerID;
+		transportModel.gameId = this.gameId;
 
 		return transportModel;
 	}
@@ -632,6 +640,18 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public boolean getRandomTiles() {
+		return this.randomTiles;
+	}
+
+	public boolean getRandomNumbers() {
+		return this.randomNumbers;
+	}
+
+	public boolean getRandomPorts() {
+		return this.randomPorts;
 	}
 
 	public DTOGame getGameInfo() {

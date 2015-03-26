@@ -35,10 +35,16 @@ public class GameModelCommand extends AbstractGameCommand {
 	@Override
 	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		
+
 		CommandResponse response = null;
 		TransportModel model = cortex.gameModel(this.version, this.getGameId());
-		String body = CatanSerializer.getInstance().serializeObject(model);
+		String body;
+		if (model != null) {
+			body = CatanSerializer.getInstance().serializeObject(model);
+		}
+		else {
+			body = "\"true\"";
+		}
 		StatusCode status = StatusCode.OK;
 		ContentType contentType = ContentType.JSON;
 
