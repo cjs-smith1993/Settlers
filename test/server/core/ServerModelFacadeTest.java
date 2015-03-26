@@ -15,7 +15,7 @@ import shared.model.Message;
 
 public class ServerModelFacadeTest {
 	private ServerModelFacade facade;
-	private String cleanFile = "save/cleanGame.txt";
+	private String cleanFile = "save/games/cleanGame.txt";
 	
 	@Before
 	public void setUp() throws Exception {
