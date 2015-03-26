@@ -105,6 +105,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		transportModel.players = this.getTransportPlayers();
 		transportModel.version = this.version;
 		transportModel.winner = this.winnerServerID;
+		transportModel.gameId = this.gameId;
 
 		return transportModel;
 	}
