@@ -1,5 +1,6 @@
 package server.core;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -33,14 +34,18 @@ public class CentralCortex implements ICortex {
 	private GameManager gameManager;
 	private UserManager userManager;
 
-	private CentralCortex() {
+	private CentralCortex() throws IOException {
 		this.gameManager = GameManager.getInstance();
 		this.userManager = UserManager.getInstance();
 	}
 
 	public static CentralCortex getInstance() {
 		if (instance == null) {
+			try {
 			instance = new CentralCortex();
+			} catch (IOException err) {
+				err.printStackTrace();
+			}
 		}
 		return instance;
 	}
