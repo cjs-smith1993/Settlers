@@ -21,6 +21,9 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> activeKnights;
 	private Map<PlayerNumber, Integer> builtRoads;
 
+	private final int MIN_NUM_ROADS = 5;
+	private final int MIN_NUM_SOLDIERS = 3;
+
 	public Scoreboard(List<TransportPlayer> player, TransportTurnTracker turnTracker) {
 		this.points = this.initializeMap();
 		this.activeKnights = this.initializeMap();
@@ -80,6 +83,7 @@ public class Scoreboard {
 		map.put(PlayerNumber.TWO, 0);
 		map.put(PlayerNumber.THREE, 0);
 		map.put(PlayerNumber.FOUR, 0);
+		map.put(PlayerNumber.BANK, 0);
 
 		return map;
 	}
@@ -143,11 +147,10 @@ public class Scoreboard {
 
 	private void updateLongestRoad() {
 		PlayerNumber newLongestRoadPlayer = this.longestRoadPlayer;
-		int MIN_NUM_ROADS = 5;
-		
+
 		for (PlayerNumber player : this.builtRoads.keySet()) {
 			if (this.builtRoads.get(player) > this.builtRoads.get(newLongestRoadPlayer)
-					&& this.builtRoads.get(player) >= MIN_NUM_ROADS) {
+					&& this.builtRoads.get(player) >= this.MIN_NUM_ROADS) {
 				newLongestRoadPlayer = player;
 			}
 		}
@@ -184,7 +187,8 @@ public class Scoreboard {
 	private void updateLargestArmy() {
 		PlayerNumber newLargestArmyPlayer = this.largestArmyPlayer;
 		for (PlayerNumber player : this.activeKnights.keySet()) {
-			if (this.activeKnights.get(player) > this.activeKnights.get(newLargestArmyPlayer)) {
+			if (this.activeKnights.get(player) > this.activeKnights.get(newLargestArmyPlayer)
+					&& this.activeKnights.get(player) >= this.MIN_NUM_SOLDIERS) {
 				newLargestArmyPlayer = player;
 			}
 		}
