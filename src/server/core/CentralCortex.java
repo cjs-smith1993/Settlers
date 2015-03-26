@@ -136,8 +136,7 @@ public class CentralCortex implements ICortex {
 	 */
 	@Override
 	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return false;
+		return this.gameManager.saveGameToFile(gameId, name);
 	}
 
 	/**
