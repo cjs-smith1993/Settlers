@@ -14,7 +14,7 @@ public interface Hand {
 	
 	public int getDevelopmentCardCount(DevCardType type);
 	public int getResourceCardCount(ResourceType type);
-	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count);
+	public Collection<ResourceCard> removeResourceCard (ResourceType type, int count) throws CatanException;
 	public boolean addResourceCardCollection (ResourceType type, Collection<ResourceCard> newCards);
 	public boolean addDevelopmentCardCollection (DevCardType type, Collection<DevelopmentCard> newCards);
 }

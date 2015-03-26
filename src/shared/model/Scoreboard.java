@@ -76,9 +76,10 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> initializeMap() {
 		HashMap<PlayerNumber, Integer> map = new HashMap<PlayerNumber, Integer>();
 
-		for (int i = 0; i < 4; i++) {
-			map.put(PlayerNumber.values()[i], 0);
-		}
+		map.put(PlayerNumber.ONE, 0);
+		map.put(PlayerNumber.TWO, 0);
+		map.put(PlayerNumber.THREE, 0);
+		map.put(PlayerNumber.FOUR, 0);
 
 		return map;
 	}
