@@ -89,6 +89,7 @@
 	<property name="java.lib" location="${java.dir}/lib"/>
 	<property name="java.test" location="${java.dir}/test"/>
 	<property name="java.save" location="${java.dir}/save"/>
+	<property name="java.docs" location="${java.dir}/docs"/>
  
 	<target name="init" description="create build directories">
 		<tstamp/>
@@ -169,6 +170,9 @@
         <copy todir="${java.dist}/save">
         	<fileset dir="${java.save}"/>
         </copy>
+    	<copy todir="${java.dist}/docs">
+    	        	<fileset dir="${java.docs}"/>
+    	        </copy>
     	<zip destfile="./tester.zip" basedir="${java.dist}" />
     </target>
 	
