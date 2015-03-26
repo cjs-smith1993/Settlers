@@ -1,0 +1,7 @@
+{
+	modelUser: {
+		username: "Connor",
+		playerID: 2
+	},
+	password: "connor"
+}

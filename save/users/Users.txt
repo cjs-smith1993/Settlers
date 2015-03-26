@@ -1,0 +1,30 @@
+[
+	{
+		modelUser: {
+			username: "Alex",
+			playerID: 3
+		},
+		password: "alex"
+	},
+	{
+		modelUser: {
+			username: "Connor",
+			playerID: 2
+		},
+		password: "connor"
+	},
+	{
+		modelUser: {
+			username: "Kevin",
+			playerID: 0
+		},
+		password: "kevin"
+	},
+	{
+		modelUser: {
+			username: "Kyle",
+			playerID: 1
+		},
+		password: "kyle"
+	}
+]
