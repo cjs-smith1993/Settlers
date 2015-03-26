@@ -1,12 +1,15 @@
 package server.core;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import client.backend.CatanSerializer;
 import server.certificates.GameCertificate;
 import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOPlayer;
@@ -119,6 +122,21 @@ public class GameManager {
 			this.games.put(gameId, facade);
 			return true;
 		} catch (IOException | CatanException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean saveGameToFile(int gameId, String name) {
+		ServerModelFacade facade = this.games.get(gameId);
+		String jsonFacade = CatanSerializer.getInstance().serializeObject(facade);
+		
+		try {
+			PrintWriter writer = new PrintWriter(name);
+			writer.print(jsonFacade);
+			writer.close();
+			return true;
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
