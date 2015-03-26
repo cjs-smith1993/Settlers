@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpServer;
 
+import server.core.CentralCortex;
 import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
 import server.handlers.MovesHandler;
@@ -45,6 +46,9 @@ public class CatanServer {
 			//Swagger endpoints
 			this.server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 			this.server.createContext("/docs/api/view", new Handlers.BasicFile(""));
+			
+			//Initialize Cortex
+			CentralCortex.getInstance();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
