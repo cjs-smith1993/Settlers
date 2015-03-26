@@ -143,8 +143,11 @@ public class Scoreboard {
 
 	private void updateLongestRoad() {
 		PlayerNumber newLongestRoadPlayer = this.longestRoadPlayer;
+		int MIN_NUM_ROADS = 5;
+		
 		for (PlayerNumber player : this.builtRoads.keySet()) {
-			if (this.builtRoads.get(player) > this.builtRoads.get(newLongestRoadPlayer)) {
+			if (this.builtRoads.get(player) > this.builtRoads.get(newLongestRoadPlayer)
+					&& this.builtRoads.get(player) >= MIN_NUM_ROADS) {
 				newLongestRoadPlayer = player;
 			}
 		}
