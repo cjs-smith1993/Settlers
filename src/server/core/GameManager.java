@@ -18,6 +18,7 @@ import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.model.ModelUser;
 import shared.model.Player;
+import shared.transport.TransportModel;
 
 /**
  * Manages the collection of all games
@@ -38,10 +39,10 @@ public class GameManager {
 
 	private void createGamesList() {
 		this.games = new HashMap<Integer, ServerModelFacade>();
-		
-		File gamesFolder = new File(gamesFile);
+
+		File gamesFolder = new File(this.gamesFile);
 		File[] listOfFiles = gamesFolder.listFiles();
-		
+
 		for (int i = 0; i < listOfFiles.length; i++) {
 			File file = listOfFiles[i];
 			if (file.isFile()) {
@@ -49,10 +50,10 @@ public class GameManager {
 				this.createGameFromFile(fileName);
 			}
 		}
-		
+
 		return;
 	}
-	
+
 	public static GameManager getInstance() {
 		if (instance == null) {
 			instance = new GameManager();
@@ -126,11 +127,11 @@ public class GameManager {
 			return false;
 		}
 	}
-	
+
 	public boolean saveGameToFile(int gameId, String name) {
 		ServerModelFacade facade = this.games.get(gameId);
 		String jsonFacade = CatanSerializer.getInstance().serializeObject(facade);
-		
+
 		try {
 			PrintWriter writer = new PrintWriter(name);
 			writer.print(jsonFacade);
@@ -170,5 +171,24 @@ public class GameManager {
 		}
 
 		return new GameCertificate(gameId);
+	}
+
+	public TransportModel resetGame(int gameId) {
+		ServerModelFacade oldFacade = this.games.get(gameId);
+
+		if (oldFacade == null) {
+			return null;
+		}
+
+		String name = oldFacade.getName();
+		boolean randomTiles = oldFacade.getRandomTiles();
+		boolean randomNumbers = oldFacade.getRandomNumbers();
+		boolean randomPorts = oldFacade.getRandomPorts();
+
+		ServerModelFacade newFacade = new ServerModelFacade(gameId, name, randomTiles,
+				randomNumbers, randomPorts);
+
+		this.games.put(gameId, newFacade);
+		return this.games.get(gameId).getModel();
 	}
 }

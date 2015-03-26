@@ -161,7 +161,12 @@ public class CentralCortex implements ICortex {
 	 */
 	@Override
 	public TransportModel gameReset(int gameId) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
+		if (gameId == 0) {
+			this.gameManager.createGameFromFile("save/games/DefaultGame.txt");
+		}
+		else {
+			return this.gameManager.resetGame(gameId);
+		}
 		return null;
 	}
 
