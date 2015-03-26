@@ -61,12 +61,21 @@ public class Board {
 		List<TransportHex> hexList = new ArrayList<>();
 
 		for (Map.Entry<HexLocation, Tile> tile : this.tiles.entrySet()) {
-			TransportHex hex = new TransportHex();
+			TransportHex hex = new
+					TransportHex();
 			hex.location = new TransportHexLocation();
 
 			hex.location.x = tile.getKey().getX();
 			hex.location.y = tile.getKey().getY();
 			hex.resource = tile.getValue().getResourceType();
+
+			if (hex.resource == ResourceType.ALL) {
+				continue;
+			}
+
+			if (hex.resource == ResourceType.NONE) {
+				hex.resource = null;
+			}
 
 			for (Map.Entry<Integer, Collection<Chit>> listOfChits : this.chits.entrySet()) {
 				for (Chit chit : listOfChits.getValue()) {
@@ -150,14 +159,14 @@ public class Board {
 
 			port.ratio = harbor.getRatio();
 			ResourceType type = harbor.getResource();
-			
+
 			if (type == ResourceType.ALL) {
 				type = null;
 			}
-			
+
 			port.resource = type;
 			port.direction = Geometer.getSharedEdge(ports[0], ports[1]).getDir();
-			
+
 			port.location = new TransportHexLocation();
 			port.location.x = harbor.getLocation().getX();
 			port.location.y = harbor.getLocation().getY();
