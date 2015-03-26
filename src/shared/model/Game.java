@@ -56,7 +56,7 @@ public class Game {
 	 * IMPORTANT: This must be called just before or just after
 	 * getTransporTracker() is called on the Scoreboard class. It requires both
 	 * classes to populate all the information.
-	 * 
+	 *
 	 * @param tracker
 	 * @return TransportTurnTracker tracker
 	 */
@@ -290,6 +290,23 @@ public class Game {
 			break;
 		case FOUR:
 			this.currentPlayer = PlayerNumber.ONE;
+			break;
+		default:
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"Current player is not a valid PlayerNumber: " + this.currentPlayer);
+		}
+	}
+
+	public void decrementTurn() throws CatanException {
+		switch (this.currentPlayer) {
+		case TWO:
+			this.currentPlayer = PlayerNumber.ONE;
+			break;
+		case THREE:
+			this.currentPlayer = PlayerNumber.TWO;
+			break;
+		case FOUR:
+			this.currentPlayer = PlayerNumber.THREE;
 			break;
 		default:
 			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,

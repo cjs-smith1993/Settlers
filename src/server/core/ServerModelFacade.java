@@ -246,8 +246,27 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
 		if (this.canFinishTurn(playerIndex)) {
 			this.game.setCurrentPlayerHasRolled(false);
-			this.game.setState(CatanState.ROLLING);
-			this.game.advanceTurn();
+
+			if (this.game.getState() == CatanState.PLAYING) {
+				this.game.setState(CatanState.ROLLING);
+				this.game.advanceTurn();
+			}
+			else if (this.game.getState() == CatanState.FIRST_ROUND) {
+				if (this.game.getCurrentPlayer() == PlayerNumber.FOUR) {
+					this.game.setState(CatanState.SECOND_ROUND);
+				}
+				else {
+					this.game.advanceTurn();
+				}
+			}
+			else if (this.game.getState() == CatanState.SECOND_ROUND) {
+				if (this.game.getCurrentPlayer() == PlayerNumber.ONE) {
+					this.game.setState(CatanState.ROLLING);
+				}
+				else {
+					this.game.decrementTurn();
+				}
+			}
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
