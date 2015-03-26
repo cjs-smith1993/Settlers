@@ -412,7 +412,7 @@ public class Broker {
 		}
 	}
 
-	private DevelopmentCard drawDevelopmentCard() {
+	private DevelopmentCard drawDevelopmentCard() throws CatanException {
 		return ((Bank) this.holdings.get(PlayerNumber.BANK)).drawDevelopmentCard(this.randomSeed);
 	}
 

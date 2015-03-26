@@ -13,7 +13,6 @@ import server.commands.ICommand;
 import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
-import shared.dataTransportObjects.DTOGame;
 import shared.model.CatanException;
 import shared.transport.TransportModel;
 

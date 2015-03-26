@@ -182,6 +182,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 				this.game.setState(CatanState.PLAYING);
 			}
 		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "cannot roll");
+		}
 
 		return this.getModel();
 	}
@@ -209,7 +212,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
 			HexLocation newLocation) throws CatanException {
 		if (this.canRobPlayer(playerIndex, victim)) {
-			if (this.board.canMoveRobber(newLocation)) {
+			if (this.canPlaceRobber(victim, newLocation)) {
 				this.board.moveRobber(newLocation);
 
 				if (this.broker.getResourceCardCount(victim, ResourceType.ALL) > 0) {
@@ -252,8 +255,13 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel buyDevCard(PlayerNumber playerIndex) throws CatanException {
 		// TODO Auto-generated method stub
-		this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
-		return this.getModel();
+		if (this.canBuyDevCard(playerIndex)) {
+			this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
+			return this.getModel();
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "cannot buy dev card");
+		}
 	}
 
 	public TransportModel useYearOfPlenty(PlayerNumber playerIndex,
@@ -331,7 +339,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 			}
 
 			this.scoreboard.roadBuilt(playerIndex);
-			this.game.purchaseProperty(playerIndex, PropertyType.ROAD);
+			Road road = this.game.getRoad(playerIndex);
+			this.board.placeRoad(road, location, isFree);
 
 			return this.getModel();
 		}
@@ -349,7 +358,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 			}
 
 			this.scoreboard.dwellingBuilt(playerIndex);
-			this.game.purchaseProperty(playerIndex, PropertyType.SETTLEMENT);
+			Settlement settlement = this.game.getSettlement(playerIndex);
+			this.board.placeSettlement(settlement, vertex, isFree);
 
 			return this.getModel();
 		}
@@ -365,7 +375,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 		if (this.canBuildCity(playerIndex)) {
 			this.broker.purchase(playerIndex, PropertyType.CITY);
 			this.scoreboard.dwellingBuilt(playerIndex);
-			this.game.purchaseProperty(playerIndex, PropertyType.CITY);
+			City city = this.game.getCity(playerIndex);
+			Settlement settlement = (Settlement) this.board.placeCity(city, vertex, false);
+			this.game.returnSettlement(playerIndex, settlement);
 
 			return this.getModel();
 		}
@@ -393,6 +405,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			throws CatanException {
 		if (this.canAcceptTrade(this.openOffer) && willAccept) {
 			this.broker.processInvoice(this.openOffer);
+			this.openOffer = null;
 			this.version++;
 			this.sendLog(this.openOffer.getSourcePlayer(), "Trade was accepted");
 		}
