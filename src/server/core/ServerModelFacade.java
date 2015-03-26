@@ -61,6 +61,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.commandsList = new ArrayList<ICommand>();
 	}
 
+	private void incrementVersion() {
+		this.incrementVersion();
+	}
+
 	public void initializeModel(TransportModel newModel) throws CatanException {
 		super.initializeModel(newModel);
 		this.gameId = newModel.gameId;
@@ -139,13 +143,14 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel sendChat(PlayerNumber playerIndex, String content) {
 		String name = this.getNameForPlayerNumber(playerIndex);
 		this.postOffice.addChatMessage(new Message(name, content));
-
+		this.incrementVersion();
 		return this.getModel();
 	}
 
 	private void sendLog(PlayerNumber playerIndex, String content) {
 		String name = this.getNameForPlayerNumber(playerIndex);
 		this.postOffice.addLogMessage(new Message(name, content));
+		this.incrementVersion();
 	}
 
 	public TransportModel rollNumber(PlayerNumber playerIndex, int numberRolled)
@@ -160,10 +165,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 		if (this.canRollNumber(playerIndex)) {
 			this.game.setCurrentPlayerHasRolled(true);
-			this.version++;
-
-			String name = this.getNameForPlayerNumber(playerIndex);
-			this.sendLog(playerIndex, name + " rolled a " + Integer.toString(numberRolled));
 
 			if (numberRolled == 7) {
 				this.startDiscarding();
@@ -173,19 +174,19 @@ public class ServerModelFacade extends AbstractModelFacade {
 			}
 			else {
 				Collection<ResourceInvoice> invoices = this.board.generateInvoices(numberRolled);
-
 				for (ResourceInvoice resourceInvoice : invoices) {
 					this.broker.processInvoice(resourceInvoice);
 				}
-
 				this.game.setState(CatanState.PLAYING);
 			}
+
+			String name = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, name + " rolled a " + numberRolled);
+			return this.getModel();
 		}
 		else {
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "cannot roll");
 		}
-
-		return this.getModel();
 	}
 
 	public boolean canPlaceRobber(PlayerNumber playerIndex, HexLocation location) {
@@ -222,16 +223,19 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 				}
 
+				String playerName = this.getNameForPlayerNumber(playerIndex);
+				String victimName = this.getNameForPlayerNumber(victim);
+				this.sendLog(playerIndex, playerName + " robbed " + victimName);
 				return this.getModel();
 			}
 			else {
-				throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 						"Cannot place robber at that location.");
 			}
 
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"CurrentPlayer or State. is not correct");
 		}
 	}
@@ -243,10 +247,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.game.advanceTurn();
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " ended their turn");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are either not the player "
 							+ "who's turn it is, or you still need you finish your turn.");
 		}
@@ -256,10 +262,13 @@ public class ServerModelFacade extends AbstractModelFacade {
 		// TODO Auto-generated method stub
 		if (this.canBuyDevCard(playerIndex)) {
 			this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
+
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " bought a development card");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "cannot buy dev card");
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "cannot buy dev card");
 		}
 	}
 
@@ -267,10 +276,13 @@ public class ServerModelFacade extends AbstractModelFacade {
 			ResourceType resource1, ResourceType resource2) throws CatanException {
 		if (this.canUseYearOfPlenty(playerIndex)) {
 			this.broker.processYearOfPlenty(playerIndex, resource1, resource2);
+
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " played a Year of Plenty card");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use the Year Of Plenty card. Repent.");
 		}
 	}
@@ -282,10 +294,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.buildRoad(playerIndex, edge2, true);
 			this.broker.processRoadBuilding(playerIndex);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " played a Road Building card");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use the Road Building card. Repent.");
 		}
 	}
@@ -296,10 +310,14 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.broker.processSoldier(playerIndex);
 			this.robPlayer(playerIndex, victim, newLocation);
 
-			return this.robPlayer(playerIndex, victim, newLocation);
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			String victimName = this.getNameForPlayerNumber(victim);
+			this.sendLog(playerIndex, playerName + " played a Soldier card and robbed "
+					+ victimName);
+			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use the Soldier card. Repent.");
 		}
 	}
@@ -309,10 +327,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 		if (this.canUseMonopoly(playerIndex)) {
 			this.broker.processMonopoly(playerIndex, resource);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " played a Monopoly card");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use the Monopoly card. Repent.");
 		}
 	}
@@ -322,10 +342,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.broker.processMonument(playerIndex);
 			this.scoreboard.devCardPlayed(playerIndex, DevCardType.MONUMENT);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " played a Monument card");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use the Monument card. Repent.");
 		}
 	}
@@ -341,10 +363,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			Road road = this.game.getRoad(playerIndex);
 			this.board.placeRoad(road, location, isFree);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " built a road");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use buildRoad. Repent.");
 		}
 	}
@@ -360,10 +384,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			Settlement settlement = this.game.getSettlement(playerIndex);
 			this.board.placeSettlement(settlement, vertex, isFree);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " built a settlement");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use buildSettlement. Repent.");
 		}
 
@@ -378,10 +404,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			Settlement settlement = (Settlement) this.board.placeCity(city, vertex, false);
 			this.game.returnSettlement(playerIndex, settlement);
 
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " upgraded a settlement to a city");
 			return this.getModel();
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"You are not qualified to use buildCity. Repent.");
 		}
 	}
@@ -389,31 +417,42 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel offerTrade(ResourceInvoice invoice) throws CatanException {
 		if (this.canOfferTrade(invoice)) {
 			this.openOffer = invoice;
+
+			PlayerNumber sourceIndex = invoice.sourcePlayer;
+			PlayerNumber destinationIndex = invoice.destinationPlayer;
+			String sourceName = this.getNameForPlayerNumber(sourceIndex);
+			String destinationName = this.getNameForPlayerNumber(destinationIndex);
+			this.sendLog(sourceIndex, sourceName + " offered a trade to " + destinationName);
+			return this.getModel();
 		}
 		else {
 			this.openOffer = null;
-			this.version++;
 			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"it is not your turn or you can't offer that trade.");
 		}
-		this.version++;
-		return this.getModel();
 	}
 
 	public TransportModel acceptTrade(int acceptingPlayerId, boolean willAccept)
 			throws CatanException {
-		if (this.canAcceptTrade(this.openOffer) && willAccept) {
-			this.broker.processInvoice(this.openOffer);
+		if (this.canAcceptTrade(this.openOffer)) {
 			this.openOffer = null;
-			this.version++;
-			this.sendLog(this.openOffer.getSourcePlayer(), "Trade was accepted");
+			if (willAccept) {
+				this.broker.processInvoice(this.openOffer);
+
+				PlayerNumber sourceIndex = this.openOffer.sourcePlayer;
+				PlayerNumber destinationIndex = this.openOffer.destinationPlayer;
+				String sourceName = this.getNameForPlayerNumber(sourceIndex);
+				String destinationName = this.getNameForPlayerNumber(destinationIndex);
+				this.sendLog(sourceIndex, destinationName + " accepted a trade from " + sourceName);
+			}
+			else {
+				this.sendLog(this.openOffer.getSourcePlayer(), "Trade was declined");
+			}
+			return this.getModel();
 		}
 		else {
-			this.openOffer = null;
-			this.version++;
-			this.sendLog(this.openOffer.getSourcePlayer(), "Trade was declined");
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "cannot accept a trade");
 		}
-		return this.getModel();
 	}
 
 	public TransportModel maritimeTrade(PlayerNumber playerIndex, int ratio,
@@ -425,10 +464,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel discardCards(PlayerNumber playerIndex, int brick, int ore,
 			int sheep, int wheat, int wood) throws CatanException {
 
-		int numberOfDiscardedResources = brick + ore + sheep + wheat + wood;
-
-		if (this.game.getState() == CatanState.DISCARDING
-				&& this.broker.getNumberToDiscard(playerIndex) == numberOfDiscardedResources) {
+		if (this.needsToDiscardCards(playerIndex)) {
 			ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
 
 			invoice.setBrick(brick);
@@ -443,9 +479,12 @@ public class ServerModelFacade extends AbstractModelFacade {
 			if (!this.continueDiscarding()) {
 				this.stopDiscarding();
 			}
+
+			String playerName = this.getNameForPlayerNumber(playerIndex);
+			this.sendLog(playerIndex, playerName + " discarded cards");
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,
 					"User attempted to discard an invalid number of cards.");
 		}
 
@@ -470,7 +509,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		}
 
 		this.game.setState(CatanState.DISCARDING);
-		this.version++;
+		this.incrementVersion();
 	}
 
 	/**
@@ -508,7 +547,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			}
 		}
 		this.game.setState(CatanState.ROBBING);
-		this.version++;
+		this.incrementVersion();
 	}
 
 	public int getGameId() {

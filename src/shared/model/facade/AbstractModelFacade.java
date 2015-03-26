@@ -442,7 +442,7 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 	 */
 	public boolean canAcceptTrade(ResourceInvoice invoice) {
 
-		if (this.broker.canAcceptTrade(invoice)) {
+		if (invoice != null && this.broker.canAcceptTrade(invoice)) {
 			return true;
 		}
 
