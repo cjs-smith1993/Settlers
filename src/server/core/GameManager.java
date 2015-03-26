@@ -138,17 +138,17 @@ public class GameManager {
 	public GameCertificate joinGame(int gameId, CatanColor color, ModelUser user)
 			throws CatanException {
 		ServerModelFacade facade = this.games.get(gameId);
-		if (facade.getPlayers().size() < MAX_PLAYERS) {
-			Player existingPlayer = facade.getPlayer(user.getUserId());
-			if (existingPlayer == null) {
+		Player existingPlayer = facade.getPlayer(user.getUserId());
+		if (existingPlayer == null) {
+			if (facade.getPlayers().size() < MAX_PLAYERS) {
 				facade.joinGame(user, color);
 			}
 			else {
-				existingPlayer.setColor(color);
+				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");
 			}
 		}
 		else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");
+			existingPlayer.setColor(color);
 		}
 
 		return new GameCertificate(gameId);

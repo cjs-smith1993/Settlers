@@ -62,7 +62,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	private void incrementVersion() {
-		this.incrementVersion();
+		this.version++;
 	}
 
 	public void initializeModel(TransportModel newModel) throws CatanException {
