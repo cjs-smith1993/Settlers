@@ -1,6 +1,5 @@
 package shared.model.facade;
 
-import shared.definitions.CatanState;
 import shared.definitions.PlayerNumber;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -15,13 +14,14 @@ import shared.model.ResourceInvoice;
  *
  */
 public interface IModelFacade {
-	
+
 	/*
 	 * Moves server methods
 	 */
 
 	/**
 	 * Determines if the player is ready to roll
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -29,6 +29,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the Robber can be placed on a location
+	 * 
 	 * @param player
 	 * @param location
 	 * @return
@@ -37,7 +38,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can rob the victim
-	 * 
+	 *
 	 * @param player
 	 * @param victim
 	 * @return
@@ -46,6 +47,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can finish their turn
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -53,6 +55,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can buy a development card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -63,6 +66,7 @@ public interface IModelFacade {
 	 * Determines if the player is playing, if they have a playable Year of
 	 * Plenty card, and if they have not played another non-Monument development
 	 * card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -72,6 +76,7 @@ public interface IModelFacade {
 	/**
 	 * Determines if the player is playing, if they can use a Year of Plenty
 	 * card, and if the bank has one of each of the two resource types
+	 * 
 	 * @param playerIndex
 	 * @param resource1
 	 * @param resource2
@@ -85,6 +90,7 @@ public interface IModelFacade {
 	 * Determines if the player is playing, if they have a playable RoadBuilding
 	 * card, if they have not played another non-Monument development card, and
 	 * if they have at least 2 available roads
+	 * 
 	 * @param player
 	 * @return
 	 * @throws CatanException
@@ -94,6 +100,7 @@ public interface IModelFacade {
 	/**
 	 * Determines if the player is playing, if they have a playable Soldier
 	 * card, and if they have not played another non-Monument development card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -103,6 +110,7 @@ public interface IModelFacade {
 	/**
 	 * Determines if the player is playing, if they have a playable Monopoly
 	 * card, and if they have not played another non-Monument development card
+	 * 
 	 * @param player
 	 * @return
 	 * @throws CatanException
@@ -112,6 +120,7 @@ public interface IModelFacade {
 	/**
 	 * Determines if the player is playing and if they have a playable Monument
 	 * card
+	 * 
 	 * @param playerIndex
 	 * @return
 	 * @throws CatanException
@@ -120,6 +129,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if a player has the resources to build a road
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a road
 	 * @throws CatanException
@@ -128,14 +138,17 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player has the resources to build a settlement
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a settlement
 	 * @throws CatanException
 	 */
-	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree) throws CatanException;
+	public boolean canBuildSettlement(PlayerNumber playerIndex, boolean isFree)
+			throws CatanException;
 
 	/**
 	 * Determines if the player has the resources to build a city
+	 * 
 	 * @param playerIndex
 	 * @return if the player has the resources to build a city
 	 * @throws CatanException
@@ -144,15 +157,18 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can place a road at the desired location
+	 * 
 	 * @param playerIndex
 	 * @param edge
 	 * @param isSetupPhase
 	 * @return
 	 */
-	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge, boolean isSetupPhase) throws CatanException;
+	public boolean canPlaceRoad(PlayerNumber playerIndex, EdgeLocation edge, boolean isSetupPhase)
+			throws CatanException;
 
 	/**
 	 * Determines if the player can place a settlement at the desired location
+	 * 
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
@@ -163,6 +179,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can place a city at the desired location
+	 * 
 	 * @param playerIndex
 	 * @param vertex
 	 * @param isSetupPhase
@@ -172,6 +189,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can offer a certain trade
+	 * 
 	 * @param invoice
 	 * @return
 	 */
@@ -179,6 +197,7 @@ public interface IModelFacade {
 
 	/**
 	 * Determines if the player can accept a certain trade
+	 * 
 	 * @param invoice
 	 * @return
 	 */
@@ -187,15 +206,18 @@ public interface IModelFacade {
 	/**
 	 * Determines if a player has enough of a certain resource to perform a
 	 * maritime trade
+	 * 
 	 * @param playerIndex
 	 * @param giving
 	 * @return
 	 * @throws CatanException
 	 */
-	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving) throws CatanException;
+	public boolean canMaritimeTrade(PlayerNumber playerIndex, ResourceType giving)
+			throws CatanException;
 
 	/**
 	 * Determines if the player needs to discard cards
+	 * 
 	 * @param playerIndex
 	 * @return
 	 */

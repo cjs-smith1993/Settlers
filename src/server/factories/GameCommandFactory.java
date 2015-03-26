@@ -35,14 +35,17 @@ public class GameCommandFactory {
 		AbstractGameCommand cmd = null;
 
 		switch (type) {
+		case "GETcommands":
+			cmd = new GameGetCommandsCommand(json);
+			break;
 		case "model":
 			cmd = new GameModelCommand(json);
 			break;
+		case "POSTcommands":
+			cmd = new GamePostCommandsCommand(json);
+			break;
 		case "reset":
 			cmd = new GameResetCommand(json);
-			break;
-		case "commands":
-			cmd = new GameCommandsCommand(json);
 			break;
 		}
 

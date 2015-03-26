@@ -26,11 +26,17 @@ public abstract class AbstractHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		System.out.println("Request: " + exchange.getProtocol() + " " + exchange.getRequestMethod() + " " + exchange.getRequestURI());
-		
+		System.out.println("Request: " + exchange.getProtocol() + " " + exchange.getRequestMethod()
+				+ " " + exchange.getRequestURI());
+
 		this.exchangeUtils = new ExchangeUtils(exchange);
 
 		String commandName = this.exchangeUtils.getCommandName();
+		if (commandName.equals("commands")) {
+			String prefix = this.exchangeUtils.getRequestType().toString();
+			commandName = prefix + commandName;
+		}
+
 		RequestType requestType = this.exchangeUtils.getRequestType();
 		String blob = requestType == RequestType.POST ? this.exchangeUtils.getRequestBody() : null;
 

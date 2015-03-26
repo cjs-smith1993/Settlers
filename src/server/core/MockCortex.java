@@ -6,6 +6,7 @@ import java.util.Map;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
+import server.commands.ICommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOPlayer;
 import shared.definitions.CatanColor;
@@ -19,8 +20,6 @@ import shared.model.ResourceInvoice;
 import shared.transport.TransportModel;
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
-
-import com.google.gson.JsonObject;
 
 public class MockCortex implements ICortex {
 
@@ -157,7 +156,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<JsonObject> gameCommands(int gameId) throws CatanException, ServerException {
+	public Collection<ICommand> gameCommands(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -166,7 +165,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransportModel gameCommands(Collection<JsonObject> commandList, int gameId)
+	public TransportModel gameCommands(Collection<ICommand> commandList, int gameId)
 			throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
