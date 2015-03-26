@@ -170,7 +170,7 @@ public class BoardFactory {
 		landHexes.add(new HexLocation(0, 0)); 	// R
 
 		// hex for Robber
-		landHexes.add(new HexLocation(0, 2));
+		landHexes.add(new HexLocation(0, -2));
 
 		if (randomize) {
 			Collections.shuffle(landHexes);
@@ -303,7 +303,7 @@ public class BoardFactory {
 		for (TransportHex hex : t_hexes) {
 			HexLocation location = new HexLocation(hex.location.x, hex.location.y);
 			int number = hex.number;
-			
+
 			if (number > 0) {
 				Chit chit = new Chit('?', number, location);
 				Collection<Chit> collection = chits.get(number);
