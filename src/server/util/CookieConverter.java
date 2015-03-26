@@ -103,12 +103,13 @@ public class CookieConverter {
 		try {
 			String[] encodedCookies = cookieString.replaceAll(" ", "").split(";");
 			for (String encodedCookie : encodedCookies) {
-				if (encodedCookie.startsWith("catan.user=")) {
-					encodedCookie = encodedCookie.replaceAll("catan.user=", "");
+				if (encodedCookie.startsWith("catan.game=")) {
+					encodedCookie = encodedCookie.replaceAll("catan.game=", "");
 					String decodedCookie = URLDecoder.decode(encodedCookie, "UTF-8");
-					CatanSerializer serializer = CatanSerializer.getInstance();
-					gameCert = (GameCertificate) serializer.deserializeObject(decodedCookie,
-							GameCertificate.class);
+					gameCert = new GameCertificate(Integer.parseInt(decodedCookie));
+					//CatanSerializer serializer = CatanSerializer.getInstance();
+					//gameCert = (GameCertificate) serializer.deserializeObject(decodedCookie,
+					//		GameCertificate.class);
 					break;
 				}
 			}

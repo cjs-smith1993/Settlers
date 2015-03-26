@@ -436,7 +436,7 @@ public class ServerProxy implements ServerInterface {
 		DTOMovesBuyDevCard data = new DTOMovesBuyDevCard(playerIndex);
 
 		try {
-			URL url = new URL(this.getUrlPrefix() + "/moves/finishTurn");
+			URL url = new URL(this.getUrlPrefix() + "/moves/buyDevCard");
 			String response = this.doPost(url, data);
 			this.deserializeResponse(response);
 			return true;

@@ -246,8 +246,27 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel finishTurn(PlayerNumber playerIndex) throws CatanException {
 		if (this.canFinishTurn(playerIndex)) {
 			this.game.setCurrentPlayerHasRolled(false);
-			this.game.setState(CatanState.ROLLING);
-			this.game.advanceTurn();
+
+			if (this.game.getState() == CatanState.PLAYING) {
+				this.game.setState(CatanState.ROLLING);
+				this.game.advanceTurn();
+			}
+			else if (this.game.getState() == CatanState.FIRST_ROUND) {
+				if (this.game.getCurrentPlayer() == PlayerNumber.FOUR) {
+					this.game.setState(CatanState.SECOND_ROUND);
+				}
+				else {
+					this.game.advanceTurn();
+				}
+			}
+			else if (this.game.getState() == CatanState.SECOND_ROUND) {
+				if (this.game.getCurrentPlayer() == PlayerNumber.ONE) {
+					this.game.setState(CatanState.ROLLING);
+				}
+				else {
+					this.game.decrementTurn();
+				}
+			}
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
@@ -460,60 +479,62 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public TransportModel maritimeTrade(PlayerNumber playerIndex, int ratio,
 			ResourceType inputResource, ResourceType outputResource) throws CatanException {
-		if(this.broker.canMaritimeTrade(playerIndex, inputResource)) {
-            ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
-            
-            for(ResourceType type: ResourceType.values()) {
-                switch(type) {
-                case BRICK:
-                    if(type == inputResource) {
-                        invoice.setBrick(ratio);
-                    }
-                    if(type == outputResource) {
-                        invoice.setBrick(-1);
-                    }
-                    break;
-                case WOOD:
-                    if(type == inputResource) {
-                        invoice.setWood(ratio);
-                    }
-                    if(type == outputResource) {
-                        invoice.setWood(-1);
-                    }
-                    break;
-                case WHEAT:
-                    if(type == inputResource) {
-                        invoice.setWheat(ratio);
-                    }
-                    if(type == outputResource) {
-                        invoice.setWheat(-1);
-                    }
-                    break;
-                case SHEEP:
-                    if(type == inputResource) {
-                        invoice.setSheep(ratio);
-                    }
-                    if(type == outputResource) {
-                        invoice.setSheep(-1);
-                    }
-                    break;
-                case ORE:
-                    if(type == inputResource) {
-                        invoice.setOre(ratio);
-                    }
-                    if(type == outputResource) {
-                        invoice.setOre(-1);
-                    }
-                    break;
-                default:
-                    break;
-                }
-            }
-            this.broker.processInvoice(invoice);
-        } else {
-            throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "Can not maritime trade.");
-        }
-        return this.getModel();
+		if (this.broker.canMaritimeTrade(playerIndex, inputResource)) {
+			ResourceInvoice invoice = new ResourceInvoice(playerIndex, PlayerNumber.BANK);
+
+			for (ResourceType type : ResourceType.values()) {
+				switch (type) {
+				case BRICK:
+					if (type == inputResource) {
+						invoice.setBrick(ratio);
+					}
+					if (type == outputResource) {
+						invoice.setBrick(-1);
+					}
+					break;
+				case WOOD:
+					if (type == inputResource) {
+						invoice.setWood(ratio);
+					}
+					if (type == outputResource) {
+						invoice.setWood(-1);
+					}
+					break;
+				case WHEAT:
+					if (type == inputResource) {
+						invoice.setWheat(ratio);
+					}
+					if (type == outputResource) {
+						invoice.setWheat(-1);
+					}
+					break;
+				case SHEEP:
+					if (type == inputResource) {
+						invoice.setSheep(ratio);
+					}
+					if (type == outputResource) {
+						invoice.setSheep(-1);
+					}
+					break;
+				case ORE:
+					if (type == inputResource) {
+						invoice.setOre(ratio);
+					}
+					if (type == outputResource) {
+						invoice.setOre(-1);
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			this.broker.processInvoice(invoice);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"Can not maritime trade.");
+		}
+		return this.getModel();
 	}
 
 	public TransportModel discardCards(PlayerNumber playerIndex, int brick, int ore,

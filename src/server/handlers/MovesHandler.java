@@ -12,7 +12,6 @@ import server.util.CookieConverter;
  *
  */
 public class MovesHandler extends AbstractHandler {
-
 	@Override
 	/**
 	 * {@inheritDoc}
