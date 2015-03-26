@@ -22,6 +22,7 @@ import shared.model.*;
 import shared.model.facade.AbstractModelFacade;
 import shared.transport.TransportModel;
 import shared.transport.TransportPlayer;
+import shared.transport.TransportTradeOffer;
 import shared.transport.TransportTurnTracker;
 
 /**
@@ -94,12 +95,27 @@ public class ServerModelFacade extends AbstractModelFacade {
 		transportModel.turnTracker = turnTracker;
 
 		// TODO: The tradeOffer member variable needs to be ported from the Broker to the Facade.
-		transportModel.tradeOffer = this.broker.getTransportTradeOffer();
+		transportModel.tradeOffer = this.makeTransTrade(openOffer);
 		transportModel.players = this.getTransportPlayers();
 		transportModel.version = this.version;
 		transportModel.winner = this.winnerServerID;
 
 		return transportModel;
+	}
+	private TransportTradeOffer makeTransTrade(ResourceInvoice invoice) {
+		TransportTradeOffer tradeOffer = new TransportTradeOffer();
+		if(invoice == null) {
+			return null;
+		}
+		tradeOffer.receiver = invoice.destinationPlayer;
+		tradeOffer.sender = invoice.sourcePlayer;
+		
+		tradeOffer.offer.brick = invoice.getBrick();
+		tradeOffer.offer.ore = invoice.getOre();
+		tradeOffer.offer.sheep = invoice.getSheep();
+		tradeOffer.offer.wheat = invoice.getWheat();
+		tradeOffer.offer.wood = invoice.getWood();
+		return tradeOffer;
 	}
 
 	public TransportPlayer[] getTransportPlayers() {
