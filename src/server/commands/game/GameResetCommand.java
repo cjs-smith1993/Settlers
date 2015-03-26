@@ -7,6 +7,7 @@ import server.commands.ContentType;
 import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
+import shared.definitions.CatanExceptionType;
 import shared.model.CatanException;
 import shared.transport.TransportModel;
 
@@ -29,7 +30,14 @@ public class GameResetCommand extends AbstractGameCommand {
 		CommandResponse response = null;
 
 		TransportModel model = cortex.gameReset(this.getGameId());
-		String body = CatanSerializer.getInstance().serializeObject(model);
+		String body;
+		if (model != null) {
+			body = CatanSerializer.getInstance().serializeObject(model);
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"no game matching the given id");
+		}
 		StatusCode status = StatusCode.OK;
 		ContentType contentType = ContentType.JSON;
 

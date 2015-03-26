@@ -41,7 +41,7 @@ public class CentralCortex implements ICortex {
 	public static CentralCortex getInstance() {
 		if (instance == null) {
 			try {
-			instance = new CentralCortex();
+				instance = new CentralCortex();
 			} catch (IOException err) {
 				err.printStackTrace();
 			}
@@ -136,8 +136,7 @@ public class CentralCortex implements ICortex {
 	 */
 	@Override
 	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return false;
+		return this.gameManager.saveGameToFile(gameId, name);
 	}
 
 	/**
@@ -154,7 +153,7 @@ public class CentralCortex implements ICortex {
 	@Override
 	public TransportModel gameModel(int version, int gameId) throws CatanException, ServerException {
 		ServerModelFacade facade = this.gameManager.getFacadeById(gameId);
-		return facade.getModel();
+		return version == -1 ? facade.getModel() : facade.getModel(version);
 	}
 
 	/**
@@ -162,7 +161,12 @@ public class CentralCortex implements ICortex {
 	 */
 	@Override
 	public TransportModel gameReset(int gameId) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
+		if (gameId == 0) {
+			this.gameManager.createGameFromFile("save/games/DefaultGame.txt");
+		}
+		else {
+			return this.gameManager.resetGame(gameId);
+		}
 		return null;
 	}
 
