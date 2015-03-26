@@ -1,8 +1,10 @@
 package server.core;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.io.IOException;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 import server.core.UserManager;
 import shared.model.CatanException;
 
@@ -11,7 +13,7 @@ import shared.model.CatanException;
  */
 public class UserManagerTest {
 	@Test
-	public void testUserManagerTest() {
+	public void testUserManagerTest() throws IOException {
 		UserManager manager = UserManager.getInstance();
 		
 		/* Register User Tests */
