@@ -161,19 +161,19 @@ public class Broker {
 			int quantity) {
 		switch (resource) {
 		case BRICK:
-			invoice.setBrick(invoice.getBrick()+quantity);
+			invoice.setBrick(invoice.getBrick() + quantity);
 			break;
 		case ORE:
-			invoice.setOre(invoice.getOre()+quantity);
+			invoice.setOre(invoice.getOre() + quantity);
 			break;
 		case SHEEP:
-			invoice.setSheep(invoice.getSheep()+quantity);
+			invoice.setSheep(invoice.getSheep() + quantity);
 			break;
 		case WHEAT:
-			invoice.setWheat(invoice.getWheat()+quantity);
+			invoice.setWheat(invoice.getWheat() + quantity);
 			break;
 		case WOOD:
-			invoice.setWood(invoice.getWood()+quantity);
+			invoice.setWood(invoice.getWood() + quantity);
 			break;
 		default:
 			break;
@@ -183,6 +183,10 @@ public class Broker {
 	}
 
 	public ResourceInvoice randomRobPlayer(PlayerNumber playerIndex, PlayerNumber victim) {
+		if (victim == PlayerNumber.BANK) {
+			return null;
+		}
+
 		ResourceInvoice invoice = new ResourceInvoice(victim, playerIndex);
 
 		RandomNumberGenerator rng = RandomNumberGenerator.getInstance(this.randomSeed);
@@ -201,26 +205,26 @@ public class Broker {
 		}
 		rand -= brickCount;
 		if (rand < oreCount) {
-			invoice.setBrick(1);
+			invoice.setOre(1);
 			return invoice;
 		}
 		rand -= oreCount;
 		if (rand < sheepCount) {
-			invoice.setBrick(1);
+			invoice.setSheep(1);
 			return invoice;
 		}
 		rand -= sheepCount;
 		if (rand < wheatCount) {
-			invoice.setBrick(1);
+			invoice.setWheat(1);
 			return invoice;
 		}
 		rand -= wheatCount;
 		if (rand < woodCount) {
-			invoice.setBrick(1);
+			invoice.setWood(1);
 			return invoice;
 		}
 
-		return invoice;
+		return null;
 	}
 
 	/**
@@ -278,8 +282,7 @@ public class Broker {
 	}
 
 	/**
-	 * We dont need this because now process invoice does this all
-	 *             for us
+	 * We dont need this because now process invoice does this all for us
 	 *
 	 * @param srcPlayer
 	 * @param dstPlayer

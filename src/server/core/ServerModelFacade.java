@@ -213,21 +213,23 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel robPlayer(PlayerNumber playerIndex, PlayerNumber victim,
 			HexLocation newLocation) throws CatanException {
 		if (this.canRobPlayer(playerIndex, victim)) {
-			if (this.canPlaceRobber(victim, newLocation)) {
+			if (this.canPlaceRobber(playerIndex, newLocation)) {
 				this.board.moveRobber(newLocation);
 
-				if (this.broker.getResourceCardCount(victim, ResourceType.ALL) > 0) {
-					ResourceInvoice invoice = this.broker.randomRobPlayer(playerIndex, victim);
-
-					if (invoice != null) {
-						this.broker.processInvoice(invoice);
-					}
-				}
+				ResourceInvoice invoice = this.broker.randomRobPlayer(playerIndex, victim);
+				this.game.setState(CatanState.PLAYING);
 
 				String playerName = this.getNameForPlayerNumber(playerIndex);
 				String victimName = this.getNameForPlayerNumber(victim);
-				this.sendLog(playerIndex, playerName + " robbed " + victimName);
+				if (invoice != null) {
+					this.broker.processInvoice(invoice);
+					this.sendLog(playerIndex, playerName + " robbed " + victimName);
+				}
+				else {
+					this.sendLog(playerIndex, playerName + " robbed no one!");
+				}
 				return this.getModel();
+
 			}
 			else {
 				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE,

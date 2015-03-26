@@ -152,9 +152,13 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 	 */
 	public boolean canRobPlayer(PlayerNumber playerIndex, PlayerNumber victimIndex) {
 
-		if (this.game.getCurrentPlayer() == playerIndex
-				&& (this.broker.getResourceCardCount(victimIndex, ResourceType.ALL) > 0)) {
-			return true;
+		if (this.game.getCurrentPlayer() == playerIndex) {
+			if (victimIndex == PlayerNumber.BANK) {
+				return true;
+			}
+			else {
+				return this.broker.getResourceCardCount(victimIndex, ResourceType.ALL) > 0;
+			}
 		}
 
 		return false;
