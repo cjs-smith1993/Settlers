@@ -1,5 +1,6 @@
 package server.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,14 +24,32 @@ public class GameManager {
 	private Map<Integer, ServerModelFacade> games;
 	private static GameManager instance;
 	private int nextGameId;
+	private final String gamesFile = "save/games";
 
 	private static final int MAX_PLAYERS = 4;
 
 	private GameManager() {
-		this.games = new HashMap<Integer, ServerModelFacade>();
+		this.createGamesList();
 		this.nextGameId = 0;
 	}
 
+	private void createGamesList() {
+		this.games = new HashMap<Integer, ServerModelFacade>();
+		
+		File gamesFolder = new File(gamesFile);
+		File[] listOfFiles = gamesFolder.listFiles();
+		
+		for (int i = 0; i < listOfFiles.length; i++) {
+			File file = listOfFiles[i];
+			if (file.isFile()) {
+				String fileName = file.getPath();
+				this.createGameFromFile(fileName);
+			}
+		}
+		
+		return;
+	}
+	
 	public static GameManager getInstance() {
 		if (instance == null) {
 			instance = new GameManager();
@@ -100,6 +119,7 @@ public class GameManager {
 			this.games.put(gameId, facade);
 			return true;
 		} catch (IOException | CatanException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
