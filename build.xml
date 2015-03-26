@@ -88,6 +88,7 @@
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
 	<property name="java.test" location="${java.dir}/test"/>
+	<property name="java.save" location="${java.dir}/save"/>
  
 	<target name="init" description="create build directories">
 		<tstamp/>
@@ -165,7 +166,10 @@
 	</target>
     
     <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
-        <zip destfile="./tester.zip" basedir="${java.dist}" />
+        <copy todir="${java.dist}/save">
+        	<fileset dir="${java.save}"/>
+        </copy>
+    	<zip destfile="./tester.zip" basedir="${java.dist}" />
     </target>
 	
 	<target name="test" depends="compile" description="run automated client backend tests">
