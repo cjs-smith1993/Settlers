@@ -1,5 +1,6 @@
 package server.core;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -121,8 +122,9 @@ public interface ICortex {
 	 * @param gameId
 	 * @param name
 	 * @return
+	 * @throws FileNotFoundException 
 	 */
-	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException;
+	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException, FileNotFoundException;
 
 	/**
 	 * If user is authentic, loads a previous game from the given file

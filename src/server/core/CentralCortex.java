@@ -1,5 +1,6 @@
 package server.core;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -135,7 +136,7 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException {
+	public boolean gamesSave(int gameId, String name) throws CatanException, ServerException, FileNotFoundException {
 		return this.gameManager.saveGameToFile(gameId, name);
 	}
 
