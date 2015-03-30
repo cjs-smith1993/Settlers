@@ -714,4 +714,10 @@ public class Broker {
 		PlayerHoldings playerHoldings = (PlayerHoldings) this.holdings.get(player);
 		return playerHoldings.getPlayedKnights().size();
 	}
+	public void setPlayersHarbors(PlayerNumber player, Collection<Harbor> harbors) {
+		PlayerHoldings hold = (PlayerHoldings) this.holdings.get(player);
+		if(harbors != null) {
+			hold.setHarbors(harbors);
+		}
+	}
 }
