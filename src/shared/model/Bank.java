@@ -185,7 +185,7 @@ public class Bank implements Hand {
 		}
 		rand -= yearofPlentyCount;
 		if (rand < monumentCount) {
-			return this.getDevelopmentCard(DevCardType.MONOPOLY);
+			return this.getDevelopmentCard(DevCardType.MONUMENT);
 		}
 		throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Development card deck is empty.");
 		
