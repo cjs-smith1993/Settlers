@@ -2,6 +2,7 @@ package shared.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,6 +19,19 @@ public class Bank implements Hand {
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
 	private Map<DevCardType, Collection<DevelopmentCard>> developmentCards;
 	private Collection<DevelopmentCard> playedCards;
+	
+	public static final int NUM_RESOURCE_CARDS = 19;
+	public static final Map<DevCardType, Integer> DEV_CARD_COUNT;
+	static {
+		HashMap<DevCardType, Integer> tmp = new HashMap<DevCardType, Integer>();
+		tmp.put(DevCardType.MONOPOLY, 2);
+		tmp.put(DevCardType.MONUMENT, 5);
+		tmp.put(DevCardType.ROAD_BUILD, 2);
+		tmp.put(DevCardType.SOLDIER, 14);
+		tmp.put(DevCardType.YEAR_OF_PLENTY, 2);
+		DEV_CARD_COUNT = Collections.unmodifiableMap(tmp);
+	}
+	
 
 	/**
 	 * Default constructor for the bank will create all the pieces needed Not
@@ -27,27 +41,17 @@ public class Bank implements Hand {
 		this.resourceCards = new HashMap<ResourceType, Collection<ResourceCard>>();
 		this.developmentCards = new HashMap<DevCardType, Collection<DevelopmentCard>>();
 		this.playedCards = new ArrayList<DevelopmentCard>();
-		//make all the cards put them in the space
+		// Initialize resource cards
 		for (ResourceType type : ResourceType.values())
 		{
-			this.resourceCards.put(type, this.makeTypeDeck(type, 25));
-		}
-
-		for (DevCardType type : DevCardType.values())
-		{
-			switch (type) {
-			case SOLDIER:
-				this.developmentCards.put(type, this.makeDevelopmentDeck(type, 14));
-				break;
-			case MONUMENT:
-				this.developmentCards.put(type, this.makeDevelopmentDeck(type, 5));
-				break;
-			default:
-				this.developmentCards.put(type, this.makeDevelopmentDeck(type, 2));
-				break;
+			if (type != ResourceType.ALL && type != ResourceType.NONE) {
+				this.resourceCards.put(type, this.makeTypeDeck(type, NUM_RESOURCE_CARDS));
 			}
 		}
-
+		// Initialize development cards
+		for (DevCardType type : DevCardType.values()) {
+			this.developmentCards.put(type, this.makeDevelopmentDeck(type, this.DEV_CARD_COUNT.get(type)));
+		}
 	}
 
 	public Bank(TransportDeck devDeck, TransportBank resDeck) {
