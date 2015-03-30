@@ -48,6 +48,7 @@ public abstract class AbstractHandler implements HttpHandler {
 			System.out.println("Response: " + response.getStatus());
 			this.sendResponse(response);
 		} catch (JsonParseException | NullPointerException e) {
+			e.printStackTrace();
 			System.out.println("Response: " + CommandResponse.getMalformedCommand().getStatus());
 			this.sendResponse(CommandResponse.getMalformedCommand());
 		}
