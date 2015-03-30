@@ -101,7 +101,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.scoreboard.getTransportTurnTracker(turnTracker);
 		transportModel.turnTracker = turnTracker;
 
-		// TODO: The tradeOffer member variable needs to be ported from the Broker to the Facade.
 		transportModel.tradeOffer = this.makeTransTrade(this.openOffer);
 		transportModel.players = this.getTransportPlayers();
 		transportModel.version = this.version;
