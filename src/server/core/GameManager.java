@@ -128,19 +128,15 @@ public class GameManager {
 		}
 	}
 
-	public boolean saveGameToFile(int gameId, String name) {
+	public boolean saveGameToFile(int gameId, String name) throws FileNotFoundException {
 		ServerModelFacade facade = this.games.get(gameId);
 		String jsonFacade = CatanSerializer.getInstance().serializeObject(facade);
 
-		try {
-			PrintWriter writer = new PrintWriter(name);
-			writer.print(jsonFacade);
-			writer.close();
-			return true;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		}
+		PrintWriter writer = new PrintWriter(name);
+		writer.print(jsonFacade);
+		writer.close();
+		return true;
+		
 	}
 
 	public boolean authenticateGame(int gameId) {

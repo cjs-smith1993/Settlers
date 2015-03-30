@@ -1,5 +1,7 @@
 package server.commands.games;
 
+import java.io.FileNotFoundException;
+
 import client.backend.CatanSerializer;
 import client.serverCommunication.ServerException;
 import server.commands.CommandResponse;
@@ -33,11 +35,19 @@ public class GamesSaveCommand extends AbstractGamesCommand {
 	public CommandResponse executeInner() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 		CommandResponse response = null;
-
-		cortex.gamesSave(this.id, this.fileName);
-		String body = CommandResponse.getSuccessMessage();
-		StatusCode status = StatusCode.OK;
-		ContentType contentType = ContentType.PLAIN_TEXT;
+		String body;
+		StatusCode status;
+		ContentType contentType;
+		try {
+			cortex.gamesSave(this.id, this.fileName);
+			body = CommandResponse.getSuccessMessage();
+			status = StatusCode.OK;
+			contentType = ContentType.PLAIN_TEXT;
+		} catch (FileNotFoundException err) {
+			body = err.getMessage();
+			status = StatusCode.INTERNAL_ERROR;
+			contentType = ContentType.PLAIN_TEXT;
+		}
 
 		response = new CommandResponse(body, status, contentType);
 		return response;
