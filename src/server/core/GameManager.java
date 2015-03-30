@@ -46,8 +46,11 @@ public class GameManager {
 		for (int i = 0; i < listOfFiles.length; i++) {
 			File file = listOfFiles[i];
 			if (file.isFile()) {
-				String fileName = file.getPath();
-				this.createGameFromFile(fileName);
+				String filePath = file.getPath();
+				System.out.println(filePath);
+				if (file.getName().charAt(0) != '.') {
+					this.createGameFromFile(filePath);
+				}
 			}
 		}
 
