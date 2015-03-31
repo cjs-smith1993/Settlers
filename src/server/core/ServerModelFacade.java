@@ -341,8 +341,11 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
 			EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
 		if (this.canUseRoadBuilding(playerIndex)) {
-			this.buildRoad(playerIndex, edge1, true);
-			this.buildRoad(playerIndex, edge2, true);
+			Road road1 = this.game.getRoad(playerIndex);
+			Road road2 = this.game.getRoad(playerIndex);
+			this.board.placeRoad(road1, edge1, false);
+			this.board.placeRoad(road2, edge2, false);
+
 			this.broker.processRoadBuilding(playerIndex);
 			this.game.setHasPlayedDevCard(playerIndex, true);
 			this.scoreboard.devCardPlayed(playerIndex, DevCardType.ROAD_BUILD);
