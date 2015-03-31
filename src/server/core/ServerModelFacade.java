@@ -345,7 +345,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.buildRoad(playerIndex, edge2, true);
 			this.broker.processRoadBuilding(playerIndex);
 			this.game.setHasPlayedDevCard(playerIndex, true);
-			this.scoreboard.devCardPlayed(playerIndex, DevCardType.MONUMENT);
+			this.scoreboard.devCardPlayed(playerIndex, DevCardType.ROAD_BUILD);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Road Building card");
