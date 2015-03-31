@@ -139,7 +139,6 @@ public class GameManager {
 		writer.print(jsonFacade);
 		writer.close();
 		return true;
-		
 	}
 
 	public boolean authenticateGame(int gameId) {
@@ -156,16 +155,23 @@ public class GameManager {
 	public GameCertificate joinGame(int gameId, CatanColor color, ModelUser user)
 			throws CatanException {
 		ServerModelFacade facade = this.games.get(gameId);
+		int size = facade.getPlayers().size();
 		Player existingPlayer = facade.getPlayer(user.getUserId());
+		boolean colorIsTaken = facade.getTakenColors().contains(color);
+
 		if (existingPlayer == null) {
-			if (facade.getPlayers().size() < MAX_PLAYERS) {
-				facade.joinGame(user, color);
-			}
-			else {
+			if (size >= MAX_PLAYERS) {
 				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Game is full");
 			}
+			if (colorIsTaken) {
+				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Color is taken");
+			}
+			facade.joinGame(user, color);
 		}
 		else {
+			if (existingPlayer.getColor() != color && colorIsTaken) {
+				throw new CatanException(CatanExceptionType.ILLEGAL_MOVE, "Color is taken");
+			}
 			existingPlayer.setColor(color);
 		}
 
