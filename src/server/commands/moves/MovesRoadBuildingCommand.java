@@ -38,7 +38,7 @@ public class MovesRoadBuildingCommand extends AbstractMovesCommand {
 		this.edge1 = new EdgeLocation(hex1, dir1);
 		HexLocation hex2 = new HexLocation(dto.spot2.x, dto.spot2.y);
 		EdgeDirection dir2 = dto.spot2.direction;
-		this.edge1 = new EdgeLocation(hex2, dir2);
+		this.edge2 = new EdgeLocation(hex2, dir2);
 	}
 
 	/**
@@ -47,7 +47,8 @@ public class MovesRoadBuildingCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesRoadBuilding(this.playerIndex, this.edge1, this.edge2, this.getGameId(), this.getPlayerId());
+		return cortex.movesRoadBuilding(this.playerIndex, this.edge1, this.edge2, this.getGameId(),
+				this.getPlayerId());
 	}
 
 }
