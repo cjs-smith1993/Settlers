@@ -308,7 +308,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel buyDevCard(PlayerNumber playerIndex) throws CatanException {
-		// TODO Auto-generated method stub
 		if (this.canBuyDevCard(playerIndex)) {
 			this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
 
@@ -435,7 +434,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " built a settlement");
-			this.broker.setPlayersHarbors(playerIndex, this.board.getHarborsByPlayer().get(playerIndex));
+			this.broker.setPlayersHarbors(playerIndex,
+					this.board.getHarborsByPlayer().get(playerIndex));
 			return this.getModel();
 		}
 		else {
