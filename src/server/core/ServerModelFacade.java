@@ -324,6 +324,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			ResourceType resource1, ResourceType resource2) throws CatanException {
 		if (this.canUseYearOfPlenty(playerIndex)) {
 			this.broker.processYearOfPlenty(playerIndex, resource1, resource2);
+			this.game.setHasPlayedDevCard(playerIndex, true);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Year of Plenty card");
@@ -341,6 +342,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.buildRoad(playerIndex, edge1, true);
 			this.buildRoad(playerIndex, edge2, true);
 			this.broker.processRoadBuilding(playerIndex);
+			this.game.setHasPlayedDevCard(playerIndex, true);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Road Building card");
@@ -357,6 +359,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 		if (this.canUseSoldier(playerIndex)) {
 			this.broker.processSoldier(playerIndex);
 			this.robPlayer(playerIndex, victim, newLocation);
+			this.game.setHasPlayedDevCard(playerIndex, true);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			String victimName = this.getNameForPlayerNumber(victim);
@@ -374,6 +377,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			throws CatanException {
 		if (this.canUseMonopoly(playerIndex)) {
 			this.broker.processMonopoly(playerIndex, resource);
+			this.game.setHasPlayedDevCard(playerIndex, true);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Monopoly card");
