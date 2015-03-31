@@ -25,6 +25,10 @@ public class ExchangeUtils {
 		return RequestType.valueOf(this.exchange.getRequestMethod());
 	}
 
+	public String getQuery() {
+		return this.exchange.getRequestURI().getQuery();
+	}
+
 	public String getRequestBody() throws IOException {
 		String body = "";
 		try (Scanner s = new Scanner(this.exchange.getRequestBody())) {

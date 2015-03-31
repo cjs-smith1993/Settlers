@@ -38,7 +38,8 @@ public abstract class AbstractHandler implements HttpHandler {
 		}
 
 		RequestType requestType = this.exchangeUtils.getRequestType();
-		String blob = requestType == RequestType.POST ? this.exchangeUtils.getRequestBody() : null;
+		String blob = requestType == RequestType.POST ? this.exchangeUtils.getRequestBody()
+				: this.exchangeUtils.getQuery();
 
 		try {
 			ICommand command = this.getCommand(commandName, blob);
