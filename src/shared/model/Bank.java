@@ -2,7 +2,6 @@ package shared.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,7 +18,7 @@ public class Bank implements Hand {
 	private Map<ResourceType, Collection<ResourceCard>> resourceCards;
 	private Map<DevCardType, Collection<DevelopmentCard>> developmentCards;
 	private Collection<DevelopmentCard> playedCards;
-	
+
 	public static final int NUM_RESOURCE_CARDS = 19;
 
 	/**
@@ -39,7 +38,8 @@ public class Bank implements Hand {
 		}
 		// Initialize development cards
 		for (DevCardType type : DevCardType.values()) {
-			this.developmentCards.put(type, this.makeDevelopmentDeck(type, type.getGameStartNumber()));
+			this.developmentCards.put(type,
+					this.makeDevelopmentDeck(type, type.getGameStartNumber()));
 		}
 	}
 
@@ -147,7 +147,7 @@ public class Bank implements Hand {
 	 * Returns a development card from the deck
 	 *
 	 * @param player
-	 * @throws CatanException 
+	 * @throws CatanException
 	 */
 	public DevelopmentCard drawDevelopmentCard(long rngSeed) throws CatanException {
 		RandomNumberGenerator rng = RandomNumberGenerator.getInstance(rngSeed);
@@ -176,8 +176,9 @@ public class Bank implements Hand {
 		if (rand < monumentCount) {
 			return this.getDevelopmentCard(DevCardType.MONUMENT);
 		}
-		throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "The Development card deck is empty.");
-		
+		throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+				"The Development card deck is empty.");
+
 	}
 
 	private DevelopmentCard getDevelopmentCard(DevCardType type) {
@@ -192,7 +193,7 @@ public class Bank implements Hand {
 	 *
 	 * @param player
 	 * @param type
-	 * @throws CatanException 
+	 * @throws CatanException
 	 */
 	@Override
 	public Collection<ResourceCard> removeResourceCard(ResourceType type,
@@ -208,8 +209,10 @@ public class Bank implements Hand {
 				it.remove();
 				removed.add(card);
 			}
-		} else {
-			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION, "That resource deck is empty.");
+		}
+		else {
+			throw new CatanException(CatanExceptionType.ILLEGAL_OPERATION,
+					"That resource deck is empty.");
 		}
 		return removed;
 	}
