@@ -542,6 +542,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 			for (ResourceType type : ResourceType.values()) {
 				switch (type) {
 				case BRICK:
+					if(inputResource == outputResource) {
+						invoice.setBrick(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setBrick(ratio);
 					}
@@ -550,6 +554,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case WOOD:
+					if(inputResource == outputResource) {
+						invoice.setWood(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setWood(ratio);
 					}
@@ -558,6 +566,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case WHEAT:
+					if(inputResource == outputResource) {
+						invoice.setWheat(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setWheat(ratio);
 					}
@@ -566,6 +578,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case SHEEP:
+					if(inputResource == outputResource) {
+						invoice.setSheep(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setSheep(ratio);
 					}
@@ -574,6 +590,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case ORE:
+					if(inputResource == outputResource) {
+						invoice.setOre(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setOre(ratio);
 					}
