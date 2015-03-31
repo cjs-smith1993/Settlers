@@ -23,6 +23,8 @@ public class Scoreboard {
 
 	private final int MIN_NUM_ROADS = 5;
 	private final int MIN_NUM_SOLDIERS = 3;
+	private final int BONUS_POINTS = 2;
+	private final int WIN_THRESHOLD = 10;
 
 	public Scoreboard(List<TransportPlayer> player, TransportTurnTracker turnTracker) {
 		this.points = this.initializeMap();
@@ -93,9 +95,7 @@ public class Scoreboard {
 			if (player == null) {
 				continue;
 			}
-			PlayerNumber number = player.playerIndex;
-			int roads = player.roads;
-			this.builtRoads.put(number, roads);
+			this.builtRoads.put(player.playerIndex, player.roads);
 		}
 	}
 
@@ -139,9 +139,7 @@ public class Scoreboard {
 	 * and adjusts victory points, if necessary.
 	 */
 	public void roadBuilt(PlayerNumber player) {
-		int playerRoads = this.builtRoads.get(player);
-		playerRoads++;
-		this.builtRoads.put(player, playerRoads);
+		this.updatePlayerMaps(this.builtRoads, player, 1);
 		this.updateLongestRoad();
 	}
 
@@ -173,11 +171,11 @@ public class Scoreboard {
 			break;
 		case SOLDIER:
 			this.updatePlayerMaps(this.activeKnights, player, 1);
-			this.updateLongestRoad();
+			this.updateLargestArmy();
 			break;
 		case ROAD_BUILD:
-			this.updatePlayerMaps(this.builtRoads, player, 1);
-			this.updateLargestArmy();
+			this.updatePlayerMaps(this.builtRoads, player, 2);
+			this.updateLongestRoad();
 			break;
 		default:
 			break;
@@ -203,15 +201,23 @@ public class Scoreboard {
 	 * @return the number of victory points for the player
 	 */
 	public int getPoints(PlayerNumber player) {
-		return this.points.get(player);
+		int points = this.points.get(player);
+		if (this.longestRoadPlayer == player) {
+			points += this.BONUS_POINTS;
+		}
+		if (this.largestArmyPlayer == player) {
+			points += this.BONUS_POINTS;
+		}
+		return points;
 	}
 
 	public PlayerNumber getWinner() {
 		PlayerNumber winner = PlayerNumber.BANK;
 
-		for (Map.Entry<PlayerNumber, Integer> player : this.points.entrySet()) {
-			if (player.getValue() >= 10) {
-				winner = player.getKey();
+		for (PlayerNumber player : PlayerNumber.values()) {
+			int points = this.getPoints(player);
+			if (points >= this.getPoints(winner) && points >= this.WIN_THRESHOLD) {
+				winner = player;
 			}
 		}
 
