@@ -21,17 +21,6 @@ public class Bank implements Hand {
 	private Collection<DevelopmentCard> playedCards;
 	
 	public static final int NUM_RESOURCE_CARDS = 19;
-	public static final Map<DevCardType, Integer> DEV_CARD_COUNT;
-	static {
-		HashMap<DevCardType, Integer> tmp = new HashMap<DevCardType, Integer>();
-		tmp.put(DevCardType.MONOPOLY, 2);
-		tmp.put(DevCardType.MONUMENT, 5);
-		tmp.put(DevCardType.ROAD_BUILD, 2);
-		tmp.put(DevCardType.SOLDIER, 14);
-		tmp.put(DevCardType.YEAR_OF_PLENTY, 2);
-		DEV_CARD_COUNT = Collections.unmodifiableMap(tmp);
-	}
-	
 
 	/**
 	 * Default constructor for the bank will create all the pieces needed Not
@@ -50,7 +39,7 @@ public class Bank implements Hand {
 		}
 		// Initialize development cards
 		for (DevCardType type : DevCardType.values()) {
-			this.developmentCards.put(type, this.makeDevelopmentDeck(type, this.DEV_CARD_COUNT.get(type)));
+			this.developmentCards.put(type, this.makeDevelopmentDeck(type, type.getGameStartNumber()));
 		}
 	}
 
