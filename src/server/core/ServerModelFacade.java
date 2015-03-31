@@ -101,7 +101,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 		this.scoreboard.getTransportTurnTracker(turnTracker);
 		transportModel.turnTracker = turnTracker;
 
-		// TODO: The tradeOffer member variable needs to be ported from the Broker to the Facade.
 		transportModel.tradeOffer = this.makeTransTrade(this.openOffer);
 		transportModel.players = this.getTransportPlayers();
 		transportModel.version = this.version;
@@ -436,6 +435,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " built a settlement");
+			this.broker.setPlayersHarbors(playerIndex, this.board.getHarborsByPlayer().get(playerIndex));
 			return this.getModel();
 		}
 		else {
@@ -495,6 +495,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 				ResourceInvoice invoice = this.openOffer;
 				if (willAccept) {
 					this.broker.processInvoice(invoice);
+					this.openOffer = null;
 					this.sendLog(sourceIndex, destinationName + " accepted a trade from "
 							+ sourceName);
 				}

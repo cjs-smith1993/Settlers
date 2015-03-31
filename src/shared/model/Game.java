@@ -357,4 +357,8 @@ public class Game {
 	public void setHasDiscarded(PlayerNumber playerIndex, boolean hasDiscarded) {
 		this.players.get(playerIndex).setHasDiscarded(hasDiscarded);
 	}
+	
+	public void setHasPlayedDevCard(PlayerNumber playerIndex, boolean hasDiscarded) {
+		this.players.get(playerIndex).setHasDiscarded(hasDiscarded);
+	}
 }
