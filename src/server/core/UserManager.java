@@ -23,12 +23,12 @@ public class UserManager {
 
 	private UserManager() throws IOException {
 		this.users = new ArrayList<ServerUser>();
-		users.add(new ServerUser(new ModelUser("Kevin", this.playerIDCount++), "kevin"));
-		users.add(new ServerUser(new ModelUser("Kyle", this.playerIDCount++), "kyle"));
-		users.add(new ServerUser(new ModelUser("Connor", this.playerIDCount++), "connor"));
-		users.add(new ServerUser(new ModelUser("Alex", this.playerIDCount++), "alex"));
+		this.users.add(new ServerUser(new ModelUser("Kevin", this.playerIDCount++), "kevin"));
+		this.users.add(new ServerUser(new ModelUser("Kyle", this.playerIDCount++), "kyle"));
+		this.users.add(new ServerUser(new ModelUser("Connor", this.playerIDCount++), "connor"));
+		this.users.add(new ServerUser(new ModelUser("Alex", this.playerIDCount++), "alex"));
 	}
-	
+
 	public static UserManager getInstance() throws IOException {
 		if (instance == null) {
 			instance = new UserManager();
