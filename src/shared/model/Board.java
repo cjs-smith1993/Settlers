@@ -138,10 +138,11 @@ public class Board {
 				TransportCity city = new TransportCity();
 
 				city.owner = dwelling.getValue().getOwner();
+				TransportVertexLocation location = new TransportVertexLocation();
+				location.x = dwelling.getKey().getHexLoc().getX();
+				location.y = dwelling.getKey().getHexLoc().getY();
+				city.location = location;
 				city.location.direction = dwelling.getKey().getDir();
-				city.location.x = dwelling.getKey().getHexLoc().getX();
-				city.location.y = dwelling.getKey().getHexLoc().getY();
-
 				cityList.add(city);
 			}
 		}
