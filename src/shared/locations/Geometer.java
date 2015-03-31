@@ -12,6 +12,28 @@ public class Geometer {
 		return new VertexLocation(new HexLocation(x, y), dir).getNormalizedLocation();
 	}
 
+	@SuppressWarnings("incomplete-switch")
+	public static Collection<HexLocation> getAdjacentHexes(VertexLocation vertex) {
+		Collection<HexLocation> adjacentHexes = new ArrayList<HexLocation>();
+
+		int x = vertex.getNormalizedLocation().getHexLoc().getX();
+		int y = vertex.getNormalizedLocation().getHexLoc().getY();
+
+		adjacentHexes.add(new HexLocation(x, y));
+		adjacentHexes.add(new HexLocation(x, y - 1));
+
+		switch (vertex.getNormalizedLocation().getDir()) {
+		case NorthWest:
+			adjacentHexes.add(new HexLocation(x - 1, y));
+			break;
+		case NorthEast:
+			adjacentHexes.add(new HexLocation(x + 1, y - 1));
+			break;
+		}
+
+		return adjacentHexes;
+	}
+
 	public static Collection<EdgeLocation> getAdjacentEdges(HexLocation hex) {
 		Collection<EdgeLocation> adjacentEdges = new ArrayList<EdgeLocation>();
 

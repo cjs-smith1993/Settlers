@@ -16,6 +16,7 @@ import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
+import shared.locations.Geometer;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.*;
@@ -438,6 +439,17 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.scoreboard.dwellingBuilt(playerIndex);
 			Settlement settlement = this.game.getSettlement(playerIndex);
 			this.board.placeSettlement(settlement, vertex, isFree);
+
+			if (this.game.getState() == CatanState.SECOND_ROUND) {
+				ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, playerIndex);
+				Collection<HexLocation> hexes = Geometer.getAdjacentHexes(vertex);
+				for (HexLocation hex : hexes) {
+					Tile tile = this.board.getTiles().get(hex);
+					ResourceType type = tile.getResourceType();
+					invoice.setResource(type, invoice.getResource(type) + 1);
+				}
+				this.broker.processInvoice(invoice);
+			}
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " built a settlement");
