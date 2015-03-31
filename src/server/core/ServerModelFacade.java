@@ -295,6 +295,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 				}
 			}
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
+			this.game.setHasPlayedDevCard(playerIndex, false);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " ended their turn");
@@ -343,6 +344,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.buildRoad(playerIndex, edge2, true);
 			this.broker.processRoadBuilding(playerIndex);
 			this.game.setHasPlayedDevCard(playerIndex, true);
+			this.scoreboard.devCardPlayed(playerIndex, DevCardType.MONUMENT);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Road Building card");
@@ -360,6 +362,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			this.broker.processSoldier(playerIndex);
 			this.robPlayer(playerIndex, victim, newLocation);
 			this.game.setHasPlayedDevCard(playerIndex, true);
+			this.scoreboard.devCardPlayed(playerIndex, DevCardType.SOLDIER);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			String victimName = this.getNameForPlayerNumber(victim);
