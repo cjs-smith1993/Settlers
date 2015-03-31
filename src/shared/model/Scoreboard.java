@@ -21,10 +21,11 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> activeKnights;
 	private Map<PlayerNumber, Integer> builtRoads;
 
-	private final int MIN_NUM_ROADS = 5;
-	private final int MIN_NUM_SOLDIERS = 3;
-	private final int BONUS_POINTS = 2;
-	private final int WIN_THRESHOLD = 10;
+	private static final int NUM_STARTING_ROADS = 15;
+	private static final int ROADS_THRESHOLD = 5;
+	private static final int SOLDIERS_THRESHOLD = 3;
+	private static final int BONUS_POINTS = 2;
+	private static final int WIN_THRESHOLD = 10;
 
 	public Scoreboard(List<TransportPlayer> player, TransportTurnTracker turnTracker) {
 		this.points = this.initializeMap();
@@ -95,7 +96,7 @@ public class Scoreboard {
 			if (player == null) {
 				continue;
 			}
-			this.builtRoads.put(player.playerIndex, player.roads);
+			this.builtRoads.put(player.playerIndex, NUM_STARTING_ROADS - player.roads);
 		}
 	}
 
@@ -148,7 +149,7 @@ public class Scoreboard {
 
 		for (PlayerNumber player : this.builtRoads.keySet()) {
 			if (this.builtRoads.get(player) > this.builtRoads.get(newLongestRoadPlayer)
-					&& this.builtRoads.get(player) >= this.MIN_NUM_ROADS) {
+					&& this.builtRoads.get(player) >= ROADS_THRESHOLD) {
 				newLongestRoadPlayer = player;
 			}
 		}
@@ -186,7 +187,7 @@ public class Scoreboard {
 		PlayerNumber newLargestArmyPlayer = this.largestArmyPlayer;
 		for (PlayerNumber player : this.activeKnights.keySet()) {
 			if (this.activeKnights.get(player) > this.activeKnights.get(newLargestArmyPlayer)
-					&& this.activeKnights.get(player) >= this.MIN_NUM_SOLDIERS) {
+					&& this.activeKnights.get(player) >= SOLDIERS_THRESHOLD) {
 				newLargestArmyPlayer = player;
 			}
 		}
@@ -203,10 +204,10 @@ public class Scoreboard {
 	public int getPoints(PlayerNumber player) {
 		int points = this.points.get(player);
 		if (this.longestRoadPlayer == player) {
-			points += this.BONUS_POINTS;
+			points += BONUS_POINTS;
 		}
 		if (this.largestArmyPlayer == player) {
-			points += this.BONUS_POINTS;
+			points += BONUS_POINTS;
 		}
 		return points;
 	}
@@ -216,7 +217,7 @@ public class Scoreboard {
 
 		for (PlayerNumber player : PlayerNumber.values()) {
 			int points = this.getPoints(player);
-			if (points >= this.getPoints(winner) && points >= this.WIN_THRESHOLD) {
+			if (points >= this.getPoints(winner) && points >= WIN_THRESHOLD) {
 				winner = player;
 			}
 		}
