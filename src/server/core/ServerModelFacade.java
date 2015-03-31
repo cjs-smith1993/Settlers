@@ -81,7 +81,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel getModel(int version) {
-		if (this.version < version) {
+		if (this.version > version) {
 			return this.getModel();
 		}
 
