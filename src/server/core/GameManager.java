@@ -28,7 +28,7 @@ public class GameManager {
 	private Map<Integer, ServerModelFacade> games;
 	private static GameManager instance;
 	private int nextGameId;
-	private final String gamesFile = "save/games";
+	private final String gamesFile = "save/games/";
 
 	private static final int MAX_PLAYERS = 4;
 
@@ -46,10 +46,10 @@ public class GameManager {
 		for (int i = 0; i < listOfFiles.length; i++) {
 			File file = listOfFiles[i];
 			if (file.isFile()) {
-				String filePath = file.getPath();
-				System.out.println(filePath);
-				if (file.getName().charAt(0) != '.') {
-					this.createGameFromFile(filePath);
+				String fileName = file.getName();
+				System.out.println(fileName);
+				if (fileName.charAt(0) != '.') {
+					this.createGameFromFile(fileName);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ public class GameManager {
 
 	public boolean createGameFromFile(String filename) {
 		try {
-			ServerModelFacade facade = new ServerModelFacade(filename);
+			ServerModelFacade facade = new ServerModelFacade(this.gamesFile + filename);
 			int gameId = facade.getGameId();
 			this.games.put(gameId, facade);
 			return true;
@@ -131,11 +131,11 @@ public class GameManager {
 		}
 	}
 
-	public boolean saveGameToFile(int gameId, String name) throws FileNotFoundException {
+	public boolean saveGameToFile(int gameId, String fileName) throws FileNotFoundException {
 		ServerModelFacade facade = this.games.get(gameId);
-		String jsonFacade = CatanSerializer.getInstance().serializeObject(facade);
+		String jsonFacade = CatanSerializer.getInstance().serializeObject(facade.getModel());
 
-		PrintWriter writer = new PrintWriter(name);
+		PrintWriter writer = new PrintWriter(this.gamesFile + fileName);
 		writer.print(jsonFacade);
 		writer.close();
 		return true;
