@@ -415,9 +415,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 				this.broker.purchase(playerIndex, PropertyType.ROAD);
 			}
 
-			this.scoreboard.roadBuilt(playerIndex);
 			Road road = this.game.getRoad(playerIndex);
 			this.board.placeRoad(road, location, isFree);
+			this.scoreboard.roadBuilt(playerIndex);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " built a road");
