@@ -23,12 +23,12 @@ public class UserManagerTest {
 		} catch (CatanException e) {}
 		
 		try {
-			manager.registerUser("Tom", "tOmtEST");
+			manager.registerUser("tOmtESTeR", "ToMmy");
 			fail("\n----------------\nERROR: INVALID USERNAME, USER SHOULDN'T BE ALLOWED TO REGISTER\n----------------\n");
 		} catch (CatanException e) {}
 		
 		try {
-			manager.registerUser("Tommy", "invpw");
+			manager.registerUser("Tommy", "in");
 			fail("\n----------------\nERROR: INVALID USER, SHOULDN'T BE ALLOWED TO REGISTER\n----------------\n");
 		} catch (CatanException e) {}
 
@@ -37,7 +37,7 @@ public class UserManagerTest {
 		
 		/* User Authentication Tests */
 		try {
-			manager.registerUser("TestUser", "tESTuSER");
+			manager.registerUser("TstUsr", "tESTuSER");
 		} catch (CatanException e) {
 			fail("\n----------------\nERROR: USER SHOULD BE ALLOWED TO REGISTER\n----------------\n");
 		}
@@ -45,7 +45,7 @@ public class UserManagerTest {
 		isAuthenticated = manager.authenticateUser("TestUser", "bad-password");
 		assertFalse(isAuthenticated);
 		
-		isAuthenticated = manager.authenticateUser("TestUser", "tESTuSER");
+		isAuthenticated = manager.authenticateUser("TstUsr", "tESTuSER");
 		assertTrue(isAuthenticated);
 	}
 }
