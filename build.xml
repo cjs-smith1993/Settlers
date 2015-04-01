@@ -157,12 +157,14 @@
  	
 	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
 		<property name="port" value="8081"/>
+		<property name="testing" value="false"/>
 		<java jar="${java.dist}/catan-server.jar" dir="${java.dir}" fork="yes">
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>
 			</assertions>
 			<arg value="${port}"/>
+			<arg value="${testing}"/>
 		</java>
 	</target>
     

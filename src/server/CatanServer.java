@@ -2,10 +2,13 @@ package server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.sun.net.httpserver.HttpServer;
 
 import server.core.CentralCortex;
+import server.core.CortexFactory;
 import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
 import server.handlers.MovesHandler;
@@ -46,7 +49,7 @@ public class CatanServer {
 			//Swagger endpoints
 			this.server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 			this.server.createContext("/docs/api/view", new Handlers.BasicFile(""));
-			
+
 			//Initialize Cortex
 			CentralCortex.getInstance();
 		} catch (IOException e) {
@@ -102,6 +105,9 @@ public class CatanServer {
 
 	public static void main(String args[]) {
 		int portNum = args.length > 0 ? Integer.parseInt(args[0]) : 8081;
+		ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(args));
+		boolean testingEnabled = argsList.contains("true");
+		CortexFactory.setTestEnabled(testingEnabled);
 		CatanServer server = CatanServer.getInstance(portNum);
 		server.start();
 	}
