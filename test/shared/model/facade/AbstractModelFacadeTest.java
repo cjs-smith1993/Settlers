@@ -29,7 +29,7 @@ public class AbstractModelFacadeTest {
 	private AbstractModelFacade facade;
 	TransportModel model;
 	TransportPlayer player;
-	private String cleanFile = "testFiles/cleanGame.txt";
+	private String cleanFile = "save/games/cleanGame.txt";
 	
 	@Before
 	public void setUp() throws Exception {
