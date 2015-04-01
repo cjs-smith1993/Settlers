@@ -20,7 +20,11 @@ public class Game {
 	private boolean currentPlayerHasRolled = false;
 	private Map<PlayerNumber, Player> players;
 	private CatanState state;
-
+	
+	
+	public void setPlayers(Map<PlayerNumber, Player> players) {
+		this.players = players;
+	}
 	/**
 	 * The default constructor for initializing the first game
 	 * */

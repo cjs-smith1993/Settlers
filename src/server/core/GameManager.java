@@ -191,7 +191,9 @@ public class GameManager {
 
 		ServerModelFacade newFacade = new ServerModelFacade(gameId, name, randomTiles,
 				randomNumbers, randomPorts);
-
+		
+		newFacade.setAllPlayers(oldFacade.getPlayers());
+		
 		this.games.put(gameId, newFacade);
 		return this.games.get(gameId).getModel();
 	}
