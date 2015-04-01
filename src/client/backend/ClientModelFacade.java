@@ -1,11 +1,8 @@
 package client.backend;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Observer;
 
 import client.frontend.data.PlayerInfo;
@@ -27,16 +24,13 @@ import shared.model.Board;
 import shared.model.Broker;
 import shared.model.CatanException;
 import shared.model.Game;
-import shared.model.Message;
 import shared.model.ModelUser;
 import shared.model.Player;
 import shared.model.PostOffice;
 import shared.model.ResourceInvoice;
 import shared.model.Scoreboard;
 import shared.model.facade.AbstractModelFacade;
-import shared.transport.TransportLine;
 import shared.transport.TransportModel;
-import shared.transport.TransportPlayer;
 
 public class ClientModelFacade extends AbstractModelFacade {
 	private static ClientModelFacade facadeInstance;

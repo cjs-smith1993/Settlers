@@ -132,13 +132,14 @@ public class BoardFactory {
 		ArrayList<EdgeLocation> ports = getPortLocations();
 		int idx = 0;
 		for (Harbor harbor : harbors) {
-			// get the hex location
 			EdgeLocation port = ports.get(idx++);
-			HexLocation location = port.getHexLoc();
+			EdgeLocation normalized = port.getNormalizedLocation();
+
+			// get the hex location
+			HexLocation location = normalized.getHexLoc();
 			harbor.setLocation(location);
 
 			// get the two vertices
-			EdgeLocation normalized = port.getNormalizedLocation();
 			Collection<VertexLocation> currentPorts = Geometer.getAdjacentVertices(normalized);
 			harbor.setPorts(currentPorts);
 		}

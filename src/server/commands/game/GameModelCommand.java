@@ -21,6 +21,10 @@ public class GameModelCommand extends AbstractGameCommand {
 	private int version = -1;
 
 	public GameModelCommand(String json) {
+		if (json != null) {
+			json = '{' + json.replace('=', ':') + '}';
+		}
+
 		DTOGameModel dto = (DTOGameModel) CatanSerializer.getInstance().deserializeObject(json,
 				DTOGameModel.class);
 

@@ -16,6 +16,7 @@ import shared.definitions.PlayerNumber;
 import shared.definitions.PropertyType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
+import shared.locations.Geometer;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.*;
@@ -80,7 +81,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel getModel(int version) {
-		if (this.version != version) {
+		if (this.version > version) {
 			return this.getModel();
 		}
 
@@ -295,6 +296,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 				}
 			}
 			this.broker.makeDevelopmentCardsPlayable(playerIndex);
+			this.game.setHasPlayedDevCard(playerIndex, false);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " ended their turn");
@@ -308,7 +310,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 	}
 
 	public TransportModel buyDevCard(PlayerNumber playerIndex) throws CatanException {
-		// TODO Auto-generated method stub
 		if (this.canBuyDevCard(playerIndex)) {
 			this.broker.purchase(playerIndex, PropertyType.DEVELOPMENT_CARD);
 
@@ -325,6 +326,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			ResourceType resource1, ResourceType resource2) throws CatanException {
 		if (this.canUseYearOfPlenty(playerIndex)) {
 			this.broker.processYearOfPlenty(playerIndex, resource1, resource2);
+			this.game.setHasPlayedDevCard(playerIndex, true);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Year of Plenty card");
@@ -339,9 +341,14 @@ public class ServerModelFacade extends AbstractModelFacade {
 	public TransportModel useRoadBuilding(PlayerNumber playerIndex,
 			EdgeLocation edge1, EdgeLocation edge2) throws CatanException {
 		if (this.canUseRoadBuilding(playerIndex)) {
-			this.buildRoad(playerIndex, edge1, true);
-			this.buildRoad(playerIndex, edge2, true);
+			Road road1 = this.game.getRoad(playerIndex);
+			Road road2 = this.game.getRoad(playerIndex);
+			this.board.placeRoad(road1, edge1, false);
+			this.board.placeRoad(road2, edge2, false);
+
 			this.broker.processRoadBuilding(playerIndex);
+			this.game.setHasPlayedDevCard(playerIndex, true);
+			this.scoreboard.devCardPlayed(playerIndex, DevCardType.ROAD_BUILD);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Road Building card");
@@ -358,6 +365,8 @@ public class ServerModelFacade extends AbstractModelFacade {
 		if (this.canUseSoldier(playerIndex)) {
 			this.broker.processSoldier(playerIndex);
 			this.robPlayer(playerIndex, victim, newLocation);
+			this.game.setHasPlayedDevCard(playerIndex, true);
+			this.scoreboard.devCardPlayed(playerIndex, DevCardType.SOLDIER);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			String victimName = this.getNameForPlayerNumber(victim);
@@ -375,6 +384,7 @@ public class ServerModelFacade extends AbstractModelFacade {
 			throws CatanException {
 		if (this.canUseMonopoly(playerIndex)) {
 			this.broker.processMonopoly(playerIndex, resource);
+			this.game.setHasPlayedDevCard(playerIndex, true);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " played a Monopoly card");
@@ -408,9 +418,9 @@ public class ServerModelFacade extends AbstractModelFacade {
 				this.broker.purchase(playerIndex, PropertyType.ROAD);
 			}
 
-			this.scoreboard.roadBuilt(playerIndex);
 			Road road = this.game.getRoad(playerIndex);
 			this.board.placeRoad(road, location, isFree);
+			this.scoreboard.roadBuilt(playerIndex);
 
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " built a road");
@@ -433,9 +443,21 @@ public class ServerModelFacade extends AbstractModelFacade {
 			Settlement settlement = this.game.getSettlement(playerIndex);
 			this.board.placeSettlement(settlement, vertex, isFree);
 
+			if (this.game.getState() == CatanState.SECOND_ROUND) {
+				ResourceInvoice invoice = new ResourceInvoice(PlayerNumber.BANK, playerIndex);
+				Collection<HexLocation> hexes = Geometer.getAdjacentHexes(vertex);
+				for (HexLocation hex : hexes) {
+					Tile tile = this.board.getTiles().get(hex);
+					ResourceType type = tile.getResourceType();
+					invoice.setResource(type, invoice.getResource(type) + 1);
+				}
+				this.broker.processInvoice(invoice);
+			}
+
 			String playerName = this.getNameForPlayerNumber(playerIndex);
 			this.sendLog(playerIndex, playerName + " built a settlement");
-			this.broker.setPlayersHarbors(playerIndex, this.board.getHarborsByPlayer().get(playerIndex));
+			this.broker.setPlayersHarbors(playerIndex,
+					this.board.getHarborsByPlayer().get(playerIndex));
 			return this.getModel();
 		}
 		else {
@@ -523,6 +545,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 			for (ResourceType type : ResourceType.values()) {
 				switch (type) {
 				case BRICK:
+					if(inputResource == outputResource) {
+						invoice.setBrick(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setBrick(ratio);
 					}
@@ -531,6 +557,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case WOOD:
+					if(inputResource == outputResource) {
+						invoice.setWood(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setWood(ratio);
 					}
@@ -539,6 +569,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case WHEAT:
+					if(inputResource == outputResource) {
+						invoice.setWheat(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setWheat(ratio);
 					}
@@ -547,6 +581,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case SHEEP:
+					if(inputResource == outputResource) {
+						invoice.setSheep(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setSheep(ratio);
 					}
@@ -555,6 +593,10 @@ public class ServerModelFacade extends AbstractModelFacade {
 					}
 					break;
 				case ORE:
+					if(inputResource == outputResource) {
+						invoice.setOre(ratio-1);
+						continue;
+					}
 					if (type == inputResource) {
 						invoice.setOre(ratio);
 					}

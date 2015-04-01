@@ -6,12 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
 import client.backend.CatanSerializer;
 import client.frontend.data.PlayerInfo;
+import shared.definitions.CatanColor;
 import shared.definitions.CatanState;
 import shared.definitions.DevCardType;
 import shared.definitions.PlayerNumber;
@@ -528,6 +530,16 @@ public class AbstractModelFacade extends Observable implements IModelFacade {
 		}
 
 		return playerName;
+	}
+
+	public Collection<CatanColor> getTakenColors() {
+		Collection<CatanColor> takenColors = new ArrayList<CatanColor>();
+
+		for (PlayerInfo player : this.getPlayers()) {
+			takenColors.add(player.getColor());
+		}
+
+		return takenColors;
 	}
 
 	public List<Message> getMessages() {

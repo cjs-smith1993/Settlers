@@ -19,22 +19,27 @@ public class UserManager {
 	private int playerIDCount = 0;
 
 	private static final int MIN_USERNAME_LENGTH = 3;
+	private static final int MAX_USERNAME_LENGTH = 7;
 	private static final int MIN_PASSWORD_LENGTH = 5;
 
 	private UserManager() throws IOException {
 		this.users = new ArrayList<ServerUser>();
-		users.add(new ServerUser(new ModelUser("Kevin", this.playerIDCount++), "kevin"));
-		users.add(new ServerUser(new ModelUser("Kyle", this.playerIDCount++), "kyle"));
-		users.add(new ServerUser(new ModelUser("Connor", this.playerIDCount++), "connor"));
-		users.add(new ServerUser(new ModelUser("Alex", this.playerIDCount++), "alex"));
+		this.users.add(new ServerUser(new ModelUser("Kevin", this.playerIDCount++), "kevin"));
+		this.users.add(new ServerUser(new ModelUser("Kyle", this.playerIDCount++), "kyle"));
+		this.users.add(new ServerUser(new ModelUser("Connor", this.playerIDCount++), "connor"));
+		this.users.add(new ServerUser(new ModelUser("Alex", this.playerIDCount++), "alex"));
 	}
-	
+
 	public static UserManager getInstance() throws IOException {
 		if (instance == null) {
 			instance = new UserManager();
 		}
 
 		return instance;
+	}
+
+	private static boolean isValidChar(char c) {
+		return Character.isLetterOrDigit(c) || c == '-' || c == '_';
 	}
 
 	/**
@@ -94,11 +99,16 @@ public class UserManager {
 	}
 
 	private boolean validateUserCredentials(String username, String password) {
-		if (username.length() < MIN_USERNAME_LENGTH) {
+		if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
 			return false;
 		}
 		if (password.length() < MIN_PASSWORD_LENGTH) {
 			return false;
+		}
+		for (char c : password.toCharArray()) {
+			if (!isValidChar(c)) {
+				return false;
+			}
 		}
 		return true;
 	}

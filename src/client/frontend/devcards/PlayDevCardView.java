@@ -75,11 +75,11 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView, Ob
 		boolean canPlayMonument = false;
 
 		try {
-			canPlaySoldier = facade.canPlayDevelopmentCard(player, DevCardType.SOLDIER);
-			canPlayYearOfPlenty = facade.canPlayDevelopmentCard(player, DevCardType.YEAR_OF_PLENTY);
-			canPlayMonopoly = facade.canPlayDevelopmentCard(player, DevCardType.MONOPOLY);
-			canPlayRoad = facade.canPlayDevelopmentCard(player, DevCardType.ROAD_BUILD);
-			canPlayMonument = facade.canPlayDevelopmentCard(player, DevCardType.MONUMENT);
+			canPlaySoldier = facade.canUseSoldier(player);
+			canPlayYearOfPlenty = facade.canUseYearOfPlenty(player);
+			canPlayMonopoly = facade.canUseMonopoly(player);
+			canPlayRoad = facade.canUseRoadBuilding(player);
+			canPlayMonument = facade.canUseMonument(player);
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}

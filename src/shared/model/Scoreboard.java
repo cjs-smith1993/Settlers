@@ -21,8 +21,11 @@ public class Scoreboard {
 	private Map<PlayerNumber, Integer> activeKnights;
 	private Map<PlayerNumber, Integer> builtRoads;
 
-	private final int MIN_NUM_ROADS = 5;
-	private final int MIN_NUM_SOLDIERS = 3;
+	private static final int NUM_STARTING_ROADS = 15;
+	private static final int ROADS_THRESHOLD = 5;
+	private static final int SOLDIERS_THRESHOLD = 3;
+	private static final int BONUS_POINTS = 2;
+	private static final int WIN_THRESHOLD = 10;
 
 	public Scoreboard(List<TransportPlayer> player, TransportTurnTracker turnTracker) {
 		this.points = this.initializeMap();
@@ -93,9 +96,7 @@ public class Scoreboard {
 			if (player == null) {
 				continue;
 			}
-			PlayerNumber number = player.playerIndex;
-			int roads = player.roads;
-			this.builtRoads.put(number, roads);
+			this.builtRoads.put(player.playerIndex, NUM_STARTING_ROADS - player.roads);
 		}
 	}
 
@@ -139,9 +140,7 @@ public class Scoreboard {
 	 * and adjusts victory points, if necessary.
 	 */
 	public void roadBuilt(PlayerNumber player) {
-		int playerRoads = this.builtRoads.get(player);
-		playerRoads++;
-		this.builtRoads.put(player, playerRoads);
+		this.updatePlayerMaps(this.builtRoads, player, 1);
 		this.updateLongestRoad();
 	}
 
@@ -150,7 +149,7 @@ public class Scoreboard {
 
 		for (PlayerNumber player : this.builtRoads.keySet()) {
 			if (this.builtRoads.get(player) > this.builtRoads.get(newLongestRoadPlayer)
-					&& this.builtRoads.get(player) >= this.MIN_NUM_ROADS) {
+					&& this.builtRoads.get(player) >= ROADS_THRESHOLD) {
 				newLongestRoadPlayer = player;
 			}
 		}
@@ -173,11 +172,11 @@ public class Scoreboard {
 			break;
 		case SOLDIER:
 			this.updatePlayerMaps(this.activeKnights, player, 1);
-			this.updateLongestRoad();
+			this.updateLargestArmy();
 			break;
 		case ROAD_BUILD:
-			this.updatePlayerMaps(this.builtRoads, player, 1);
-			this.updateLargestArmy();
+			this.updatePlayerMaps(this.builtRoads, player, 2);
+			this.updateLongestRoad();
 			break;
 		default:
 			break;
@@ -188,7 +187,7 @@ public class Scoreboard {
 		PlayerNumber newLargestArmyPlayer = this.largestArmyPlayer;
 		for (PlayerNumber player : this.activeKnights.keySet()) {
 			if (this.activeKnights.get(player) > this.activeKnights.get(newLargestArmyPlayer)
-					&& this.activeKnights.get(player) >= this.MIN_NUM_SOLDIERS) {
+					&& this.activeKnights.get(player) >= SOLDIERS_THRESHOLD) {
 				newLargestArmyPlayer = player;
 			}
 		}
@@ -203,15 +202,23 @@ public class Scoreboard {
 	 * @return the number of victory points for the player
 	 */
 	public int getPoints(PlayerNumber player) {
-		return this.points.get(player);
+		int points = this.points.get(player);
+		if (this.longestRoadPlayer == player) {
+			points += BONUS_POINTS;
+		}
+		if (this.largestArmyPlayer == player) {
+			points += BONUS_POINTS;
+		}
+		return points;
 	}
 
 	public PlayerNumber getWinner() {
 		PlayerNumber winner = PlayerNumber.BANK;
 
-		for (Map.Entry<PlayerNumber, Integer> player : this.points.entrySet()) {
-			if (player.getValue() >= 10) {
-				winner = player.getKey();
+		for (PlayerNumber player : PlayerNumber.values()) {
+			int points = this.getPoints(player);
+			if (points >= this.getPoints(winner) && points >= WIN_THRESHOLD) {
+				winner = player;
 			}
 		}
 
