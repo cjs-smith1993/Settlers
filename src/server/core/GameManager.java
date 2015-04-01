@@ -47,7 +47,6 @@ public class GameManager {
 			File file = listOfFiles[i];
 			if (file.isFile()) {
 				String fileName = file.getName();
-				System.out.println(fileName);
 				if (fileName.charAt(0) != '.') {
 					this.createGameFromFile(fileName);
 				}
@@ -192,7 +191,9 @@ public class GameManager {
 
 		ServerModelFacade newFacade = new ServerModelFacade(gameId, name, randomTiles,
 				randomNumbers, randomPorts);
-
+		
+		newFacade.setAllPlayers(oldFacade.getPlayers());
+		
 		this.games.put(gameId, newFacade);
 		return this.games.get(gameId).getModel();
 	}

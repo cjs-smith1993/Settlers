@@ -3,8 +3,11 @@ package server.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import client.frontend.data.PlayerInfo;
 import server.commands.ICommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOPlayer;
@@ -149,15 +152,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 
 	public Collection<ICommand> getCommands() {
 		return this.commandsList;
-	}
-
-	public TransportModel postCommands(Collection<ICommand> commandsList) {
-		this.commandsList = commandsList;
-		for (ICommand cmd : commandsList) {
-			cmd.execute();
-		}
-
-		return this.getModel();
 	}
 
 	public void resetGame() {
@@ -736,5 +730,14 @@ public class ServerModelFacade extends AbstractModelFacade {
 		DTOGame gameInfo = new DTOGame(this.getGameId(), this.getName(), players);
 		return gameInfo;
 	}
-
+	public void setAllPlayers(List<PlayerInfo> info) {
+		
+		Map<PlayerNumber, Player> players = new HashMap<PlayerNumber, Player>();
+		
+		for (PlayerInfo pInfo: info) {
+			Player play = new Player(new ModelUser(pInfo.getName(), pInfo.getId()), pInfo.getColor(), pInfo.getPlayerIndex());
+			players.put(play.getNumber(), play);
+		}
+		this.game.setPlayers(players);
+	}
 }
