@@ -151,15 +151,6 @@ public class ServerModelFacade extends AbstractModelFacade {
 		return this.commandsList;
 	}
 
-	public TransportModel postCommands(Collection<ICommand> commandsList) {
-		this.commandsList = commandsList;
-		for (ICommand cmd : commandsList) {
-			cmd.execute();
-		}
-
-		return this.getModel();
-	}
-
 	public void resetGame() {
 		// TODO: Implement this.
 	}
