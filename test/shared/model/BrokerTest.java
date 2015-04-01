@@ -41,7 +41,7 @@ public class BrokerTest {
 						res += this.myBroker.getHoldings().get(player).getResourceCardCount(type);
 					}
 				}
-				assertTrue(res == 125);
+				assertTrue(res == 95);
 				break;
 			default:
 				PlayerHoldings holding = (PlayerHoldings) this.myBroker.getHoldings().get(player);
@@ -85,11 +85,13 @@ public class BrokerTest {
 		invoice.setSheep(3);
 		invoice.setWheat(3);
 		invoice.setWood(3);
+		
 		try {
 			assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
+		
 		for (ResourceType type : ResourceType.values()) {
 			if (type != ResourceType.ALL && type != ResourceType.NONE) {
 				assertTrue("the number was correctly transfered",
@@ -97,7 +99,7 @@ public class BrokerTest {
 								.getResourceCardCount(type) == 3);
 				assertTrue("the number was correctly transfered",
 						this.myBroker.getHoldings().get(PlayerNumber.BANK)
-								.getResourceCardCount(type) == 22);
+								.getResourceCardCount(type) == 16);
 			}
 		}
 		invoice = new ResourceInvoice(PlayerNumber.BANK, PlayerNumber.TWO);
@@ -119,20 +121,23 @@ public class BrokerTest {
 				assertTrue(
 						"the number was correctly transfered",
 						this.myBroker.getHoldings().get(PlayerNumber.BANK)
-								.getResourceCardCount(type) == 20);
+								.getResourceCardCount(type) == 14);
 			}
 		}
+		
 		invoice = new ResourceInvoice(PlayerNumber.ONE, PlayerNumber.TWO);
 		invoice.setBrick(2);
 		invoice.setOre(-2);
 		invoice.setSheep(2);
 		invoice.setWheat(-1);
 		invoice.setWood(2);
+		
 		try {
 			assertTrue("The invoice was processed!", this.myBroker.processInvoice(invoice));
 		} catch (CatanException e) {
 			e.printStackTrace();
 		}
+		
 		for (ResourceType type : ResourceType.values()) {
 			if (type != ResourceType.ALL && type != ResourceType.NONE) {
 				switch (type) {

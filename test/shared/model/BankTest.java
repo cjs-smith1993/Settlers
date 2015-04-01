@@ -24,7 +24,7 @@ public class BankTest {
 		this.myBank = new Bank();
 		for (ResourceType type : ResourceType.values()) {
 			if (type != ResourceType.ALL && type != ResourceType.NONE) {
-				assertTrue(this.myBank.getResourceCardCount(type) == 25);
+				assertTrue(this.myBank.getResourceCardCount(type) == 19);
 			}
 		}
 		for (DevCardType type : DevCardType.values()) {

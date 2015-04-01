@@ -30,7 +30,7 @@ public class GameManagerTest {
 	@Test
 	public void testCreateGame() {
 		try {
-			DTOGame game = GameManager.getInstance().createGame(false, false, false, "the first GAme");
+			DTOGame game = GameManager.getInstance().createGame(false, false, false, "the first game");
 			assertTrue(game.title.equals( "the first GAme"));
 			
 			assertTrue(GameManager.getInstance().authenticateGame(game.id));
@@ -45,17 +45,13 @@ public class GameManagerTest {
 	public void testJoinGame() {
 		GameManager man = GameManager.getInstance();
 		ModelUser user = new ModelUser("Kevin", 0);
+		
 		try {
 			man.createGame(false, false, false, "the first GAme");
 			man.joinGame(0, CatanColor.BLUE, user);
 			man.joinGame(0, CatanColor.BLUE, user);
 			man.joinGame(0, CatanColor.GREEN, user);
-		} catch (CatanException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		} catch (CatanException e) {}
 	}
 
 }

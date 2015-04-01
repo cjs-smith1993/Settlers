@@ -29,7 +29,7 @@ public class ServerProxyTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		proxy.userLogin("Pete", "pete");
+		proxy.userLogin("Kyle", "kyle");
 		proxy.gamesJoin(0, CatanColor.RED);
 
 		PlayerInfo clientPlayer = new PlayerInfo();

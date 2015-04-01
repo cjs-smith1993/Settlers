@@ -12,8 +12,8 @@ import shared.model.CatanException;
 
 public class CentralCortexTest {
 	private CentralCortex cortex = CentralCortex.getInstance();
-	private int userId = 0;
-	private String userName = "TestName";
+	private int userId = 4;
+	private String userName = "TstNme";
 	private String password = "testPassword";
 	private UserCertificate userCert = new UserCertificate(userId, userName, password);
 	private int gameId = 0;
