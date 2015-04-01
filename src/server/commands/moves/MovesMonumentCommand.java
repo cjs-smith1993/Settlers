@@ -14,6 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesMonumentCommand extends AbstractMovesCommand {
+	public static final String type = "Monument";
 
 	private PlayerNumber playerIndex;
 

@@ -19,6 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesBuildCityCommand extends AbstractMovesCommand {
+	public static final String type = "buildCity";
 
 	private PlayerNumber playerIndex;
 	private VertexLocation vertexLocation;
@@ -43,7 +44,8 @@ public class MovesBuildCityCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildCity(this.playerIndex, this.vertexLocation, this.getGameId(), this.getPlayerId());
+		return cortex.movesBuildCity(this.playerIndex, this.vertexLocation, this.getGameId(),
+				this.getPlayerId());
 	}
 
 }

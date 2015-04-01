@@ -19,6 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesBuildRoadCommand extends AbstractMovesCommand {
+	public static final String type = "buildRoad";
 
 	private PlayerNumber playerIndex;
 	private EdgeLocation roadLocation;
@@ -45,7 +46,8 @@ public class MovesBuildRoadCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildRoad(this.playerIndex, this.roadLocation, this.free, this.getGameId(), this.getPlayerId());
+		return cortex.movesBuildRoad(this.playerIndex, this.roadLocation, this.free,
+				this.getGameId(), this.getPlayerId());
 	}
 
 }

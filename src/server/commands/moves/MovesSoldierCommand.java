@@ -15,6 +15,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesSoldierCommand extends AbstractMovesCommand {
+	public static final String type = "Soldier";
 
 	private PlayerNumber playerIndex;
 	private PlayerNumber victimIndex;
@@ -35,7 +36,8 @@ public class MovesSoldierCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesSoldier(this.playerIndex, this.victimIndex, this.location, this.getGameId(), this.getPlayerId());
+		return cortex.movesSoldier(this.playerIndex, this.victimIndex, this.location,
+				this.getGameId(), this.getPlayerId());
 	}
 
 }

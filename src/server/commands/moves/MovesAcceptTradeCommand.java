@@ -14,6 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesAcceptTradeCommand extends AbstractMovesCommand {
+	public static final String type = "acceptTrade";
 
 	private PlayerNumber playerIndex;
 	private boolean willAccept;
@@ -33,7 +34,8 @@ public class MovesAcceptTradeCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesAcceptTrade(this.playerIndex, this.willAccept, this.getGameId(), this.getPlayerId());
+		return cortex.movesAcceptTrade(this.playerIndex, this.willAccept, this.getGameId(),
+				this.getPlayerId());
 	}
 
 }
