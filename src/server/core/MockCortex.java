@@ -6,7 +6,7 @@ import java.util.Map;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
-import server.commands.ICommand;
+import server.commands.moves.AbstractMovesCommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.dataTransportObjects.DTOPlayer;
 import shared.definitions.CatanColor;
@@ -156,17 +156,7 @@ public class MockCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<ICommand> gameCommands(int gameId) throws CatanException, ServerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TransportModel gameCommands(Collection<ICommand> commandList, int gameId)
-			throws CatanException, ServerException {
+	public Collection<AbstractMovesCommand> gameCommands(int gameId) throws CatanException, ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

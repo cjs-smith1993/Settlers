@@ -7,7 +7,7 @@ import java.util.Map;
 
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
-import server.commands.ICommand;
+import server.commands.moves.AbstractMovesCommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.PlayerNumber;
@@ -179,22 +179,7 @@ public interface ICortex {
 	 *
 	 * @return
 	 */
-	public Collection<ICommand> gameCommands(int gameId) throws CatanException, ServerException;
-
-	/**
-	 * If user and game are authentic, applies the provided list of commands to
-	 * the appropriate game
-	 *
-	 * @param commandList
-	 * @param gameId
-	 *            TODO
-	 * @param user
-	 * @param game
-	 *
-	 * @return the updated model of the corresponding game
-	 */
-	public TransportModel gameCommands(Collection<ICommand> commandList, int gameId)
-			throws CatanException, ServerException;
+	public Collection<AbstractMovesCommand> gameCommands(int gameId) throws CatanException, ServerException;
 
 	/*
 	 * Moves methods
