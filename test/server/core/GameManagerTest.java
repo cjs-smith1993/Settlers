@@ -31,7 +31,7 @@ public class GameManagerTest {
 	public void testCreateGame() {
 		try {
 			DTOGame game = GameManager.getInstance().createGame(false, false, false, "the first game");
-			assertTrue(game.title.equals( "the first GAme"));
+			assertTrue(game.title.equals( "the first game"));
 			
 			assertTrue(GameManager.getInstance().authenticateGame(game.id));
 		} catch (CatanException e) {
