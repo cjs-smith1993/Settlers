@@ -16,6 +16,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesOfferTradeCommand extends AbstractMovesCommand {
+	public final String type = "offerTrade";
 
 	private ResourceInvoice offer;
 

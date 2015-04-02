@@ -17,6 +17,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesMonopolyCommand extends AbstractMovesCommand {
+	public final String type = "Monopoly";
 
 	private PlayerNumber playerIndex;
 	private ResourceType resource;
@@ -39,7 +40,8 @@ public class MovesMonopolyCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesMonopoly(this.playerIndex, this.resource, this.getGameId(), this.getPlayerId());
+		return cortex.movesMonopoly(this.playerIndex, this.resource, this.getGameId(),
+				this.getPlayerId());
 	}
 
 }

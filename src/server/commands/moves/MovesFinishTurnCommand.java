@@ -14,6 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesFinishTurnCommand extends AbstractMovesCommand {
+	public final String type = "finishTurn";
 
 	private PlayerNumber playerIndex;
 

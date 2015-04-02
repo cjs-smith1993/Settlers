@@ -7,7 +7,10 @@ import server.certificates.UserCertificate;
 import server.commands.AbstractCommand;
 import server.commands.CommandResponse;
 import server.commands.ContentType;
+import server.core.CentralCortex;
 import server.core.CortexFactory;
+import server.core.ICortex;
+import server.util.CookieConverter;
 import server.util.StatusCode;
 import shared.model.CatanException;
 import shared.transport.TransportModel;
@@ -56,6 +59,9 @@ public abstract class AbstractMovesCommand extends AbstractCommand {
 		CommandResponse response = null;
 
 		TransportModel model = this.performMovesCommand();
+		if (model != null) {
+			this.save();
+		}
 		String body = CatanSerializer.getInstance().serializeObject(model);
 		StatusCode status = StatusCode.OK;
 		ContentType contentType = ContentType.JSON;
@@ -66,4 +72,7 @@ public abstract class AbstractMovesCommand extends AbstractCommand {
 
 	public abstract TransportModel performMovesCommand() throws CatanException, ServerException;
 
+	public void save() {
+		CentralCortex.getInstance().saveCommand(this.getGameId(), this);
+	}
 }

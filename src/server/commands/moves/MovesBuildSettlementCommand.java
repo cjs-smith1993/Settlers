@@ -19,6 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesBuildSettlementCommand extends AbstractMovesCommand {
+	public final String type = "buildSettlement";
 
 	private PlayerNumber playerIndex;
 	private VertexLocation vertexLocation;
@@ -45,7 +46,8 @@ public class MovesBuildSettlementCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free, this.getGameId(), this.getPlayerId());
+		return cortex.movesBuildSettlement(this.playerIndex, this.vertexLocation, this.free,
+				this.getGameId(), this.getPlayerId());
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import server.commands.CommandResponse;
 import server.commands.ContentType;
-import server.commands.ICommand;
+import server.commands.moves.AbstractMovesCommand;
 import server.core.CortexFactory;
 import server.core.ICortex;
 import server.util.StatusCode;
@@ -26,8 +26,8 @@ public class GameGetCommandsCommand extends AbstractGameCommand {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
 
 		CommandResponse response = null;
-		Collection<ICommand> model = cortex.gameCommands(this.getGameId());
-		String body = CatanSerializer.getInstance().serializeObject(model);
+		Collection<AbstractMovesCommand> model = cortex.gameCommands(this.getGameId());
+		String body = model != null ? CatanSerializer.getInstance().serializeObject(model) : "[]";
 		StatusCode status = StatusCode.OK;
 		ContentType contentType = ContentType.JSON;
 

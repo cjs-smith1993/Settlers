@@ -14,6 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesSendChatCommand extends AbstractMovesCommand {
+	public final String type = "sendChat";
 
 	private PlayerNumber playerIndex;
 	private String content;
@@ -32,7 +33,8 @@ public class MovesSendChatCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesSendChat(this.playerIndex, this.content, this.getGameId(), this.getPlayerId());
+		return cortex.movesSendChat(this.playerIndex, this.content, this.getGameId(),
+				this.getPlayerId());
 	}
 
 }

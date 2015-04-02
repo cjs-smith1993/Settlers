@@ -17,6 +17,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesYearOfPlentyCommand extends AbstractMovesCommand {
+	public final String type = "Year_of_Plenty";
 
 	private PlayerNumber playerIndex;
 	private ResourceType resource1;
@@ -41,7 +42,8 @@ public class MovesYearOfPlentyCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesYearOfPlenty(this.playerIndex, this.resource1, this.resource2, this.getGameId(), this.getPlayerId());
+		return cortex.movesYearOfPlenty(this.playerIndex, this.resource1, this.resource2,
+				this.getGameId(), this.getPlayerId());
 	}
 
 }

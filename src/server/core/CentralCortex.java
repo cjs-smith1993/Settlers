@@ -8,6 +8,7 @@ import java.util.Map;
 import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.ICommand;
+import server.commands.moves.AbstractMovesCommand;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
@@ -33,10 +34,12 @@ public class CentralCortex implements ICortex {
 	private static CentralCortex instance;
 	private GameManager gameManager;
 	private UserManager userManager;
+	private CommandManager commandManager;
 
 	private CentralCortex() throws IOException {
 		this.gameManager = GameManager.getInstance();
 		this.userManager = UserManager.getInstance();
+		this.commandManager = CommandManager.getInstance();
 	}
 
 	public static CentralCortex getInstance() {
@@ -175,20 +178,8 @@ public class CentralCortex implements ICortex {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<ICommand> gameCommands(int gameId) throws CatanException, ServerException {
-		ServerModelFacade facade = GameManager.getInstance().getFacadeById(gameId);
-		return facade.getCommands();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TransportModel gameCommands(Collection<ICommand> commandList, int gameId)
-			throws CatanException,
-			ServerException {
-		ServerModelFacade facade = GameManager.getInstance().getFacadeById(gameId);
-		return facade.postCommands(commandList);
+	public Collection<AbstractMovesCommand> gameCommands(int gameId) throws CatanException, ServerException {
+		return this.commandManager.getAllCommands(gameId);
 	}
 
 	/**
@@ -448,4 +439,7 @@ public class CentralCortex implements ICortex {
 		return facade.discardCards(playerIndex, brick, ore, sheep, wheat, wood);
 	}
 
+	public void saveCommand(int gameId, AbstractMovesCommand command) {
+		this.commandManager.addCommand(gameId, command);
+	}
 }

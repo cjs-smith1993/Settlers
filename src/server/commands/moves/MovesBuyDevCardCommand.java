@@ -14,6 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesBuyDevCardCommand extends AbstractMovesCommand {
+	public final String type = "buyDevCard";
 
 	private PlayerNumber playerIndex;
 

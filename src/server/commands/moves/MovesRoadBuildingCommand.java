@@ -19,6 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesRoadBuildingCommand extends AbstractMovesCommand {
+	public final String type = "Road_Building";
 
 	private PlayerNumber playerIndex;
 	private EdgeLocation edge1;

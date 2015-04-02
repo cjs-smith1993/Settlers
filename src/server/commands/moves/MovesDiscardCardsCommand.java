@@ -19,6 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesDiscardCardsCommand extends AbstractMovesCommand {
+	public final String type = "discardCards";
 
 	private PlayerNumber playerIndex;
 	private Map<ResourceType, Integer> discardedCards;
@@ -43,7 +44,8 @@ public class MovesDiscardCardsCommand extends AbstractMovesCommand {
 	@Override
 	public TransportModel performMovesCommand() throws CatanException, ServerException {
 		ICortex cortex = CortexFactory.getInstance().getCortex();
-		return cortex.movesDiscardCards(this.playerIndex, this.discardedCards, this.getGameId(), this.getPlayerId());
+		return cortex.movesDiscardCards(this.playerIndex, this.discardedCards, this.getGameId(),
+				this.getPlayerId());
 	}
 
 }
