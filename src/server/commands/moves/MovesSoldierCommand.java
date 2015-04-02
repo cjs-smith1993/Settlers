@@ -15,7 +15,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesSoldierCommand extends AbstractMovesCommand {
-	public static final String type = "Soldier";
+	public final String type = "Soldier";
 
 	private PlayerNumber playerIndex;
 	private PlayerNumber victimIndex;

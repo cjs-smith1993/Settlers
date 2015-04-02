@@ -14,7 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesSendChatCommand extends AbstractMovesCommand {
-	public static final String type = "sendChat";
+	public final String type = "sendChat";
 
 	private PlayerNumber playerIndex;
 	private String content;

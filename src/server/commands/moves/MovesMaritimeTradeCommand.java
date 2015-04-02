@@ -17,7 +17,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesMaritimeTradeCommand extends AbstractMovesCommand {
-	public static final String type = "maritimeTrade";
+	public final String type = "maritimeTrade";
 
 	private PlayerNumber playerIndex;
 	private int ratio;

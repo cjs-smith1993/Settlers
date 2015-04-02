@@ -17,7 +17,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesYearOfPlentyCommand extends AbstractMovesCommand {
-	public static final String type = "Year_of_Plenty";
+	public final String type = "Year_of_Plenty";
 
 	private PlayerNumber playerIndex;
 	private ResourceType resource1;

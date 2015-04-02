@@ -14,7 +14,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesAcceptTradeCommand extends AbstractMovesCommand {
-	public static final String type = "acceptTrade";
+	public final String type = "acceptTrade";
 
 	private PlayerNumber playerIndex;
 	private boolean willAccept;

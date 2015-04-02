@@ -13,7 +13,7 @@ import shared.transport.TransportModel;
  * Moves command created when a user attempts to roll the dice.
  */
 public class MovesRollNumberCommand extends AbstractMovesCommand {
-	public static final String type = "rollNumber";
+	public final String type = "rollNumber";
 
 	private PlayerNumber playerIndex;
 	private int number;

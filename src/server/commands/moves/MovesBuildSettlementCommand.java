@@ -19,7 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesBuildSettlementCommand extends AbstractMovesCommand {
-	public static final String type = "buildSettlement";
+	public final String type = "buildSettlement";
 
 	private PlayerNumber playerIndex;
 	private VertexLocation vertexLocation;

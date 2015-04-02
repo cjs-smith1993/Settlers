@@ -17,7 +17,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesMonopolyCommand extends AbstractMovesCommand {
-	public static final String type = "Monopoly";
+	public final String type = "Monopoly";
 
 	private PlayerNumber playerIndex;
 	private ResourceType resource;

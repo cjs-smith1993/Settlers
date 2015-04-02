@@ -15,7 +15,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesRobPlayerCommand extends AbstractMovesCommand {
-	public static final String type = "robPlayer";
+	public final String type = "robPlayer";
 
 	private PlayerNumber playerIndex;
 	private PlayerNumber victimIndex;

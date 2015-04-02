@@ -19,7 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesDiscardCardsCommand extends AbstractMovesCommand {
-	public static final String type = "discardCards";
+	public final String type = "discardCards";
 
 	private PlayerNumber playerIndex;
 	private Map<ResourceType, Integer> discardedCards;

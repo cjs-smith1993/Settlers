@@ -19,7 +19,7 @@ import shared.transport.TransportModel;
  *
  */
 public class MovesBuildCityCommand extends AbstractMovesCommand {
-	public static final String type = "buildCity";
+	public final String type = "buildCity";
 
 	private PlayerNumber playerIndex;
 	private VertexLocation vertexLocation;
