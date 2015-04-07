@@ -4,6 +4,14 @@ import java.util.Collection;
 
 import shared.transport.TransportModel;
 
+/*
+ * CREATE Table game
+ * (
+ * gameId int,
+ * model blob
+ * );
+ */
+
 /**
  * This is the interface for accessing the games table or collection.
  * The cortex will call the classes that implement this class to get access the games information.

@@ -4,6 +4,18 @@ import java.util.Collection;
 
 import server.commands.moves.AbstractMovesCommand;
 
+/*
+ * CREATE TABLE command 
+ * (
+ * commandId int,
+ * command blob,
+ * gameId int,
+ * version int,
+ * PRIMARY KEY (commandId),
+ * FOReign KEY (gameId) REFERENCES game(gameId)
+ * );
+ */
+
 /**
  * This is an interface for accessing a database of commands.
  * The Central cortex will be calling these functions to gain access

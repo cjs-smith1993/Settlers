@@ -4,6 +4,15 @@ import java.util.Collection;
 
 import server.core.ServerUser;
 
+/*
+ * CREATE TABLE user
+ * (
+ * UserId int,
+ * userName varchar(10),
+ * password varchar(10)
+ * );
+ */
+
 /**
  * This is the interface to access the user table or collection.
  * the cortex will call these methods to get users or add them.
