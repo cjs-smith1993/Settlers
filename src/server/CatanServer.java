@@ -59,10 +59,8 @@ public class CatanServer {
 		}
 	}
 
-	public static CatanServer getInstance(int portNum) {
+	public static CatanServer getInstance(int portNum, IPersistenceProvider persistenceProvider) {
 		if (instance == null) {
-			PersistenceProviderFactory persistenceProviderFactory = new PersistenceProviderFactory();
-			IPersistenceProvider persistenceProvider = persistenceProviderFactory.getPersistenceProvider("SQL");
 			instance = new CatanServer(portNum, persistenceProvider);
 		}
 		return instance;
@@ -113,7 +111,10 @@ public class CatanServer {
 		boolean testingEnabled = argsList.contains("true");
 		CortexFactory.setTestEnabled(testingEnabled);
 		
-		CatanServer server = CatanServer.getInstance(portNum);
+		PersistenceProviderFactory persistenceProviderFactory = new PersistenceProviderFactory();
+		IPersistenceProvider persistenceProvider = persistenceProviderFactory.getPersistenceProvider(args[2]);
+		
+		CatanServer server = CatanServer.getInstance(portNum, persistenceProvider);
 		server.start();
 	}
 }
