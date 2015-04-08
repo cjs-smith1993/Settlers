@@ -4,44 +4,37 @@ import java.util.Collection;
 
 import server.commands.moves.AbstractMovesCommand;
 
-/*
- * CREATE TABLE command 
- * (
- * commandId int,
- * command blob,
- * gameId int,
- * version int,
- * PRIMARY KEY (commandId),
- * FOReign KEY (gameId) REFERENCES game(gameId)
- * );
- */
-
 /**
- * This is an interface for accessing a database of commands.
- * The Central cortex will be calling these functions to gain access
- * to the database. 
+ * An interface for querying/modifying the commands stored in the database.
  *
  */
 public interface ICommandDAO {
-	
+
 	/**
-	 * This is the method that will return a list of commands
-	 * for a given gameId. The commands will only be for the 
-	 * version number and after.
-	 * @param gameId - the Id of the game you want the commands for
-	 * @param version - the version of the current game or 0 for the whole history
-	 * @return this is the collection of commands that will return the game to its current state
+	 * Return a list of commands for a given gameId with a version strictly
+	 * greater than the version provided
+	 *
+	 * @param gameId
+	 *            the Id of the game
+	 * @param version
+	 *            the version of the current game, or 0 for the entire history
+	 * @return the collection of commands that have been executed since the
+	 *         given version
 	 */
-	public Collection<AbstractMovesCommand> getCommands (int gameId, int version);
-	
+	public Collection<AbstractMovesCommand> getCommands(int gameId, int version);
+
 	/**
-	 * This will add the given command to the list of commands.
-	 * It will be stored with the given game id and the version.
-	 * @param gameId - the id of the game that the cammand is associated with
-	 * @param command - the command to store
-	 * @param version - the version of the game that is stored in the database
-	 * @return the Id of the command
+	 * Add the given command to the list of commands for the specified gameId
+	 * and with the specified version
+	 *
+	 * @param gameId
+	 *            the id of the game that the command is associated with
+	 * @param command
+	 *            the command to store
+	 * @param version
+	 *            the version of the game after executing this command
+	 * @return the id of the command in the database
 	 */
-	public int createCommand (int gameId, AbstractMovesCommand command, int version);
+	public int createCommand(int gameId, AbstractMovesCommand command, int version);
 
 }
