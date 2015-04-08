@@ -13,6 +13,8 @@ import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
 import server.handlers.MovesHandler;
 import server.handlers.UserHandler;
+import server.persistence.IPersistenceProvider;
+import server.persistence.PersistenceProviderFactory;
 import server.util.Handlers;
 
 /**
@@ -30,7 +32,7 @@ public class CatanServer {
 
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 
-	private CatanServer(int portNum) {
+	private CatanServer(int portNum, IPersistenceProvider persistenceProvider) {
 		try {
 			InetSocketAddress addr = new InetSocketAddress(portNum);
 			this.server = HttpServer.create(addr, MAX_WAITING_CONNECTIONS);
@@ -52,6 +54,7 @@ public class CatanServer {
 
 			//Initialize Cortex
 			CentralCortex.getInstance();
+			CentralCortex.getInstance().setPersistenceProviderFactory(persistenceProvider);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -59,7 +62,9 @@ public class CatanServer {
 
 	public static CatanServer getInstance(int portNum) {
 		if (instance == null) {
-			instance = new CatanServer(portNum);
+			PersistenceProviderFactory persistenceProviderFactory = new PersistenceProviderFactory();
+			IPersistenceProvider persistenceProvider = persistenceProviderFactory.getPersistenceProvider("SQL");
+			instance = new CatanServer(portNum, persistenceProvider);
 		}
 		return instance;
 	}
@@ -108,6 +113,7 @@ public class CatanServer {
 		ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(args));
 		boolean testingEnabled = argsList.contains("true");
 		CortexFactory.setTestEnabled(testingEnabled);
+		
 		CatanServer server = CatanServer.getInstance(portNum);
 		server.start();
 	}

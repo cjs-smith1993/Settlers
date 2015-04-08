@@ -9,6 +9,8 @@ import server.certificates.GameCertificate;
 import server.certificates.UserCertificate;
 import server.commands.ICommand;
 import server.commands.moves.AbstractMovesCommand;
+import server.persistence.IPersistenceProvider;
+import server.persistence.PersistenceProviderFactory;
 import shared.dataTransportObjects.DTOGame;
 import shared.definitions.CatanColor;
 import shared.definitions.CatanExceptionType;
@@ -51,6 +53,15 @@ public class CentralCortex implements ICortex {
 			}
 		}
 		return instance;
+	}
+	
+	/**
+	 * This method is used to inject the {@link PersistenceProviderFactory}. 
+	 * This factorythat will be used to interact with the database.
+	 * @param provider
+	 */
+	public void setPersistenceProviderFactory(IPersistenceProvider persistenceProvider) {
+		// TODO: Implement in the afterlife.
 	}
 
 	/**
