@@ -53,8 +53,7 @@ public class CatanServer {
 			this.server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 
 			//Initialize Cortex
-			CentralCortex.getInstance();
-			CentralCortex.getInstance().setPersistenceProviderFactory(persistenceProvider);
+			CentralCortex.getInstance().setPersistenceProvider(persistenceProvider);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

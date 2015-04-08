@@ -56,11 +56,11 @@ public class CentralCortex implements ICortex {
 	}
 	
 	/**
-	 * This method is used to inject the {@link PersistenceProviderFactory}. 
+	 * This method is used to inject the {@link IPersistenceProvider}. 
 	 * This factorythat will be used to interact with the database.
 	 * @param provider
 	 */
-	public void setPersistenceProviderFactory(IPersistenceProvider persistenceProvider) {
+	public void setPersistenceProvider(IPersistenceProvider persistenceProvider) {
 		// TODO: Implement in the afterlife.
 	}
 
